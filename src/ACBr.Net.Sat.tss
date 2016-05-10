@@ -15,10 +15,16 @@
       <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat\CFe.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat\InfCFe.cs</string>
+      <string>f:\programacao\acbr\acbr.net\acbr.net.sat\src\acbr.net.sat\infcfe.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat\CFeDetCollection.cs</string>
+      <string>f:\programacao\acbr\acbr.net\acbr.net.sat\src\acbr.net.sat\cfedetcollection.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat\CfgArquivos.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat\CFeIde.cs</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

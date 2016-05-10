@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using ACBr.Net.Core.Extensions;
@@ -255,6 +256,34 @@ namespace ACBr.Net.Sat.Demo
 		}
 
 		#endregion Menu
+
+		#region ValueChanged
+
+		private void txtDllPath_TextChanged(object sender, EventArgs e)
+		{
+			if (!File.Exists(txtDllPath.Text))
+				return;
+
+			ACBrSat.PathDll = txtDllPath.Text;
+		}
+		private void txtAtivacao_TextChanged(object sender, EventArgs e)
+		{
+			if(txtAtivacao.Text.IsEmpty())
+				return;
+
+			ACBrSat.CodigoAtivacao = txtAtivacao.Text;
+		}
+		private void cmbAmbiente_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			ACBrSat.Configuracoes.IdeTpAmb = (TipoAmbiente)cmbAmbiente.SelectedIndex;
+		}
+
+		private void nunCaixa_ValueChanged(object sender, EventArgs e)
+		{
+			ACBrSat.Configuracoes.IdeNumeroCaixa = (int)nunCaixa.Value;
+		}
+
+		#endregion ValueChanged
 
 		#region Botoes
 

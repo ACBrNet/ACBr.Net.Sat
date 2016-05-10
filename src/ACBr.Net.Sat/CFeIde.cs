@@ -26,6 +26,18 @@ namespace ACBr.Net.Sat
 	[ImplementPropertyChanged]
 	public sealed class CFeIde
 	{
+		#region Constructors
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CFeIde"/> class.
+		/// </summary>
+		public CFeIde()
+		{
+			DhEmissao = null;
+		}
+
+		#endregion Constructors
+
 		#region Propriedades
 
 		/// <summary>
@@ -68,28 +80,35 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The dh emissao.</value>
 		[DFeIgnore]
-		public DateTime DhEmissao
-		{
-			get { return DEmi.Date + HEmi.TimeOfDay; }
-			set {
-				DEmi = value.Date + TimeSpan.Zero;
-				HEmi = DateTime.MinValue.Date + value.TimeOfDay;
-			}
-		}
+		public DateTime? DhEmissao { get; set; }
 
 		/// <summary>
 		/// Gets or sets the d emi.
 		/// </summary>
 		/// <value>The d emi.</value>
 		[DFeElement(TipoCampo.DatCFe, "dEmi", Id = "B07", Min = 8, Max = 8, Ocorrencias = 0)]
-		public DateTime DEmi { get; set; }
+		public DateTime DEmi
+		{
+			get { return DhEmissao ?? DateTime.MinValue; }
+			set
+			{
+				DhEmissao = value.Date + (DhEmissao?.TimeOfDay ?? DateTime.MinValue.TimeOfDay);
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the h emi.
 		/// </summary>
 		/// <value>The h emi.</value>
 		[DFeElement(TipoCampo.HorCFe, "hEmi", Id = "B08", Min = 6, Max = 6, Ocorrencias = 0)]
-		public DateTime HEmi { get; set; }
+		public DateTime HEmi
+		{
+			get { return DhEmissao ?? DateTime.MinValue; }
+			set
+			{
+				DhEmissao = (DhEmissao?.Date ?? DateTime.MinValue.Date) + value.TimeOfDay;
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the c dv.
@@ -136,6 +155,51 @@ namespace ACBr.Net.Sat
 		#endregion Propriedades
 
 		#region Methods
+
+		private bool ShouldSerializeUF()
+		{
+			return UF > 0;
+		}
+
+		private bool ShouldSerializeCNf()
+		{
+			return CNf > 0;
+		}
+
+		private bool ShouldSerializeModelo()
+		{
+			return Modelo > 0;
+		}
+
+		private bool ShouldSerializeNSerieSAT()
+		{
+			return NSerieSAT > 0;
+		}
+
+		private bool ShouldSerializeNCFe()
+		{
+			return NCFe > 0;
+		}
+
+		private bool ShouldSerializeDEmi()
+		{
+			return DhEmissao.HasValue;
+		}
+
+		private bool ShouldSerializeHEmi()
+		{
+			return DhEmissao.HasValue;
+		}
+
+		private bool ShouldSerializeCDv()
+		{
+			return CDv > 0;
+		}
+
+		private bool ShouldSerializeTpAmb()
+		{
+			return DhEmissao.HasValue;
+		}
 
 		private bool ShouldSerializeAssinaturaQrcode()
 		{

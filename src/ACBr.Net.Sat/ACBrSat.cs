@@ -210,7 +210,6 @@ namespace ACBr.Net.Sat
 			ret.InfCFe.Ide.TpAmb = Configuracoes.IdeTpAmb;
 			ret.InfCFe.Ide.NumeroCaixa = Configuracoes.IdeNumeroCaixa;
 			ret.InfCFe.Ide.SignAC = SignAC;
-			ret.InfCFe.Ide.Modelo = 59;
 			ret.InfCFe.Emit.CNPJ = Configuracoes.EmitCNPJ;
 			ret.InfCFe.Emit.IM = Configuracoes.EmitIM;
 			ret.InfCFe.Emit.IE = Configuracoes.EmitIE;

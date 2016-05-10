@@ -760,6 +760,7 @@
             0,
             0,
             0});
+			this.nunCaixa.ValueChanged += new System.EventHandler(this.nunCaixa_ValueChanged);
 			// 
 			// txtCodUF
 			// 
@@ -786,6 +787,7 @@
 			this.txtAtivacao.Size = new System.Drawing.Size(269, 20);
 			this.txtAtivacao.TabIndex = 6;
 			this.txtAtivacao.Text = "123456";
+			this.txtAtivacao.TextChanged += new System.EventHandler(this.txtAtivacao_TextChanged);
 			// 
 			// label3
 			// 
@@ -817,6 +819,7 @@
 			this.cmbAmbiente.Name = "cmbAmbiente";
 			this.cmbAmbiente.Size = new System.Drawing.Size(108, 21);
 			this.cmbAmbiente.TabIndex = 3;
+			this.cmbAmbiente.SelectedIndexChanged += new System.EventHandler(this.cmbAmbiente_SelectedIndexChanged);
 			// 
 			// txtDllPath
 			// 
@@ -825,6 +828,7 @@
 			this.txtDllPath.Size = new System.Drawing.Size(269, 20);
 			this.txtDllPath.TabIndex = 2;
 			this.txtDllPath.Text = "C:\\SAT\\SAT.dll";
+			this.txtDllPath.TextChanged += new System.EventHandler(this.txtDllPath_TextChanged);
 			// 
 			// label1
 			// 
