@@ -227,7 +227,7 @@ namespace ACBr.Net.Sat
 		/// <returns>System.Int32.</returns>
 		public static int GerarnumeroSessao()
 		{
-			Sessao = StaticRandom.Next();
+			Sessao = StaticRandom.Next(1, 999999);
 
 			if (OnOnGetNumeroSessao == null)
 				return Sessao;
@@ -295,12 +295,12 @@ namespace ACBr.Net.Sat
 		internal static void IniciaComando(string comandoLog)
 		{
 			GerarnumeroSessao();
-			Logger.Info($"{DateTime.Now:dd/MM/yyyy HH:mm:ss} - NumeroSessao: {Sessao} - Comando: {comandoLog}");
+			Logger.Info($"NumeroSessao: {Sessao} - Comando: {comandoLog}");
 		}
 
 		internal static SATResposta FinalizaComando(string resposta)
 		{
-			Logger.Info($"{DateTime.Now:dd/MM/yyyy HH:mm:ss} - NumeroSessao: {Sessao} - Resposta: {resposta}");
+			Logger.Info($"NumeroSessao: {Sessao} - Resposta: {resposta}");
 			var resp = new SATResposta(resposta);
 			if (OnMensagemSEFAZ == null)
 				return resp;

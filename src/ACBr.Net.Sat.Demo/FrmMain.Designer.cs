@@ -114,6 +114,18 @@
 			this.tpgSwHouse = new System.Windows.Forms.TabPage();
 			this.tpgRede = new System.Windows.Forms.TabPage();
 			this.tpgImpressao = new System.Windows.Forms.TabPage();
+			this.label10 = new System.Windows.Forms.Label();
+			this.cmbEmiRegTrib = new System.Windows.Forms.ComboBox();
+			this.label11 = new System.Windows.Forms.Label();
+			this.cmbEmiRegTribISSQN = new System.Windows.Forms.ComboBox();
+			this.label12 = new System.Windows.Forms.Label();
+			this.cmbEmiRatIISQN = new System.Windows.Forms.ComboBox();
+			this.txtIdeCNPJ = new System.Windows.Forms.TextBox();
+			this.label13 = new System.Windows.Forms.Label();
+			this.txtSignAC = new System.Windows.Forms.TextBox();
+			this.label14 = new System.Windows.Forms.Label();
+			this.label15 = new System.Windows.Forms.Label();
+			this.cmbModeloSat = new System.Windows.Forms.ComboBox();
 			this.tpgLog.SuspendLayout();
 			this.tbcXml.SuspendLayout();
 			this.tpgXmlGerado.SuspendLayout();
@@ -130,6 +142,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.nunPaginaCodigo)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nunCaixa)).BeginInit();
 			this.tpgEmitente.SuspendLayout();
+			this.tpgSwHouse.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tpgLog
@@ -548,6 +561,8 @@
 			// 
 			// tpgConfig
 			// 
+			this.tpgConfig.Controls.Add(this.label15);
+			this.tpgConfig.Controls.Add(this.cmbModeloSat);
 			this.tpgConfig.Controls.Add(this.groupBox2);
 			this.tpgConfig.Controls.Add(this.label7);
 			this.tpgConfig.Controls.Add(this.chkRemoveAcentos);
@@ -581,9 +596,9 @@
 			this.groupBox2.Controls.Add(this.chkSaveEnvio);
 			this.groupBox2.Controls.Add(this.chkSaveCFe);
 			this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.groupBox2.Location = new System.Drawing.Point(427, 12);
+			this.groupBox2.Location = new System.Drawing.Point(468, 12);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(222, 139);
+			this.groupBox2.Size = new System.Drawing.Size(181, 139);
 			this.groupBox2.TabIndex = 15;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Salvar XMLs";
@@ -728,21 +743,28 @@
 			this.chkUTF8.TabIndex = 12;
 			this.chkUTF8.Text = "UTF8";
 			this.chkUTF8.UseVisualStyleBackColor = true;
+			this.chkUTF8.CheckedChanged += new System.EventHandler(this.chkUTF8_CheckedChanged);
 			// 
 			// nunPaginaCodigo
 			// 
 			this.nunPaginaCodigo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.nunPaginaCodigo.Location = new System.Drawing.Point(6, 25);
+			this.nunPaginaCodigo.Maximum = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
 			this.nunPaginaCodigo.Name = "nunPaginaCodigo";
 			this.nunPaginaCodigo.Size = new System.Drawing.Size(104, 20);
 			this.nunPaginaCodigo.TabIndex = 11;
 			this.nunPaginaCodigo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.nunPaginaCodigo.ValueChanged += new System.EventHandler(this.nunPaginaCodigo_ValueChanged);
 			// 
 			// label5
 			// 
 			this.label5.AutoSize = true;
 			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label5.Location = new System.Drawing.Point(350, 52);
+			this.label5.Location = new System.Drawing.Point(277, 52);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(71, 13);
 			this.label5.TabIndex = 10;
@@ -750,7 +772,7 @@
 			// 
 			// nunCaixa
 			// 
-			this.nunCaixa.Location = new System.Drawing.Point(350, 69);
+			this.nunCaixa.Location = new System.Drawing.Point(277, 69);
 			this.nunCaixa.Name = "nunCaixa";
 			this.nunCaixa.Size = new System.Drawing.Size(71, 20);
 			this.nunCaixa.TabIndex = 9;
@@ -764,7 +786,7 @@
 			// 
 			// txtCodUF
 			// 
-			this.txtCodUF.Location = new System.Drawing.Point(281, 68);
+			this.txtCodUF.Location = new System.Drawing.Point(208, 69);
 			this.txtCodUF.Name = "txtCodUF";
 			this.txtCodUF.Size = new System.Drawing.Size(63, 20);
 			this.txtCodUF.TabIndex = 8;
@@ -774,7 +796,7 @@
 			// 
 			this.label4.AutoSize = true;
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label4.Location = new System.Drawing.Point(278, 52);
+			this.label4.Location = new System.Drawing.Point(205, 53);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(66, 13);
 			this.label4.TabIndex = 7;
@@ -784,7 +806,7 @@
 			// 
 			this.txtAtivacao.Location = new System.Drawing.Point(6, 68);
 			this.txtAtivacao.Name = "txtAtivacao";
-			this.txtAtivacao.Size = new System.Drawing.Size(269, 20);
+			this.txtAtivacao.Size = new System.Drawing.Size(191, 20);
 			this.txtAtivacao.TabIndex = 6;
 			this.txtAtivacao.Text = "123456";
 			this.txtAtivacao.TextChanged += new System.EventHandler(this.txtAtivacao_TextChanged);
@@ -803,7 +825,7 @@
 			// 
 			this.label2.AutoSize = true;
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(310, 12);
+			this.label2.Location = new System.Drawing.Point(351, 13);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(59, 13);
 			this.label2.TabIndex = 4;
@@ -812,10 +834,7 @@
 			// cmbAmbiente
 			// 
 			this.cmbAmbiente.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbAmbiente.Items.AddRange(new object[] {
-            "Homologação",
-            "Produção"});
-			this.cmbAmbiente.Location = new System.Drawing.Point(313, 28);
+			this.cmbAmbiente.Location = new System.Drawing.Point(354, 29);
 			this.cmbAmbiente.Name = "cmbAmbiente";
 			this.cmbAmbiente.Size = new System.Drawing.Size(108, 21);
 			this.cmbAmbiente.TabIndex = 3;
@@ -825,7 +844,7 @@
 			// 
 			this.txtDllPath.Location = new System.Drawing.Point(6, 29);
 			this.txtDllPath.Name = "txtDllPath";
-			this.txtDllPath.Size = new System.Drawing.Size(269, 20);
+			this.txtDllPath.Size = new System.Drawing.Size(310, 20);
 			this.txtDllPath.TabIndex = 2;
 			this.txtDllPath.Text = "C:\\SAT\\SAT.dll";
 			this.txtDllPath.TextChanged += new System.EventHandler(this.txtDllPath_TextChanged);
@@ -842,7 +861,7 @@
 			// 
 			// btnSelDll
 			// 
-			this.btnSelDll.Location = new System.Drawing.Point(281, 29);
+			this.btnSelDll.Location = new System.Drawing.Point(322, 28);
 			this.btnSelDll.Name = "btnSelDll";
 			this.btnSelDll.Size = new System.Drawing.Size(26, 20);
 			this.btnSelDll.TabIndex = 0;
@@ -852,6 +871,12 @@
 			// 
 			// tpgEmitente
 			// 
+			this.tpgEmitente.Controls.Add(this.label12);
+			this.tpgEmitente.Controls.Add(this.cmbEmiRatIISQN);
+			this.tpgEmitente.Controls.Add(this.label11);
+			this.tpgEmitente.Controls.Add(this.cmbEmiRegTribISSQN);
+			this.tpgEmitente.Controls.Add(this.label10);
+			this.tpgEmitente.Controls.Add(this.cmbEmiRegTrib);
 			this.tpgEmitente.Controls.Add(this.txtEmitIM);
 			this.tpgEmitente.Controls.Add(this.txtEmitIE);
 			this.tpgEmitente.Controls.Add(this.label9);
@@ -868,23 +893,23 @@
 			// 
 			// txtEmitIM
 			// 
-			this.txtEmitIM.Location = new System.Drawing.Point(441, 27);
+			this.txtEmitIM.Location = new System.Drawing.Point(440, 27);
 			this.txtEmitIM.Name = "txtEmitIM";
 			this.txtEmitIM.Size = new System.Drawing.Size(208, 20);
 			this.txtEmitIM.TabIndex = 9;
 			// 
 			// txtEmitIE
 			// 
-			this.txtEmitIE.Location = new System.Drawing.Point(221, 27);
+			this.txtEmitIE.Location = new System.Drawing.Point(225, 27);
 			this.txtEmitIE.Name = "txtEmitIE";
-			this.txtEmitIE.Size = new System.Drawing.Size(214, 20);
+			this.txtEmitIE.Size = new System.Drawing.Size(209, 20);
 			this.txtEmitIE.TabIndex = 8;
 			// 
 			// label9
 			// 
 			this.label9.AutoSize = true;
 			this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label9.Location = new System.Drawing.Point(218, 10);
+			this.label9.Location = new System.Drawing.Point(222, 10);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(112, 13);
 			this.label9.TabIndex = 7;
@@ -892,7 +917,7 @@
 			// 
 			// txtEmitCNPJ
 			// 
-			this.txtEmitCNPJ.Location = new System.Drawing.Point(6, 27);
+			this.txtEmitCNPJ.Location = new System.Drawing.Point(10, 27);
 			this.txtEmitCNPJ.Name = "txtEmitCNPJ";
 			this.txtEmitCNPJ.Size = new System.Drawing.Size(209, 20);
 			this.txtEmitCNPJ.TabIndex = 6;
@@ -902,7 +927,7 @@
 			// 
 			this.label8.AutoSize = true;
 			this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label8.Location = new System.Drawing.Point(8, 10);
+			this.label8.Location = new System.Drawing.Point(7, 10);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(38, 13);
 			this.label8.TabIndex = 5;
@@ -912,7 +937,7 @@
 			// 
 			this.label6.AutoSize = true;
 			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label6.Location = new System.Drawing.Point(438, 10);
+			this.label6.Location = new System.Drawing.Point(437, 10);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(117, 13);
 			this.label6.TabIndex = 3;
@@ -920,6 +945,10 @@
 			// 
 			// tpgSwHouse
 			// 
+			this.tpgSwHouse.Controls.Add(this.txtSignAC);
+			this.tpgSwHouse.Controls.Add(this.label14);
+			this.tpgSwHouse.Controls.Add(this.txtIdeCNPJ);
+			this.tpgSwHouse.Controls.Add(this.label13);
 			this.tpgSwHouse.Location = new System.Drawing.Point(4, 22);
 			this.tpgSwHouse.Name = "tpgSwHouse";
 			this.tpgSwHouse.Padding = new System.Windows.Forms.Padding(3);
@@ -947,6 +976,123 @@
 			this.tpgImpressao.TabIndex = 4;
 			this.tpgImpressao.Text = "Impressão";
 			this.tpgImpressao.UseVisualStyleBackColor = true;
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label10.Location = new System.Drawing.Point(7, 52);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(107, 13);
+			this.label10.TabIndex = 11;
+			this.label10.Text = "Regime Tributario";
+			// 
+			// cmbEmiRegTrib
+			// 
+			this.cmbEmiRegTrib.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbEmiRegTrib.Items.AddRange(new object[] {
+            "Homologação",
+            "Produção"});
+			this.cmbEmiRegTrib.Location = new System.Drawing.Point(10, 68);
+			this.cmbEmiRegTrib.Name = "cmbEmiRegTrib";
+			this.cmbEmiRegTrib.Size = new System.Drawing.Size(209, 21);
+			this.cmbEmiRegTrib.TabIndex = 10;
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label11.Location = new System.Drawing.Point(222, 52);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(121, 13);
+			this.label11.TabIndex = 13;
+			this.label11.Text = "Regime Trib. ISSQN";
+			// 
+			// cmbEmiRegTribISSQN
+			// 
+			this.cmbEmiRegTribISSQN.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbEmiRegTribISSQN.Items.AddRange(new object[] {
+            "Homologação",
+            "Produção"});
+			this.cmbEmiRegTribISSQN.Location = new System.Drawing.Point(225, 68);
+			this.cmbEmiRegTribISSQN.Name = "cmbEmiRegTribISSQN";
+			this.cmbEmiRegTribISSQN.Size = new System.Drawing.Size(209, 21);
+			this.cmbEmiRegTribISSQN.TabIndex = 12;
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label12.Location = new System.Drawing.Point(437, 52);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(91, 13);
+			this.label12.TabIndex = 15;
+			this.label12.Text = "Ind.Rat.ISSQN";
+			// 
+			// cmbEmiRatIISQN
+			// 
+			this.cmbEmiRatIISQN.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbEmiRatIISQN.Items.AddRange(new object[] {
+            "Homologação",
+            "Produção"});
+			this.cmbEmiRatIISQN.Location = new System.Drawing.Point(440, 68);
+			this.cmbEmiRatIISQN.Name = "cmbEmiRatIISQN";
+			this.cmbEmiRatIISQN.Size = new System.Drawing.Size(209, 21);
+			this.cmbEmiRatIISQN.TabIndex = 14;
+			// 
+			// txtIdeCNPJ
+			// 
+			this.txtIdeCNPJ.Location = new System.Drawing.Point(8, 25);
+			this.txtIdeCNPJ.Name = "txtIdeCNPJ";
+			this.txtIdeCNPJ.Size = new System.Drawing.Size(209, 20);
+			this.txtIdeCNPJ.TabIndex = 8;
+			this.txtIdeCNPJ.Text = "11111111111111";
+			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label13.Location = new System.Drawing.Point(5, 8);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(38, 13);
+			this.label13.TabIndex = 7;
+			this.label13.Text = "CNPJ";
+			// 
+			// txtSignAC
+			// 
+			this.txtSignAC.Location = new System.Drawing.Point(8, 68);
+			this.txtSignAC.MaxLength = 344;
+			this.txtSignAC.Name = "txtSignAC";
+			this.txtSignAC.Size = new System.Drawing.Size(641, 20);
+			this.txtSignAC.TabIndex = 10;
+			// 
+			// label14
+			// 
+			this.label14.AutoSize = true;
+			this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label14.Location = new System.Drawing.Point(5, 51);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(224, 13);
+			this.label14.TabIndex = 9;
+			this.label14.Text = "Assinatura Sw.House (344 caracteres)";
+			// 
+			// label15
+			// 
+			this.label15.AutoSize = true;
+			this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label15.Location = new System.Drawing.Point(351, 51);
+			this.label15.Name = "label15";
+			this.label15.Size = new System.Drawing.Size(48, 13);
+			this.label15.TabIndex = 17;
+			this.label15.Text = "Modelo";
+			// 
+			// cmbModeloSat
+			// 
+			this.cmbModeloSat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbModeloSat.Location = new System.Drawing.Point(354, 67);
+			this.cmbModeloSat.Name = "cmbModeloSat";
+			this.cmbModeloSat.Size = new System.Drawing.Size(108, 21);
+			this.cmbModeloSat.TabIndex = 16;
 			// 
 			// FrmMain
 			// 
@@ -986,6 +1132,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.nunCaixa)).EndInit();
 			this.tpgEmitente.ResumeLayout(false);
 			this.tpgEmitente.PerformLayout();
+			this.tpgSwHouse.ResumeLayout(false);
+			this.tpgSwHouse.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1078,6 +1226,18 @@
 		private System.Windows.Forms.WebBrowser wbrXmlCancelamento;
 		private System.Windows.Forms.TabPage tpgXmlRede;
 		private System.Windows.Forms.WebBrowser wbrXmlRede;
+		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.ComboBox cmbEmiRatIISQN;
+		private System.Windows.Forms.Label label11;
+		private System.Windows.Forms.ComboBox cmbEmiRegTribISSQN;
+		private System.Windows.Forms.Label label10;
+		private System.Windows.Forms.ComboBox cmbEmiRegTrib;
+		private System.Windows.Forms.TextBox txtSignAC;
+		private System.Windows.Forms.Label label14;
+		private System.Windows.Forms.TextBox txtIdeCNPJ;
+		private System.Windows.Forms.Label label13;
+		private System.Windows.Forms.Label label15;
+		private System.Windows.Forms.ComboBox cmbModeloSat;
 	}
 }
 

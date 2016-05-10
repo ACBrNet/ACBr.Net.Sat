@@ -23,5 +23,12 @@ namespace ACBr.Net.Sat.Demo
 			xmlDoc.Save(fullFileName);
 			browser.Navigate(fullFileName);
 		}
+
+		public static void EnumDataSource<T>(this ComboBox cmb, T? valorPadrao = null) where T : struct
+		{
+			cmb.DataSource = Enum.GetValues(typeof(T));
+			if(valorPadrao.HasValue)
+				cmb.SelectedItem = valorPadrao.Value;
+		} 
 	}
 }

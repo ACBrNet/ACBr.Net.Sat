@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using ACBr.Net.Core.Extensions;
+using ACBr.Net.Sat.Interfaces;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -39,7 +40,11 @@ namespace ACBr.Net.Sat.Demo
 		private void Initialize()
 		{
 			ACBrSat.CodigoAtivacao = @"123456789";
-			cmbAmbiente.SelectedIndex = 0;
+			cmbAmbiente.EnumDataSource<TipoAmbiente>(TipoAmbiente.Homologacao);
+			cmbModeloSat.EnumDataSource<ModeloSat>(ModeloSat.Cdecl);
+			cmbEmiRegTrib.EnumDataSource<RegTrib>(RegTrib.Normal);
+			cmbEmiRegTribISSQN.EnumDataSource<RegTribISSQN>(RegTribISSQN.Nenhum);
+			cmbEmiRatIISQN.EnumDataSource<RatISSQN>(RatISSQN.Nao);
 		}
 
 		private void InitializeLog()
@@ -159,6 +164,10 @@ namespace ACBr.Net.Sat.Demo
 			logger.Info("CFe gerado com sucesso !");
 		}
 
+		private ISATLibrary GetSat()
+		{
+			return ACBrSat.CreateLibrary((ModeloSat)cmbModeloSat.SelectedItem);
+		}
 
 		#endregion Methods
 
@@ -168,7 +177,7 @@ namespace ACBr.Net.Sat.Demo
 
 		private void ativarSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sat = ACBrSat.CreateLibrary(ModeloSat.Cdecl);
+			var sat = GetSat();
 			sat.AtivarSAT(1, txtEmitCNPJ.Text, txtCodUF.Text.ToInt32());
 		}
 
@@ -184,13 +193,13 @@ namespace ACBr.Net.Sat.Demo
 
 		private void bloquearSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sat = ACBrSat.CreateLibrary(ModeloSat.Cdecl);
+			var sat = GetSat();
 			sat.BloquearSAT();
 		}
 
 		private void desbloquearSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sat = ACBrSat.CreateLibrary(ModeloSat.Cdecl);
+			var sat = GetSat();
 			sat.DesbloquearSAT();
 		}
 
@@ -206,7 +215,7 @@ namespace ACBr.Net.Sat.Demo
 
 		private void enviarVendaToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sat = ACBrSat.CreateLibrary(ModeloSat.Cdecl);
+			var sat = GetSat();
 			sat.EnviarDadosVenda(cfeAtual);
 		}
 
@@ -231,7 +240,10 @@ namespace ACBr.Net.Sat.Demo
 				ofd.Filter = @"CFe Xml | *.xml";
 
 				if (ofd.ShowDialog().Equals(DialogResult.Cancel))
+				{
+					logger.Info("Carregar XML CFe Cancelado.");
 					return;
+				}
 
 				cfeAtual = CFe.LoadCFe(ofd.FileName);
 				wbrXmlGerado.LoadXml(cfeAtual?.ToString());
@@ -243,19 +255,19 @@ namespace ACBr.Net.Sat.Demo
 
 		private void consultarStatusOperacionalToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sat = ACBrSat.CreateLibrary(ModeloSat.Cdecl);
+			var sat = GetSat();
 			sat.ConsultarStatusOperacional();
 		}
 
 		private void consultarSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sat = ACBrSat.CreateLibrary(ModeloSat.Cdecl);
+			var sat = GetSat();
 			sat.ConsultarSAT();
 		}
 
 		private void atualizarSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sat = ACBrSat.CreateLibrary(ModeloSat.Cdecl);
+			var sat = GetSat();
 			sat.AtualizarSoftwareSAT();
 		}
 
@@ -270,6 +282,7 @@ namespace ACBr.Net.Sat.Demo
 
 			ACBrSat.PathDll = txtDllPath.Text;
 		}
+
 		private void txtAtivacao_TextChanged(object sender, EventArgs e)
 		{
 			if(txtAtivacao.Text.IsEmpty())
@@ -277,6 +290,7 @@ namespace ACBr.Net.Sat.Demo
 
 			ACBrSat.CodigoAtivacao = txtAtivacao.Text;
 		}
+
 		private void cmbAmbiente_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			ACBrSat.Configuracoes.IdeTpAmb = (TipoAmbiente)cmbAmbiente.SelectedIndex;
@@ -285,6 +299,25 @@ namespace ACBr.Net.Sat.Demo
 		private void nunCaixa_ValueChanged(object sender, EventArgs e)
 		{
 			ACBrSat.Configuracoes.IdeNumeroCaixa = (int)nunCaixa.Value;
+		}
+
+		private void nunPaginaCodigo_ValueChanged(object sender, EventArgs e)
+		{
+			try
+			{
+				var encoder = Encoding.GetEncoding((int)nunPaginaCodigo.Value);
+				ACBrSat.Enconder = encoder;
+			}
+			catch (Exception ex)
+			{
+				logger.Error(ex);
+				ACBrSat.Enconder = Encoding.ASCII;
+			}
+		}
+
+		private void chkUTF8_CheckedChanged(object sender, EventArgs e)
+		{
+			nunPaginaCodigo.Value = chkUTF8.Checked ? 65001M : 0;
 		}
 
 		#endregion ValueChanged
