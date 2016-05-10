@@ -104,6 +104,11 @@ namespace ACBr.Net.Sat
 			return DescAcrEntr.VDescSubtot > 0 || DescAcrEntr.VAcresSubtot > 0;
 		}
 
+		private bool ShouldSerializeVCFeLei12741()
+		{
+			return VCFeLei12741 > 0;
+		}
+
 		#endregion Methods
 	}
 }

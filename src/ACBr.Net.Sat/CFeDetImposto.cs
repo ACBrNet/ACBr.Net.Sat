@@ -89,6 +89,11 @@ namespace ACBr.Net.Sat
 
 		#region Methods
 
+		private bool ShouldSerializeVItem12741()
+		{
+			return VItem12741 > 0;
+		}
+
 		private bool ShouldSerializeImposto()
 		{
 			if (Imposto is ImpostoISSQN)

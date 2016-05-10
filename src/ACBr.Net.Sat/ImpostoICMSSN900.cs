@@ -14,6 +14,7 @@
 
 using ACBr.Net.DFe.Core.Attributes;
 using ACBr.Net.DFe.Core.Serializer;
+using ACBr.Net.Sat.Interfaces;
 using PropertyChanged;
 
 namespace ACBr.Net.Sat
@@ -22,7 +23,7 @@ namespace ACBr.Net.Sat
 	/// Class ImpostoICMSSN900. This class cannot be inherited.
 	/// </summary>
 	[ImplementPropertyChanged]
-	public sealed class ImpostoICMSSN900
+	public sealed class ImpostoICMSSN900 : ICFeICMS
 	{
 		#region Propriedades
 

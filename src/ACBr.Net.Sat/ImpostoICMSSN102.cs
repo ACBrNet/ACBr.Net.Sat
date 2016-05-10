@@ -14,6 +14,7 @@
 
 using ACBr.Net.DFe.Core.Attributes;
 using ACBr.Net.DFe.Core.Serializer;
+using ACBr.Net.Sat.Interfaces;
 using PropertyChanged;
 
 namespace ACBr.Net.Sat
@@ -22,7 +23,7 @@ namespace ACBr.Net.Sat
 	/// Class ImpostoICMSSN102. Classe para os imposto com CSOSN 102, 300 ou 500.
 	/// </summary>
 	[ImplementPropertyChanged]
-	public sealed class ImpostoICMSSN102
+	public sealed class ImpostoICMSSN102 : ICFeICMS
 	{
 		/// <summary>
 		/// Gets or sets the original.

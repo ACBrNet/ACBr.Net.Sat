@@ -34,6 +34,7 @@ namespace ACBr.Net.Sat
 		public CFeIde()
 		{
 			DhEmissao = null;
+			SignAC = string.Empty;
 		}
 
 		#endregion Constructors

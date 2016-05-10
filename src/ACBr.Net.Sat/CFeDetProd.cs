@@ -227,10 +227,21 @@ namespace ACBr.Net.Sat
 			return VRatAcr > 0;
 		}
 
+		private bool ShouldSerializeVDesc()
+		{
+			return VDesc > 0;
+		}
+
+		private bool ShouldSerializeVOutro()
+		{
+			return VOutro > 0;
+		}
+
 		private string SerializeVUnCom()
 		{
 			var numberFormat = CultureInfo.InvariantCulture.NumberFormat;
-			return string.Format(numberFormat, ehConbustivel ? "{0:0.000}" : "{0:0.00}", VUnCom);
+			var format = ehConbustivel ? "{0:0.000}" : "{0:0.00}";
+			return string.Format(numberFormat, format, VUnCom);
 		}
 
 		private object DeserializeVUnCom(string value)

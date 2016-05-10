@@ -14,6 +14,7 @@
 
 using ACBr.Net.DFe.Core.Attributes;
 using ACBr.Net.DFe.Core.Serializer;
+using ACBr.Net.Sat.Interfaces;
 using PropertyChanged;
 
 namespace ACBr.Net.Sat
@@ -22,7 +23,7 @@ namespace ACBr.Net.Sat
 	/// Classe ImpostoICMS40. Classe para os imposto com CST 40, 41, 50 ou 60.
 	/// </summary>
 	[ImplementPropertyChanged]
-	public sealed class ImpostoICMS40
+	public sealed class ImpostoICMS40 : ICFeICMS
 	{
 		/// <summary>
 		/// Gets or sets the original.

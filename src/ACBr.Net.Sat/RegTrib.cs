@@ -11,6 +11,9 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
+using ACBr.Net.DFe.Core.Attributes;
+
 namespace ACBr.Net.Sat
 {
 	/// <summary>
@@ -21,10 +24,12 @@ namespace ACBr.Net.Sat
 		/// <summary>
 		/// The normal
 		/// </summary>
-		Normal = 0,
+		[DFeEnum("0")]
+		Normal,
 		/// <summary>
 		/// The simples nacional
 		/// </summary>
-		SimplesNacional = 1
+		[DFeEnum("1")]
+		SimplesNacional
 	}
 }

@@ -11,6 +11,9 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
+using ACBr.Net.DFe.Core.Attributes;
+
 namespace ACBr.Net.Sat
 {
 	/// <summary>
@@ -21,30 +24,37 @@ namespace ACBr.Net.Sat
 		/// <summary>
 		/// The nenhum
 		/// </summary>
-		Nenhum = 0,
+		[DFeEnum("0")]
+		Nenhum,
 		/// <summary>
 		/// The microempresa municipal
 		/// </summary>
-		MicroempresaMunicipal = 1,
+		[DFeEnum("1")]
+		MicroempresaMunicipal,
 		/// <summary>
 		/// The estimativa
 		/// </summary>
-		Estimativa = 2,
+		[DFeEnum("2")]
+		Estimativa,
 		/// <summary>
 		/// The sociedade profissionais
 		/// </summary>
-		SociedadeProfissionais = 3,
+		[DFeEnum("3")]
+		SociedadeProfissionais,
 		/// <summary>
 		/// The cooperativa
 		/// </summary>
-		Cooperativa = 4,
+		[DFeEnum("4")]
+		Cooperativa,
 		/// <summary>
 		/// The mei
 		/// </summary>
-		MEI = 5,
+		[DFeEnum("5")]
+		MEI,
 		/// <summary>
 		/// The meepp
 		/// </summary>
-		MEEPP = 6 
+		[DFeEnum("6")]
+		MEEPP
 	}
 }

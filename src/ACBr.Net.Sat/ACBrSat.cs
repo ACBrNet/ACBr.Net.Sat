@@ -107,6 +107,7 @@ namespace ACBr.Net.Sat
 
 			PathDll = @"C:\SAT\SAT.dll";
 			CodigoAtivacao = "123456";
+			signAC = string.Empty;
 		}
 
 		#endregion Constructor

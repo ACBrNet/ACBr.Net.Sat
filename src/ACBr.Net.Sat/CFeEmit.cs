@@ -51,41 +51,41 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The x nome.</value>
 		[DFeElement(TipoCampo.Str, "xNome", Id = "C03", Min = 1, Max = 60, Ocorrencias = 0)]
-		public string Nome { get; set; }
+		public string XNome { get; set; }
 
 		/// <summary>
 		/// Gets or sets the x fant.
 		/// </summary>
 		/// <value>The x fant.</value>
 		[DFeElement(TipoCampo.Str, "xFant", Id = "C04", Min = 1, Max = 60, Ocorrencias = 0)]
-		public string Fant { get; set; }
+		public string XFant { get; set; }
 
 		/// <summary>
 		/// Gets the ender emit.
 		/// </summary>
 		/// <value>The ender emit.</value>
-		[DFeElement("enderEmit", Id = "C05", Ocorrencias = 1)]
+		[DFeElement("enderEmit", Id = "C05", Ocorrencias = 0)]
 		public CFeEnderEmit EnderEmit { get; set; }
 
 		/// <summary>
 		/// Gets or sets the ie.
 		/// </summary>
 		/// <value>The ie.</value>
-		[DFeElement(TipoCampo.StrNumber, "IE", Id = "C12", Min = 2, Max = 14, Ocorrencias = 1)]
+		[DFeElement(TipoCampo.Str, "IE", Id = "C12", Min = 2, Max = 14, Ocorrencias = 0)]
 		public string IE { get; set; }
 
 		/// <summary>
 		/// Gets or sets the im.
 		/// </summary>
 		/// <value>The im.</value>
-		[DFeElement(TipoCampo.Str, "IM", Id = "C13", Min = 1, Max = 15, Ocorrencias = 1)]
+		[DFeElement(TipoCampo.Str, "IM", Id = "C13", Min = 1, Max = 15, Ocorrencias = 0)]
 		public string IM { get; set; }
 
 		/// <summary>
 		/// Gets or sets the c reg trib.
 		/// </summary>
 		/// <value>The c reg trib.</value>
-		[DFeElement(TipoCampo.Enum, "cRegTrib", Id = "C14", Min = 1, Max = 1, Ocorrencias = 1)]
+		[DFeElement(TipoCampo.Enum, "cRegTrib", Id = "C14", Min = 1, Max = 1, Ocorrencias = 0)]
 		public RegTrib CRegTrib { get; set; }
 
 		/// <summary>
@@ -108,12 +108,27 @@ namespace ACBr.Net.Sat
 
 		private bool ShouldSerializeNome()
 		{
-			return !Nome.IsEmpty();
+			return !XNome.IsEmpty();
 		}
 
 		private bool ShouldSerializeFant()
 		{
-			return !Fant.IsEmpty();
+			return !XFant.IsEmpty();
+		}
+
+		private bool ShouldSerializeEnderEmit()
+		{
+			return !EnderEmit.CEP.IsEmpty() ||
+			       !EnderEmit.Nro.IsEmpty() ||
+			       !EnderEmit.XBairro.IsEmpty() ||
+			       !EnderEmit.XCpl.IsEmpty() ||
+			       !EnderEmit.XLgr.IsEmpty() ||
+				   !EnderEmit.XMun.IsEmpty();
+		}
+
+		private bool ShouldSerializeIE()
+		{
+			return !IE.IsEmpty();
 		}
 
 		private bool ShouldSerializeIM()

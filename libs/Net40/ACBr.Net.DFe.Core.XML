@@ -430,64 +430,6 @@
             <param name="source">The source.</param>
             <returns>The result of the conversion.</returns>
         </member>
-        <member name="M:ACBr.Net.DFe.Core.Internal.ObjectType.IsPrimitive(System.Type)">
-            <summary>
-            Checks if the type is a fundamental primitive object (e.g string, int etc.).
-            </summary>
-            <param name="type">The type to check.</param>
-            <returns>The boolean value indicating whether the type is a fundamental primitive.</returns>
-        </member>
-        <member name="M:ACBr.Net.DFe.Core.Internal.ObjectType.IsList(System.Type)">
-            <summary>
-            Determines whether the specified type is list.
-            </summary>
-            <param name="type">The type.</param>
-            <returns><c>true</c> if the specified type is list; otherwise, <c>false</c>.</returns>
-        </member>
-        <member name="M:ACBr.Net.DFe.Core.Internal.ObjectType.IsDFeList(System.Type)">
-            <summary>
-            Determines whether [is d fe list] [the specified type].
-            </summary>
-            <param name="type">The type.</param>
-            <returns><c>true</c> if [is d fe list] [the specified type]; otherwise, <c>false</c>.</returns>
-        </member>
-        <member name="M:ACBr.Net.DFe.Core.Internal.ObjectType.IsDictionary(System.Type)">
-            <summary>
-            Determines whether the specified type is dictionary.
-            </summary>
-            <param name="type">The type.</param>
-            <returns><c>true</c> if the specified type is dictionary; otherwise, <c>false</c>.</returns>
-        </member>
-        <member name="M:ACBr.Net.DFe.Core.Internal.Utilities.ShouldIgnoreProperty(System.Reflection.PropertyInfo)">
-            <summary>
-            Checks if a property should not be serialized.
-            </summary>
-            <param name="property">The property to check.</param>
-        </member>
-        <member name="M:ACBr.Net.DFe.Core.Internal.Utilities.ShouldSerializeProperty(System.Reflection.PropertyInfo,System.Object)">
-            <summary>
-            Shoulds the ignore property.
-            </summary>
-            <param name="property">The property.</param>
-            <param name="item">The item.</param>
-            <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        </member>
-        <member name="M:ACBr.Net.DFe.Core.Internal.Utilities.GetElementType(System.Xml.Linq.XElement,System.Type,System.Int32)">
-            <summary>
-            Gets the type of an object from its serialized XElement (e.g. if it has a type attribute) and its parent container type (e.g. if it is generic).
-            </summary>
-            <param name="element">The XElement representing the object used to get the type.</param>
-            <param name="parentType">The type of the object's parent container used to check if the object is in a generic container.</param>
-            <param name="genericArgumentIndex">The index of the object's type in the list of its parent container's generic arguments.</param>
-            <returns>The type of an object from its serialized XElement and its parent container type.</returns>
-        </member>
-        <member name="M:ACBr.Net.DFe.Core.Internal.Utilities.AddChild(System.Xml.Linq.XElement,System.Xml.Linq.XElement)">
-            <summary>
-            Adds the specified XElement to the parent XElement if it is not null;
-            </summary>
-            <param name="child">The child XElement to add to the parent XElement.</param>
-            <param name="parent">The parent XElement to add the child XElement to.</param>
-        </member>
         <member name="M:ACBr.Net.DFe.Core.Serializer.DFeListSerializer.Serialize(System.Reflection.PropertyInfo,System.Object,ACBr.Net.DFe.Core.Serializer.SerializerOptions)">
             <summary>
             Serializes the specified value.
@@ -530,12 +472,13 @@
             <exception cref="T:System.InvalidOperationException">Could not deserialize this non generic dictionary without more type information.</exception>
             Deserializes the XElement to the list (e.g. List<T />, Array of a specified type using options.
         </member>
-        <member name="M:ACBr.Net.DFe.Core.Serializer.PrimitiveSerializer.Serialize(System.Object,ACBr.Net.DFe.Core.Interfaces.IDFeElement,ACBr.Net.DFe.Core.Serializer.SerializerOptions)">
+        <member name="M:ACBr.Net.DFe.Core.Serializer.PrimitiveSerializer.Serialize(ACBr.Net.DFe.Core.Interfaces.IDFeElement,System.Object,System.Reflection.PropertyInfo,ACBr.Net.DFe.Core.Serializer.SerializerOptions)">
             <summary>
             Serializes a fundamental primitive object (e.g. string, int etc.) into a XElement using options.
             </summary>
-            <param name="value">The primitive to serialize.</param>
             <param name="tag">The name of the primitive to serialize.</param>
+            <param name="item">The item.</param>
+            <param name="prop">The property.</param>
             <param name="options">Indicates how the output is formatted or serialized.</param>
             <returns>The XElement representation of the primitive.</returns>
         </member>
@@ -651,6 +594,11 @@
             <param name="tag">The tag.</param>
             <param name="descricao">The descricao.</param>
             <param name="alerta">The alerta.</param>
+        </member>
+        <member name="F:ACBr.Net.DFe.Core.Serializer.ObjectSerializer.Logger">
+            <summary>
+            The logger
+            </summary>
         </member>
         <member name="M:ACBr.Net.DFe.Core.Serializer.ObjectSerializer.Serialize(System.Object,System.String,ACBr.Net.DFe.Core.Serializer.SerializerOptions)">
             <summary>
@@ -881,6 +829,64 @@
             <summary>
             The custom
             </summary>
+        </member>
+        <member name="M:ACBr.Net.DFe.Core.Internal.ObjectType.IsPrimitive(System.Type)">
+            <summary>
+            Checks if the type is a fundamental primitive object (e.g string, int etc.).
+            </summary>
+            <param name="type">The type to check.</param>
+            <returns>The boolean value indicating whether the type is a fundamental primitive.</returns>
+        </member>
+        <member name="M:ACBr.Net.DFe.Core.Internal.ObjectType.IsList(System.Type)">
+            <summary>
+            Determines whether the specified type is list.
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is list; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:ACBr.Net.DFe.Core.Internal.ObjectType.IsDFeList(System.Type)">
+            <summary>
+            Determines whether [is d fe list] [the specified type].
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if [is d fe list] [the specified type]; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:ACBr.Net.DFe.Core.Internal.ObjectType.IsDictionary(System.Type)">
+            <summary>
+            Determines whether the specified type is dictionary.
+            </summary>
+            <param name="type">The type.</param>
+            <returns><c>true</c> if the specified type is dictionary; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:ACBr.Net.DFe.Core.Internal.Utilities.ShouldIgnoreProperty(System.Reflection.PropertyInfo)">
+            <summary>
+            Checks if a property should not be serialized.
+            </summary>
+            <param name="property">The property to check.</param>
+        </member>
+        <member name="M:ACBr.Net.DFe.Core.Internal.Utilities.ShouldSerializeProperty(System.Reflection.PropertyInfo,System.Object)">
+            <summary>
+            Shoulds the ignore property.
+            </summary>
+            <param name="property">The property.</param>
+            <param name="item">The item.</param>
+            <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ACBr.Net.DFe.Core.Internal.Utilities.GetElementType(System.Xml.Linq.XElement,System.Type,System.Int32)">
+            <summary>
+            Gets the type of an object from its serialized XElement (e.g. if it has a type attribute) and its parent container type (e.g. if it is generic).
+            </summary>
+            <param name="element">The XElement representing the object used to get the type.</param>
+            <param name="parentType">The type of the object's parent container used to check if the object is in a generic container.</param>
+            <param name="genericArgumentIndex">The index of the object's type in the list of its parent container's generic arguments.</param>
+            <returns>The type of an object from its serialized XElement and its parent container type.</returns>
+        </member>
+        <member name="M:ACBr.Net.DFe.Core.Internal.Utilities.AddChild(System.Xml.Linq.XElement,System.Xml.Linq.XElement)">
+            <summary>
+            Adds the specified XElement to the parent XElement if it is not null;
+            </summary>
+            <param name="child">The child XElement to add to the parent XElement.</param>
+            <param name="parent">The parent XElement to add the child XElement to.</param>
         </member>
         <member name="T:ACBr.Net.DFe.Core.Document.CanonicalizationMethod">
             <summary>

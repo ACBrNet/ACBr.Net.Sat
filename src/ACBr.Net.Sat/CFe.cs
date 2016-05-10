@@ -77,7 +77,9 @@ namespace ACBr.Net.Sat
 
 		private bool ShouldSerializeSignature()
 		{
-			return !Signature.SignatureValue.IsEmpty();
+			return !Signature.SignatureValue.IsEmpty() && 
+				   !Signature.SignedInfo.Reference.DigestValue.IsEmpty() &&
+				   !Signature.KeyInfo.X509Data.X509Certificate.IsEmpty();
 		}
 
 		/// <summary>

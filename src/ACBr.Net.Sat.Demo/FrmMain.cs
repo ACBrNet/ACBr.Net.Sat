@@ -222,6 +222,7 @@ namespace ACBr.Net.Sat.Demo
 
 		private void carregarXMLToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			logger.Info("Carregar XML CFe.");
 			using (var ofd = new OpenFileDialog())
 			{
 				ofd.CheckPathExists = true;
@@ -234,6 +235,9 @@ namespace ACBr.Net.Sat.Demo
 
 				cfeAtual = CFe.LoadCFe(ofd.FileName);
 				wbrXmlGerado.LoadXml(cfeAtual?.ToString());
+				tbcXml.SelectedTab = tpgXmlGerado;
+				logger.Info("XML CFe carregado com sucesso.");
+
 			}
 		}
 
