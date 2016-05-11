@@ -32,9 +32,9 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		public CFeDetImposto()
 		{
-			COFINSST = new ImpostoCOFINSST();
-			COFINS = new ImpostoCOFINS();
-			PISST = new ImpostoPISST();
+			COFINSST = new ImpostoCofinsSt();
+			COFINS = new ImpostoCofins();
+			PISST = new ImpostoPisSt();
 			PIS = new ImpostoPIS();
 		}
 
@@ -53,8 +53,8 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the item.
 		/// </summary>
 		/// <value>The item.</value>
-		[DFeItem(typeof(ImpostoICMS), "ICMS")]
-		[DFeItem(typeof(ImpostoISSQN), "ISSQN")]
+		[DFeItem(typeof(ImpostoIcms), "ICMS")]
+		[DFeItem(typeof(ImpostoIssqn), "ISSQN")]
 		public ICFeImposto Imposto { get; set; }
 
 		/// <summary>
@@ -69,21 +69,21 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The pisst.</value>
 		[DFeElement("PISST", Id = "R01", Ocorrencias = 1)]
-		public ImpostoPISST PISST { get; set; }
+		public ImpostoPisSt PISST { get; set; }
 
 		/// <summary>
 		/// Gets or sets the cofins.
 		/// </summary>
 		/// <value>The cofins.</value>
 		[DFeElement("COFINS", Id = "S01", Ocorrencias = 1)]
-		public ImpostoCOFINS COFINS { get; set; }
+		public ImpostoCofins COFINS { get; set; }
 
 		/// <summary>
 		/// Gets or sets the cofinsst.
 		/// </summary>
 		/// <value>The cofinsst.</value>
 		[DFeElement("COFINSST", Id = "T01", Ocorrencias = 1)]
-		public ImpostoCOFINSST COFINSST { get; set; }
+		public ImpostoCofinsSt COFINSST { get; set; }
 
 		#endregion Propriedades
 
@@ -96,9 +96,9 @@ namespace ACBr.Net.Sat
 
 		private bool ShouldSerializeImposto()
 		{
-			if (Imposto is ImpostoISSQN)
+			if (Imposto is ImpostoIssqn)
 			{
-				var issqn = (ImpostoISSQN)Imposto;
+				var issqn = (ImpostoIssqn)Imposto;
 				return issqn.VDeducISSQN > 0 || issqn.VBc > 0 ||
 				       issqn.VAliq > 0 || issqn.VISSQN > 0;
 			}

@@ -562,13 +562,13 @@
             Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Serializer.DFeSerializer" /> class.
             </summary>
         </member>
-        <member name="P:ACBr.Net.DFe.Core.Serializer.SerializerOptions.RetirarAcentos">
+        <member name="P:ACBr.Net.DFe.Core.Serializer.SerializerOptions.RemoverAcentos">
             <summary>
             Gets or sets a value indicating whether [retirar acentos].
             </summary>
             <value><c>true</c> if [retirar acentos]; otherwise, <c>false</c>.</value>
         </member>
-        <member name="P:ACBr.Net.DFe.Core.Serializer.SerializerOptions.IdentarXml">
+        <member name="P:ACBr.Net.DFe.Core.Serializer.SerializerOptions.FormatarXml">
             <summary>
             Gets or sets a value indicating whether this <see cref="T:ACBr.Net.DFe.Core.Serializer.SerializerOptions"/> is identar.
             </summary>

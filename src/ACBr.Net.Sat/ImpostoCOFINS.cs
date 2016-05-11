@@ -21,17 +21,17 @@ namespace ACBr.Net.Sat
 	/// Class ImpostoCOFINS. This class cannot be inherited.
 	/// </summary>
 	[ImplementPropertyChanged]
-	public sealed class ImpostoCOFINS
+	public sealed class ImpostoCofins
 	{
 		/// <summary>
 		/// Gets or sets the cofins.
 		/// </summary>
 		/// <value>The cofins.</value>
-		[DFeItem(typeof(ImpostoCOFINSAliq), "COFINSAliq")]
-		[DFeItem(typeof(ImpostoCOFINSNT), "COFINSNT")]
-		[DFeItem(typeof(ImpostoCOFINSOutr), "COFINSOutr")]
-		[DFeItem(typeof(ImpostoCOFINSQtde), "COFINSQtde")]
-		[DFeItem(typeof(ImpostoCOFINSSN), "COFINSSN")]
-		public ICFeCOFINS COFINS { get; set; }
+		[DFeItem(typeof(ImpostoCofinsAliq), "COFINSAliq")]
+		[DFeItem(typeof(ImpostoCofinsNt), "COFINSNT")]
+		[DFeItem(typeof(ImpostoCofinsOutr), "COFINSOutr")]
+		[DFeItem(typeof(ImpostoCofinsQtde), "COFINSQtde")]
+		[DFeItem(typeof(ImpostoCofinsSn), "COFINSSN")]
+		public ICFeCofins COFINS { get; set; }
 	}
 }

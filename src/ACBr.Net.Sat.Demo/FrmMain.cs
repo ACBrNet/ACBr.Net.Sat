@@ -43,8 +43,8 @@ namespace ACBr.Net.Sat.Demo
 			cmbAmbiente.EnumDataSource<TipoAmbiente>(TipoAmbiente.Homologacao);
 			cmbModeloSat.EnumDataSource<ModeloSat>(ModeloSat.Cdecl);
 			cmbEmiRegTrib.EnumDataSource<RegTrib>(RegTrib.Normal);
-			cmbEmiRegTribISSQN.EnumDataSource<RegTribISSQN>(RegTribISSQN.Nenhum);
-			cmbEmiRatIISQN.EnumDataSource<RatISSQN>(RatISSQN.Nao);
+			cmbEmiRegTribISSQN.EnumDataSource<RegTribIssqn>(RegTribIssqn.Nenhum);
+			cmbEmiRatIISQN.EnumDataSource<RatIssqn>(RatIssqn.Nao);
 		}
 
 		private void InitializeLog()
@@ -119,9 +119,9 @@ namespace ACBr.Net.Sat.Demo
 				totalGeral += totalItem;
 				det1.Imposto.VItem12741 = totalItem * 0.12M;
 
-				det1.Imposto.Imposto = new ImpostoICMS
+				det1.Imposto.Imposto = new ImpostoIcms
 				{
-					ICMS = new ImpostoICMS00
+					ICMS = new ImpostoIcms00
 					{
 						Orig = OrigemMercadoria.Nacional,
 						CST = "00",
@@ -129,16 +129,16 @@ namespace ACBr.Net.Sat.Demo
 					}
 				};
 
-				det1.Imposto.PIS.PIS = new ImpostoPISAliq
+				det1.Imposto.PIS.PIS = new ImpostoPisAliq
 				{
 					CST = "01",
 					VBc = totalItem,
 					PPIS = 0.0065M
 				};
 
-				det1.Imposto.COFINS.COFINS = new ImpostoCOFINSAliq()
+				det1.Imposto.COFINS.COFINS = new ImpostoCofinsAliq()
 				{
-					CST = "01",
+					Cst = "01",
 					VBc = totalItem,
 					PCOFINS = 0.0065M
 				};
@@ -164,7 +164,7 @@ namespace ACBr.Net.Sat.Demo
 			logger.Info("CFe gerado com sucesso !");
 		}
 
-		private ISATLibrary GetSat()
+		private ISatLibrary GetSat()
 		{
 			return ACBrSat.CreateLibrary((ModeloSat)cmbModeloSat.SelectedItem);
 		}
@@ -318,6 +318,16 @@ namespace ACBr.Net.Sat.Demo
 		private void chkUTF8_CheckedChanged(object sender, EventArgs e)
 		{
 			nunPaginaCodigo.Value = chkUTF8.Checked ? 65001M : 0;
+		}
+
+		private void chkFomartXML_CheckedChanged(object sender, EventArgs e)
+		{
+			ACBrSat.Configuracoes.FormatarXml = chkFomartXML.Checked;
+		}
+
+		private void chkRemoveAcentos_CheckedChanged(object sender, EventArgs e)
+		{
+			ACBrSat.Configuracoes.RemoverAcentos = chkRemoveAcentos.Checked;
 		}
 
 		#endregion ValueChanged

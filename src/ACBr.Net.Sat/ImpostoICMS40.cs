@@ -20,10 +20,10 @@ using PropertyChanged;
 namespace ACBr.Net.Sat
 {
 	/// <summary>
-	/// Classe ImpostoICMS40. Classe para os imposto com CST 40, 41, 50 ou 60.
+	/// Classe ImpostoICMS40. Classe para os imposto com Cst 40, 41, 50 ou 60.
 	/// </summary>
 	[ImplementPropertyChanged]
-	public sealed class ImpostoICMS40 : ICFeICMS
+	public sealed class ImpostoIcms40 : ICFeIcms
 	{
 		/// <summary>
 		/// Gets or sets the original.
@@ -33,10 +33,10 @@ namespace ACBr.Net.Sat
 		public string Orig { get; set; }
 
 		/// <summary>
-		/// Gets or sets the CST.
+		/// Gets or sets the Cst.
 		/// </summary>
-		/// <value>The CST.</value>
-		[DFeElement(TipoCampo.Str, "CST", Id = "N07", Min = 2, Max = 2, Ocorrencias = 1)]
+		/// <value>The Cst.</value>
+		[DFeElement(TipoCampo.Str, "Cst", Id = "N07", Min = 2, Max = 2, Ocorrencias = 1)]
 		public string CST { get; set; }
 	}
 }

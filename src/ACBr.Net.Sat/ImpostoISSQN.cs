@@ -23,7 +23,7 @@ namespace ACBr.Net.Sat
 	/// Class ImpostoISSQN. This class cannot be inherited.
 	/// </summary>
 	[ImplementPropertyChanged]
-	public sealed class ImpostoISSQN : ICFeImposto
+	public sealed class ImpostoIssqn : ICFeImposto
 	{
 		#region Propriedades
 

@@ -6,7 +6,7 @@
 // Last Modified By : RFTD
 // Last Modified On : 03-31-2016
 // ***********************************************************************
-// <copyright file="ISATLibrary.cs" company="ACBr.Net">
+// <copyright file="ISatLibrary.cs" company="ACBr.Net">
 //     Copyright © ACBr.Net 2014 - 2016
 // </copyright>
 // <summary></summary>
@@ -15,9 +15,9 @@
 namespace ACBr.Net.Sat.Interfaces
 {
 	/// <summary>
-	/// Interface ISATLibrary
+	/// Interface ISatLibrary
 	/// </summary>
-	public interface ISATLibrary
+	public interface ISatLibrary
 	{
 		#region Propriedades
 
@@ -43,7 +43,7 @@ namespace ACBr.Net.Sat.Interfaces
 		/// <param name="cnpj">The CNPJ.</param>
 		/// <param name="assinaturacnpj">The assinaturacnpj.</param>
 		/// <returns>System.String.</returns>
-		SATResposta AssociarAssinatura(string cnpj, string assinaturacnpj);
+		SatResposta AssociarAssinatura(string cnpj, string assinaturacnpj);
 
 		/// <summary>
 		/// Ativars the sat.
@@ -52,26 +52,26 @@ namespace ACBr.Net.Sat.Interfaces
 		/// <param name="CNPJ">The CNPJ.</param>
 		/// <param name="uf">The uf.</param>
 		/// <returns>System.String.</returns>
-		SATResposta AtivarSAT(int subComando, string CNPJ, int uf);
+		SatResposta AtivarSAT(int subComando, string CNPJ, int uf);
 
 		/// <summary>
 		/// Atualizars the software sat.
 		/// </summary>
 		/// <returns>System.String.</returns>
-		SATResposta AtualizarSoftwareSAT();
+		SatResposta AtualizarSoftwareSAT();
 
 		/// <summary>
 		/// Bloquears the sat.
 		/// </summary>
 		/// <returns>System.String.</returns>
-		SATResposta BloquearSAT();
+		SatResposta BloquearSAT();
 
 		/// <summary>
 		/// Cancelars the ultima venda.
 		/// </summary>
 		/// <param name="dadosvenda">The dadosvenda.</param>
-		/// <returns>SATResposta.</returns>
-		SATResposta CancelarUltimaVenda(CFe dadosvenda);
+		/// <returns>SatResposta.</returns>
+		CancelamentoSatResposta CancelarUltimaVenda(CFe dadosvenda);
 
 		/// <summary>
 		/// Cancelars the ultima venda.
@@ -79,66 +79,66 @@ namespace ACBr.Net.Sat.Interfaces
 		/// <param name="chave">The chave.</param>
 		/// <param name="dadosCancelamento">The dados cancelamento.</param>
 		/// <returns>System.String.</returns>
-		SATResposta CancelarUltimaVenda(string chave, CFeCanc dadosCancelamento);
+		CancelamentoSatResposta CancelarUltimaVenda(string chave, CFeCanc dadosCancelamento);
 
 		/// <summary>
 		/// Comunicars the certificado icpbrasil.
 		/// </summary>
 		/// <param name="certificado">The certificado.</param>
 		/// <returns>System.String.</returns>
-		SATResposta ComunicarCertificadoICPBRASIL(string certificado);
+		SatResposta ComunicarCertificadoICPBRASIL(string certificado);
 
 		/// <summary>
 		/// Configurars the interface de rede.
 		/// </summary>
 		/// <param name="dadosConfiguracao">The dados configuracao.</param>
 		/// <returns>System.String.</returns>
-		SATResposta ConfigurarInterfaceDeRede(string dadosConfiguracao);
+		SatResposta ConfigurarInterfaceDeRede(string dadosConfiguracao);
 
 		/// <summary>
 		/// Consultars the numero sessao.
 		/// </summary>
 		/// <param name="numeroSessao">The numero sessao.</param>
 		/// <returns>System.String.</returns>
-		SATResposta ConsultarNumeroSessao(int numeroSessao);
+		SatResposta ConsultarNumeroSessao(int numeroSessao);
 
 		/// <summary>
 		/// Consultars the sat.
 		/// </summary>
 		/// <returns>System.String.</returns>
-		SATResposta ConsultarSAT();
+		SatResposta ConsultarSAT();
 
 		/// <summary>
 		/// Consultars the status operacional.
 		/// </summary>
 		/// <returns>System.String.</returns>
-		SATResposta ConsultarStatusOperacional();
+		SatResposta ConsultarStatusOperacional();
 
 		/// <summary>
 		/// Desbloquears the sat.
 		/// </summary>
 		/// <returns>System.String.</returns>
-		SATResposta DesbloquearSAT();
+		SatResposta DesbloquearSAT();
 
 		/// <summary>
 		/// Enviars the dados venda.
 		/// </summary>
 		/// <param name="cfe">The dados venda.</param>
 		/// <returns>System.String.</returns>
-		SATResposta EnviarDadosVenda(CFe cfe);
+		VendaSatResposta EnviarDadosVenda(CFe cfe);
 
 		/// <summary>
 		/// Extrairs the logs.
 		/// </summary>
 		/// <returns>System.String.</returns>
-		SATResposta ExtrairLogs();
+		SatResposta ExtrairLogs();
 
 		/// <summary>
 		/// Testes the fim a fim.
 		/// </summary>
 		/// <param name="dadosVenda">The dados venda.</param>
 		/// <returns>System.String.</returns>
-		SATResposta TesteFimAFim(CFe dadosVenda);
+		SatResposta TesteFimAFim(CFe dadosVenda);
 
 		/// <summary>
 		/// Trocars the codigo de ativacao.
@@ -147,7 +147,7 @@ namespace ACBr.Net.Sat.Interfaces
 		/// <param name="opcao">The opcao.</param>
 		/// <param name="novoCodigo">The novo codigo.</param>
 		/// <returns>System.String.</returns>
-		SATResposta TrocarCodigoDeAtivacao(string codigoDeAtivacaoOuEmergencia, int opcao,
+		SatResposta TrocarCodigoDeAtivacao(string codigoDeAtivacaoOuEmergencia, int opcao,
 			string novoCodigo);
 
 		#endregion Methods

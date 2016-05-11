@@ -21,16 +21,16 @@ namespace ACBr.Net.Sat
 	/// Class ImpostoICMS. This class cannot be inherited.
 	/// </summary>
 	[ImplementPropertyChanged]
-	public sealed class ImpostoICMS : ICFeImposto
+	public sealed class ImpostoIcms : ICFeImposto
 	{
 		/// <summary>
 		/// Gets or sets the item.
 		/// </summary>
 		/// <value>The item.</value>
-		[DFeItem(typeof(ImpostoICMS00), "ICMS00")]
-		[DFeItem(typeof(ImpostoICMS40), "ICMS40")]
-		[DFeItem(typeof(ImpostoICMSSN102), "ICMSSN102")]
-		[DFeItem(typeof(ImpostoICMSSN900), "ICMSSN900")]
-		public ICFeICMS ICMS { get; set; }
+		[DFeItem(typeof(ImpostoIcms00), "ICMS00")]
+		[DFeItem(typeof(ImpostoIcms40), "ICMS40")]
+		[DFeItem(typeof(ImpostoIcmsSn102), "ICMSSN102")]
+		[DFeItem(typeof(ImpostoIcmsSn900), "ICMSSN900")]
+		public ICFeIcms ICMS { get; set; }
 	}
 }

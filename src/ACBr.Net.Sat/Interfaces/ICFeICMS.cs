@@ -17,7 +17,7 @@ namespace ACBr.Net.Sat.Interfaces
 	/// <summary>
 	/// Interface ICFeICMS
 	/// </summary>
-	public interface ICFeICMS
+	public interface ICFeIcms
 	{
 		
 	}

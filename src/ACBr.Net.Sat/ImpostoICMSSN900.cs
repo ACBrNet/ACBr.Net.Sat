@@ -23,7 +23,7 @@ namespace ACBr.Net.Sat
 	/// Class ImpostoICMSSN900. This class cannot be inherited.
 	/// </summary>
 	[ImplementPropertyChanged]
-	public sealed class ImpostoICMSSN900 : ICFeICMS
+	public sealed class ImpostoIcmsSn900 : ICFeIcms
 	{
 		#region Propriedades
 

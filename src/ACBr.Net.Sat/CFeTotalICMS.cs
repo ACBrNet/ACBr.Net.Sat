@@ -22,7 +22,7 @@ namespace ACBr.Net.Sat
 	/// Class CFeTotalICMS. This class cannot be inherited.
 	/// </summary>
 	[ImplementPropertyChanged]
-	public sealed class CFeTotalICMS
+	public sealed class CFeTotalIcms
 	{
 		/// <summary>
 		/// Gets or sets the vicms.

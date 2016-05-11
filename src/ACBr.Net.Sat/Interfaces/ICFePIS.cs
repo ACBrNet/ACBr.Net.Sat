@@ -17,7 +17,7 @@ namespace ACBr.Net.Sat.Interfaces
 	/// Interface ICFePIS
 	/// </summary>
 	// ReSharper disable once InconsistentNaming
-	public interface ICFePIS
+	public interface ICFePis
 	{
 		
 	}

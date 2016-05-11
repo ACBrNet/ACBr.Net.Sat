@@ -18,7 +18,7 @@ namespace ACBr.Net.Sat
 	/// <summary>
 	/// Class SATStatus.
 	/// </summary>
-	public class SATStatus
+	public class SatStatus
 	{
 		/// <summary>
 		/// Gets or sets the nserie.

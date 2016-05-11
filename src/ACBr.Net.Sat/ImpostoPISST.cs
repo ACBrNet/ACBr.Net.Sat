@@ -21,7 +21,7 @@ namespace ACBr.Net.Sat
 	/// Class ImpostoPISST. This class cannot be inherited.
 	/// </summary>
 	[ImplementPropertyChanged]
-	public sealed class ImpostoPISST
+	public sealed class ImpostoPisSt
 	{
 		#region Propriedades
 

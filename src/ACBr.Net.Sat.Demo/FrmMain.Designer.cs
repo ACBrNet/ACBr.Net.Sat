@@ -688,6 +688,7 @@
 			this.chkRemoveAcentos.TabIndex = 13;
 			this.chkRemoveAcentos.Text = "Remover Acentos";
 			this.chkRemoveAcentos.UseVisualStyleBackColor = true;
+			this.chkRemoveAcentos.CheckedChanged += new System.EventHandler(this.chkRemoveAcentos_CheckedChanged);
 			// 
 			// nunVersaoCFe
 			// 
@@ -721,6 +722,7 @@
 			this.chkFomartXML.TabIndex = 12;
 			this.chkFomartXML.Text = "Formatar XML";
 			this.chkFomartXML.UseVisualStyleBackColor = true;
+			this.chkFomartXML.CheckedChanged += new System.EventHandler(this.chkFomartXML_CheckedChanged);
 			// 
 			// groupBox1
 			// 

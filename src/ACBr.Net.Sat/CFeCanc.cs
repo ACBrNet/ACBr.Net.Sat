@@ -17,7 +17,6 @@ using System.Xml;
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.DFe.Core.Attributes;
 using ACBr.Net.DFe.Core.Document;
-using ACBr.Net.DFe.Core.Serializer;
 
 namespace ACBr.Net.Sat
 {
@@ -110,7 +109,7 @@ namespace ACBr.Net.Sat
 		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		public bool SalvarCFe(string path)
 		{
-			var serializer = DFeSerializer.CreateSerializer<CFeCanc>();
+			var serializer = ACBrSat.GetSerializer<CFeCanc>();
 			return serializer.Serialize(this, path);
 		}
 
@@ -121,7 +120,7 @@ namespace ACBr.Net.Sat
 		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		public bool SalvarCFe(Stream stream)
 		{
-			var serializer = DFeSerializer.CreateSerializer<CFeCanc>();
+			var serializer = ACBrSat.GetSerializer<CFeCanc>();
 			return serializer.Serialize(this, stream);
 		}
 
@@ -129,7 +128,7 @@ namespace ACBr.Net.Sat
 		/// Ases the XML.
 		/// </summary>
 		/// <returns>System.String.</returns>
-		public string AsXml()
+		public override string ToString()
 		{
 			var ms = new MemoryStream();
 			SalvarCFe(ms);
@@ -145,7 +144,7 @@ namespace ACBr.Net.Sat
 		/// <returns>CFe.</returns>
 		public static CFeCanc LoadCFe(string path)
 		{
-			var serializer = DFeSerializer.CreateSerializer<CFeCanc>();
+			var serializer = ACBrSat.GetSerializer<CFeCanc>();
 			return serializer.Deserialize(path);
 		}
 
@@ -156,7 +155,7 @@ namespace ACBr.Net.Sat
 		/// <returns>CFe.</returns>
 		public static CFeCanc LoadCFe(Stream stream)
 		{
-			var serializer = DFeSerializer.CreateSerializer<CFeCanc>();
+			var serializer = ACBrSat.GetSerializer<CFeCanc>();
 			return serializer.Deserialize(stream);
 		}
 

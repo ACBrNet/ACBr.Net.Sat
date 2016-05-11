@@ -17,6 +17,7 @@ using System.Text;
 using ACBr.Net.Core;
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.Core.Logging;
+using ACBr.Net.DFe.Core.Serializer;
 using ACBr.Net.Sat.Events;
 using ACBr.Net.Sat.Interfaces;
 
@@ -85,7 +86,7 @@ namespace ACBr.Net.Sat
 		/// <summary>
 		/// The on mensagem sefaz
 		/// </summary>
-		public static EventHandler<SATMensagemEventArgs> OnMensagemSEFAZ;
+		public static EventHandler<SatMensagemEventArgs> OnMensagemSEFAZ;
 
 		/// <summary>
 		/// The on calculate path
@@ -101,7 +102,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		static ACBrSat()
 		{
-			Configuracoes = new SATConfig();
+			Configuracoes = new SatConfig();
 			Arquivos = new CfgArquivos();
 			Enconder = Encoding.ASCII;
 
@@ -153,7 +154,7 @@ namespace ACBr.Net.Sat
 		/// Gets the configuracoes.
 		/// </summary>
 		/// <value>The configuracoes.</value>
-		public static SATConfig Configuracoes { get; set; }
+		public static SatConfig Configuracoes { get; set; }
 
 		/// <summary>
 		/// Gets the arquivos.
@@ -175,8 +176,8 @@ namespace ACBr.Net.Sat
 		/// Creates the library.
 		/// </summary>
 		/// <param name="modelo">The modelo.</param>
-		/// <returns>ISATLibrary.</returns>
-		public static ISATLibrary CreateLibrary(ModeloSat modelo)
+		/// <returns>ISatLibrary.</returns>
+		public static ISatLibrary CreateLibrary(ModeloSat modelo)
 		{
 			// ReSharper disable once SwitchStatementMissingSomeCases
 			switch (modelo)
@@ -193,8 +194,8 @@ namespace ACBr.Net.Sat
 		/// Creates the library.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
-		/// <returns>ISATLibrary.</returns>
-		public static ISATLibrary CreateLibrary<T>() where  T : ISATLibrary
+		/// <returns>ISatLibrary.</returns>
+		public static ISatLibrary CreateLibrary<T>() where  T : ISatLibrary
 		{
 			var ret = (T)Activator.CreateInstance(typeof(T), PathDll);
 			return ret;
@@ -237,35 +238,8 @@ namespace ACBr.Net.Sat
 			Sessao = args.Sessao;
 			return Sessao;
 		}
-
-		internal static CFe LoadRetVenda(SATResposta retSat)
-		{
-			if (retSat.CodigoDeRetorno != 6000)
-				return null;
-
-			var xmlRecebido = retSat.RetornoLst[5].Base64Decode();
-			var ret = CFe.LoadCFe(xmlRecebido);
-			if (!Arquivos.SalvarCFe)
-				return ret;
-
-			var path = $@"{Arquivos.PastaCFeVenda}\{ret.InfCFe.Emit.CNPJ}\{ret.InfCFe.Ide.DEmi:yyyyMM}";
-			var e = new CalcPathEventEventArgs
-			{
-				CNPJ = ret.InfCFe.Emit.CNPJ,
-				Data = ret.InfCFe.Ide.DEmi,
-				Path = path
-			};
-			OnCalcPath.Raise(e);
-
-			if (!Directory.Exists(e.Path))
-				Directory.CreateDirectory(e.Path);
-
-			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{ret.InfCFe.Id}";
-			ret.SalvarCFe($@"{e.Path}\{nomeArquivo}");
-			return ret;
-		}
-
-		internal static CFeCanc LoadRetCanc(SATResposta retSat)
+		
+		internal static CFeCanc LoadRetCanc(SatResposta retSat)
 		{
 			if (retSat.CodigoDeRetorno != 7000)
 				return null;
@@ -298,19 +272,29 @@ namespace ACBr.Net.Sat
 			Logger.Info($"NumeroSessao: {Sessao} - Comando: {comandoLog}");
 		}
 
-		internal static SATResposta FinalizaComando(string resposta)
+		internal static T FinalizaComando<T>(string resposta) where T : SatResposta
 		{
+			resposta = Enconder.GetString(Encoding.ASCII.GetBytes(resposta));
 			Logger.Info($"NumeroSessao: {Sessao} - Resposta: {resposta}");
-			var resp = new SATResposta(resposta);
+			var resp = (T)Activator.CreateInstance(typeof(T), resposta);
+
 			if (OnMensagemSEFAZ == null)
 				return resp;
 
 			if (resp.CodigoSEFAZ <= 0 || resp.MensagemSEFAZ.IsEmpty())
 				return resp;
 
-			var args = new SATMensagemEventArgs(resp.CodigoSEFAZ, resp.MensagemSEFAZ);
+			var args = new SatMensagemEventArgs(resp.CodigoSEFAZ, resp.MensagemSEFAZ);
 			OnMensagemSEFAZ.Raise(null, args);
 			return resp;
+		}
+
+		internal static DFeSerializer<T> GetSerializer<T>() where T : class 
+		{
+			var serializer = DFeSerializer.CreateSerializer<T>();
+			serializer.Options.RemoverAcentos = ACBrSat.Configuracoes.RemoverAcentos;
+			serializer.Options.FormatarXml = ACBrSat.Configuracoes.FormatarXml;
+			return serializer;
 		}
 
 		#endregion Methods

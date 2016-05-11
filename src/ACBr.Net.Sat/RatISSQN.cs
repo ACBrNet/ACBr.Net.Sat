@@ -19,7 +19,7 @@ namespace ACBr.Net.Sat
 	/// <summary>
 	/// Enum RatISSQN
 	/// </summary>
-	public enum RatISSQN
+	public enum RatIssqn
 	{
 		/// <summary>
 		/// The sim

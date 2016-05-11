@@ -93,14 +93,14 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The c reg trib issqn.</value>
 		[DFeElement(TipoCampo.Enum, "cRegTribISSQN", Id = "C15", Min = 1, Max = 1, Ocorrencias = 1)]
-		public RegTribISSQN CRegTribISSQN { get; set; }
+		public RegTribIssqn CRegTribISSQN { get; set; }
 
 		/// <summary>
 		/// Gets or sets the ind rat issqn.
 		/// </summary>
 		/// <value>The ind rat issqn.</value>
 		[DFeElement(TipoCampo.Enum, "indRatISSQN", Id = "C16", Min = 1, Max = 1, Ocorrencias = 1)]
-		public RatISSQN IndRatISSQN { get; set; }
+		public RatIssqn IndRatISSQN { get; set; }
 
 		#endregion Propriedades
 
@@ -138,7 +138,7 @@ namespace ACBr.Net.Sat
 
 		private bool ShouldSerializeCRegTribISSQN()
 		{
-			return !IM.IsEmpty() && CRegTribISSQN != RegTribISSQN.Nenhum;
+			return !IM.IsEmpty() && CRegTribISSQN != RegTribIssqn.Nenhum;
 		}
 
 		#endregion Methods

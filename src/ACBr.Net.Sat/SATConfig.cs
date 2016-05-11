@@ -16,14 +16,14 @@ namespace ACBr.Net.Sat
 	/// <summary>
 	/// Class SATConfig. This class cannot be inherited.
 	/// </summary>
-	public sealed class SATConfig
+	public sealed class SatConfig
 	{
 		#region Constructor
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SATConfig"/> class.
+		/// Initializes a new instance of the <see cref="SatConfig"/> class.
 		/// </summary>
-		internal SATConfig()
+		internal SatConfig()
 		{
 			InfCFeVersaoDadosEnt = 0.06M;
 			IdeCNPJ = @"11111111111111";
@@ -33,10 +33,9 @@ namespace ACBr.Net.Sat
 			EmitIE = string.Empty;
 			EmitIM = string.Empty;
 			EmitCRegTrib = RegTrib.Normal;
-			EmitCRegTribISSQN = RegTribISSQN.Nenhum;
-			EmitIndRatISSQN = RatISSQN.Nao;
+			EmitCRegTribISSQN = RegTribIssqn.Nenhum;
+			EmitIndRatISSQN = RatIssqn.Nao;
 			IsUtf8 = false;
-			PaginaDeCodigo = string.Empty;
 		}
 
 		#endregion Constructor
@@ -95,13 +94,13 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the emit_c reg trib issqn.
 		/// </summary>
 		/// <value>The emit_c reg trib issqn.</value>
-		public RegTribISSQN EmitCRegTribISSQN { get; set; }
+		public RegTribIssqn EmitCRegTribISSQN { get; set; }
 
 		/// <summary>
 		/// Gets or sets the emit_ind rat issqn.
 		/// </summary>
 		/// <value>The emit_ind rat issqn.</value>
-		public RatISSQN EmitIndRatISSQN { get; set; }
+		public RatIssqn EmitIndRatISSQN { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this instance is ut f8.
@@ -113,7 +112,13 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the pagina de codigo.
 		/// </summary>
 		/// <value>The pagina de codigo.</value>
-		public string PaginaDeCodigo { get; set; }
+		public bool RemoverAcentos { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether [formatar XML].
+		/// </summary>
+		/// <value><c>true</c> if [formatar XML]; otherwise, <c>false</c>.</value>
+		public bool FormatarXml { get; set; }
 
 		#endregion Propriedades
 	}

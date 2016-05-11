@@ -23,7 +23,7 @@ namespace ACBr.Net.Sat
 	/// Class ImpostoICMSSN102. Classe para os imposto com CSOSN 102, 300 ou 500.
 	/// </summary>
 	[ImplementPropertyChanged]
-	public sealed class ImpostoICMSSN102 : ICFeICMS
+	public sealed class ImpostoIcmsSn102 : ICFeIcms
 	{
 		/// <summary>
 		/// Gets or sets the original.

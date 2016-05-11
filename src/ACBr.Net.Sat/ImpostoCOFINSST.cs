@@ -21,7 +21,7 @@ namespace ACBr.Net.Sat
 	/// Class ImpostoCOFINSST. This class cannot be inherited.
 	/// </summary>
 	[ImplementPropertyChanged]
-	public sealed class ImpostoCOFINSST
+	public sealed class ImpostoCofinsSt
 	{
 
 		#region Propriedades

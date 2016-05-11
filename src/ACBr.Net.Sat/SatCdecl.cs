@@ -26,10 +26,10 @@ namespace ACBr.Net.Sat
 	/// Class SatCdecl.
 	/// </summary>
 	/// <seealso>
-	///     <cref>ACBr.Net.Sat.Interfaces.ISATLibrary</cref>
+	///     <cref>ACBr.Net.Sat.Interfaces.ISatLibrary</cref>
 	/// </seealso>
-	/// <seealso cref="ISATLibrary" />
-	public class SatCdecl : ISATLibrary
+	/// <seealso cref="ISatLibrary" />
+	public class SatCdecl : ISatLibrary
 	{
 		#region Delegates
 
@@ -249,7 +249,7 @@ namespace ACBr.Net.Sat
 		/// <param name="cnpj">The CNPJ.</param>
 		/// <param name="assinaturacnpj">The assinaturacnpj.</param>
 		/// <returns>System.String.</returns>
-		public SATResposta AssociarAssinatura(string cnpj, string assinaturacnpj)
+		public SatResposta AssociarAssinatura(string cnpj, string assinaturacnpj)
 		{
 			ACBrSat.IniciaComando($"AssociarAssinatura({cnpj}, {assinaturacnpj})");
 			var ptr = NativeMethods.LoadLibrary(DllPath);
@@ -258,7 +258,7 @@ namespace ACBr.Net.Sat
 				var funcaoSat = ptr.GetMethod<DelAssociarAssinatura>("AssociarAssinatura");
 				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, cnpj, assinaturacnpj);
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando(ret);
+				return ACBrSat.FinalizaComando<SatResposta>(ret);
 			}
 			finally
 			{
@@ -274,7 +274,7 @@ namespace ACBr.Net.Sat
 		/// <param name="uf">The uf.</param>
 		/// <returns>System.String.</returns>
 		/// <exception cref="System.NotImplementedException"></exception>
-		public SATResposta AtivarSAT(int subComando, string cnpj, int uf)
+		public SatResposta AtivarSAT(int subComando, string cnpj, int uf)
 		{
 			ACBrSat.IniciaComando($"AtivarSAT({subComando}, {cnpj}, {uf})");
 			var ptr = NativeMethods.LoadLibrary(DllPath);
@@ -283,7 +283,7 @@ namespace ACBr.Net.Sat
 				var funcaoSat = ptr.GetMethod<DelAtivarSAT>("AtivarSAT");
 				var retPtr = funcaoSat(ACBrSat.Sessao, subComando, ACBrSat.CodigoAtivacao, cnpj.OnlyNumbers(), uf);
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando(ret);
+				return ACBrSat.FinalizaComando<SatResposta>(ret);
 			}
 			finally
 			{
@@ -296,7 +296,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <returns>System.String.</returns>
 		/// <exception cref="System.NotImplementedException"></exception>
-		public SATResposta AtualizarSoftwareSAT()
+		public SatResposta AtualizarSoftwareSAT()
 		{
 			ACBrSat.IniciaComando("AtualizarSoftwareSAT()");
 			var ptr = NativeMethods.LoadLibrary(DllPath);
@@ -305,7 +305,7 @@ namespace ACBr.Net.Sat
 				var funcaoSat = ptr.GetMethod<DelAtualizarSoftwareSAT>("AtualizarSoftwareSAT");
 				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao);
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando(ret);
+				return ACBrSat.FinalizaComando<SatResposta>(ret);
 			}
 			finally
 			{
@@ -318,7 +318,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <returns>System.String.</returns>
 		/// <exception cref="System.NotImplementedException"></exception>
-		public SATResposta BloquearSAT()
+		public SatResposta BloquearSAT()
 		{
 			ACBrSat.IniciaComando("BloquearSAT()");
 			var ptr = NativeMethods.LoadLibrary(DllPath);
@@ -327,7 +327,7 @@ namespace ACBr.Net.Sat
 				var funcaoSat = ptr.GetMethod<DelBloquearSAT>("BloquearSAT");
 				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao);
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando(ret);
+				return ACBrSat.FinalizaComando<SatResposta>(ret);
 			}
 			finally
 			{
@@ -342,16 +342,17 @@ namespace ACBr.Net.Sat
 		/// <param name="dadosCancelamento">The dados cancelamento.</param>
 		/// <returns>System.String.</returns>
 		/// <exception cref="System.NotImplementedException"></exception>
-		public SATResposta CancelarUltimaVenda(string chave, CFeCanc dadosCancelamento)
+		public CancelamentoSatResposta CancelarUltimaVenda(string chave, CFeCanc dadosCancelamento)
 		{
-			ACBrSat.IniciaComando($"CancelarUltimaVenda({chave}, \"\")");
-            var ptr = NativeMethods.LoadLibrary(DllPath);
+			ACBrSat.IniciaComando($"CancelarUltimaVenda({chave}, {dadosCancelamento})");
+
+			var ptr = NativeMethods.LoadLibrary(DllPath);
 			try
 			{
 				var funcaoSat = ptr.GetMethod<DelCancelarUltimaVenda>("CancelarUltimaVenda");
 				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, chave, "");
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando(ret);
+				return ACBrSat.FinalizaComando<CancelamentoSatResposta>(ret);
 			}
 			finally
 			{
@@ -363,8 +364,8 @@ namespace ACBr.Net.Sat
 		/// Cancelars the ultima venda.
 		/// </summary>
 		/// <param name="dadosvenda">The dadosvenda.</param>
-		/// <returns>SATResposta.</returns>
-		public SATResposta CancelarUltimaVenda(CFe dadosvenda)
+		/// <returns>SatResposta.</returns>
+		public CancelamentoSatResposta CancelarUltimaVenda(CFe dadosvenda)
 		{
 			ACBrSat.IniciaComando($"CancelarUltimaVenda({dadosvenda}");
 			var ptr = NativeMethods.LoadLibrary(DllPath);
@@ -373,7 +374,9 @@ namespace ACBr.Net.Sat
 				var funcaoSat = ptr.GetMethod<DelCancelarUltimaVenda>("CancelarUltimaVenda");
 				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, "", "");
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando(ret);
+				var retorno = ACBrSat.FinalizaComando<CancelamentoSatResposta>(ret);
+				retorno.Venda = dadosvenda;
+				return retorno;
 			}
 			finally
 			{
@@ -387,7 +390,7 @@ namespace ACBr.Net.Sat
 		/// <param name="certificado">The certificado.</param>
 		/// <returns>System.String.</returns>
 		/// <exception cref="System.NotImplementedException"></exception>
-		public SATResposta ComunicarCertificadoICPBRASIL(string certificado)
+		public SatResposta ComunicarCertificadoICPBRASIL(string certificado)
 		{
 			ACBrSat.IniciaComando($"ComunicarCertificadoICPBRASIL({certificado})");
 			var ptr = NativeMethods.LoadLibrary(DllPath);
@@ -396,7 +399,7 @@ namespace ACBr.Net.Sat
 				var funcaoSat = ptr.GetMethod<DelComunicarCertificadoICPBRASIL>("ComunicarCertificadoICPBRASIL");
 				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, certificado);
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando(ret);
+				return ACBrSat.FinalizaComando<SatResposta>(ret);
 			}
 			finally
 			{
@@ -410,7 +413,7 @@ namespace ACBr.Net.Sat
 		/// <param name="dadosConfiguracao">The dados configuracao.</param>
 		/// <returns>System.String.</returns>
 		/// <exception cref="System.NotImplementedException"></exception>
-		public SATResposta ConfigurarInterfaceDeRede(string dadosConfiguracao)
+		public SatResposta ConfigurarInterfaceDeRede(string dadosConfiguracao)
 		{
 			ACBrSat.IniciaComando($"ConfigurarInterfaceDeRede({dadosConfiguracao})");
 			var ptr = NativeMethods.LoadLibrary(DllPath);
@@ -419,7 +422,7 @@ namespace ACBr.Net.Sat
 				var funcaoSat = ptr.GetMethod<DelConfigurarInterfaceDeRede>("ConfigurarInterfaceDeRede");
 				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, dadosConfiguracao);
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando(ret);
+				return ACBrSat.FinalizaComando<SatResposta>(ret);
 			}
 			finally
 			{
@@ -433,7 +436,7 @@ namespace ACBr.Net.Sat
 		/// <param name="numeroSessao">The numero sessao.</param>
 		/// <returns>System.String.</returns>
 		/// <exception cref="System.NotImplementedException"></exception>
-		public SATResposta ConsultarNumeroSessao(int numeroSessao)
+		public SatResposta ConsultarNumeroSessao(int numeroSessao)
 		{
 			ACBrSat.IniciaComando($"ConsultarNumeroSessao({numeroSessao})");
 			var ptr = NativeMethods.LoadLibrary(DllPath);
@@ -442,7 +445,7 @@ namespace ACBr.Net.Sat
 				var funcaoSat = ptr.GetMethod<DelConsultarNumeroSessao>("ConsultarNumeroSessao");
 				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, numeroSessao);
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando(ret);
+				return ACBrSat.FinalizaComando<SatResposta>(ret);
 			}
 			finally
 			{
@@ -455,7 +458,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <returns>System.String.</returns>
 		/// <exception cref="System.NotImplementedException"></exception>
-		public SATResposta ConsultarSAT()
+		public SatResposta ConsultarSAT()
 		{
 			ACBrSat.IniciaComando($"ConsultarSAT()");
 			var ptr = NativeMethods.LoadLibrary(DllPath);
@@ -464,7 +467,7 @@ namespace ACBr.Net.Sat
 				var funcaoSat = ptr.GetMethod<DelConsultarSAT>("ConsultarSAT");
 				var retPtr = funcaoSat(ACBrSat.Sessao);
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando(ret);
+				return ACBrSat.FinalizaComando<SatResposta>(ret);
 			}
 			finally
 			{
@@ -476,7 +479,7 @@ namespace ACBr.Net.Sat
 		/// Consultars the status operacional.
 		/// </summary>
 		/// <returns>System.String.</returns>
-		public SATResposta ConsultarStatusOperacional()
+		public SatResposta ConsultarStatusOperacional()
 		{
 			ACBrSat.IniciaComando("ConsultarStatusOperacional()");
 			var ptr = NativeMethods.LoadLibrary(DllPath);
@@ -485,7 +488,7 @@ namespace ACBr.Net.Sat
 				var funcaoSat = ptr.GetMethod<DelConsultarStatusOperacional>("ConsultarStatusOperacional");
 				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao.ToSatStr());
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando(ret);
+				return ACBrSat.FinalizaComando<SatResposta>(ret);
 			}
 			finally
 			{
@@ -498,7 +501,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <returns>System.String.</returns>
 		/// <exception cref="System.NotImplementedException"></exception>
-		public SATResposta DesbloquearSAT()
+		public SatResposta DesbloquearSAT()
 		{
 			ACBrSat.IniciaComando($"DesbloquearSAT()");
 			var ptr = NativeMethods.LoadLibrary(DllPath);
@@ -507,7 +510,7 @@ namespace ACBr.Net.Sat
 				var funcaoSat = ptr.GetMethod<DelDesbloquearSAT>("DesbloquearSAT");
 				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao);
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando(ret);
+				return ACBrSat.FinalizaComando<SatResposta>(ret);
 			}
 			finally
 			{
@@ -522,7 +525,7 @@ namespace ACBr.Net.Sat
 		/// <returns>System.String.</returns>
 		/// <exception cref="NotImplementedException"></exception>
 		/// <exception cref="System.NotImplementedException"></exception>
-		public SATResposta EnviarDadosVenda(CFe cfe)
+		public VendaSatResposta EnviarDadosVenda(CFe cfe)
 		{
 			var dadosVenda = cfe.ToString();
 			ACBrSat.IniciaComando($"EnviarDadosVenda({dadosVenda})");
@@ -544,12 +547,7 @@ namespace ACBr.Net.Sat
 				var funcaoSat = ptr.GetMethod<DelEnviarDadosVenda>("EnviarDadosVenda");
 				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, dadosVenda.ToSatStr());
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				var resp = ACBrSat.FinalizaComando(ret);;
-				var retCFe = ACBrSat.LoadRetVenda(resp);
-				if (retCFe != null)
-					cfe = retCFe;
-
-				return resp;
+				return ACBrSat.FinalizaComando<VendaSatResposta>(ret);
 			}
 			finally
 			{
@@ -562,7 +560,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <returns>System.String.</returns>
 		/// <exception cref="System.NotImplementedException"></exception>
-		public SATResposta ExtrairLogs()
+		public SatResposta ExtrairLogs()
 		{
 			ACBrSat.IniciaComando($"ExtrairLogs()");
 			var ptr = NativeMethods.LoadLibrary(DllPath);
@@ -571,7 +569,7 @@ namespace ACBr.Net.Sat
 				var funcaoSat = ptr.GetMethod<DelExtrairLogs>("ExtrairLogs");
 				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao);
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando(ret);
+				return ACBrSat.FinalizaComando<SatResposta>(ret);
 			}
 			finally
 			{
@@ -586,7 +584,7 @@ namespace ACBr.Net.Sat
 		/// <returns>System.String.</returns>
 		/// <exception cref="NotImplementedException"></exception>
 		/// <exception cref="System.NotImplementedException"></exception>
-		public SATResposta TesteFimAFim(CFe dadosVenda)
+		public SatResposta TesteFimAFim(CFe dadosVenda)
 		{
 			ACBrSat.IniciaComando($"TesteFimAFim({dadosVenda})");
 			var ptr = NativeMethods.LoadLibrary(DllPath);
@@ -595,7 +593,7 @@ namespace ACBr.Net.Sat
 				var funcaoSat = ptr.GetMethod<DelTesteFimAFim>("ExtrairLogs");
 				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, "");
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando(ret);
+				return ACBrSat.FinalizaComando<SatResposta>(ret);
 			}
 			finally
 			{
@@ -611,7 +609,7 @@ namespace ACBr.Net.Sat
 		/// <param name="novoCodigo">The novo codigo.</param>
 		/// <returns>System.String.</returns>
 		/// <exception cref="System.NotImplementedException"></exception>
-		public SATResposta TrocarCodigoDeAtivacao(string codigoDeAtivacaoOuEmergencia, int opcao, string novoCodigo)
+		public SatResposta TrocarCodigoDeAtivacao(string codigoDeAtivacaoOuEmergencia, int opcao, string novoCodigo)
 		{
 			ACBrSat.IniciaComando($"TrocarCodigoDeAtivacao({codigoDeAtivacaoOuEmergencia}, {opcao}, {novoCodigo})");
             var ptr = NativeMethods.LoadLibrary(DllPath);
@@ -620,7 +618,7 @@ namespace ACBr.Net.Sat
 				var funcaoSat = ptr.GetMethod<DelTrocarCodigoDeAtivacao>("TrocarCodigoDeAtivacao");
 				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, opcao, novoCodigo, codigoDeAtivacaoOuEmergencia);
 				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando(ret);
+				return ACBrSat.FinalizaComando<SatResposta>(ret);
 			}
 			finally
 			{

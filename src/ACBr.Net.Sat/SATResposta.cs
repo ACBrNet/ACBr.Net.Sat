@@ -6,7 +6,7 @@
 // Last Modified By : RFTD
 // Last Modified On : 03-31-2016
 // ***********************************************************************
-// <copyright file="SATResposta.cs" company="ACBr.Net">
+// <copyright file="SatResposta.cs" company="ACBr.Net">
 //     Copyright © ACBr.Net 2014 - 2016
 // </copyright>
 // <summary>
@@ -19,25 +19,25 @@ using ACBr.Net.Core.Extensions;
 namespace ACBr.Net.Sat
 {
 	/// <summary>
-	/// Class SATResposta.
+	/// Class SatResposta.
 	/// </summary>
-	public class SATResposta
+	public class SatResposta
 	{
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SATResposta"/> class.
+		/// Initializes a new instance of the <see cref="SatResposta"/> class.
 		/// </summary>
-		public SATResposta()
+		public SatResposta()
 		{
 			RetornoLst = new List<string>();
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SATResposta"/> class.
+		/// Initializes a new instance of the <see cref="SatResposta"/> class.
 		/// </summary>
 		/// <param name="resposta">The resposta.</param>
-		public SATResposta(string resposta) : this()
+		public SatResposta(string resposta) : this()
 		{
 			/*
 			***** RETORNOS DO SAT POR COMANDO *****

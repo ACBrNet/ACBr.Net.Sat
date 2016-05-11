@@ -27,11 +27,11 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the pis.
 		/// </summary>
 		/// <value>The pis.</value>
-		[DFeItem(typeof(ImpostoPISAliq), "PISAliq")]
-		[DFeItem(typeof(ImpostoPISNT), "PISNT")]
-		[DFeItem(typeof(ImpostoPISOutr), "PISOutr")]
-		[DFeItem(typeof(ImpostoPISQtde), "PISQtde")]
-		[DFeItem(typeof(ImpostoPISSN), "PISSN")]
-		public ICFePIS PIS { get; set; }
+		[DFeItem(typeof(ImpostoPisAliq), "PISAliq")]
+		[DFeItem(typeof(ImpostoPisNt), "PISNT")]
+		[DFeItem(typeof(ImpostoPisOutr), "PISOutr")]
+		[DFeItem(typeof(ImpostoPisQtde), "PISQtde")]
+		[DFeItem(typeof(ImpostoPisSn), "PISSN")]
+		public ICFePis PIS { get; set; }
 	}
 }

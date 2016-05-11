@@ -19,7 +19,7 @@ namespace ACBr.Net.Sat
 	/// <summary>
 	/// Enum RegTribISSQN
 	/// </summary>
-	public enum RegTribISSQN
+	public enum RegTribIssqn
 	{
 		/// <summary>
 		/// The nenhum

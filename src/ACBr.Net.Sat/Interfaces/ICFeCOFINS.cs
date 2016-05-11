@@ -16,7 +16,7 @@ namespace ACBr.Net.Sat.Interfaces
 	/// <summary>
 	/// Interface ICFeCOFINS
 	/// </summary>
-	public interface ICFeCOFINS
+	public interface ICFeCofins
 	{
 		
 	}

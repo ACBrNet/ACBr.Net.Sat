@@ -31,8 +31,8 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		public CFeTotal()
 		{
-			ICMSTot = new CFeTotalICMS();
-			ISSQNTot = new CFeTotalISSQN();
+			ICMSTot = new CFeTotalIcms();
+			ISSQNTot = new CFeTotalIssqn();
 			DescAcrEntr = new CFeTotalDescAcr();
 		}
 
@@ -45,7 +45,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The icms tot.</value>
 		[DFeElement("ICMSTot", Id = "W02", Ocorrencias = 0)]
-		public CFeTotalICMS ICMSTot { get; set; }
+		public CFeTotalIcms ICMSTot { get; set; }
 
 		/// <summary>
 		/// Gets or sets the v c fe.
@@ -59,7 +59,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The issq ntot.</value>
 		[DFeElement("ISSQNtot", Id = "W12", Ocorrencias = 0)]
-		public CFeTotalISSQN ISSQNTot { get; set; }
+		public CFeTotalIssqn ISSQNTot { get; set; }
 
 		/// <summary>
 		/// Gets or sets the desc acr entr.

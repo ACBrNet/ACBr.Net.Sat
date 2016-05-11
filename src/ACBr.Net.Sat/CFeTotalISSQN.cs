@@ -22,7 +22,7 @@ namespace ACBr.Net.Sat
 	/// Class CFeTotalISSQN. This class cannot be inherited.
 	/// </summary>
 	[ImplementPropertyChanged]
-	public sealed class CFeTotalISSQN
+	public sealed class CFeTotalIssqn
 	{
 
 		/// <summary>

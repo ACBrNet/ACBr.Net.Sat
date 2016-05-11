@@ -18,7 +18,6 @@ using System.Xml;
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.DFe.Core.Attributes;
 using ACBr.Net.DFe.Core.Document;
-using ACBr.Net.DFe.Core.Serializer;
 
 namespace ACBr.Net.Sat
 {
@@ -74,7 +73,7 @@ namespace ACBr.Net.Sat
 		#endregion Propriedades
 
 		#region Methods
-
+		
 		private bool ShouldSerializeSignature()
 		{
 			return !Signature.SignatureValue.IsEmpty() && 
@@ -89,7 +88,7 @@ namespace ACBr.Net.Sat
 		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		public bool SalvarCFe(string path)
 		{
-			var serializer = DFeSerializer.CreateSerializer<CFe>();
+			var serializer = ACBrSat.GetSerializer<CFe>();
 			return serializer.Serialize(this, path);
 		}
 
@@ -100,7 +99,7 @@ namespace ACBr.Net.Sat
 		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		public bool SalvarCFe(Stream stream)
 		{
-			var serializer = DFeSerializer.CreateSerializer<CFe>();
+			var serializer = ACBrSat.GetSerializer<CFe>();
 			return serializer.Serialize(this, stream);
 		}
 		
@@ -124,7 +123,7 @@ namespace ACBr.Net.Sat
 		/// <returns>CFe.</returns>
 		public static CFe LoadCFe(string path)
 		{
-			var serializer = DFeSerializer.CreateSerializer<CFe>();
+			var serializer = ACBrSat.GetSerializer<CFe>();
 			return serializer.Deserialize(path);
 		}
 
@@ -135,10 +134,10 @@ namespace ACBr.Net.Sat
 		/// <returns>CFe.</returns>
 		public static CFe LoadCFe(Stream stream)
 		{
-			var serializer = DFeSerializer.CreateSerializer<CFe>();
+			var serializer = ACBrSat.GetSerializer<CFe>();
 			return serializer.Deserialize(stream);
 		}
-
+		
 		#endregion Methods
 	}
 }

@@ -21,15 +21,15 @@ namespace ACBr.Net.Sat
 	/// <summary>
 	/// Class ImpostoCOFINSNT. This class cannot be inherited.
 	/// </summary>
-	/// <seealso cref="ACBr.Net.Sat.Interfaces.ICFeCOFINS" />
+	/// <seealso cref="ACBr.Net.Sat.Interfaces.ICFeCofins" />
 	[ImplementPropertyChanged]
-	public sealed class ImpostoCOFINSNT : ICFeCOFINS
+	public sealed class ImpostoCofinsNt : ICFeCofins
 	{
 		/// <summary>
-		/// Gets or sets the CST.
+		/// Gets or sets the Cst.
 		/// </summary>
-		/// <value>The CST.</value>
-		[DFeElement(TipoCampo.Str, "CST", Id = "S07", Min = 2, Max = 2, Ocorrencias = 1)]
-		public string CST { get; set; }
+		/// <value>The Cst.</value>
+		[DFeElement(TipoCampo.Str, "Cst", Id = "S07", Min = 2, Max = 2, Ocorrencias = 1)]
+		public string Cst { get; set; }
 	}
 }

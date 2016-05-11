@@ -20,14 +20,14 @@ namespace ACBr.Net.Sat.Events
 	/// Class SATMensagemEventArgs.
 	/// </summary>
 	/// <seealso cref="System.EventArgs" />
-	public class SATMensagemEventArgs : EventArgs
+	public class SatMensagemEventArgs : EventArgs
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SATMensagemEventArgs"/> class.
+		/// Initializes a new instance of the <see cref="SatMensagemEventArgs"/> class.
 		/// </summary>
 		/// <param name="codigo">The codigo.</param>
 		/// <param name="mensagem">The mensagem.</param>
-		public SATMensagemEventArgs(int codigo, string mensagem)
+		public SatMensagemEventArgs(int codigo, string mensagem)
 		{
 			Codigo = codigo;
 			Mensagem = mensagem;
