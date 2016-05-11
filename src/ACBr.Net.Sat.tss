@@ -15,16 +15,13 @@
       <string>f:\programacao\acbr\acbr.net\acbr.net.sat\src\acbr.net.sat\cfe.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>f:\programacao\acbr\acbr.net\acbr.net.sat\src\acbr.net.sat\infcfe.cs</string>
+      <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat\VendaSatResposta.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>f:\programacao\acbr\acbr.net\acbr.net.sat\src\acbr.net.sat\cfeemit.cs</string>
+      <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat\ImpostoCOFINS.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>f:\programacao\acbr\acbr.net\acbr.net.sat\src\acbr.net.sat\cfedet.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat\CFeDetProd.cs</string>
+      <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat\SatStdCall.cs</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>
