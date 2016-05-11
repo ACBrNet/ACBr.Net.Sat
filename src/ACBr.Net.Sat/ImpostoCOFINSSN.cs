@@ -25,12 +25,11 @@ namespace ACBr.Net.Sat
 	[ImplementPropertyChanged]
 	public sealed class ImpostoCofinsSn : ICFeCofins
 	{
-
 		/// <summary>
 		/// Gets or sets the Cst.
 		/// </summary>
 		/// <value>The Cst.</value>
-		[DFeElement(TipoCampo.Str, "Cst", Id = "S07", Min = 2, Max = 2, Ocorrencias = 1)]
+		[DFeElement(TipoCampo.Str, "CST", Id = "S07", Min = 2, Max = 2, Ocorrencias = 1)]
 		public string CST { get; set; }
 	}
 }

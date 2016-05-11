@@ -86,7 +86,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The c reg trib.</value>
 		[DFeElement(TipoCampo.Enum, "cRegTrib", Id = "C14", Min = 1, Max = 1, Ocorrencias = 0)]
-		public RegTrib CRegTrib { get; set; }
+		public RegTrib? CRegTrib { get; set; }
 
 		/// <summary>
 		/// Gets or sets the c reg trib issqn.
@@ -119,11 +119,16 @@ namespace ACBr.Net.Sat
 		private bool ShouldSerializeEnderEmit()
 		{
 			return !EnderEmit.CEP.IsEmpty() ||
-			       !EnderEmit.Nro.IsEmpty() ||
-			       !EnderEmit.XBairro.IsEmpty() ||
-			       !EnderEmit.XCpl.IsEmpty() ||
-			       !EnderEmit.XLgr.IsEmpty() ||
+				   !EnderEmit.Nro.IsEmpty() ||
+				   !EnderEmit.XBairro.IsEmpty() ||
+				   !EnderEmit.XCpl.IsEmpty() ||
+				   !EnderEmit.XLgr.IsEmpty() ||
 				   !EnderEmit.XMun.IsEmpty();
+		}
+
+		private bool ShouldSerializeCRegTrib()
+		{
+			return CRegTrib != null;
 		}
 
 		private bool ShouldSerializeIE()

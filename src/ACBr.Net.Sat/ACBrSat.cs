@@ -11,15 +11,15 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System;
-using System.IO;
-using System.Text;
 using ACBr.Net.Core;
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.Core.Logging;
 using ACBr.Net.DFe.Core.Serializer;
 using ACBr.Net.Sat.Events;
 using ACBr.Net.Sat.Interfaces;
+using System;
+using System.IO;
+using System.Text;
 
 namespace ACBr.Net.Sat
 {
@@ -33,7 +33,8 @@ namespace ACBr.Net.Sat
 		/// <summary>
 		/// The logger
 		/// </summary>
-		internal static IInternalLogger Logger = LoggerProvider.LoggerFor(typeof (ACBrSat));
+		internal static IInternalLogger Logger = LoggerProvider.LoggerFor(typeof(ACBrSat));
+
 		/// <summary>
 		/// The sign ac
 		/// </summary>
@@ -135,11 +136,10 @@ namespace ACBr.Net.Sat
 		{
 			get
 			{
-				var e = new ChaveEventArgs {Chave = signAC};
+				var e = new ChaveEventArgs { Chave = signAC };
 				OnGetsignAC.Raise(e);
 				signAC = e.Chave;
-				return signAC; 
-				
+				return signAC;
 			}
 			set { signAC = value; }
 		}
@@ -195,7 +195,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns>ISatLibrary.</returns>
-		public static ISatLibrary CreateLibrary<T>() where  T : ISatLibrary
+		public static ISatLibrary CreateLibrary<T>() where T : ISatLibrary
 		{
 			var ret = (T)Activator.CreateInstance(typeof(T), PathDll);
 			return ret;
@@ -215,7 +215,6 @@ namespace ACBr.Net.Sat
 			ret.InfCFe.Emit.CNPJ = Configuracoes.EmitCNPJ;
 			ret.InfCFe.Emit.IM = Configuracoes.EmitIM;
 			ret.InfCFe.Emit.IE = Configuracoes.EmitIE;
-			ret.InfCFe.Emit.CRegTrib = Configuracoes.EmitCRegTrib;
 			ret.InfCFe.Emit.CRegTribISSQN = Configuracoes.EmitCRegTribISSQN;
 			ret.InfCFe.Emit.IndRatISSQN = Configuracoes.EmitIndRatISSQN;
 			ret.InfCFe.VersaoDadosEnt = Configuracoes.InfCFeVersaoDadosEnt;
@@ -238,7 +237,7 @@ namespace ACBr.Net.Sat
 			Sessao = args.Sessao;
 			return Sessao;
 		}
-		
+
 		internal static CFeCanc LoadRetCanc(SatResposta retSat)
 		{
 			if (retSat.CodigoDeRetorno != 7000)
@@ -289,7 +288,7 @@ namespace ACBr.Net.Sat
 			return resp;
 		}
 
-		internal static DFeSerializer<T> GetSerializer<T>() where T : class 
+		internal static DFeSerializer<T> GetSerializer<T>() where T : class
 		{
 			var serializer = DFeSerializer.CreateSerializer<T>();
 			serializer.Options.RemoverAcentos = ACBrSat.Configuracoes.RemoverAcentos;

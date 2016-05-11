@@ -11,9 +11,10 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System.IO;
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.Sat.Events;
+using System;
+using System.IO;
 
 namespace ACBr.Net.Sat
 {
@@ -29,13 +30,38 @@ namespace ACBr.Net.Sat
 		/// Initializes a new instance of the <see cref="VendaSatResposta" /> class.
 		/// </summary>
 		/// <param name="retorno">The retorno.</param>
-		public VendaSatResposta(string retorno):base(retorno)
+		public VendaSatResposta(string retorno) : base(retorno)
 		{
 			if (CodigoDeRetorno != 6000)
 				return;
 
-			var xmlRecebido = RetornoLst[5].Base64Decode();
-			Venda = CFe.LoadCFe(xmlRecebido);
+			if (RetornoLst.Count >= 7)
+			{
+				using (var stream = new MemoryStream(Convert.FromBase64String(RetornoLst[6])))
+				{
+					Venda = CFe.LoadCFe(stream);
+				}
+			}
+
+			if (RetornoLst.Count >= 9)
+			{
+				ChaveConsulta = RetornoLst[8];
+			}
+
+			if (RetornoLst.Count >= 12)
+			{
+				//O QRCode é montado a partir dos últimos campos do retorno
+
+				var indexOf = -1;
+				for (int i = 0; i < 8; i++)
+				{
+					indexOf = RetornoStr.IndexOf('|', indexOf + 1);
+					if (indexOf == -1) break;
+				}
+
+				QRCode = RetornoStr.Substring(indexOf + 1);
+			}
+
 			if (!ACBrSat.Arquivos.SalvarCFe)
 				return;
 
@@ -64,11 +90,12 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the venda.
 		/// </summary>
 		/// <value>The venda.</value>
-		public CFe Venda { get; set; }
+		public CFe Venda { get; private set; }
+
+		public string ChaveConsulta { get; private set; }
+
+		public string QRCode { get; private set; }
 
 		#endregion Propriedades
-
-		#region Methods
-		#endregion Methods
 	}
 }

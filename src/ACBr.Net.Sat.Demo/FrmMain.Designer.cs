@@ -80,6 +80,8 @@
 			this.limparToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tbcDados = new System.Windows.Forms.TabControl();
 			this.tpgConfig = new System.Windows.Forms.TabPage();
+			this.label15 = new System.Windows.Forms.Label();
+			this.cmbModeloSat = new System.Windows.Forms.ComboBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.chkSepararData = new System.Windows.Forms.CheckBox();
 			this.chkSepararCNPJ = new System.Windows.Forms.CheckBox();
@@ -105,6 +107,12 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.btnSelDll = new System.Windows.Forms.Button();
 			this.tpgEmitente = new System.Windows.Forms.TabPage();
+			this.label12 = new System.Windows.Forms.Label();
+			this.cmbEmiRatIISQN = new System.Windows.Forms.ComboBox();
+			this.label11 = new System.Windows.Forms.Label();
+			this.cmbEmiRegTribISSQN = new System.Windows.Forms.ComboBox();
+			this.label10 = new System.Windows.Forms.Label();
+			this.cmbEmiRegTrib = new System.Windows.Forms.ComboBox();
 			this.txtEmitIM = new System.Windows.Forms.TextBox();
 			this.txtEmitIE = new System.Windows.Forms.TextBox();
 			this.label9 = new System.Windows.Forms.Label();
@@ -112,20 +120,12 @@
 			this.label8 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
 			this.tpgSwHouse = new System.Windows.Forms.TabPage();
-			this.tpgRede = new System.Windows.Forms.TabPage();
-			this.tpgImpressao = new System.Windows.Forms.TabPage();
-			this.label10 = new System.Windows.Forms.Label();
-			this.cmbEmiRegTrib = new System.Windows.Forms.ComboBox();
-			this.label11 = new System.Windows.Forms.Label();
-			this.cmbEmiRegTribISSQN = new System.Windows.Forms.ComboBox();
-			this.label12 = new System.Windows.Forms.Label();
-			this.cmbEmiRatIISQN = new System.Windows.Forms.ComboBox();
-			this.txtIdeCNPJ = new System.Windows.Forms.TextBox();
-			this.label13 = new System.Windows.Forms.Label();
 			this.txtSignAC = new System.Windows.Forms.TextBox();
 			this.label14 = new System.Windows.Forms.Label();
-			this.label15 = new System.Windows.Forms.Label();
-			this.cmbModeloSat = new System.Windows.Forms.ComboBox();
+			this.txtIdeCNPJ = new System.Windows.Forms.TextBox();
+			this.label13 = new System.Windows.Forms.Label();
+			this.tpgRede = new System.Windows.Forms.TabPage();
+			this.tpgImpressao = new System.Windows.Forms.TabPage();
 			this.tpgLog.SuspendLayout();
 			this.tbcXml.SuspendLayout();
 			this.tpgXmlGerado.SuspendLayout();
@@ -538,6 +538,7 @@
 			this.extrairLogsToolStripMenuItem.Name = "extrairLogsToolStripMenuItem";
 			this.extrairLogsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
 			this.extrairLogsToolStripMenuItem.Text = "Extrair Logs";
+			this.extrairLogsToolStripMenuItem.Click += new System.EventHandler(this.extrairLogsToolStripMenuItem_Click);
 			// 
 			// limparToolStripMenuItem
 			// 
@@ -587,6 +588,24 @@
 			this.tpgConfig.TabIndex = 0;
 			this.tpgConfig.Text = "Dados CFe";
 			this.tpgConfig.UseVisualStyleBackColor = true;
+			// 
+			// label15
+			// 
+			this.label15.AutoSize = true;
+			this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label15.Location = new System.Drawing.Point(351, 51);
+			this.label15.Name = "label15";
+			this.label15.Size = new System.Drawing.Size(48, 13);
+			this.label15.TabIndex = 17;
+			this.label15.Text = "Modelo";
+			// 
+			// cmbModeloSat
+			// 
+			this.cmbModeloSat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbModeloSat.Location = new System.Drawing.Point(354, 67);
+			this.cmbModeloSat.Name = "cmbModeloSat";
+			this.cmbModeloSat.Size = new System.Drawing.Size(108, 21);
+			this.cmbModeloSat.TabIndex = 16;
 			// 
 			// groupBox2
 			// 
@@ -893,6 +912,69 @@
 			this.tpgEmitente.Text = "Dados Emitente";
 			this.tpgEmitente.UseVisualStyleBackColor = true;
 			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label12.Location = new System.Drawing.Point(437, 52);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(91, 13);
+			this.label12.TabIndex = 15;
+			this.label12.Text = "Ind.Rat.ISSQN";
+			// 
+			// cmbEmiRatIISQN
+			// 
+			this.cmbEmiRatIISQN.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbEmiRatIISQN.Items.AddRange(new object[] {
+            "Homologação",
+            "Produção"});
+			this.cmbEmiRatIISQN.Location = new System.Drawing.Point(440, 68);
+			this.cmbEmiRatIISQN.Name = "cmbEmiRatIISQN";
+			this.cmbEmiRatIISQN.Size = new System.Drawing.Size(209, 21);
+			this.cmbEmiRatIISQN.TabIndex = 14;
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label11.Location = new System.Drawing.Point(222, 52);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(121, 13);
+			this.label11.TabIndex = 13;
+			this.label11.Text = "Regime Trib. ISSQN";
+			// 
+			// cmbEmiRegTribISSQN
+			// 
+			this.cmbEmiRegTribISSQN.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbEmiRegTribISSQN.Items.AddRange(new object[] {
+            "Homologação",
+            "Produção"});
+			this.cmbEmiRegTribISSQN.Location = new System.Drawing.Point(225, 68);
+			this.cmbEmiRegTribISSQN.Name = "cmbEmiRegTribISSQN";
+			this.cmbEmiRegTribISSQN.Size = new System.Drawing.Size(209, 21);
+			this.cmbEmiRegTribISSQN.TabIndex = 12;
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label10.Location = new System.Drawing.Point(7, 52);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(107, 13);
+			this.label10.TabIndex = 11;
+			this.label10.Text = "Regime Tributario";
+			// 
+			// cmbEmiRegTrib
+			// 
+			this.cmbEmiRegTrib.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbEmiRegTrib.Items.AddRange(new object[] {
+            "Homologação",
+            "Produção"});
+			this.cmbEmiRegTrib.Location = new System.Drawing.Point(10, 68);
+			this.cmbEmiRegTrib.Name = "cmbEmiRegTrib";
+			this.cmbEmiRegTrib.Size = new System.Drawing.Size(209, 21);
+			this.cmbEmiRegTrib.TabIndex = 10;
+			// 
 			// txtEmitIM
 			// 
 			this.txtEmitIM.Location = new System.Drawing.Point(440, 27);
@@ -959,88 +1041,23 @@
 			this.tpgSwHouse.Text = "Dados Sw.House";
 			this.tpgSwHouse.UseVisualStyleBackColor = true;
 			// 
-			// tpgRede
+			// txtSignAC
 			// 
-			this.tpgRede.Location = new System.Drawing.Point(4, 22);
-			this.tpgRede.Name = "tpgRede";
-			this.tpgRede.Padding = new System.Windows.Forms.Padding(3);
-			this.tpgRede.Size = new System.Drawing.Size(657, 159);
-			this.tpgRede.TabIndex = 3;
-			this.tpgRede.Text = "Rede";
-			this.tpgRede.UseVisualStyleBackColor = true;
+			this.txtSignAC.Location = new System.Drawing.Point(8, 68);
+			this.txtSignAC.MaxLength = 344;
+			this.txtSignAC.Name = "txtSignAC";
+			this.txtSignAC.Size = new System.Drawing.Size(641, 20);
+			this.txtSignAC.TabIndex = 10;
 			// 
-			// tpgImpressao
+			// label14
 			// 
-			this.tpgImpressao.Location = new System.Drawing.Point(4, 22);
-			this.tpgImpressao.Name = "tpgImpressao";
-			this.tpgImpressao.Padding = new System.Windows.Forms.Padding(3);
-			this.tpgImpressao.Size = new System.Drawing.Size(657, 159);
-			this.tpgImpressao.TabIndex = 4;
-			this.tpgImpressao.Text = "Impressão";
-			this.tpgImpressao.UseVisualStyleBackColor = true;
-			// 
-			// label10
-			// 
-			this.label10.AutoSize = true;
-			this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label10.Location = new System.Drawing.Point(7, 52);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(107, 13);
-			this.label10.TabIndex = 11;
-			this.label10.Text = "Regime Tributario";
-			// 
-			// cmbEmiRegTrib
-			// 
-			this.cmbEmiRegTrib.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbEmiRegTrib.Items.AddRange(new object[] {
-            "Homologação",
-            "Produção"});
-			this.cmbEmiRegTrib.Location = new System.Drawing.Point(10, 68);
-			this.cmbEmiRegTrib.Name = "cmbEmiRegTrib";
-			this.cmbEmiRegTrib.Size = new System.Drawing.Size(209, 21);
-			this.cmbEmiRegTrib.TabIndex = 10;
-			// 
-			// label11
-			// 
-			this.label11.AutoSize = true;
-			this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label11.Location = new System.Drawing.Point(222, 52);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(121, 13);
-			this.label11.TabIndex = 13;
-			this.label11.Text = "Regime Trib. ISSQN";
-			// 
-			// cmbEmiRegTribISSQN
-			// 
-			this.cmbEmiRegTribISSQN.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbEmiRegTribISSQN.Items.AddRange(new object[] {
-            "Homologação",
-            "Produção"});
-			this.cmbEmiRegTribISSQN.Location = new System.Drawing.Point(225, 68);
-			this.cmbEmiRegTribISSQN.Name = "cmbEmiRegTribISSQN";
-			this.cmbEmiRegTribISSQN.Size = new System.Drawing.Size(209, 21);
-			this.cmbEmiRegTribISSQN.TabIndex = 12;
-			// 
-			// label12
-			// 
-			this.label12.AutoSize = true;
-			this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label12.Location = new System.Drawing.Point(437, 52);
-			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(91, 13);
-			this.label12.TabIndex = 15;
-			this.label12.Text = "Ind.Rat.ISSQN";
-			// 
-			// cmbEmiRatIISQN
-			// 
-			this.cmbEmiRatIISQN.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbEmiRatIISQN.Items.AddRange(new object[] {
-            "Homologação",
-            "Produção"});
-			this.cmbEmiRatIISQN.Location = new System.Drawing.Point(440, 68);
-			this.cmbEmiRatIISQN.Name = "cmbEmiRatIISQN";
-			this.cmbEmiRatIISQN.Size = new System.Drawing.Size(209, 21);
-			this.cmbEmiRatIISQN.TabIndex = 14;
+			this.label14.AutoSize = true;
+			this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label14.Location = new System.Drawing.Point(5, 51);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(224, 13);
+			this.label14.TabIndex = 9;
+			this.label14.Text = "Assinatura Sw.House (344 caracteres)";
 			// 
 			// txtIdeCNPJ
 			// 
@@ -1060,41 +1077,25 @@
 			this.label13.TabIndex = 7;
 			this.label13.Text = "CNPJ";
 			// 
-			// txtSignAC
+			// tpgRede
 			// 
-			this.txtSignAC.Location = new System.Drawing.Point(8, 68);
-			this.txtSignAC.MaxLength = 344;
-			this.txtSignAC.Name = "txtSignAC";
-			this.txtSignAC.Size = new System.Drawing.Size(641, 20);
-			this.txtSignAC.TabIndex = 10;
+			this.tpgRede.Location = new System.Drawing.Point(4, 22);
+			this.tpgRede.Name = "tpgRede";
+			this.tpgRede.Padding = new System.Windows.Forms.Padding(3);
+			this.tpgRede.Size = new System.Drawing.Size(657, 159);
+			this.tpgRede.TabIndex = 3;
+			this.tpgRede.Text = "Rede";
+			this.tpgRede.UseVisualStyleBackColor = true;
 			// 
-			// label14
+			// tpgImpressao
 			// 
-			this.label14.AutoSize = true;
-			this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label14.Location = new System.Drawing.Point(5, 51);
-			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(224, 13);
-			this.label14.TabIndex = 9;
-			this.label14.Text = "Assinatura Sw.House (344 caracteres)";
-			// 
-			// label15
-			// 
-			this.label15.AutoSize = true;
-			this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label15.Location = new System.Drawing.Point(351, 51);
-			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(48, 13);
-			this.label15.TabIndex = 17;
-			this.label15.Text = "Modelo";
-			// 
-			// cmbModeloSat
-			// 
-			this.cmbModeloSat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbModeloSat.Location = new System.Drawing.Point(354, 67);
-			this.cmbModeloSat.Name = "cmbModeloSat";
-			this.cmbModeloSat.Size = new System.Drawing.Size(108, 21);
-			this.cmbModeloSat.TabIndex = 16;
+			this.tpgImpressao.Location = new System.Drawing.Point(4, 22);
+			this.tpgImpressao.Name = "tpgImpressao";
+			this.tpgImpressao.Padding = new System.Windows.Forms.Padding(3);
+			this.tpgImpressao.Size = new System.Drawing.Size(657, 159);
+			this.tpgImpressao.TabIndex = 4;
+			this.tpgImpressao.Text = "Impressão";
+			this.tpgImpressao.UseVisualStyleBackColor = true;
 			// 
 			// FrmMain
 			// 

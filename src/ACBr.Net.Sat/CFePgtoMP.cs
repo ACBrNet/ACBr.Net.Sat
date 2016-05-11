@@ -24,6 +24,8 @@ namespace ACBr.Net.Sat
 	[ImplementPropertyChanged]
 	public sealed class CFePgtoMp
 	{
+		#region Properties
+
 		/// <summary>
 		/// Gets or sets the c mp.
 		/// </summary>
@@ -43,6 +45,17 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The c adm c.</value>
 		[DFeElement(TipoCampo.Int, "cAdmC", Id = "WA06", Min = 3, Max = 3, Ocorrencias = 0)]
-		public int CAdmC { get; set; }
+		public int? CAdmC { get; set; }
+
+		#endregion Properties
+
+		#region Methods
+
+		private bool ShouldSerializeCAdmC()
+		{
+			return CAdmC != null;
+		}
+
+		#endregion Methods
 	}
 }

@@ -12,11 +12,11 @@
 // <summary></summary>
 // ***********************************************************************
 
-using System.Globalization;
 using ACBr.Net.DFe.Core.Attributes;
 using ACBr.Net.DFe.Core.Collection;
 using ACBr.Net.DFe.Core.Serializer;
 using PropertyChanged;
+using System.Globalization;
 
 namespace ACBr.Net.Sat
 {
@@ -25,7 +25,7 @@ namespace ACBr.Net.Sat
 	/// </summary>
 	[ImplementPropertyChanged]
 	public sealed class CFeDetProd
-    {
+	{
 		#region Fields
 
 		private bool ehConbustivel;
@@ -46,10 +46,10 @@ namespace ACBr.Net.Sat
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CFeDetProd"/> class.
 		/// </summary>
-		public CFeDetProd(CFe parent):this()
-        {
+		public CFeDetProd(CFe parent) : this()
+		{
 			Parent = parent;
-        }
+		}
 
 		#endregion Constructors
 
@@ -67,7 +67,8 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value><c>true</c> if [eh combustivel]; otherwise, <c>false</c>.</value>
 		[DFeIgnore]
-		public bool EhCombustivel {
+		public bool EhCombustivel
+		{
 			get { return ehConbustivel; }
 			set
 			{
@@ -118,7 +119,7 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the cfop.
 		/// </summary>
 		/// <value>The cfop.</value>
-		[DFeElement(TipoCampo.StrNumberFill, "CFOP", Id = "I06", Min =41, Max = 4, Ocorrencias = 1)]
+		[DFeElement(TipoCampo.StrNumberFill, "CFOP", Id = "I06", Min = 4, Max = 4, Ocorrencias = 1)]
 		public string CFOP { get; set; }
 
 		/// <summary>

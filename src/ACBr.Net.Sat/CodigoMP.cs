@@ -24,52 +24,61 @@ namespace ACBr.Net.Sat
 		/// <summary>
 		/// The dinheiro
 		/// </summary>
-		[DFeEnum("00")]
+		[DFeEnum("01")]
 		Dinheiro,
+
 		/// <summary>
 		/// The cheque
 		/// </summary>
-		[DFeEnum("01")]
+		[DFeEnum("02")]
 		Cheque,
+
 		/// <summary>
 		/// The cartaode credito
 		/// </summary>
-		[DFeEnum("02")]
+		[DFeEnum("03")]
 		CartaodeCredito,
+
 		/// <summary>
 		/// The cartaode debito
 		/// </summary>
-		[DFeEnum("03")]
+		[DFeEnum("04")]
 		CartaodeDebito,
+
 		/// <summary>
 		/// The credito loja
 		/// </summary>
-		[DFeEnum("04")]
+		[DFeEnum("05")]
 		CreditoLoja,
+
 		/// <summary>
 		/// The vale alimentacao
 		/// </summary>
-		[DFeEnum("05")]
+		[DFeEnum("10")]
 		ValeAlimentacao,
+
 		/// <summary>
 		/// The vale refeicao
 		/// </summary>
-		[DFeEnum("06")]
+		[DFeEnum("11")]
 		ValeRefeicao,
+
 		/// <summary>
 		/// The vale presente
 		/// </summary>
-		[DFeEnum("07")]
+		[DFeEnum("12")]
 		ValePresente,
+
 		/// <summary>
 		/// The vale combustivel
 		/// </summary>
-		[DFeEnum("08")]
+		[DFeEnum("13")]
 		ValeCombustivel,
+
 		/// <summary>
 		/// The outros
 		/// </summary>
-		[DFeEnum("09")]
+		[DFeEnum("99")]
 		Outros
 	};
 }

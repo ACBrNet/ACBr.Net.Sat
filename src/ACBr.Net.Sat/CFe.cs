@@ -12,12 +12,12 @@
 // <summary></summary>
 // ***********************************************************************
 
-using System.IO;
-using System.Text;
-using System.Xml;
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.DFe.Core.Attributes;
 using ACBr.Net.DFe.Core.Document;
+using System.IO;
+using System.Text;
+using System.Xml;
 
 namespace ACBr.Net.Sat
 {
@@ -73,10 +73,10 @@ namespace ACBr.Net.Sat
 		#endregion Propriedades
 
 		#region Methods
-		
+
 		private bool ShouldSerializeSignature()
 		{
-			return !Signature.SignatureValue.IsEmpty() && 
+			return !Signature.SignatureValue.IsEmpty() &&
 				   !Signature.SignedInfo.Reference.DigestValue.IsEmpty() &&
 				   !Signature.KeyInfo.X509Data.X509Certificate.IsEmpty();
 		}
@@ -102,7 +102,7 @@ namespace ACBr.Net.Sat
 			var serializer = ACBrSat.GetSerializer<CFe>();
 			return serializer.Serialize(this, stream);
 		}
-		
+
 		/// <summary>
 		/// Returns a <see cref="System.String" /> that represents this instance.
 		/// </summary>
@@ -137,7 +137,7 @@ namespace ACBr.Net.Sat
 			var serializer = ACBrSat.GetSerializer<CFe>();
 			return serializer.Deserialize(stream);
 		}
-		
+
 		#endregion Methods
 	}
 }
