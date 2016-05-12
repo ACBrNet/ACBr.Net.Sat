@@ -31,7 +31,7 @@ namespace ACBr.Net.Sat
 		internal readonly IInternalLogger Logger = LoggerProvider.LoggerFor(typeof(ACBrSat));
 
 		private ISatLibrary sat;
-
+		private Encoding encoding;
 		private string signAC;
 
 		#endregion Fields
@@ -66,7 +66,7 @@ namespace ACBr.Net.Sat
 		{
 			Configuracoes = new SatConfig();
 			Arquivos = new CfgArquivos();
-			Encoding = Encoding.ASCII;
+			Encoding = Encoding.UTF8;
 
 			PathDll = @"C:\SAT\SAT.dll";
 			CodigoAtivacao = "123456";
@@ -107,7 +107,18 @@ namespace ACBr.Net.Sat
 
 		public string PathDll { get; set; }
 
-		public Encoding Encoding { get; set; }
+		public Encoding Encoding
+		{
+			get
+			{
+				return encoding;
+			}
+			set
+			{
+				if (Ativo) throw new Exception("Não é possível definir a propriedade com o componente ativo");
+				encoding = value;
+			}
+		}
 
 		#endregion Properties
 
@@ -118,11 +129,11 @@ namespace ACBr.Net.Sat
 			switch (Modelo)
 			{
 				case ModeloSat.Cdecl:
-					sat = new SatCdecl(PathDll);
+					sat = new SatCdecl(PathDll, encoding);
 					break;
 
 				case ModeloSat.StdCall:
-					sat = new SatStdCall(PathDll);
+					sat = new SatStdCall(PathDll, encoding);
 					break;
 
 				default:
@@ -352,16 +363,16 @@ namespace ACBr.Net.Sat
 
 		private T FinalizaComando<T>(string resposta) where T : SatResposta
 		{
-			resposta = Encoding.GetString(Encoding.ASCII.GetBytes(resposta));
 			Logger.Info($"NumeroSessao: {Sessao} - Resposta: {resposta}");
 			var resp = (T)Activator.CreateInstance(typeof(T), resposta);
 
-			if (OnMensagemSefaz == null) return resp;
-
-			if (resp.CodigoSEFAZ > 0 && !resp.MensagemSEFAZ.IsEmpty())
+			if (OnMensagemSefaz != null)
 			{
-				var e = new SatMensagemEventArgs(resp.CodigoSEFAZ, resp.MensagemSEFAZ);
-				OnMensagemSefaz?.Invoke(this, e);
+				if (resp.CodigoSEFAZ > 0 && !resp.MensagemSEFAZ.IsEmpty())
+				{
+					var e = new SatMensagemEventArgs(resp.CodigoSEFAZ, resp.MensagemSEFAZ);
+					OnMensagemSefaz?.Invoke(this, e);
+				}
 			}
 
 			return resp;

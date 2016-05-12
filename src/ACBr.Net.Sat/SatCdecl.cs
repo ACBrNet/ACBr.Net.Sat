@@ -12,10 +12,10 @@
 // <summary></summary>
 // ***********************************************************************
 using ACBr.Net.Sat.Interfaces;
-using ACBr.Net.Sat.Internal;
 using ACBr.Net.Sat.Utils;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace ACBr.Net.Sat
 {
@@ -109,9 +109,10 @@ namespace ACBr.Net.Sat
 
 		#region Constructors
 
-		public SatCdecl(string pathDll)
+		public SatCdecl(string pathDll, Encoding encoding)
 		{
 			PathDll = pathDll;
+			Encoding = encoding;
 
 			handle = NativeMethods.LoadLibrary(pathDll);
 			if (handle == IntPtr.Zero) throw new Exception("");
@@ -126,6 +127,8 @@ namespace ACBr.Net.Sat
 
 		#region Propriedades
 
+		public Encoding Encoding { get; private set; }
+
 		public string PathDll { get; private set; }
 
 		public string ModeloStr => "CdeclSatLibrary";
@@ -138,73 +141,75 @@ namespace ACBr.Net.Sat
 		{
 			var funcaoSat = handle.GetMethod<Delegates.AssociarAssinatura>("AssociarAssinatura");
 
-			var retPtr = funcaoSat(numeroSessao, codigoAtivacao.ToSatStr(), cnpjValue.ToSatStr(), assinaturacnpj.ToSatStr());
+			var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoAtivacao), ToEncoding(cnpjValue), ToEncoding(assinaturacnpj));
 			var ret = Marshal.PtrToStringAnsi(retPtr);
 
-			return ret.FromSatStr();
+			return FromEncoding(ret);
 		}
 
 		public string AtivarSAT(int numeroSessao, int subComando, string codigoDeAtivacao, string cnpj, int cUF)
 		{
 			var funcaoSat = handle.GetMethod<Delegates.AtivarSAT>("AtivarSAT");
 
-			var retPtr = funcaoSat(numeroSessao, subComando, codigoDeAtivacao.ToSatStr(), cnpj.ToSatStr(), cUF);
+			var retPtr = funcaoSat(numeroSessao, subComando, ToEncoding(codigoDeAtivacao), ToEncoding(cnpj), cUF);
 			var ret = Marshal.PtrToStringAnsi(retPtr);
-			return ret.FromSatStr();
+
+			return FromEncoding(ret);
 		}
 
 		public string AtualizarSoftwareSAT(int numeroSessao, string codigoDeAtivacao)
 		{
 			var funcaoSat = handle.GetMethod<Delegates.AtualizarSoftwareSAT>("AtualizarSoftwareSAT");
-			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr());
 
+			var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao));
 			var ret = Marshal.PtrToStringAnsi(retPtr);
-			return ret.FromSatStr();
+
+			return FromEncoding(ret);
 		}
 
 		public string BloquearSAT(int numeroSessao, string codigoDeAtivacao)
 		{
 			var funcaoSat = handle.GetMethod<Delegates.BloquearSAT>("BloquearSAT");
-			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr());
+			var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao));
 
 			var ret = Marshal.PtrToStringAnsi(retPtr);
-			return ret.FromSatStr();
+			return FromEncoding(ret);
 		}
 
 		public string CancelarUltimaVenda(int numeroSessao, string codigoDeAtivacao, string chave, string dadosCancelamento)
 		{
 			var funcaoSat = handle.GetMethod<Delegates.CancelarUltimaVenda>("CancelarUltimaVenda");
-			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr(), chave.ToSatStr(), dadosCancelamento.ToSatStr());
+			var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), ToEncoding(chave), ToEncoding(dadosCancelamento));
 
 			var ret = Marshal.PtrToStringAnsi(retPtr);
-			return ret.FromSatStr();
+			return FromEncoding(ret);
 		}
 
 		public string ComunicarCertificadoIcpBrasil(int numeroSessao, string codigoDeAtivacao, string certificado)
 		{
 			var funcaoSat = handle.GetMethod<Delegates.ComunicarCertificadoICPBRASIL>("ComunicarCertificadoICPBRASIL");
-			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr(), certificado.ToSatStr());
+			var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), ToEncoding(certificado));
 
 			var ret = Marshal.PtrToStringAnsi(retPtr);
-			return ret.FromSatStr();
+			return FromEncoding(ret);
 		}
 
 		public string ConfigurarInterfaceDeRede(int numeroSessao, string codigoDeAtivacao, string dadosConfiguracao)
 		{
 			var funcaoSat = handle.GetMethod<Delegates.ConfigurarInterfaceDeRede>("ConfigurarInterfaceDeRede");
-			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr(), dadosConfiguracao.ToSatStr());
+			var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), ToEncoding(dadosConfiguracao));
 
 			var ret = Marshal.PtrToStringAnsi(retPtr);
-			return ret.FromSatStr();
+			return FromEncoding(ret);
 		}
 
 		public string ConsultarNumeroSessao(int numeroSessao, string codigoDeAtivacao, int cNumeroDeSessao)
 		{
 			var funcaoSat = handle.GetMethod<Delegates.ConsultarNumeroSessao>("ConsultarNumeroSessao");
-			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr(), cNumeroDeSessao);
+			var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), cNumeroDeSessao);
 
 			var ret = Marshal.PtrToStringAnsi(retPtr);
-			return ret.FromSatStr();
+			return FromEncoding(ret);
 		}
 
 		public string ConsultarSAT(int numeroSessao)
@@ -213,61 +218,71 @@ namespace ACBr.Net.Sat
 			var retPtr = funcaoSat(numeroSessao);
 
 			var ret = Marshal.PtrToStringAnsi(retPtr);
-			return ret.FromSatStr();
+			return FromEncoding(ret);
 		}
 
 		public string ConsultarStatusOperacional(int numeroSessao, string codigoDeAtivacao)
 		{
 			var funcaoSat = handle.GetMethod<Delegates.ConsultarStatusOperacional>("ConsultarStatusOperacional");
-			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr());
+			var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao));
 
 			var ret = Marshal.PtrToStringAnsi(retPtr);
-			return ret.FromSatStr();
+			return FromEncoding(ret);
 		}
 
 		public string DesbloquearSAT(int numeroSessao, string codigoDeAtivacao)
 		{
 			var funcaoSat = handle.GetMethod<Delegates.DesbloquearSAT>("DesbloquearSAT");
-			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr());
+			var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao));
 
 			var ret = Marshal.PtrToStringAnsi(retPtr);
-			return ret.FromSatStr();
+			return FromEncoding(ret);
 		}
 
 		public string EnviarDadosVenda(int numeroSessao, string codigoDeAtivacao, string dadosVenda)
 		{
 			var funcaoSat = handle.GetMethod<Delegates.EnviarDadosVenda>("EnviarDadosVenda");
-			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr(), dadosVenda.ToSatStr());
+			var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), ToEncoding(dadosVenda));
 
 			var ret = Marshal.PtrToStringAnsi(retPtr);
-			return ret.FromSatStr();
+			return FromEncoding(ret);
 		}
 
 		public string ExtrairLogs(int numeroSessao, string codigoDeAtivacao)
 		{
 			var funcaoSat = handle.GetMethod<Delegates.ExtrairLogs>("ExtrairLogs");
-			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr());
+			var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao));
 
 			var ret = Marshal.PtrToStringAnsi(retPtr);
-			return ret.FromSatStr();
+			return FromEncoding(ret);
 		}
 
 		public string TesteFimAFim(int numeroSessao, string codigoDeAtivacao, string dadosVenda)
 		{
 			var funcaoSat = handle.GetMethod<Delegates.TesteFimAFim>("ExtrairLogs");
-			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao, dadosVenda.ToSatStr());
+			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao, ToEncoding(dadosVenda));
 
 			var ret = Marshal.PtrToStringAnsi(retPtr);
-			return ret.FromSatStr();
+			return FromEncoding(ret);
 		}
 
 		public string TrocarCodigoDeAtivacao(int numeroSessao, string codigoDeAtivacao, int opcao, string novoCodigo, string confNovoCodigo)
 		{
 			var funcaoSat = handle.GetMethod<Delegates.TrocarCodigoDeAtivacao>("TrocarCodigoDeAtivacao");
-			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr(), opcao, novoCodigo.ToSatStr(), confNovoCodigo.ToSatStr());
+			var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), opcao, ToEncoding(novoCodigo), ToEncoding(confNovoCodigo));
 
 			var ret = Marshal.PtrToStringAnsi(retPtr);
-			return ret.FromSatStr();
+			return FromEncoding(ret);
+		}
+
+		private string FromEncoding(string str)
+		{
+			return Encoding.GetString(Encoding.Default.GetBytes(str));
+		}
+
+		private string ToEncoding(string str)
+		{
+			return Encoding.Default.GetString(Encoding.GetBytes(str));
 		}
 
 		#endregion Method

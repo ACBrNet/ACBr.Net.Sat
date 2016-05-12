@@ -322,7 +322,7 @@ namespace ACBr.Net.Sat.Demo
 			catch (Exception ex)
 			{
 				logger.Error(ex);
-				acbrSat.Encoding = Encoding.ASCII;
+				acbrSat.Encoding = Encoding.UTF8;
 			}
 		}
 

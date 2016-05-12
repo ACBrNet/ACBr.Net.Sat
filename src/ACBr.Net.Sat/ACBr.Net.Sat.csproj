@@ -109,7 +109,6 @@
     <Compile Include="ImpostoPisSn.cs" />
     <Compile Include="ImpostoPisSt.cs" />
     <Compile Include="Interfaces\ICFePis.cs" />
-    <Compile Include="Internal\StringExtensions.cs" />
     <Compile Include="OrigemMercadoria.cs" />
     <Compile Include="ProdObsFisco.cs" />
     <Compile Include="CFeInfAdic.cs" />
