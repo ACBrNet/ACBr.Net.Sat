@@ -1,5 +1,4 @@
 ﻿using ACBr.Net.Core.Extensions;
-using ACBr.Net.Sat.Interfaces;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -16,6 +15,7 @@ namespace ACBr.Net.Sat.Demo
 		#region Fields
 
 		private ILogger logger;
+		private ACBrSat acbrSat;
 		private CFe cfeAtual;
 
 		#endregion Fields
@@ -39,17 +39,19 @@ namespace ACBr.Net.Sat.Demo
 
 		private void Initialize()
 		{
-			ACBrSat.PathDll = @"C:\Lixo\SAT\BemaSAT.dll";
-			ACBrSat.CodigoAtivacao = @"bema1234";
-			ACBrSat.SignAC = "SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT";
-			ACBrSat.Enconder = Encoding.UTF8;
-			ACBrSat.Configuracoes.EmitCNPJ = "82373077000171";
-			ACBrSat.Configuracoes.EmitIE = "111111111111";
-			ACBrSat.Configuracoes.IdeCNPJ = "16716114000172";
-			ACBrSat.Configuracoes.EmitCRegTrib = RegTrib.Normal;
-			ACBrSat.Configuracoes.EmitCRegTribISSQN = RegTribIssqn.Nenhum;
-			ACBrSat.Configuracoes.EmitIndRatISSQN = RatIssqn.Nao;
-			ACBrSat.Configuracoes.IdeTpAmb = TipoAmbiente.Homologacao;
+			acbrSat = new ACBrSat();
+			acbrSat.Modelo = ModeloSat.StdCall;
+			acbrSat.PathDll = @"C:\Lixo\SAT\BemaSAT.dll";
+			acbrSat.CodigoAtivacao = @"bema1234";
+			acbrSat.SignAC = "SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT";
+			acbrSat.Encoding = Encoding.UTF8;
+			acbrSat.Configuracoes.EmitCNPJ = "82373077000171";
+			acbrSat.Configuracoes.EmitIE = "111111111111";
+			acbrSat.Configuracoes.IdeCNPJ = "16716114000172";
+			acbrSat.Configuracoes.EmitCRegTrib = RegTrib.Normal;
+			acbrSat.Configuracoes.EmitCRegTribISSQN = RegTribIssqn.Nenhum;
+			acbrSat.Configuracoes.EmitIndRatISSQN = RatIssqn.Nao;
+			acbrSat.Configuracoes.IdeTpAmb = TipoAmbiente.Homologacao;
 
 			cmbAmbiente.EnumDataSource<TipoAmbiente>(TipoAmbiente.Homologacao);
 			cmbModeloSat.EnumDataSource<ModeloSat>(ModeloSat.StdCall);
@@ -98,7 +100,7 @@ namespace ACBr.Net.Sat.Demo
 			logger.Info("Gerando CFe");
 
 			var totalGeral = 0M;
-			cfeAtual = ACBrSat.NewCFe();
+			cfeAtual = acbrSat.NewCFe();
 			cfeAtual.InfCFe.Ide.NumeroCaixa = 1;
 			//cfeAtual.InfCFe.Dest.CNPJ = "05481336000137";
 			//cfeAtual.InfCFe.Dest.Nome = "D.J. SYSTEM ÁÉÍÓÚáéíóúÇç";
@@ -170,14 +172,9 @@ namespace ACBr.Net.Sat.Demo
 			//cfeAtual.InfCFe.InfAdic.InfCpl = "Acesse www.projetoacbr.com.br para obter mais;informações sobre o componente ACBrSAT;" +
 			//							"Precisa de um PAF-ECF homologado?;Conheça o DJPDV - www.djpdv.com.br";
 
-			wbrXmlGerado.LoadXml(cfeAtual.ToString());
+			wbrXmlGerado.LoadXml(acbrSat.GetXml(cfeAtual));
 			tbcXml.SelectedTab = tpgXmlGerado;
 			logger.Info("CFe gerado com sucesso !");
-		}
-
-		private ISatLibrary GetSat()
-		{
-			return ACBrSat.CreateLibrary((ModeloSat)cmbModeloSat.SelectedItem);
 		}
 
 		#endregion Methods
@@ -188,8 +185,8 @@ namespace ACBr.Net.Sat.Demo
 
 		private void ativarSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sat = GetSat();
-			sat.AtivarSAT(1, txtEmitCNPJ.Text, txtCodUF.Text.ToInt32());
+			if (!acbrSat.Ativo) acbrSat.Ativar();
+			acbrSat.AtivarSAT(1, txtEmitCNPJ.Text, txtCodUF.Text.ToInt32());
 		}
 
 		private void comunicarCertificadoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -202,14 +199,14 @@ namespace ACBr.Net.Sat.Demo
 
 		private void bloquearSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sat = GetSat();
-			sat.BloquearSAT();
+			if (!acbrSat.Ativo) acbrSat.Ativar();
+			acbrSat.BloquearSAT();
 		}
 
 		private void desbloquearSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sat = GetSat();
-			sat.DesbloquearSAT();
+			if (!acbrSat.Ativo) acbrSat.Ativar();
+			acbrSat.DesbloquearSAT();
 		}
 
 		private void trocarCódigoDeAtivaçãoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -223,8 +220,8 @@ namespace ACBr.Net.Sat.Demo
 
 		private void enviarVendaToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sat = GetSat();
-			sat.EnviarDadosVenda(cfeAtual);
+			if (!acbrSat.Ativo) acbrSat.Ativar();
+			acbrSat.EnviarDadosVenda(cfeAtual);
 		}
 
 		private void imprimirExtratoVendaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -238,6 +235,7 @@ namespace ACBr.Net.Sat.Demo
 		private void carregarXMLToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			logger.Info("Carregar XML CFe.");
+
 			using (var ofd = new OpenFileDialog())
 			{
 				ofd.CheckPathExists = true;
@@ -251,8 +249,9 @@ namespace ACBr.Net.Sat.Demo
 					return;
 				}
 
-				cfeAtual = CFe.LoadCFe(ofd.FileName);
-				wbrXmlGerado.LoadXml(cfeAtual?.ToString());
+				cfeAtual = CFe.Load(ofd.FileName);
+
+				wbrXmlGerado.LoadXml(File.ReadAllText(ofd.FileName));
 				tbcXml.SelectedTab = tpgXmlGerado;
 				logger.Info("XML CFe carregado com sucesso.");
 			}
@@ -260,28 +259,28 @@ namespace ACBr.Net.Sat.Demo
 
 		private void consultarStatusOperacionalToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sat = GetSat();
-			sat.ConsultarStatusOperacional();
+			if (!acbrSat.Ativo) acbrSat.Ativar();
+			acbrSat.ConsultarStatusOperacional();
 		}
 
 		private void consultarSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sat = GetSat();
-			sat.ConsultarSAT();
+			if (!acbrSat.Ativo) acbrSat.Ativar();
+			acbrSat.ConsultarSAT();
 		}
 
 		private void atualizarSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sat = GetSat();
-			sat.AtualizarSoftwareSAT();
+			if (!acbrSat.Ativo) acbrSat.Ativar();
+			acbrSat.AtualizarSoftwareSAT();
 		}
 
 		private void extrairLogsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			var sat = GetSat();
-			var resposta = sat.ExtrairLogs();
+			if (!acbrSat.Ativo) acbrSat.Ativar();
+			var resposta = acbrSat.ExtrairLogs();
 
-			var log = ACBrSat.Enconder.GetString(Convert.FromBase64String(resposta.RetornoLst[5]));
+			var log = acbrSat.Encoding.GetString(Convert.FromBase64String(resposta.RetornoLst[5]));
 		}
 
 		#endregion Menu
@@ -293,25 +292,24 @@ namespace ACBr.Net.Sat.Demo
 			if (!File.Exists(txtDllPath.Text))
 				return;
 
-			ACBrSat.PathDll = txtDllPath.Text;
+			acbrSat.PathDll = txtDllPath.Text;
 		}
 
 		private void txtAtivacao_TextChanged(object sender, EventArgs e)
 		{
-			if (txtAtivacao.Text.IsEmpty())
-				return;
+			if (txtAtivacao.Text.IsEmpty()) return;
 
-			ACBrSat.CodigoAtivacao = txtAtivacao.Text;
+			acbrSat.CodigoAtivacao = txtAtivacao.Text;
 		}
 
 		private void cmbAmbiente_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			ACBrSat.Configuracoes.IdeTpAmb = (TipoAmbiente)cmbAmbiente.SelectedIndex;
+			acbrSat.Configuracoes.IdeTpAmb = (TipoAmbiente)cmbAmbiente.SelectedIndex;
 		}
 
 		private void nunCaixa_ValueChanged(object sender, EventArgs e)
 		{
-			ACBrSat.Configuracoes.IdeNumeroCaixa = (int)nunCaixa.Value;
+			acbrSat.Configuracoes.IdeNumeroCaixa = (int)nunCaixa.Value;
 		}
 
 		private void nunPaginaCodigo_ValueChanged(object sender, EventArgs e)
@@ -319,12 +317,12 @@ namespace ACBr.Net.Sat.Demo
 			try
 			{
 				var encoder = Encoding.GetEncoding((int)nunPaginaCodigo.Value);
-				ACBrSat.Enconder = encoder;
+				acbrSat.Encoding = encoder;
 			}
 			catch (Exception ex)
 			{
 				logger.Error(ex);
-				ACBrSat.Enconder = Encoding.ASCII;
+				acbrSat.Encoding = Encoding.ASCII;
 			}
 		}
 
@@ -335,12 +333,12 @@ namespace ACBr.Net.Sat.Demo
 
 		private void chkFomartXML_CheckedChanged(object sender, EventArgs e)
 		{
-			ACBrSat.Configuracoes.FormatarXml = chkFomartXML.Checked;
+			acbrSat.Configuracoes.FormatarXml = chkFomartXML.Checked;
 		}
 
 		private void chkRemoveAcentos_CheckedChanged(object sender, EventArgs e)
 		{
-			ACBrSat.Configuracoes.RemoverAcentos = chkRemoveAcentos.Checked;
+			acbrSat.Configuracoes.RemoverAcentos = chkRemoveAcentos.Checked;
 		}
 
 		#endregion ValueChanged

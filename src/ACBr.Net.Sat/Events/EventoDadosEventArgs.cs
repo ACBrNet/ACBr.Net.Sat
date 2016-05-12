@@ -16,22 +16,12 @@ using System;
 
 namespace ACBr.Net.Sat.Events
 {
-	/// <summary>
-	/// Class EventoDadosEventArgs.
-	/// </summary>
-	/// <seealso cref="System.EventArgs" />
 	public class EventoDadosEventArgs : EventArgs
 	{
-		/// <summary>
-		/// Gets or sets the dados.
-		/// </summary>
-		/// <value>The dados.</value>
-		public string Dados { get; set; }
+		#region Property
 
-		/// <summary>
-		/// Gets or sets the retorno.
-		/// </summary>
-		/// <value>The retorno.</value>
-		public string Retorno { get; set; }
+		public string DadosVenda { get; set; }
+
+		#endregion Property
 	}
 }

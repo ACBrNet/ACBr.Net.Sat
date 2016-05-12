@@ -16,33 +16,24 @@ using System;
 
 namespace ACBr.Net.Sat.Events
 {
-	/// <summary>
-	/// Class SATMensagemEventArgs.
-	/// </summary>
-	/// <seealso cref="System.EventArgs" />
 	public class SatMensagemEventArgs : EventArgs
 	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SatMensagemEventArgs"/> class.
-		/// </summary>
-		/// <param name="codigo">The codigo.</param>
-		/// <param name="mensagem">The mensagem.</param>
+		#region Constructor
+
 		public SatMensagemEventArgs(int codigo, string mensagem)
 		{
 			Codigo = codigo;
 			Mensagem = mensagem;
 		}
 
-		/// <summary>
-		/// Gets or sets the dados.
-		/// </summary>
-		/// <value>The dados.</value>
-		public int Codigo { get; set; }
+		#endregion Constructor
 
-		/// <summary>
-		/// Gets or sets the retorno.
-		/// </summary>
-		/// <value>The retorno.</value>
-		public string Mensagem { get; set; }
+		#region Properties
+
+		public int Codigo { get; private set; }
+
+		public string Mensagem { get; private set; }
+
+		#endregion Properties
 	}
 }

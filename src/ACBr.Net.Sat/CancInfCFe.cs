@@ -17,9 +17,7 @@ using ACBr.Net.DFe.Core.Serializer;
 
 namespace ACBr.Net.Sat
 {
-	/// <summary>
-	/// Class CancInfCFe. This class cannot be inherited.
-	/// </summary>
+
 	public sealed class CancInfCFe
 	{
 		/// <summary>

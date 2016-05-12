@@ -11,12 +11,11 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System.IO;
-using System.Text;
-using System.Xml;
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.DFe.Core.Attributes;
 using ACBr.Net.DFe.Core.Document;
+using ACBr.Net.DFe.Core.Serializer;
+using System.IO;
 
 namespace ACBr.Net.Sat
 {
@@ -97,66 +96,21 @@ namespace ACBr.Net.Sat
 
 		#region Methods
 
-		private bool ShouldSerializeSignature()
+		public static CFeCanc Load(string path)
 		{
-			return !Signature.SignatureValue.IsEmpty();
-		}
-
-		/// <summary>
-		/// Salvars the c fe.
-		/// </summary>
-		/// <param name="path">The path.</param>
-		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-		public bool SalvarCFe(string path)
-		{
-			var serializer = ACBrSat.GetSerializer<CFeCanc>();
-			return serializer.Serialize(this, path);
-		}
-
-		/// <summary>
-		/// Salvars the c fe.
-		/// </summary>
-		/// <param name="stream">The stream.</param>
-		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-		public bool SalvarCFe(Stream stream)
-		{
-			var serializer = ACBrSat.GetSerializer<CFeCanc>();
-			return serializer.Serialize(this, stream);
-		}
-
-		/// <summary>
-		/// Ases the XML.
-		/// </summary>
-		/// <returns>System.String.</returns>
-		public override string ToString()
-		{
-			var ms = new MemoryStream();
-			SalvarCFe(ms);
-			var xml = new XmlDocument();
-			xml.Load(ms);
-			return xml.AsString(true, true, Encoding.UTF8);
-		}
-
-		/// <summary>
-		/// Loads the c fe.
-		/// </summary>
-		/// <param name="path">The path.</param>
-		/// <returns>CFe.</returns>
-		public static CFeCanc LoadCFe(string path)
-		{
-			var serializer = ACBrSat.GetSerializer<CFeCanc>();
+			var serializer = DFeSerializer.CreateSerializer<CFeCanc>();
 			return serializer.Deserialize(path);
 		}
 
-		/// <summary>
-		/// Loads the c fe.
-		/// </summary>
-		/// <param name="stream">The stream.</param>
-		/// <returns>CFe.</returns>
-		public static CFeCanc LoadCFe(Stream stream)
+		public static CFeCanc Load(Stream stream)
 		{
-			var serializer = ACBrSat.GetSerializer<CFeCanc>();
+			var serializer = DFeSerializer.CreateSerializer<CFeCanc>();
 			return serializer.Deserialize(stream);
+		}
+
+		private bool ShouldSerializeSignature()
+		{
+			return !Signature.SignatureValue.IsEmpty();
 		}
 
 		#endregion Methods

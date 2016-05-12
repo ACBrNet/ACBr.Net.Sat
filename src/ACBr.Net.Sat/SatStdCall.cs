@@ -1,629 +1,294 @@
 ﻿// ***********************************************************************
 // Assembly         : ACBr.Net.Sat
 // Author           : RFTD
-// Created          : 03-31-2016
+// Created          : 03-30-2016
 //
 // Last Modified By : RFTD
-// Last Modified On : 03-31-2016
+// Last Modified On : 04-22-2016
 // ***********************************************************************
-// <copyright file="SatStdCall.cs" company="ACBr.Net">
+// <copyright file="SatCdecl.cs" company="ACBr.Net">
 //     Copyright © ACBr.Net 2014 - 2016
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-
-using System;
-using System.IO;
-using System.Runtime.InteropServices;
-using ACBr.Net.Core.Extensions;
-using ACBr.Net.Sat.Events;
 using ACBr.Net.Sat.Interfaces;
 using ACBr.Net.Sat.Internal;
 using ACBr.Net.Sat.Utils;
+using System;
+using System.Runtime.InteropServices;
 
 namespace ACBr.Net.Sat
 {
-	/// <summary>
-	/// Class SatStdCall.
-	/// </summary>
-	/// <seealso cref="ISatLibrary" />
-	public class SatStdCall : ISatLibrary
+	internal class SatStdCall : ISatLibrary, IDisposable
 	{
-		#region Delegates
+		#region InnerTypes
 
-		/// <summary>
-		/// Delegate AssociarAssinatura
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <param name="codigoDeAtivacao">The codigo de ativacao.</param>
-		/// <param name="cnpJvalue">The CNP jvalue.</param>
-		/// <param name="assinaturaCnpJs">The assinatura CNP js.</param>
-		/// <returns>System.String.</returns>
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		private delegate IntPtr DelAssociarAssinatura(int numeroSessao,
-			[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-			[MarshalAs(UnmanagedType.LPStr)]string cnpJvalue,
-			[MarshalAs(UnmanagedType.LPStr)]string assinaturaCnpJs);
+		private class Delegates
+		{
+			[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+			public delegate IntPtr AssociarAssinatura(int numeroSessao,
+				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+				[MarshalAs(UnmanagedType.LPStr)]string cnpjValue,
+				[MarshalAs(UnmanagedType.LPStr)]string assinaturaCnpj);
 
-		/// <summary>
-		/// Delegate AtivarSAT
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <param name="subComando">The sub comando.</param>
-		/// <param name="codigoDeAtivacao">The codigo de ativacao.</param>
-		/// <param name="cnpj">The CNPJ.</param>
-		/// <param name="cUF">The c uf.</param>
-		/// <returns>System.String.</returns>
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		private delegate IntPtr DelAtivarSAT(int numeroSessao, int subComando,
-			[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-			[MarshalAs(UnmanagedType.LPStr)]string cnpj,
-			int cUF);
+			[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+			public delegate IntPtr AtivarSAT(int numeroSessao, int subComando,
+				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+				[MarshalAs(UnmanagedType.LPStr)]string cnpj,
+				int cUF);
 
-		/// <summary>
-		/// Delegate AtualizarSoftwareSAT
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <param name="codigoDeAtivacao">The codigo de ativacao.</param>
-		/// <returns>System.String.</returns>
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		private delegate IntPtr DelAtualizarSoftwareSAT(int numeroSessao,
-			[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
+			[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+			public delegate IntPtr AtualizarSoftwareSAT(int numeroSessao,
+				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
 
-		/// <summary>
-		/// Delegate BloquearSAT
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <param name="codigoDeAtivacao">The codigo de ativacao.</param>
-		/// <returns>System.String.</returns>
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		private delegate IntPtr DelBloquearSAT(int numeroSessao,
-			[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
+			[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+			public delegate IntPtr BloquearSAT(int numeroSessao,
+				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
 
-		/// <summary>
-		/// Delegate CancelarUltimaVenda
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <param name="codigoDeAtivacao">The codigo de ativacao.</param>
-		/// <param name="chave">The chave.</param>
-		/// <param name="dadosCancelamento">The dados cancelamento.</param>
-		/// <returns>System.String.</returns>
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		private delegate IntPtr DelCancelarUltimaVenda(int numeroSessao,
-			[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-			[MarshalAs(UnmanagedType.LPStr)]string chave,
-			[MarshalAs(UnmanagedType.LPStr)]string dadosCancelamento);
+			[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+			public delegate IntPtr CancelarUltimaVenda(int numeroSessao,
+				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+				[MarshalAs(UnmanagedType.LPStr)]string chave,
+				[MarshalAs(UnmanagedType.LPStr)]string dadosCancelamento);
 
-		/// <summary>
-		/// Delegate ComunicarCertificadoICPBRASIL
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <param name="codigoDeAtivacao">The codigo de ativacao.</param>
-		/// <param name="certificado">The certificado.</param>
-		/// <returns>System.String.</returns>
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		private delegate IntPtr DelComunicarCertificadoICPBRASIL(int numeroSessao,
-			[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-			[MarshalAs(UnmanagedType.LPStr)]string certificado);
+			[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+			public delegate IntPtr ComunicarCertificadoICPBRASIL(int numeroSessao,
+				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+				[MarshalAs(UnmanagedType.LPStr)]string certificado);
 
-		/// <summary>
-		/// Delegate ConfigurarInterfaceDeRede
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <param name="codigoDeAtivacao">The codigo de ativacao.</param>
-		/// <param name="dadosConfiguracao">The dados configuracao.</param>
-		/// <returns>System.String.</returns>
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		private delegate IntPtr DelConfigurarInterfaceDeRede(int numeroSessao,
-			[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-			[MarshalAs(UnmanagedType.LPStr)]string dadosConfiguracao);
+			[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+			public delegate IntPtr ConfigurarInterfaceDeRede(int numeroSessao,
+				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+				[MarshalAs(UnmanagedType.LPStr)]string dadosConfiguracao);
 
-		/// <summary>
-		/// Delegate ConsultarNumeroSessao
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <param name="codigoDeAtivacao">The codigo de ativacao.</param>
-		/// <param name="cNumeroDeSessao">The c numero de sessao.</param>
-		/// <returns>System.String.</returns>
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		private delegate IntPtr DelConsultarNumeroSessao(int numeroSessao,
-			[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-			int cNumeroDeSessao);
+			[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+			public delegate IntPtr ConsultarNumeroSessao(int numeroSessao,
+				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+				int cNumeroDeSessao);
 
-		/// <summary>
-		/// Delegate ConsultarSAT
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <returns>System.String.</returns>
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		private delegate IntPtr DelConsultarSAT(int numeroSessao);
+			[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+			public delegate IntPtr ConsultarSAT(int numeroSessao);
 
-		/// <summary>
-		/// Delegate ConsultarStatusOperacional
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <param name="codigoDeAtivacao">The codigo de ativacao.</param>
-		/// <returns>System.String.</returns>
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		private delegate IntPtr DelConsultarStatusOperacional(int numeroSessao,
-			[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
+			[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+			public delegate IntPtr ConsultarStatusOperacional(int numeroSessao,
+				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
 
-		/// <summary>
-		/// Delegate DesbloquearSAT
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <param name="codigoDeAtivacao">The codigo de ativacao.</param>
-		/// <returns>System.String.</returns>
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		private delegate IntPtr DelDesbloquearSAT(int numeroSessao,
-			[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
+			[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+			public delegate IntPtr DesbloquearSAT(int numeroSessao,
+				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
 
-		/// <summary>
-		/// Delegate EnviarDadosVenda
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <param name="codigoDeAtivacao">The codigo de ativacao.</param>
-		/// <param name="dadosVenda">The dados venda.</param>
-		/// <returns>System.String.</returns>
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		private delegate IntPtr DelEnviarDadosVenda(int numeroSessao,
-			[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-			[MarshalAs(UnmanagedType.LPStr)]string dadosVenda);
+			[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+			public delegate IntPtr EnviarDadosVenda(int numeroSessao,
+				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+				[MarshalAs(UnmanagedType.LPStr)]string dadosVenda);
 
-		/// <summary>
-		/// Delegate ExtrairLogs
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <param name="codigoDeAtivacao">The codigo de ativacao.</param>
-		/// <returns>System.String.</returns>
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		private delegate IntPtr DelExtrairLogs(int numeroSessao,
-			[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
+			[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+			public delegate IntPtr ExtrairLogs(int numeroSessao,
+				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
 
-		/// <summary>
-		/// Delegate TesteFimAFim
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <param name="codigoDeAtivacao">The codigo de ativacao.</param>
-		/// <param name="dadosVenda">The dados venda.</param>
-		/// <returns>System.String.</returns>
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		private delegate IntPtr DelTesteFimAFim(int numeroSessao,
-			[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-			[MarshalAs(UnmanagedType.LPStr)]string dadosVenda);
+			[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+			public delegate IntPtr TesteFimAFim(int numeroSessao,
+				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+				[MarshalAs(UnmanagedType.LPStr)]string dadosVenda);
 
-		/// <summary>
-		/// Delegate TrocarCodigoDeAtivacao
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <param name="codigoDeAtivacao">The codigo de ativacao.</param>
-		/// <param name="opcao">The opcao.</param>
-		/// <param name="novoCodigo">The novo codigo.</param>
-		/// <param name="confNovoCodigo">The conf novo codigo.</param>
-		/// <returns>System.String.</returns>
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		private delegate IntPtr DelTrocarCodigoDeAtivacao(int numeroSessao,
-			[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-			int opcao,
-			[MarshalAs(UnmanagedType.LPStr)]string novoCodigo,
-			[MarshalAs(UnmanagedType.LPStr)]string confNovoCodigo);
+			[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+			public delegate IntPtr TrocarCodigoDeAtivacao(int numeroSessao,
+				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+				int opcao,
+				[MarshalAs(UnmanagedType.LPStr)]string novoCodigo,
+				[MarshalAs(UnmanagedType.LPStr)]string confNovoCodigo);
+		}
 
-		#endregion Delegates
+		#endregion InnerTypes
+
+		#region Fields
+
+		private IntPtr handle;
+
+		#endregion Fields
 
 		#region Constructors
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SatStdCall" /> class.
-		/// </summary>
-		/// <param name="dllPath">The DLL path.</param>
-		internal SatStdCall(string dllPath)
+		public SatStdCall(string pathDll)
 		{
-			DllPath = dllPath;
+			PathDll = pathDll;
+
+			handle = NativeMethods.LoadLibrary(pathDll);
+			if (handle == IntPtr.Zero) throw new Exception("");
+		}
+
+		~SatStdCall()
+		{
+			Dispose(false);
 		}
 
 		#endregion Constructors
 
-		#region Propriedades
+		#region Properties
 
-		/// <summary>
-		/// Gets the DLL path.
-		/// </summary>
-		/// <value>The DLL path.</value>
-		public string DllPath { get; set; }
+		public string PathDll { get; private set; }
 
-		/// <summary>
-		/// Gets the modelo string.
-		/// </summary>
-		/// <value>The modelo string.</value>
 		public string ModeloStr => "StdCallSatLibrary";
 
-		#endregion Propriedades
-		
-		#region Method
+		#endregion Properties
 
-		/// <summary>
-		/// Associar cnpj ao SAT
-		/// </summary>
-		/// <param name="cnpj">The CNPJ.</param>
-		/// <param name="assinaturacnpj">The assinaturacnpj.</param>
-		/// <returns>System.String.</returns>
-		public SatResposta AssociarAssinatura(string cnpj, string assinaturacnpj)
+		#region Methods
+
+		public string AssociarAssinatura(int numeroSessao, string codigoAtivacao, string cnpjValue, string assinaturacnpj)
 		{
-			ACBrSat.IniciaComando($"AssociarAssinatura({cnpj}, {assinaturacnpj})");
-			var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelAssociarAssinatura>("AssociarAssinatura");
-				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, cnpj, assinaturacnpj);
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando<SatResposta>(ret);
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
+			var funcaoSat = handle.GetMethod<Delegates.AssociarAssinatura>("AssociarAssinatura");
+
+			var retPtr = funcaoSat(numeroSessao, codigoAtivacao.ToSatStr(), cnpjValue.ToSatStr(), assinaturacnpj.ToSatStr());
+			var ret = Marshal.PtrToStringAnsi(retPtr);
+
+			return ret.FromSatStr();
 		}
 
-		/// <summary>
-		/// Ativar o SAT
-		/// </summary>
-		/// <param name="subComando">The sub comando.</param>
-		/// <param name="cnpj">The CNPJ.</param>
-		/// <param name="uf">The uf.</param>
-		/// <returns>System.String.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public SatResposta AtivarSAT(int subComando, string cnpj, int uf)
+		public string AtivarSAT(int numeroSessao, int subComando, string codigoDeAtivacao, string cnpj, int cUF)
 		{
-			ACBrSat.IniciaComando($"AtivarSAT({subComando}, {cnpj}, {uf})");
-			var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelAtivarSAT>("AtivarSAT");
-				var retPtr = funcaoSat(ACBrSat.Sessao, subComando, ACBrSat.CodigoAtivacao, cnpj.OnlyNumbers(), uf);
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando<SatResposta>(ret);
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
+			var funcaoSat = handle.GetMethod<Delegates.AtivarSAT>("AtivarSAT");
+
+			var retPtr = funcaoSat(numeroSessao, subComando, codigoDeAtivacao.ToSatStr(), cnpj.ToSatStr(), cUF);
+			var ret = Marshal.PtrToStringAnsi(retPtr);
+			return ret.FromSatStr();
 		}
 
-		/// <summary>
-		/// Atualizars the software sat.
-		/// </summary>
-		/// <returns>System.String.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public SatResposta AtualizarSoftwareSAT()
+		public string AtualizarSoftwareSAT(int numeroSessao, string codigoDeAtivacao)
 		{
-			ACBrSat.IniciaComando("AtualizarSoftwareSAT()");
-			var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelAtualizarSoftwareSAT>("AtualizarSoftwareSAT");
-				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao);
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando<SatResposta>(ret);
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
+			var funcaoSat = handle.GetMethod<Delegates.AtualizarSoftwareSAT>("AtualizarSoftwareSAT");
+			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr());
+
+			var ret = Marshal.PtrToStringAnsi(retPtr);
+			return ret.FromSatStr();
 		}
 
-		/// <summary>
-		/// Bloquears the sat.
-		/// </summary>
-		/// <returns>System.String.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public SatResposta BloquearSAT()
+		public string BloquearSAT(int numeroSessao, string codigoDeAtivacao)
 		{
-			ACBrSat.IniciaComando("BloquearSAT()");
-			var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelBloquearSAT>("BloquearSAT");
-				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao);
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando<SatResposta>(ret);
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
+			var funcaoSat = handle.GetMethod<Delegates.BloquearSAT>("BloquearSAT");
+			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr());
+
+			var ret = Marshal.PtrToStringAnsi(retPtr);
+			return ret.FromSatStr();
 		}
 
-		/// <summary>
-		/// Cancelars the ultima venda.
-		/// </summary>
-		/// <param name="chave">The chave.</param>
-		/// <param name="dadosCancelamento">The dados cancelamento.</param>
-		/// <returns>System.String.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public CancelamentoSatResposta CancelarUltimaVenda(string chave, CFeCanc dadosCancelamento)
+		public string CancelarUltimaVenda(int numeroSessao, string codigoDeAtivacao, string chave, string dadosCancelamento)
 		{
-			ACBrSat.IniciaComando($"CancelarUltimaVenda({chave}, {dadosCancelamento})");
+			var funcaoSat = handle.GetMethod<Delegates.CancelarUltimaVenda>("CancelarUltimaVenda");
+			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr(), chave.ToSatStr(), dadosCancelamento.ToSatStr());
 
-			var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelCancelarUltimaVenda>("CancelarUltimaVenda");
-				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, chave, "");
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando<CancelamentoSatResposta>(ret);
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
+			var ret = Marshal.PtrToStringAnsi(retPtr);
+			return ret.FromSatStr();
 		}
 
-		/// <summary>
-		/// Cancelars the ultima venda.
-		/// </summary>
-		/// <param name="dadosvenda">The dadosvenda.</param>
-		/// <returns>SatResposta.</returns>
-		public CancelamentoSatResposta CancelarUltimaVenda(CFe dadosvenda)
+		public string ComunicarCertificadoIcpBrasil(int numeroSessao, string codigoDeAtivacao, string certificado)
 		{
-			ACBrSat.IniciaComando($"CancelarUltimaVenda({dadosvenda}");
-			var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelCancelarUltimaVenda>("CancelarUltimaVenda");
-				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, "", "");
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				var retorno = ACBrSat.FinalizaComando<CancelamentoSatResposta>(ret);
-				retorno.Venda = dadosvenda;
-				return retorno;
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
+			var funcaoSat = handle.GetMethod<Delegates.ComunicarCertificadoICPBRASIL>("ComunicarCertificadoICPBRASIL");
+			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr(), certificado.ToSatStr());
+
+			var ret = Marshal.PtrToStringAnsi(retPtr);
+			return ret.FromSatStr();
 		}
 
-		/// <summary>
-		/// Comunicars the certificado icpbrasil.
-		/// </summary>
-		/// <param name="certificado">The certificado.</param>
-		/// <returns>System.String.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public SatResposta ComunicarCertificadoICPBRASIL(string certificado)
+		public string ConfigurarInterfaceDeRede(int numeroSessao, string codigoDeAtivacao, string dadosConfiguracao)
 		{
-			ACBrSat.IniciaComando($"ComunicarCertificadoICPBRASIL({certificado})");
-			var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelComunicarCertificadoICPBRASIL>("ComunicarCertificadoICPBRASIL");
-				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, certificado);
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando<SatResposta>(ret);
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
+			var funcaoSat = handle.GetMethod<Delegates.ConfigurarInterfaceDeRede>("ConfigurarInterfaceDeRede");
+			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr(), dadosConfiguracao.ToSatStr());
+
+			var ret = Marshal.PtrToStringAnsi(retPtr);
+			return ret.FromSatStr();
 		}
 
-		/// <summary>
-		/// Configurars the interface de rede.
-		/// </summary>
-		/// <param name="dadosConfiguracao">The dados configuracao.</param>
-		/// <returns>System.String.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public SatResposta ConfigurarInterfaceDeRede(string dadosConfiguracao)
+		public string ConsultarNumeroSessao(int numeroSessao, string codigoDeAtivacao, int cNumeroDeSessao)
 		{
-			ACBrSat.IniciaComando($"ConfigurarInterfaceDeRede({dadosConfiguracao})");
-			var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelConfigurarInterfaceDeRede>("ConfigurarInterfaceDeRede");
-				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, dadosConfiguracao);
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando<SatResposta>(ret);
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
+			var funcaoSat = handle.GetMethod<Delegates.ConsultarNumeroSessao>("ConsultarNumeroSessao");
+			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr(), cNumeroDeSessao);
+
+			var ret = Marshal.PtrToStringAnsi(retPtr);
+			return ret.FromSatStr();
 		}
 
-		/// <summary>
-		/// Consultars the numero sessao.
-		/// </summary>
-		/// <param name="numeroSessao">The numero sessao.</param>
-		/// <returns>System.String.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public SatResposta ConsultarNumeroSessao(int numeroSessao)
+		public string ConsultarSAT(int numeroSessao)
 		{
-			ACBrSat.IniciaComando($"ConsultarNumeroSessao({numeroSessao})");
-			var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelConsultarNumeroSessao>("ConsultarNumeroSessao");
-				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, numeroSessao);
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando<SatResposta>(ret);
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
+			var funcaoSat = handle.GetMethod<Delegates.ConsultarSAT>("ConsultarSAT");
+			var retPtr = funcaoSat(numeroSessao);
+
+			var ret = Marshal.PtrToStringAnsi(retPtr);
+			return ret.FromSatStr();
 		}
 
-		/// <summary>
-		/// Consultars the sat.
-		/// </summary>
-		/// <returns>System.String.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public SatResposta ConsultarSAT()
+		public string ConsultarStatusOperacional(int numeroSessao, string codigoDeAtivacao)
 		{
-			ACBrSat.IniciaComando($"ConsultarSAT()");
-			var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelConsultarSAT>("ConsultarSAT");
-				var retPtr = funcaoSat(ACBrSat.Sessao);
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando<SatResposta>(ret);
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
+			var funcaoSat = handle.GetMethod<Delegates.ConsultarStatusOperacional>("ConsultarStatusOperacional");
+			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr());
+
+			var ret = Marshal.PtrToStringAnsi(retPtr);
+			return ret.FromSatStr();
 		}
 
-		/// <summary>
-		/// Consultars the status operacional.
-		/// </summary>
-		/// <returns>System.String.</returns>
-		public SatResposta ConsultarStatusOperacional()
+		public string DesbloquearSAT(int numeroSessao, string codigoDeAtivacao)
 		{
-			ACBrSat.IniciaComando("ConsultarStatusOperacional()");
-			var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelConsultarStatusOperacional>("ConsultarStatusOperacional");
-				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao.ToSatStr());
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando<SatResposta>(ret);
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
+			var funcaoSat = handle.GetMethod<Delegates.DesbloquearSAT>("DesbloquearSAT");
+			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr());
+
+			var ret = Marshal.PtrToStringAnsi(retPtr);
+			return ret.FromSatStr();
 		}
 
-		/// <summary>
-		/// Desbloquears the sat.
-		/// </summary>
-		/// <returns>System.String.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public SatResposta DesbloquearSAT()
+		public string EnviarDadosVenda(int numeroSessao, string codigoDeAtivacao, string dadosVenda)
 		{
-			ACBrSat.IniciaComando($"DesbloquearSAT()");
-			var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelDesbloquearSAT>("DesbloquearSAT");
-				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao);
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando<SatResposta>(ret);
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
+			var funcaoSat = handle.GetMethod<Delegates.EnviarDadosVenda>("EnviarDadosVenda");
+			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr(), dadosVenda.ToSatStr());
+
+			var ret = Marshal.PtrToStringAnsi(retPtr);
+			return ret.FromSatStr();
 		}
 
-		/// <summary>
-		/// Enviars the dados venda.
-		/// </summary>
-		/// <param name="cfe">The dados venda.</param>
-		/// <returns>System.String.</returns>
-		/// <exception cref="NotImplementedException"></exception>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public VendaSatResposta EnviarDadosVenda(CFe cfe)
+		public string ExtrairLogs(int numeroSessao, string codigoDeAtivacao)
 		{
-			var dadosVenda = cfe.ToString();
-			ACBrSat.IniciaComando($"EnviarDadosVenda({dadosVenda})");
-			if (ACBrSat.Arquivos.SalvarEnvio)
-			{
-				var xmlName = $@"{ACBrSat.Arquivos.PastaEnvio}\{ACBrSat.Arquivos.PrefixoArqCFe}\" +
-						      $@"{DateTime.Now:yyyyMMddHHmmss}-{ACBrSat.Sessao.ZeroFill(6)}-env.xml";
-				File.WriteAllText(xmlName, dadosVenda);
-			}
+			var funcaoSat = handle.GetMethod<Delegates.ExtrairLogs>("ExtrairLogs");
+			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr());
 
-			var e = new EventoDadosEventArgs {Dados = dadosVenda};
-			ACBrSat.OnEnviarDadosVenda.Raise(this, e);
-			if (!e.Retorno.IsEmpty())
-				dadosVenda = e.Retorno;
-
-			var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelEnviarDadosVenda>("EnviarDadosVenda");
-				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, dadosVenda.ToSatStr());
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando<VendaSatResposta>(ret);
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
+			var ret = Marshal.PtrToStringAnsi(retPtr);
+			return ret.FromSatStr();
 		}
 
-		/// <summary>
-		/// Extrairs the logs.
-		/// </summary>
-		/// <returns>System.String.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public SatResposta ExtrairLogs()
+		public string TesteFimAFim(int numeroSessao, string codigoDeAtivacao, string dadosVenda)
 		{
-			ACBrSat.IniciaComando($"ExtrairLogs()");
-			var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelExtrairLogs>("ExtrairLogs");
-				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao);
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando<SatResposta>(ret);
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
+			var funcaoSat = handle.GetMethod<Delegates.TesteFimAFim>("ExtrairLogs");
+			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao, dadosVenda.ToSatStr());
+
+			var ret = Marshal.PtrToStringAnsi(retPtr);
+			return ret.FromSatStr();
 		}
 
-		/// <summary>
-		/// Testes the fim a fim.
-		/// </summary>
-		/// <param name="dadosVenda">The dados venda.</param>
-		/// <returns>System.String.</returns>
-		/// <exception cref="NotImplementedException"></exception>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public SatResposta TesteFimAFim(CFe dadosVenda)
+		public string TrocarCodigoDeAtivacao(int numeroSessao, string codigoDeAtivacao, int opcao, string novoCodigo, string confNovoCodigo)
 		{
-			ACBrSat.IniciaComando($"TesteFimAFim({dadosVenda})");
-			var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelTesteFimAFim>("ExtrairLogs");
-				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, "");
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando<SatResposta>(ret);
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
-		}
+			var funcaoSat = handle.GetMethod<Delegates.TrocarCodigoDeAtivacao>("TrocarCodigoDeAtivacao");
+			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao.ToSatStr(), opcao, novoCodigo.ToSatStr(), confNovoCodigo.ToSatStr());
 
-		/// <summary>
-		/// Trocars the codigo de ativacao.
-		/// </summary>
-		/// <param name="codigoDeAtivacaoOuEmergencia">The codigo de ativacao ou emergencia.</param>
-		/// <param name="opcao">The opcao.</param>
-		/// <param name="novoCodigo">The novo codigo.</param>
-		/// <returns>System.String.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public SatResposta TrocarCodigoDeAtivacao(string codigoDeAtivacaoOuEmergencia, int opcao, string novoCodigo)
-		{
-			ACBrSat.IniciaComando($"TrocarCodigoDeAtivacao({codigoDeAtivacaoOuEmergencia}, {opcao}, {novoCodigo})");
-            var ptr = NativeMethods.LoadLibrary(DllPath);
-			try
-			{
-				var funcaoSat = ptr.GetMethod<DelTrocarCodigoDeAtivacao>("TrocarCodigoDeAtivacao");
-				var retPtr = funcaoSat(ACBrSat.Sessao, ACBrSat.CodigoAtivacao, opcao, novoCodigo, codigoDeAtivacaoOuEmergencia);
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return ACBrSat.FinalizaComando<SatResposta>(ret);
-			}
-			finally
-			{
-				ptr.FreeLibrary();
-			}
+			var ret = Marshal.PtrToStringAnsi(retPtr);
+			return ret.FromSatStr();
 		}
 
 		#endregion Methods
+
+		#region IDisposable
+
+		public void Dispose()
+		{
+			Dispose(true);
+		}
+
+		private void Dispose(bool disposing)
+		{
+			if (disposing) GC.SuppressFinalize(this);
+			if (handle != IntPtr.Zero)
+			{
+				handle.FreeLibrary();
+				handle = IntPtr.Zero;
+			}
+		}
+
+		#endregion IDisposable
 	}
 }

@@ -68,7 +68,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ACBrSat.cs" />
+    <Compile Include="ACBrSat.cs">
+      <SubType>ACBr.Net</SubType>
+    </Compile>
     <Compile Include="CancelamentoSatResposta.cs" />
     <Compile Include="CancInfCFe.cs" />
     <Compile Include="CodigoMP.cs" />
