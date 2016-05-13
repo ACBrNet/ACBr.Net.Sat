@@ -71,6 +71,7 @@
     <Compile Include="ACBrSat.cs">
       <SubType>ACBr.Net</SubType>
     </Compile>
+    <Compile Include="LogResposta.cs" />
     <Compile Include="CancelamentoSatResposta.cs" />
     <Compile Include="CancInfCFe.cs" />
     <Compile Include="CFeCancDest.cs" />

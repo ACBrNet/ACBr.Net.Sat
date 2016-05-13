@@ -29,25 +29,21 @@
 // <summary></summary>
 // ***********************************************************************
 using System;
-using System.IO;
 using System.Text;
 
 namespace ACBr.Net.Sat
 {
-	public class CancelamentoSatResposta : SatResposta
+	public class LogResposta : SatResposta
 	{
 		#region Constructors
 
-		public CancelamentoSatResposta(string retorno, Encoding encoding) : base(retorno, encoding)
+		public LogResposta(string retorno, Encoding encoding) : base(retorno, encoding)
 		{
-			if (CodigoDeRetorno != 7000) return;
+			if (CodigoDeRetorno != 15000) return;
 
 			if (RetornoLst.Count > 5)
 			{
-				using (var stream = new MemoryStream(Convert.FromBase64String(RetornoLst[5])))
-				{
-					Cancelamento = CFeCanc.Load(stream, encoding);
-				}
+				Log = encoding.GetString(Convert.FromBase64String(RetornoLst[5]));
 			}
 		}
 
@@ -55,7 +51,7 @@ namespace ACBr.Net.Sat
 
 		#region Properties
 
-		public CFeCanc Cancelamento { get; set; }
+		public string Log { get; private set; }
 
 		#endregion Properties
 	}

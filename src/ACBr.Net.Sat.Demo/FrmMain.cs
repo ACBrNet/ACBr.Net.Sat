@@ -102,14 +102,14 @@ namespace ACBr.Net.Sat.Demo
 			var totalGeral = 0M;
 			cfeAtual = acbrSat.NewCFe();
 			cfeAtual.InfCFe.Ide.NumeroCaixa = 1;
-			cfeAtual.InfCFe.Dest.CNPJ = "05481336000137";
+			cfeAtual.InfCFe.Dest.CPF = "09506738700";
 			cfeAtual.InfCFe.Dest.Nome = "D.J. SYSTEM ÁÉÍÓÚáéíóúÇç";
-			cfeAtual.InfCFe.Entrega.XLgr = "logradouro";
-			cfeAtual.InfCFe.Entrega.Nro = "112233";
-			cfeAtual.InfCFe.Entrega.XCpl = "complemento";
-			cfeAtual.InfCFe.Entrega.XBairro = "bairro";
-			cfeAtual.InfCFe.Entrega.XMun = "municipio";
-			cfeAtual.InfCFe.Entrega.UF = "MS";
+			//cfeAtual.InfCFe.Entrega.XLgr = "logradouro";
+			//cfeAtual.InfCFe.Entrega.Nro = "112233";
+			//cfeAtual.InfCFe.Entrega.XCpl = "complemento";
+			//cfeAtual.InfCFe.Entrega.XBairro = "bairro";
+			//cfeAtual.InfCFe.Entrega.XMun = "municipio";
+			//cfeAtual.InfCFe.Entrega.UF = "MS";
 			for (var i = 0; i < 3; i++)
 			{
 				var det1 = cfeAtual.InfCFe.Det.AddNew();
@@ -142,19 +142,19 @@ namespace ACBr.Net.Sat.Demo
 					}
 				};
 
-				det1.Imposto.PIS.PIS = new ImpostoPisAliq
-				{
-					CST = "01",
-					VBc = totalItem,
-					PPIS = 0.0065M
-				};
+				//det1.Imposto.PIS.PIS = new ImpostoPisAliq
+				//{
+				//	CST = "01",
+				//	VBc = totalItem,
+				//	PPIS = 0.0065M
+				//};
 
-				det1.Imposto.COFINS.Cofins = new ImpostoCofinsAliq()
-				{
-					Cst = "01",
-					VBc = totalItem,
-					PCOFINS = 0.0065M
-				};
+				//det1.Imposto.COFINS.Cofins = new ImpostoCofinsAliq()
+				//{
+				//	Cst = "01",
+				//	VBc = totalItem,
+				//	PCOFINS = 0.0065M
+				//};
 
 				det1.InfAdProd = "Informacoes adicionais";
 			}
@@ -171,7 +171,7 @@ namespace ACBr.Net.Sat.Demo
 			pgto2.VMp = totalGeral / 2 + 10;
 
 			cfeAtual.InfCFe.InfAdic.InfCpl = "Acesse www.projetoacbr.com.br para obter mais;informações sobre o componente ACBrSAT;" +
-			                                 "Precisa de um PAF-ECF homologado?;Conheça o DJPDV - www.djpdv.com.br";
+											 "Precisa de um PAF-ECF homologado?;Conheça o DJPDV - www.djpdv.com.br";
 
 			wbrXmlGerado.LoadXml(acbrSat.GetXml(cfeAtual));
 			tbcXml.SelectedTab = tpgXmlGerado;
@@ -280,8 +280,6 @@ namespace ACBr.Net.Sat.Demo
 		{
 			if (!acbrSat.Ativo) acbrSat.Ativar();
 			var resposta = acbrSat.ExtrairLogs();
-
-			var log = acbrSat.Encoding.GetString(Convert.FromBase64String(resposta.RetornoLst[5]));
 		}
 
 		#endregion Menu

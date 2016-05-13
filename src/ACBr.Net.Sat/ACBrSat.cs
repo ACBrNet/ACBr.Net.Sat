@@ -10,25 +10,26 @@
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2016 Grupo ACBr.Net
 //
-//	 Permission is hereby granted, free of charge, to any person obtaining 
-// a copy of this software and associated documentation files (the "Software"), 
-// to deal in the Software without restriction, including without limitation 
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-// and/or sell copies of the Software, and to permit persons to whom the 
+//	 Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following conditions:
-//	 The above copyright notice and this permission notice shall be 
+//	 The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//	 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
-// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+//	 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 using ACBr.Net.Core;
+using ACBr.Net.Core.Exceptions;
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.Core.Logging;
 using ACBr.Net.DFe.Core.Serializer;
@@ -38,7 +39,6 @@ using System;
 using System.IO;
 using System.Text;
 using System.Xml;
-using ACBr.Net.Core.Exceptions;
 
 namespace ACBr.Net.Sat
 {
@@ -54,6 +54,8 @@ namespace ACBr.Net.Sat
 
 		private ISatLibrary sat;
 		private Encoding encoding;
+		private ModeloSat modelo;
+		private string pathDll;
 		private string signAC;
 		private string codigoAtivacao;
 
@@ -152,7 +154,18 @@ namespace ACBr.Net.Sat
 		/// Modelo a ser utilizado pelo ACBrSat.
 		/// </summary>
 		/// <value>The modelo.</value>
-		public ModeloSat Modelo { get; set; }
+		public ModeloSat Modelo
+		{
+			get
+			{
+				return modelo;
+			}
+			set
+			{
+				Guard.Against<ACBrException>(Ativo, "Não é possível definir a propriedade com o componente ativo");
+				modelo = value;
+			}
+		}
 
 		/// <summary>
 		/// Código usado para ativar o Sat
@@ -168,7 +181,10 @@ namespace ACBr.Net.Sat
 				codigoAtivacao = e.Chave;
 				return codigoAtivacao;
 			}
-			set{ codigoAtivacao = value; }
+			set
+			{
+				codigoAtivacao = value;
+			}
 		}
 
 		/// <summary>
@@ -194,7 +210,18 @@ namespace ACBr.Net.Sat
 		/// Caminho onde se encontra a biblioteca do Sat.
 		/// </summary>
 		/// <value>O caminho da dll.</value>
-		public string PathDll { get; set; }
+		public string PathDll
+		{
+			get
+			{
+				return pathDll;
+			}
+			set
+			{
+				Guard.Against<ACBrException>(Ativo, "Não é possível definir a propriedade com o componente ativo");
+				pathDll = value;
+			}
+		}
 
 		/// <summary>
 		/// Enconding usado para tratar as string que são enviadas/recebidas.
@@ -209,7 +236,7 @@ namespace ACBr.Net.Sat
 			}
 			set
 			{
-				Guard.Against<Exception>(Ativo, "Não é possível definir a propriedade com o componente ativo");
+				Guard.Against<ACBrException>(Ativo, "Não é possível definir a propriedade com o componente ativo");
 				encoding = value;
 			}
 		}
@@ -280,6 +307,8 @@ namespace ACBr.Net.Sat
 
 		public SatResposta AssociarAssinatura(string cnpj, string assinaturaCnpj)
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
 			IniciaComando($"AssociarAssinatura({cnpj}, {assinaturaCnpj})");
 			var ret = sat.AssociarAssinatura(Sessao, CodigoAtivacao, cnpj, assinaturaCnpj);
 			return FinalizaComando<SatResposta>(ret);
@@ -287,6 +316,8 @@ namespace ACBr.Net.Sat
 
 		public SatResposta AtivarSAT(int subComando, string cnpj, int uf)
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
 			IniciaComando($"AtivarSAT({subComando}, {cnpj}, {uf})");
 			var ret = sat.AtivarSAT(Sessao, subComando, CodigoAtivacao, cnpj.OnlyNumbers(), uf);
 			return FinalizaComando<SatResposta>(ret);
@@ -294,6 +325,8 @@ namespace ACBr.Net.Sat
 
 		public SatResposta AtualizarSoftwareSAT()
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
 			IniciaComando("AtualizarSoftwareSAT()");
 			var ret = sat.AtualizarSoftwareSAT(Sessao, CodigoAtivacao);
 			return FinalizaComando<SatResposta>(ret);
@@ -301,6 +334,8 @@ namespace ACBr.Net.Sat
 
 		public SatResposta BloquearSAT()
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
 			IniciaComando("BloquearSAT()");
 			var ret = sat.BloquearSAT(Sessao, CodigoAtivacao);
 			return FinalizaComando<SatResposta>(ret);
@@ -313,6 +348,8 @@ namespace ACBr.Net.Sat
 		/// <returns>CancelamentoSatResposta.</returns>
 		public CancelamentoSatResposta CancelarUltimaVenda(CFe cfe)
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
 			var cfeCanc = new CFeCanc(cfe);
 			return CancelarUltimaVenda(cfeCanc.InfCFe.ChCanc, cfeCanc);
 		}
@@ -325,6 +362,7 @@ namespace ACBr.Net.Sat
 		/// <returns>CancelamentoSatResposta.</returns>
 		public CancelamentoSatResposta CancelarUltimaVenda(string chave, CFeCanc cfeCanc)
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 			Guard.Against<ArgumentException>(chave.IsEmpty(), "Chave não informada.");
 			Guard.Against<ArgumentNullException>(cfeCanc.IsNull(), "Dados da venda não informado.");
 
@@ -339,7 +377,7 @@ namespace ACBr.Net.Sat
 
 			var e = new EventoDadosEventArgs { DadosVenda = dadosCancelamento };
 			OnCancelarUltimaVenda.Raise(this, e);
-			
+
 			var ret = sat.CancelarUltimaVenda(Sessao, CodigoAtivacao, chave, dadosCancelamento);
 			var resposta = FinalizaComando<CancelamentoSatResposta>(ret);
 
@@ -367,6 +405,8 @@ namespace ACBr.Net.Sat
 
 		public SatResposta ComunicarCertificadoIcpBrasil(string certificado)
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
 			IniciaComando($"ComunicarCertificadoICPBRASIL({certificado})");
 			var ret = sat.ComunicarCertificadoIcpBrasil(Sessao, CodigoAtivacao, certificado);
 			return FinalizaComando<SatResposta>(ret);
@@ -374,6 +414,8 @@ namespace ACBr.Net.Sat
 
 		public SatResposta ConfigurarInterfaceDeRede(string dadosConfiguracao)
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
 			IniciaComando($"ConfigurarInterfaceDeRede({dadosConfiguracao})");
 			var ret = sat.ConfigurarInterfaceDeRede(Sessao, CodigoAtivacao, dadosConfiguracao);
 			return FinalizaComando<SatResposta>(ret);
@@ -381,6 +423,8 @@ namespace ACBr.Net.Sat
 
 		public SatResposta ConsultarNumeroSessao(int numeroSessao)
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
 			IniciaComando($"ConsultarNumeroSessao({numeroSessao})");
 			var ret = sat.ConsultarNumeroSessao(Sessao, CodigoAtivacao, numeroSessao);
 			return FinalizaComando<SatResposta>(ret);
@@ -388,6 +432,8 @@ namespace ACBr.Net.Sat
 
 		public SatResposta ConsultarSAT()
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
 			IniciaComando($"ConsultarSAT()");
 			var ret = sat.ConsultarSAT(Sessao);
 			return FinalizaComando<SatResposta>(ret);
@@ -395,6 +441,8 @@ namespace ACBr.Net.Sat
 
 		public SatResposta ConsultarStatusOperacional()
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
 			IniciaComando("ConsultarStatusOperacional()");
 			var ret = sat.ConsultarStatusOperacional(Sessao, CodigoAtivacao);
 			return FinalizaComando<SatResposta>(ret);
@@ -402,6 +450,8 @@ namespace ACBr.Net.Sat
 
 		public SatResposta DesbloquearSAT()
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
 			IniciaComando($"DesbloquearSAT()");
 			var ret = sat.DesbloquearSAT(Sessao, CodigoAtivacao);
 			return FinalizaComando<SatResposta>(ret);
@@ -414,6 +464,8 @@ namespace ACBr.Net.Sat
 		/// <returns>VendaSatResposta.</returns>
 		public VendaSatResposta EnviarDadosVenda(CFe cfe)
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
 			var dadosVenda = GetXml(cfe);
 
 			IniciaComando($"EnviarDadosVenda({dadosVenda})");
@@ -455,13 +507,17 @@ namespace ACBr.Net.Sat
 
 		public SatResposta ExtrairLogs()
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
 			IniciaComando($"ExtrairLogs()");
 			var ret = sat.ExtrairLogs(Sessao, CodigoAtivacao);
-			return FinalizaComando<SatResposta>(ret);
+			return FinalizaComando<LogResposta>(ret);
 		}
 
 		public SatResposta TesteFimAFim(CFe cfe)
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
 			var dadosVenda = GetXml(cfe);
 			IniciaComando($"TesteFimAFim({dadosVenda})");
 
@@ -471,6 +527,8 @@ namespace ACBr.Net.Sat
 
 		public SatResposta TrocarCodigoDeAtivacao(int opcao, string novoCodigo, string confNovoCodigo)
 		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
 			IniciaComando($"TrocarCodigoDeAtivacao({opcao}, {novoCodigo}, {confNovoCodigo})");
 			var ret = sat.TrocarCodigoDeAtivacao(Sessao, CodigoAtivacao, opcao, novoCodigo, confNovoCodigo);
 			return FinalizaComando<SatResposta>(ret);
@@ -507,13 +565,15 @@ namespace ACBr.Net.Sat
 			if (OnGetNumeroSessao == null)
 			{
 				Sessao = StaticRandom.Next(1, 999999);
-				return Sessao;
+			}
+			else
+			{
+				var e = new NumeroSessaoEventArgs(Sessao);
+				OnGetNumeroSessao.Raise(this, e);
+
+				Sessao = e.Sessao;
 			}
 
-			var e = new NumeroSessaoEventArgs(Sessao);
-			OnGetNumeroSessao.Raise(this, e);
-
-			Sessao = e.Sessao;
 			return Sessao;
 		}
 
@@ -530,7 +590,7 @@ namespace ACBr.Net.Sat
 		private T FinalizaComando<T>(string resposta) where T : SatResposta
 		{
 			Logger.Info($"NumeroSessao: {Sessao} - Resposta: {resposta}");
-			var resp = (T)Activator.CreateInstance(typeof(T), resposta);
+			var resp = (T)Activator.CreateInstance(typeof(T), resposta, Encoding);
 
 			if (OnMensagemSefaz != null)
 			{

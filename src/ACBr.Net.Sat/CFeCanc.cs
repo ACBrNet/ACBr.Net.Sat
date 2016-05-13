@@ -10,29 +10,30 @@
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2016 Grupo ACBr.Net
 //
-//	 Permission is hereby granted, free of charge, to any person obtaining 
-// a copy of this software and associated documentation files (the "Software"), 
-// to deal in the Software without restriction, including without limitation 
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-// and/or sell copies of the Software, and to permit persons to whom the 
+//	 Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following conditions:
-//	 The above copyright notice and this permission notice shall be 
+//	 The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//	 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
-// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+//	 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System.IO;
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.DFe.Core.Attributes;
 using ACBr.Net.DFe.Core.Document;
 using ACBr.Net.DFe.Core.Serializer;
+using System.IO;
+using System.Text;
 
 namespace ACBr.Net.Sat
 {
@@ -62,7 +63,7 @@ namespace ACBr.Net.Sat
 		/// Initializes a new instance of the <see cref="CFeCanc"/> class.
 		/// </summary>
 		/// <param name="cfe">The cfe.</param>
-		public CFeCanc(CFe cfe):this()
+		public CFeCanc(CFe cfe) : this()
 		{
 			InfCFe.ChCanc = $"CFe{cfe.InfCFe.Id}";
 			InfCFe.DhEmissao = cfe.InfCFe.Ide.DhEmissao;
@@ -139,7 +140,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <param name="path">The path.</param>
 		/// <returns>CFe.</returns>
-		public static CFeCanc Load(string path)
+		public static CFeCanc Load(string path, Encoding encoding = null)
 		{
 			var serializer = DFeSerializer.CreateSerializer<CFeCanc>();
 			return serializer.Deserialize(path);
@@ -150,7 +151,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <param name="stream">The stream.</param>
 		/// <returns>CFe.</returns>
-		public static CFeCanc Load(Stream stream)
+		public static CFeCanc Load(Stream stream, Encoding encoding = null)
 		{
 			var serializer = DFeSerializer.CreateSerializer<CFeCanc>();
 			return serializer.Deserialize(stream);
