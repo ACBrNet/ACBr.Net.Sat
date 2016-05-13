@@ -80,12 +80,16 @@ namespace ACBr.Net.Sat
 		public static CFe Load(string path, Encoding encoding = null)
 		{
 			var serializer = DFeSerializer.CreateSerializer<CFe>();
+			if(encoding != null)
+				serializer.Options.Encoder = encoding;
 			return serializer.Deserialize(path);
 		}
 
 		public static CFe Load(Stream stream, Encoding encoding = null)
 		{
 			var serializer = DFeSerializer.CreateSerializer<CFe>();
+			if (encoding != null)
+				serializer.Options.Encoder = encoding;
 			return serializer.Deserialize(stream);
 		}
 

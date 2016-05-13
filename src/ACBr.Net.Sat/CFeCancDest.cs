@@ -67,7 +67,7 @@ namespace ACBr.Net.Sat
 		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		private bool ShouldSerializeCPF()
 		{
-			return !CPF.IsEmpty();
+			return CNPJ.IsEmpty();
 		}
 
 		/// <summary>
@@ -76,7 +76,7 @@ namespace ACBr.Net.Sat
 		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		private bool ShouldSerializeCNPJ()
 		{
-			return !CPF.IsEmpty();
+			return CPF.IsEmpty();
 		}
 
 		#endregion Methods

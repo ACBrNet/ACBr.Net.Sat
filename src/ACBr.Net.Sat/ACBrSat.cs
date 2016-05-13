@@ -287,7 +287,7 @@ namespace ACBr.Net.Sat
 		/// <summary>
 		/// Retorna uma nova instancia da classe CFe com os dados inciais preenchidos.
 		/// </summary>
-		/// <returns>CFe.</returns>
+		/// <returns>CFe Iniciada.</returns>
 		public CFe NewCFe()
 		{
 			var ret = new CFe();
@@ -543,7 +543,7 @@ namespace ACBr.Net.Sat
 				var xml = new XmlDocument();
 				xml.Load(stream);
 
-				return xml.AsString(true, true, Encoding.UTF8);
+				return xml.AsString(true);
 			}
 		}
 
@@ -556,7 +556,7 @@ namespace ACBr.Net.Sat
 				var xml = new XmlDocument();
 				xml.Load(stream);
 
-				return xml.AsString(true, true, Encoding.UTF8);
+				return xml.AsString(true);
 			}
 		}
 

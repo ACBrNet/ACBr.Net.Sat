@@ -71,12 +71,12 @@ namespace ACBr.Net.Sat
 
 		private bool ShouldSerializeCPF()
 		{
-			return !CNPJ.IsEmpty();
+			return CNPJ.IsEmpty();
 		}
 
 		private bool ShouldSerializeCNPJ()
 		{
-			return !CPF.IsEmpty();
+			return CPF.IsEmpty();
 		}
 
 		#endregion Methods

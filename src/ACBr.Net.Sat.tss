@@ -2,26 +2,19 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>f:\programacao\acbr\acbr.net\acbr.net.sat\src\acbr.net.sat\acbrsat.cs</string>
+      <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat\ACBrSat.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>f:\programacao\acbr\acbr.net\acbr.net.sat\src\acbr.net.sat.demo\frmmain.cs</string>
-      <string>f:\programacao\acbr\acbr.net\acbr.net.sat\src\acbr.net.sat.demo\frmmain.cs</string>
+      <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat\SatCdecl.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>f:\programacao\acbr\acbr.net\acbr.net.sat\src\acbr.net.sat\satcdecl.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>f:\programacao\acbr\acbr.net\acbr.net.sat\src\acbr.net.sat\cfe.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat\VendaSatResposta.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat\ImpostoCOFINS.cs</string>
+      <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat.Demo\FrmMain.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat\SatStdCall.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>F:\Programacao\ACBr\ACBr.Net\ACBr.Net.Sat\src\ACBr.Net.Sat\CFeCanc.cs</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

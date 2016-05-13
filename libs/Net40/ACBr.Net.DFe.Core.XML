@@ -190,21 +190,23 @@
             <summary>
             Classe DFeElementAttribute.
             </summary>
+            <seealso cref="T:System.Attribute" />
+            <seealso cref="T:ACBr.Net.DFe.Core.Interfaces.IDFeElement" />
         </member>
         <member name="M:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute.#ctor">
             <summary>
-            Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute"/> class.
+            Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute" /> class.
             </summary>
         </member>
         <member name="M:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute"/> class.
+            Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute" /> class.
             </summary>
             <param name="tag">The Name.</param>
         </member>
         <member name="M:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute.#ctor(ACBr.Net.DFe.Core.Serializer.TipoCampo,System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute"/> class.
+            Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute" /> class.
             </summary>
             <param name="tipo">The tipo.</param>
             <param name="name">The name.</param>
@@ -452,7 +454,7 @@
             <param name="options">Indicates how the output is formatted or serialized.</param>
             <returns>The XElement representation of the primitive.</returns>
         </member>
-        <member name="M:ACBr.Net.DFe.Core.Serializer.PrimitiveSerializer.Deserialize(ACBr.Net.DFe.Core.Interfaces.IDFeElement,System.Xml.Linq.XObject,System.Object,System.Reflection.PropertyInfo)">
+        <member name="M:ACBr.Net.DFe.Core.Serializer.PrimitiveSerializer.Deserialize(ACBr.Net.DFe.Core.Interfaces.IDFeElement,System.Xml.Linq.XObject,System.Object,System.Reflection.PropertyInfo,ACBr.Net.DFe.Core.Serializer.SerializerOptions)">
             <summary>
             Deserializes the XElement to the fundamental primitive (e.g. string, int etc.) of a specified type using options.
             </summary>
@@ -460,6 +462,7 @@
             <param name="parentElement">The parent XElement used to deserialize the fundamental primitive.</param>
             <param name="item">The item.</param>
             <param name="prop">The property.</param>
+            <param name="options">The options.</param>
             <returns>The deserialized fundamental primitive from the XElement.</returns>
         </member>
         <member name="T:ACBr.Net.DFe.Core.Serializer.SerializerOptions">
@@ -543,6 +546,12 @@
             Gets or sets a value indicating whether this <see cref="T:ACBr.Net.DFe.Core.Serializer.SerializerOptions"/> is identar.
             </summary>
             <value><c>true</c> if identar; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:ACBr.Net.DFe.Core.Serializer.SerializerOptions.Encoder">
+            <summary>
+            Gets or sets the encoder.
+            </summary>
+            <value>The encoder.</value>
         </member>
         <member name="P:ACBr.Net.DFe.Core.Serializer.SerializerOptions.ErrosAlertas">
             <summary>
