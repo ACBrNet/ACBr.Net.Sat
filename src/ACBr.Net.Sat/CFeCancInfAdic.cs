@@ -1,12 +1,12 @@
 // ***********************************************************************
 // Assembly         : ACBr.Net.Sat
 // Author           : RFTD
-// Created          : 05-10-2016
+// Created          : 05-11-2016
 //
 // Last Modified By : RFTD
-// Last Modified On : 05-10-2016
+// Last Modified On : 05-11-2016
 // ***********************************************************************
-// <copyright file="CancelamentoSatResposta.cs" company="ACBr.Net">
+// <copyright file="CFeCancInfAdic.cs" company="ACBr.Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2016 Grupo ACBr.Net
 //
@@ -28,31 +28,39 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System;
-using System.IO;
+using ACBr.Net.DFe.Core.Attributes;
+using ACBr.Net.DFe.Core.Collection;
+using PropertyChanged;
 
 namespace ACBr.Net.Sat
 {
-	public class CancelamentoSatResposta : SatResposta
+	/// <summary>
+	/// Class CFeCancInfAdic. This class cannot be inherited.
+	/// </summary>
+	[ImplementPropertyChanged]
+	public sealed class CFeCancInfAdic
 	{
 		#region Constructors
 
-		public CancelamentoSatResposta(string retorno) : base(retorno)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CFeInfAdic" /> class.
+		/// </summary>
+		public CFeCancInfAdic()
 		{
-			if (CodigoDeRetorno != 7000) return;
-
-			using (var stream = new MemoryStream(Convert.FromBase64String(RetornoLst[5])))
-			{
-				Cancelamento = CFeCanc.Load(stream);
-			}
+			ObsFisco = new DFeCollection<InfAdicObsFisco>();
 		}
 
 		#endregion Constructors
 
-		#region Properties
+		#region Propriedades
 
-		public CFeCanc Cancelamento { get; set; }
+		/// <summary>
+		/// Gets or sets the obs fisco.
+		/// </summary>
+		/// <value>The obs fisco.</value>
+		[DFeElement("obsFisco", Id = "Z03", Min = 0, Max = 10, Ocorrencias = 0)]
+		public DFeCollection<InfAdicObsFisco> ObsFisco { get; set; }
 
-		#endregion Properties
+		#endregion Propriedades
 	}
 }

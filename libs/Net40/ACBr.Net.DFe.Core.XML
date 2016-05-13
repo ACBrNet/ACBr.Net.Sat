@@ -77,30 +77,18 @@
             Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute" /> class.
             </summary>
         </member>
+        <member name="M:ACBr.Net.DFe.Core.Attributes.DFeAttributeAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute" /> class.
+            </summary>
+            <param name="name">The Name.</param>
+        </member>
         <member name="M:ACBr.Net.DFe.Core.Attributes.DFeAttributeAttribute.#ctor(ACBr.Net.DFe.Core.Serializer.TipoCampo,System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute" /> class.
             </summary>
             <param name="tipo">The tipo.</param>
             <param name="name">The name.</param>
-        </member>
-        <member name="M:ACBr.Net.DFe.Core.Attributes.DFeAttributeAttribute.#ctor(ACBr.Net.DFe.Core.Serializer.TipoCampo,System.String,System.String,System.Int32,System.Int32,System.Int32,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute" /> class.
-            </summary>
-            <param name="tipo">The tipo.</param>
-            <param name="id">The identifier.</param>
-            <param name="name">The Name.</param>
-            <param name="min">The minimum.</param>
-            <param name="max">The maximum.</param>
-            <param name="ocorrencias">The ocorrencias.</param>
-            <param name="descricao">The descricao.</param>
-        </member>
-        <member name="M:ACBr.Net.DFe.Core.Attributes.DFeAttributeAttribute.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute" /> class.
-            </summary>
-            <param name="tag">The Name.</param>
         </member>
         <member name="P:ACBr.Net.DFe.Core.Attributes.DFeAttributeAttribute.Tipo">
             <summary>
@@ -149,12 +137,6 @@
             Class DFeItemAttribute.
             </summary>
             <seealso cref="T:System.Attribute" />
-        </member>
-        <member name="M:ACBr.Net.DFe.Core.Attributes.DFeItemAttribute.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute" /> class.
-            </summary>
-            <param name="name">The name.</param>
         </member>
         <member name="M:ACBr.Net.DFe.Core.Attributes.DFeItemAttribute.#ctor(System.Type,System.String)">
             <summary>
@@ -214,30 +196,18 @@
             Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute"/> class.
             </summary>
         </member>
+        <member name="M:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute"/> class.
+            </summary>
+            <param name="tag">The Name.</param>
+        </member>
         <member name="M:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute.#ctor(ACBr.Net.DFe.Core.Serializer.TipoCampo,System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute"/> class.
             </summary>
             <param name="tipo">The tipo.</param>
             <param name="name">The name.</param>
-        </member>
-        <member name="M:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute.#ctor(ACBr.Net.DFe.Core.Serializer.TipoCampo,System.String,System.String,System.Int32,System.Int32,System.Int32,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute" /> class.
-            </summary>
-            <param name="tipo">The tipo.</param>
-            <param name="id">The identifier.</param>
-            <param name="name">The Name.</param>
-            <param name="min">The minimum.</param>
-            <param name="max">The maximum.</param>
-            <param name="ocorrencias">The ocorrencias.</param>
-            <param name="descricao">The descricao.</param>
-        </member>
-        <member name="M:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute"/> class.
-            </summary>
-            <param name="tag">The Name.</param>
         </member>
         <member name="P:ACBr.Net.DFe.Core.Attributes.DFeElementAttribute.Tipo">
             <summary>
@@ -600,14 +570,16 @@
             The logger
             </summary>
         </member>
-        <member name="M:ACBr.Net.DFe.Core.Serializer.ObjectSerializer.Serialize(System.Object,System.String,ACBr.Net.DFe.Core.Serializer.SerializerOptions)">
+        <member name="M:ACBr.Net.DFe.Core.Serializer.ObjectSerializer.Serialize(System.Object,System.Type,System.String,ACBr.Net.DFe.Core.Serializer.SerializerOptions)">
             <summary>
             Serializes the specified object to a XElement using options.
             </summary>
             <param name="value">The object to serialize.</param>
+            <param name="tipo">The tipo.</param>
             <param name="name">The name of the object to serialize.</param>
             <param name="options">Indicates how the output is formatted or serialized.</param>
             <returns>The XElement representation of the object.</returns>
+            <exception cref="T:ACBr.Net.DFe.Core.ACBrDFeException"></exception>
         </member>
         <member name="M:ACBr.Net.DFe.Core.Serializer.ObjectSerializer.Serialize(System.Reflection.PropertyInfo,System.Object,ACBr.Net.DFe.Core.Serializer.SerializerOptions)">
             <summary>

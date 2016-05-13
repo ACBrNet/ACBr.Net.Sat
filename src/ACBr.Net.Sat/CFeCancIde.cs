@@ -1,12 +1,12 @@
 // ***********************************************************************
 // Assembly         : ACBr.Net.Sat
 // Author           : RFTD
-// Created          : 04-23-2016
+// Created          : 05-11-2016
 //
 // Last Modified By : RFTD
-// Last Modified On : 04-23-2016
+// Last Modified On : 05-11-2016
 // ***********************************************************************
-// <copyright file="CFeIde.cs" company="ACBr.Net">
+// <copyright file="CFeCancIde.cs" company="ACBr.Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2016 Grupo ACBr.Net
 //
@@ -28,7 +28,6 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-
 using System;
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.DFe.Core.Attributes;
@@ -38,17 +37,17 @@ using PropertyChanged;
 namespace ACBr.Net.Sat
 {
 	/// <summary>
-	/// Class CFeIde. This class cannot be inherited.
+	/// Class CFeCancIde. This class cannot be inherited.
 	/// </summary>
 	[ImplementPropertyChanged]
-	public sealed class CFeIde
+	public sealed class CFeCancIde
 	{
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="CFeIde"/> class.
+		/// Initializes a new instance of the <see cref="CFeIde" /> class.
 		/// </summary>
-		public CFeIde()
+		public CFeCancIde()
 		{
 			DhEmissao = null;
 			SignAC = string.Empty;
@@ -62,7 +61,7 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the c uf.
 		/// </summary>
 		/// <value>The c uf.</value>
-		[DFeElement(TipoCampo.Int, "cUF", Id  = "B02", Min = 2, Max = 2, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.Int, "cUF", Id = "B02", Min = 2, Max = 2, Ocorrencias = 0)]
 		public int UF { get; set; }
 
 		/// <summary>
@@ -134,14 +133,7 @@ namespace ACBr.Net.Sat
 		/// <value>The c dv.</value>
 		[DFeElement(TipoCampo.Int, "cDV", Id = "B09", Min = 1, Max = 1, Ocorrencias = 0)]
 		public int CDv { get; set; }
-
-		/// <summary>
-		/// Gets or sets the tp amb.
-		/// </summary>
-		/// <value>The tp amb.</value>
-		[DFeElement(TipoCampo.Enum, "tpAmb", Id = "B10", Min = 1, Max = 1, Ocorrencias = 0)]
-		public TipoAmbiente TpAmb { get; set; }
-
+		
 		/// <summary>
 		/// Gets or sets the CNPJ.
 		/// </summary>
@@ -174,51 +166,82 @@ namespace ACBr.Net.Sat
 
 		#region Methods
 
+		/// <summary>
+		/// Shoulds the serialize uf.
+		/// </summary>
+		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		private bool ShouldSerializeUF()
 		{
 			return UF > 0;
 		}
 
+		/// <summary>
+		/// Shoulds the serialize c nf.
+		/// </summary>
+		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		private bool ShouldSerializeCNf()
 		{
 			return CNf > 0;
 		}
 
+		/// <summary>
+		/// Shoulds the serialize modelo.
+		/// </summary>
+		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		private bool ShouldSerializeModelo()
 		{
 			return Modelo > 0;
 		}
 
+		/// <summary>
+		/// Shoulds the serialize n serie sat.
+		/// </summary>
+		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		private bool ShouldSerializeNSerieSAT()
 		{
 			return NSerieSAT > 0;
 		}
 
+		/// <summary>
+		/// Shoulds the serialize nc fe.
+		/// </summary>
+		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		private bool ShouldSerializeNCFe()
 		{
 			return NCFe > 0;
 		}
 
+		/// <summary>
+		/// Shoulds the serialize d emi.
+		/// </summary>
+		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		private bool ShouldSerializeDEmi()
 		{
 			return DhEmissao.HasValue;
 		}
 
+		/// <summary>
+		/// Shoulds the serialize h emi.
+		/// </summary>
+		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		private bool ShouldSerializeHEmi()
 		{
 			return DhEmissao.HasValue;
 		}
 
+		/// <summary>
+		/// Shoulds the serialize c dv.
+		/// </summary>
+		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		private bool ShouldSerializeCDv()
 		{
 			return CDv > 0;
 		}
 
-		private bool ShouldSerializeTpAmb()
-		{
-			return DhEmissao.HasValue;
-		}
-
+		/// <summary>
+		/// Shoulds the serialize assinatura qrcode.
+		/// </summary>
+		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		private bool ShouldSerializeAssinaturaQrcode()
 		{
 			return !AssinaturaQrcode.IsEmpty();

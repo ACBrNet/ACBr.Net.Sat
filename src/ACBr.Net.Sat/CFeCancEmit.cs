@@ -1,12 +1,12 @@
 // ***********************************************************************
 // Assembly         : ACBr.Net.Sat
 // Author           : RFTD
-// Created          : 04-29-2016
+// Created          : 05-11-2016
 //
 // Last Modified By : RFTD
-// Last Modified On : 04-29-2016
+// Last Modified On : 05-11-2016
 // ***********************************************************************
-// <copyright file="CFeDetImposto.cs" company="ACBr.Net">
+// <copyright file="CFeCancEmit.cs" company="ACBr.Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2016 Grupo ACBr.Net
 //
@@ -28,31 +28,27 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-
+using ACBr.Net.Core.Extensions;
 using ACBr.Net.DFe.Core.Attributes;
 using ACBr.Net.DFe.Core.Serializer;
-using ACBr.Net.Sat.Interfaces;
 using PropertyChanged;
 
 namespace ACBr.Net.Sat
 {
 	/// <summary>
-	/// Class CFeDetImposto. This class cannot be inherited.
+	/// Class CFeCancEmit. This class cannot be inherited.
 	/// </summary>
 	[ImplementPropertyChanged]
-	public sealed class CFeDetImposto
+	public sealed class CFeCancEmit
 	{
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="CFeDetImposto"/> class.
+		/// Initializes a new instance of the <see cref="CFeEmit" /> class.
 		/// </summary>
-		public CFeDetImposto()
+		public CFeCancEmit()
 		{
-			COFINSST = new ImpostoCofinsSt();
-			COFINS = new ImpostoCofins();
-			PISST = new ImpostoPisSt();
-			PIS = new ImpostoPIS();
+			EnderEmit = new CFeEnderEmit();
 		}
 
 		#endregion Constructors
@@ -60,79 +56,84 @@ namespace ACBr.Net.Sat
 		#region Propriedades
 
 		/// <summary>
-		/// Gets or sets the v item12741.
+		/// Gets or sets the CNPJ.
 		/// </summary>
-		/// <value>The v item12741.</value>
-		[DFeElement(TipoCampo.De2, "vItem12741", Id = "M02", Min = 3, Max = 15, Ocorrencias = 0)]
-		public decimal VItem12741 { get; set; }
+		/// <value>The CNPJ.</value>
+		[DFeElement(TipoCampo.StrNumberFill, "CNPJ", Id = "C02", Min = 14, Max = 14, Ocorrencias = 1)]
+		public string CNPJ { get; set; }
 
 		/// <summary>
-		/// Gets or sets the item.
+		/// Gets or sets the x nome.
 		/// </summary>
-		/// <value>The item.</value>
-		[DFeItem(typeof(ImpostoIcms), "ICMS")]
-		[DFeItem(typeof(ImpostoIssqn), "ISSQN")]
-		public ICFeImposto Imposto { get; set; }
+		/// <value>The x nome.</value>
+		[DFeElement(TipoCampo.Str, "xNome", Id = "C03", Min = 1, Max = 60, Ocorrencias = 1)]
+		public string XNome { get; set; }
 
 		/// <summary>
-		/// Gets or sets the pis.
+		/// Gets or sets the x fant.
 		/// </summary>
-		/// <value>The pis.</value>
-		[DFeElement("PIS", Id = "Q01", Ocorrencias = 1)]
-		public ImpostoPIS PIS { get; set; }
+		/// <value>The x fant.</value>
+		[DFeElement(TipoCampo.Str, "xFant", Id = "C04", Min = 1, Max = 60, Ocorrencias = 0)]
+		public string XFant { get; set; }
 
 		/// <summary>
-		/// Gets or sets the pisst.
+		/// Gets the ender emit.
 		/// </summary>
-		/// <value>The pisst.</value>
-		[DFeElement("PISST", Id = "R01", Ocorrencias = 1)]
-		public ImpostoPisSt PISST { get; set; }
+		/// <value>The ender emit.</value>
+		[DFeElement("enderEmit", Id = "C05", Ocorrencias = 0)]
+		public CFeEnderEmit EnderEmit { get; set; }
 
 		/// <summary>
-		/// Gets or sets the cofins.
+		/// Gets or sets the ie.
 		/// </summary>
-		/// <value>The cofins.</value>
-		[DFeElement("COFINS", Id = "S01", Ocorrencias = 1)]
-		public ImpostoCofins COFINS { get; set; }
+		/// <value>The ie.</value>
+		[DFeElement(TipoCampo.Str, "IE", Id = "C12", Min = 12, Max = 12, Ocorrencias = 1)]
+		public string IE { get; set; }
 
 		/// <summary>
-		/// Gets or sets the cofinsst.
+		/// Gets or sets the im.
 		/// </summary>
-		/// <value>The cofinsst.</value>
-		[DFeElement("COFINSST", Id = "T01", Ocorrencias = 1)]
-		public ImpostoCofinsSt COFINSST { get; set; }
+		/// <value>The im.</value>
+		[DFeElement(TipoCampo.Str, "IM", Id = "C13", Min = 1, Max = 15, Ocorrencias = 0)]
+		public string IM { get; set; }
 
 		#endregion Propriedades
 
 		#region Methods
 
-		private bool ShouldSerializeVItem12741()
+		private bool ShouldSerializeCNPJ()
 		{
-			return VItem12741 > 0;
+			return !CNPJ.IsEmpty();
+		}
+		
+		private bool ShouldSerializeNome()
+		{
+			return !XNome.IsEmpty();
+		}
+		
+		private bool ShouldSerializeFant()
+		{
+			return !XFant.IsEmpty();
+		}
+		
+		private bool ShouldSerializeEnderEmit()
+		{
+			return !EnderEmit.CEP.IsEmpty() ||
+			       !EnderEmit.Nro.IsEmpty() ||
+			       !EnderEmit.XBairro.IsEmpty() ||
+			       !EnderEmit.XCpl.IsEmpty() ||
+			       !EnderEmit.XLgr.IsEmpty() ||
+			       !EnderEmit.XMun.IsEmpty();
 		}
 
-		private bool ShouldSerializeImposto()
+		private bool ShouldSerializeIE()
 		{
-			if (Imposto is ImpostoIssqn)
-			{
-				var issqn = (ImpostoIssqn)Imposto;
-				return issqn.VDeducISSQN > 0 || issqn.VBc > 0 ||
-				       issqn.VAliq > 0 || issqn.VISSQN > 0;
-			}
-
-			return true;
+			return !IE.IsEmpty();
 		}
 
-		private bool ShouldSerializePISST()
+		private bool ShouldSerializeIM()
 		{
-			return PISST.PPIS > 0 || PISST.VBc > 0 ||
-					   PISST.QBcProd > 0 || PISST.VPIS > 0;
-		}
-
-		private bool ShouldSerializeCOFINSST()
-		{
-			return COFINSST.PCOFINS > 0 || COFINSST.VBc > 0 ||
-					   COFINSST.QBcProd > 0 || COFINSST.VCOFINS > 0;
+			return !IM.IsEmpty();
 		}
 
 		#endregion Methods

@@ -1,12 +1,12 @@
 // ***********************************************************************
 // Assembly         : ACBr.Net.Sat
 // Author           : RFTD
-// Created          : 05-10-2016
+// Created          : 05-11-2016
 //
 // Last Modified By : RFTD
-// Last Modified On : 05-10-2016
+// Last Modified On : 05-11-2016
 // ***********************************************************************
-// <copyright file="CancelamentoSatResposta.cs" company="ACBr.Net">
+// <copyright file="CFeCancDest.cs" company="ACBr.Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2016 Grupo ACBr.Net
 //
@@ -28,31 +28,57 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System;
-using System.IO;
+using ACBr.Net.Core.Extensions;
+using ACBr.Net.DFe.Core.Attributes;
+using ACBr.Net.DFe.Core.Serializer;
+using PropertyChanged;
 
 namespace ACBr.Net.Sat
 {
-	public class CancelamentoSatResposta : SatResposta
+	/// <summary>
+	/// Class CFeCancDest. This class cannot be inherited.
+	/// </summary>
+	[ImplementPropertyChanged]
+	public sealed class CFeCancDest
 	{
-		#region Constructors
+		#region Propriedades
 
-		public CancelamentoSatResposta(string retorno) : base(retorno)
+		/// <summary>
+		/// Gets or sets the CPF.
+		/// </summary>
+		/// <value>The CPF.</value>
+		[DFeElement(TipoCampo.StrNumberFill, "CPF", Id = "E02", Min = 11, Max = 11, Ocorrencias = 0)]
+		public string CPF { get; set; }
+
+		/// <summary>
+		/// Gets or sets the CNPJ.
+		/// </summary>
+		/// <value>The CNPJ.</value>
+		[DFeElement(TipoCampo.StrNumberFill, "CNPJ", Id = "E03", Min = 14, Max = 14, Ocorrencias = 0)]
+		public string CNPJ { get; set; }
+
+		#endregion Propriedades
+
+		#region Methods
+
+		/// <summary>
+		/// Shoulds the serialize CPF.
+		/// </summary>
+		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+		private bool ShouldSerializeCPF()
 		{
-			if (CodigoDeRetorno != 7000) return;
-
-			using (var stream = new MemoryStream(Convert.FromBase64String(RetornoLst[5])))
-			{
-				Cancelamento = CFeCanc.Load(stream);
-			}
+			return !CPF.IsEmpty();
 		}
 
-		#endregion Constructors
+		/// <summary>
+		/// Shoulds the serialize CNPJ.
+		/// </summary>
+		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+		private bool ShouldSerializeCNPJ()
+		{
+			return !CPF.IsEmpty();
+		}
 
-		#region Properties
-
-		public CFeCanc Cancelamento { get; set; }
-
-		#endregion Properties
+		#endregion Methods
 	}
 }

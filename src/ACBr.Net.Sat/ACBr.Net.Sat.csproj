@@ -73,6 +73,11 @@
     </Compile>
     <Compile Include="CancelamentoSatResposta.cs" />
     <Compile Include="CancInfCFe.cs" />
+    <Compile Include="CFeCancDest.cs" />
+    <Compile Include="CFeCancEmit.cs" />
+    <Compile Include="CFeCancIde.cs" />
+    <Compile Include="CFeCancInfAdic.cs" />
+    <Compile Include="CFeCancTotal.cs" />
     <Compile Include="CodigoMP.cs" />
     <Compile Include="Events\CalcPathEventEventArgs.cs" />
     <Compile Include="CFeCanc.cs" />

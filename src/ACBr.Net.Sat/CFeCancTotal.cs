@@ -1,12 +1,12 @@
 // ***********************************************************************
 // Assembly         : ACBr.Net.Sat
 // Author           : RFTD
-// Created          : 05-10-2016
+// Created          : 05-11-2016
 //
 // Last Modified By : RFTD
-// Last Modified On : 05-10-2016
+// Last Modified On : 05-11-2016
 // ***********************************************************************
-// <copyright file="CancelamentoSatResposta.cs" company="ACBr.Net">
+// <copyright file="CFeCancTotal.cs" company="ACBr.Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2016 Grupo ACBr.Net
 //
@@ -28,31 +28,51 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System;
-using System.IO;
+using ACBr.Net.DFe.Core.Attributes;
+using ACBr.Net.DFe.Core.Serializer;
+using PropertyChanged;
 
 namespace ACBr.Net.Sat
 {
-	public class CancelamentoSatResposta : SatResposta
+	/// <summary>
+	/// Class CFeCancTotal. This class cannot be inherited.
+	/// </summary>
+	[ImplementPropertyChanged]
+	public sealed class CFeCancTotal
 	{
 		#region Constructors
 
-		public CancelamentoSatResposta(string retorno) : base(retorno)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CFeTotal" /> class.
+		/// </summary>
+		public CFeCancTotal()
 		{
-			if (CodigoDeRetorno != 7000) return;
-
-			using (var stream = new MemoryStream(Convert.FromBase64String(RetornoLst[5])))
-			{
-				Cancelamento = CFeCanc.Load(stream);
-			}
 		}
 
 		#endregion Constructors
 
-		#region Properties
+		#region Propriedades
 
-		public CFeCanc Cancelamento { get; set; }
+		/// <summary>
+		/// Gets or sets the v c fe.
+		/// </summary>
+		/// <value>The v c fe.</value>
+		[DFeElement(TipoCampo.De2, "vCFe", Id = "W11", Min = 3, Max = 15, Ocorrencias = 1)]
+		public decimal VCFe { get; set; }
 
-		#endregion Properties
+		#endregion Propriedades
+
+		#region Methods
+
+		/// <summary>
+		/// Shoulds the serialize vc fe.
+		/// </summary>
+		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+		private bool ShouldSerializeVCFe()
+		{
+			return VCFe > 0;
+		}
+
+		#endregion Methods
 	}
 }

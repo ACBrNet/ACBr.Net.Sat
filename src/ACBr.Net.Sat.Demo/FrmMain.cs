@@ -48,7 +48,7 @@ namespace ACBr.Net.Sat.Demo
 			acbrSat.Configuracoes.EmitCNPJ = "82373077000171";
 			acbrSat.Configuracoes.EmitIE = "111111111111";
 			acbrSat.Configuracoes.IdeCNPJ = "16716114000172";
-			acbrSat.Configuracoes.EmitCRegTrib = RegTrib.Normal;
+			acbrSat.Configuracoes.EmitCRegTrib = RegTrib.SimplesNacional;
 			acbrSat.Configuracoes.EmitCRegTribISSQN = RegTribIssqn.Nenhum;
 			acbrSat.Configuracoes.EmitIndRatISSQN = RatIssqn.Nao;
 			acbrSat.Configuracoes.IdeTpAmb = TipoAmbiente.Homologacao;
@@ -102,14 +102,14 @@ namespace ACBr.Net.Sat.Demo
 			var totalGeral = 0M;
 			cfeAtual = acbrSat.NewCFe();
 			cfeAtual.InfCFe.Ide.NumeroCaixa = 1;
-			//cfeAtual.InfCFe.Dest.CNPJ = "05481336000137";
-			//cfeAtual.InfCFe.Dest.Nome = "D.J. SYSTEM ÁÉÍÓÚáéíóúÇç";
-			//cfeAtual.InfCFe.Entrega.XLgr = "logradouro";
-			//cfeAtual.InfCFe.Entrega.Nro = "112233";
-			//cfeAtual.InfCFe.Entrega.XCpl = "complemento";
-			//cfeAtual.InfCFe.Entrega.XBairro = "bairro";
-			//cfeAtual.InfCFe.Entrega.XMun = "municipio";
-			//cfeAtual.InfCFe.Entrega.UF = "MS";
+			cfeAtual.InfCFe.Dest.CNPJ = "05481336000137";
+			cfeAtual.InfCFe.Dest.Nome = "D.J. SYSTEM ÁÉÍÓÚáéíóúÇç";
+			cfeAtual.InfCFe.Entrega.XLgr = "logradouro";
+			cfeAtual.InfCFe.Entrega.Nro = "112233";
+			cfeAtual.InfCFe.Entrega.XCpl = "complemento";
+			cfeAtual.InfCFe.Entrega.XBairro = "bairro";
+			cfeAtual.InfCFe.Entrega.XMun = "municipio";
+			cfeAtual.InfCFe.Entrega.UF = "MS";
 			for (var i = 0; i < 3; i++)
 			{
 				var det1 = cfeAtual.InfCFe.Det.AddNew();
@@ -123,10 +123,10 @@ namespace ACBr.Net.Sat.Demo
 				det1.Prod.QCom = 1;
 				det1.Prod.VUnCom = 120.00M;
 				det1.Prod.IndRegra = IndRegra.Truncamento;
-				///det1.Prod.VDesc = 1;
-				//var obs = det1.Prod.ObsFiscoDet.AddNew();
-				//obs.XCampoDet = "campo";
-				//obs.XTextoDet = "texto";
+				det1.Prod.VDesc = 1;
+				var obs = det1.Prod.ObsFiscoDet.AddNew();
+				obs.XCampoDet = "campo";
+				obs.XTextoDet = "texto";
 
 				var totalItem = det1.Prod.QCom * det1.Prod.VUnCom;
 				totalGeral += totalItem;
@@ -149,28 +149,29 @@ namespace ACBr.Net.Sat.Demo
 					PPIS = 0.0065M
 				};
 
-				det1.Imposto.COFINS.COFINS = new ImpostoCofinsAliq()
+				det1.Imposto.COFINS.Cofins = new ImpostoCofinsAliq()
 				{
 					Cst = "01",
 					VBc = totalItem,
 					PCOFINS = 0.0065M
 				};
 
-				//det1.InfAdProd = "Informacoes adicionais";
+				det1.InfAdProd = "Informacoes adicionais";
 			}
 
 			cfeAtual.InfCFe.Total.DescAcrEntr.VDescSubtot = 5;
 			cfeAtual.InfCFe.Total.VCFeLei12741 = 1.23M;
 			var pgto1 = cfeAtual.InfCFe.Pagto.Pagamentos.AddNew();
-			pgto1.CMp = CodigoMP.Dinheiro;
-			pgto1.VMp = totalGeral;
+			pgto1.CMp = CodigoMP.CartaodeCredito;
+			pgto1.VMp = totalGeral / 2;
+			pgto1.CAdmC = 999;
 
-			//var pgto2 = cfeAtual.InfCFe.Pagto.Pagamentos.AddNew();
-			//pgto2.CMp = CodigoMP.Dinheiro;
-			//pgto2.VMp = totalGeral / 2 + 10;
+			var pgto2 = cfeAtual.InfCFe.Pagto.Pagamentos.AddNew();
+			pgto2.CMp = CodigoMP.Dinheiro;
+			pgto2.VMp = totalGeral / 2 + 10;
 
-			//cfeAtual.InfCFe.InfAdic.InfCpl = "Acesse www.projetoacbr.com.br para obter mais;informações sobre o componente ACBrSAT;" +
-			//							"Precisa de um PAF-ECF homologado?;Conheça o DJPDV - www.djpdv.com.br";
+			cfeAtual.InfCFe.InfAdic.InfCpl = "Acesse www.projetoacbr.com.br para obter mais;informações sobre o componente ACBrSAT;" +
+			                                 "Precisa de um PAF-ECF homologado?;Conheça o DJPDV - www.djpdv.com.br";
 
 			wbrXmlGerado.LoadXml(acbrSat.GetXml(cfeAtual));
 			tbcXml.SelectedTab = tpgXmlGerado;

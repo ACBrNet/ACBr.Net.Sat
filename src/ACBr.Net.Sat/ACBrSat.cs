@@ -7,7 +7,24 @@
 // Last Modified On : 05-05-2016
 // ***********************************************************************
 // <copyright file="ACBrSat.cs" company="ACBr.Net">
-//     Copyright © ACBr.Net 2014 - 2016
+//		        		   The MIT License (MIT)
+//	     		    Copyright (c) 2016 Grupo ACBr.Net
+//
+//	 Permission is hereby granted, free of charge, to any person obtaining 
+// a copy of this software and associated documentation files (the "Software"), 
+// to deal in the Software without restriction, including without limitation 
+// the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+// and/or sell copies of the Software, and to permit persons to whom the 
+// Software is furnished to do so, subject to the following conditions:
+//	 The above copyright notice and this permission notice shall be 
+// included in all copies or substantial portions of the Software.
+//	 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+// DEALINGS IN THE SOFTWARE.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
@@ -21,9 +38,14 @@ using System;
 using System.IO;
 using System.Text;
 using System.Xml;
+using ACBr.Net.Core.Exceptions;
 
 namespace ACBr.Net.Sat
 {
+	/// <summary>
+	/// Classe do componente ACBrSat.
+	/// </summary>
+	/// <seealso cref="ACBr.Net.Core.ACBrComponent" />
 	public class ACBrSat : ACBrComponent
 	{
 		#region Fields
@@ -33,19 +55,35 @@ namespace ACBr.Net.Sat
 		private ISatLibrary sat;
 		private Encoding encoding;
 		private string signAC;
+		private string codigoAtivacao;
 
 		#endregion Fields
 
 		#region Events
 
+		/// <summary>
+		/// Ocorre quando é necessario pegar o valor do Codigo de Ativação.
+		/// </summary>
 		public event EventHandler<ChaveEventArgs> OnGetCodigoDeAtivacao;
 
+		/// <summary>
+		/// Ocorre quando é necessario pegar o valor do SignAC.
+		/// </summary>
 		public event EventHandler<ChaveEventArgs> OnGetSignAC;
 
+		/// <summary>
+		/// Ocorre que é necessario pegar o número da sessão.
+		/// </summary>
 		public event EventHandler<NumeroSessaoEventArgs> OnGetNumeroSessao;
 
+		/// <summary>
+		/// Ocorre antes de enviar os dados da venda para o Sat.
+		/// </summary>
 		public event EventHandler<EventoDadosEventArgs> OnEnviarDadosVenda;
 
+		/// <summary>
+		/// Ocorre antes de cancelar uma venda.
+		/// </summary>
 		public event EventHandler<EventoDadosEventArgs> OnCancelarUltimaVenda;
 
 		public event EventHandler<EventoEventArgs> OnConsultaStatusOperacional;
@@ -54,14 +92,23 @@ namespace ACBr.Net.Sat
 
 		public event EventHandler<EventoDadosEventArgs> OnConsultarNumeroSessao;
 
+		/// <summary>
+		/// Ocorre quando tem alguma mensagem da Sefaz no retorno do SAT.
+		/// </summary>
 		public event EventHandler<SatMensagemEventArgs> OnMensagemSefaz;
 
+		/// <summary>
+		/// Ocorre quando é necessario calcular o Path para salvar os Xmls.
+		/// </summary>
 		public event EventHandler<CalcPathEventEventArgs> OnCalcPath;
 
 		#endregion Events
 
 		#region Constructor
 
+		/// <summary>
+		/// Inicializa uma nova instancia da classe <see cref="ACBrSat"/>.
+		/// </summary>
 		public ACBrSat()
 		{
 			Configuracoes = new SatConfig();
@@ -77,24 +124,62 @@ namespace ACBr.Net.Sat
 
 		#region Properties
 
+		/// <summary>
+		/// Indica se o componente esta ativo ou não.
+		/// </summary>
+		/// <value><c>true</c> if ativo; otherwise, <c>false</c>.</value>
 		public bool Ativo { get; private set; }
 
+		/// <summary>
+		/// Número da sessão atual.
+		/// </summary>
+		/// <value>The sessao.</value>
 		public int Sessao { get; private set; }
 
+		/// <summary>
+		/// Configurações do ACBrSat
+		/// </summary>
+		/// <value>The configuracoes.</value>
 		public SatConfig Configuracoes { get; private set; }
 
+		/// <summary>
+		/// Configurações de como ACBrSat vai se comportar com os arquivos gerado e recebido.
+		/// </summary>
+		/// <value>The arquivos.</value>
 		public CfgArquivos Arquivos { get; private set; }
 
+		/// <summary>
+		/// Modelo a ser utilizado pelo ACBrSat.
+		/// </summary>
+		/// <value>The modelo.</value>
 		public ModeloSat Modelo { get; set; }
 
-		public string CodigoAtivacao { get; set; }
+		/// <summary>
+		/// Código usado para ativar o Sat
+		/// </summary>
+		/// <value>Código ativacao.</value>
+		public string CodigoAtivacao
+		{
+			get
+			{
+				var e = new ChaveEventArgs { Chave = codigoAtivacao };
+				OnGetCodigoDeAtivacao.Raise(this, e);
 
+				codigoAtivacao = e.Chave;
+				return codigoAtivacao;
+			}
+			set{ codigoAtivacao = value; }
+		}
+
+		/// <summary>
+		/// Assinatura de (CNPJ Software House + CNPJ Emitente) que gerou o CF-e </summary>
+		/// <value>SignAC.</value>
 		public string SignAC
 		{
 			get
 			{
 				var e = new ChaveEventArgs { Chave = signAC };
-				OnGetSignAC?.Invoke(this, e);
+				OnGetSignAC.Raise(this, e);
 
 				signAC = e.Chave;
 				return signAC;
@@ -105,8 +190,17 @@ namespace ACBr.Net.Sat
 			}
 		}
 
+		/// <summary>
+		/// Caminho onde se encontra a biblioteca do Sat.
+		/// </summary>
+		/// <value>O caminho da dll.</value>
 		public string PathDll { get; set; }
 
+		/// <summary>
+		/// Enconding usado para tratar as string que são enviadas/recebidas.
+		/// </summary>
+		/// <value>O Enconder</value>
+		/// <exception cref="Exception">Não é possível definir a propriedade com o componente ativo</exception>
 		public Encoding Encoding
 		{
 			get
@@ -115,7 +209,7 @@ namespace ACBr.Net.Sat
 			}
 			set
 			{
-				if (Ativo) throw new Exception("Não é possível definir a propriedade com o componente ativo");
+				Guard.Against<Exception>(Ativo, "Não é possível definir a propriedade com o componente ativo");
 				encoding = value;
 			}
 		}
@@ -124,6 +218,12 @@ namespace ACBr.Net.Sat
 
 		#region Methods
 
+		#region Public
+
+		/// <summary>
+		/// Ativa o ACBrSat, obrigatorio antes de chamar qualquer metodo.
+		/// </summary>
+		/// <exception cref="NotImplementedException"></exception>
 		public void Ativar()
 		{
 			switch (Modelo)
@@ -137,12 +237,15 @@ namespace ACBr.Net.Sat
 					break;
 
 				default:
-					throw new NotImplementedException();
+					throw new NotImplementedException("Modelo não impementado !");
 			}
 
 			Ativo = true;
 		}
 
+		/// <summary>
+		/// Desativa o ACBrSat e libera a lib nativa
+		/// </summary>
 		public void Desativar()
 		{
 			if (sat != null)
@@ -154,6 +257,10 @@ namespace ACBr.Net.Sat
 			Ativo = false;
 		}
 
+		/// <summary>
+		/// Retorna uma nova instancia da classe CFe com os dados inciais preenchidos.
+		/// </summary>
+		/// <returns>CFe.</returns>
 		public CFe NewCFe()
 		{
 			var ret = new CFe();
@@ -199,36 +306,62 @@ namespace ACBr.Net.Sat
 			return FinalizaComando<SatResposta>(ret);
 		}
 
+		/// <summary>
+		/// Cancelar o CFe Informado
+		/// </summary>
+		/// <param name="cfe">CFe para cancelar.</param>
+		/// <returns>CancelamentoSatResposta.</returns>
+		public CancelamentoSatResposta CancelarUltimaVenda(CFe cfe)
+		{
+			var cfeCanc = new CFeCanc(cfe);
+			return CancelarUltimaVenda(cfeCanc.InfCFe.ChCanc, cfeCanc);
+		}
+
+		/// <summary>
+		/// Cancela a venda
+		/// </summary>
+		/// <param name="chave">A chave da CFe pra cancelar.</param>
+		/// <param name="cfeCanc">Instancia da classe de cancelamento.</param>
+		/// <returns>CancelamentoSatResposta.</returns>
 		public CancelamentoSatResposta CancelarUltimaVenda(string chave, CFeCanc cfeCanc)
 		{
-			var dadosCancelamento = GetXml(cfeCanc);
+			Guard.Against<ArgumentException>(chave.IsEmpty(), "Chave não informada.");
+			Guard.Against<ArgumentNullException>(cfeCanc.IsNull(), "Dados da venda não informado.");
 
+			var dadosCancelamento = GetXml(cfeCanc);
 			IniciaComando($"CancelarUltimaVenda({chave}, {dadosCancelamento})");
+
+			if (Arquivos.SalvarEnvio)
+			{
+				var envioPath = Path.Combine(Arquivos.PastaEnvio, Arquivos.PrefixoArqCFe, $"{DateTime.Now:yyyyMMddHHmmss}-{Sessao.ZeroFill(6)}-env.xml");
+				SalvarCFeCanc(cfeCanc, envioPath);
+			}
+
+			var e = new EventoDadosEventArgs { DadosVenda = dadosCancelamento };
+			OnCancelarUltimaVenda.Raise(this, e);
+			
 			var ret = sat.CancelarUltimaVenda(Sessao, CodigoAtivacao, chave, dadosCancelamento);
 			var resposta = FinalizaComando<CancelamentoSatResposta>(ret);
 
-			if (Arquivos.SalvarCFe)
+			if (!Arquivos.SalvarCFe)
+				return resposta;
+
+			var path = Path.Combine(Arquivos.PastaCFeVenda, resposta.Cancelamento.Emit.CNPJ, $"{resposta.Cancelamento.Ide.DEmi:yyyyMM}");
+			var calcPathEventEventArgs = new CalcPathEventEventArgs
 			{
-				var path = Path.Combine(Arquivos.PastaCFeVenda, resposta.Cancelamento.Emit.CNPJ, $"{resposta.Cancelamento.Ide.DEmi:yyyyMM}");
-				var e = new CalcPathEventEventArgs
-				{
-					CNPJ = resposta.Cancelamento.Emit.CNPJ,
-					Data = resposta.Cancelamento.Ide.DEmi,
-					Path = path
-				};
+				CNPJ = resposta.Cancelamento.Emit.CNPJ,
+				Data = resposta.Cancelamento.Ide.DEmi,
+				Path = path
+			};
 
-				OnCalcPath?.Invoke(this, e);
+			OnCalcPath.Raise(this, calcPathEventEventArgs);
 
-				if (!Directory.Exists(e.Path))
-				{
-					Directory.CreateDirectory(e.Path);
-				}
+			if (!Directory.Exists(calcPathEventEventArgs.Path))
+				Directory.CreateDirectory(calcPathEventEventArgs.Path);
 
-				var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resposta.Cancelamento.InfCFe.Id}";
-				var fullPath = Path.Combine(e.Path, nomeArquivo);
-				SalvarCFeCanc(resposta.Cancelamento, fullPath);
-			}
-
+			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resposta.Cancelamento.InfCFe.Id}";
+			var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
+			SalvarCFeCanc(resposta.Cancelamento, fullPath);
 			return resposta;
 		}
 
@@ -274,6 +407,11 @@ namespace ACBr.Net.Sat
 			return FinalizaComando<SatResposta>(ret);
 		}
 
+		/// <summary>
+		/// Envia os dados da venda para o Sat.
+		/// </summary>
+		/// <param name="cfe">The cfe.</param>
+		/// <returns>VendaSatResposta.</returns>
 		public VendaSatResposta EnviarDadosVenda(CFe cfe)
 		{
 			var dadosVenda = GetXml(cfe);
@@ -287,7 +425,7 @@ namespace ACBr.Net.Sat
 			}
 
 			var e = new EventoDadosEventArgs { DadosVenda = dadosVenda };
-			OnEnviarDadosVenda?.Invoke(this, e);
+			OnEnviarDadosVenda.Raise(this, e);
 
 			var ret = sat.EnviarDadosVenda(Sessao, CodigoAtivacao, e.DadosVenda);
 			var resposta = FinalizaComando<VendaSatResposta>(ret);
@@ -303,7 +441,7 @@ namespace ACBr.Net.Sat
 					Path = path
 				};
 
-				OnCalcPath?.Invoke(this, calcPathEventEventArgs);
+				OnCalcPath.Raise(this, calcPathEventEventArgs);
 
 				if (!Directory.Exists(calcPathEventEventArgs.Path)) Directory.CreateDirectory(calcPathEventEventArgs.Path);
 
@@ -338,22 +476,50 @@ namespace ACBr.Net.Sat
 			return FinalizaComando<SatResposta>(ret);
 		}
 
-		private int GerarNumeroSessao()
+		public string GetXml(CFe cfe)
+		{
+			using (var stream = new MemoryStream())
+			{
+				SalvarCFe(cfe, stream);
+
+				var xml = new XmlDocument();
+				xml.Load(stream);
+
+				return xml.AsString(true, true, Encoding.UTF8);
+			}
+		}
+
+		public string GetXml(CFeCanc cfeCanc)
+		{
+			using (var stream = new MemoryStream())
+			{
+				SalvarCFeCanc(cfeCanc, stream);
+
+				var xml = new XmlDocument();
+				xml.Load(stream);
+
+				return xml.AsString(true, true, Encoding.UTF8);
+			}
+		}
+
+		public int GerarNumeroSessao()
 		{
 			if (OnGetNumeroSessao == null)
 			{
 				Sessao = StaticRandom.Next(1, 999999);
 				return Sessao;
 			}
-			else
-			{
-				var e = new NumeroSessaoEventArgs(Sessao);
-				OnGetNumeroSessao(this, e);
 
-				Sessao = e.Sessao;
-				return Sessao;
-			}
+			var e = new NumeroSessaoEventArgs(Sessao);
+			OnGetNumeroSessao.Raise(this, e);
+
+			Sessao = e.Sessao;
+			return Sessao;
 		}
+
+		#endregion Public
+
+		#region Private
 
 		private void IniciaComando(string comandoLog)
 		{
@@ -371,7 +537,7 @@ namespace ACBr.Net.Sat
 				if (resp.CodigoSEFAZ > 0 && !resp.MensagemSEFAZ.IsEmpty())
 				{
 					var e = new SatMensagemEventArgs(resp.CodigoSEFAZ, resp.MensagemSEFAZ);
-					OnMensagemSefaz?.Invoke(this, e);
+					OnMensagemSefaz.Raise(this, e);
 				}
 			}
 
@@ -386,55 +552,35 @@ namespace ACBr.Net.Sat
 			return serializer;
 		}
 
-		private bool SalvarCFe(CFe cfe, string path)
+		private void SalvarCFe(CFe cfe, string path)
 		{
 			var serializer = GetSerializer<CFe>();
-			return serializer.Serialize(cfe, path);
+			serializer.Serialize(cfe, path);
 		}
 
-		private bool SalvarCFe(CFe cfe, Stream stream)
+		private void SalvarCFe(CFe cfe, Stream stream)
 		{
 			var serializer = GetSerializer<CFe>();
-			return serializer.Serialize(cfe, stream);
+			serializer.Serialize(cfe, stream);
 		}
 
-		public string GetXml(CFe cfe)
-		{
-			using (var stream = new MemoryStream())
-			{
-				SalvarCFe(cfe, stream);
-
-				var xml = new XmlDocument();
-				xml.Load(stream);
-
-				return xml.AsString(true, true, Encoding.UTF8);
-			}
-		}
-
-		private bool SalvarCFeCanc(CFeCanc cfeCanc, string path)
+		private void SalvarCFeCanc(CFeCanc cfeCanc, string path)
 		{
 			var serializer = GetSerializer<CFeCanc>();
-			return serializer.Serialize(cfeCanc, path);
+			serializer.Serialize(cfeCanc, path);
+			return;
 		}
 
-		private bool SalvarCFeCanc(CFeCanc cfeCanc, Stream stream)
+		private void SalvarCFeCanc(CFeCanc cfeCanc, Stream stream)
 		{
 			var serializer = GetSerializer<CFeCanc>();
-			return serializer.Serialize(cfeCanc, stream);
+			serializer.Serialize(cfeCanc, stream);
+			return;
 		}
 
-		public string GetXml(CFeCanc cfeCanc)
-		{
-			using (var stream = new MemoryStream())
-			{
-				SalvarCFeCanc(cfeCanc, stream);
+		#endregion Private
 
-				var xml = new XmlDocument();
-				xml.Load(stream);
-
-				return xml.AsString(true, true, Encoding.UTF8);
-			}
-		}
+		#region Override
 
 		protected override void OnInitialize()
 		{
@@ -447,6 +593,8 @@ namespace ACBr.Net.Sat
 				Desativar();
 			}
 		}
+
+		#endregion Override
 
 		#endregion Methods
 	}
