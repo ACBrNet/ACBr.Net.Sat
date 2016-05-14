@@ -305,6 +305,12 @@ namespace ACBr.Net.Sat
 			return ret;
 		}
 
+		/// <summary>
+		/// Associa a sua assinatura ao Sat
+		/// </summary>
+		/// <param name="cnpj">The CNPJ.</param>
+		/// <param name="assinaturaCnpj">The assinatura CNPJ.</param>
+		/// <returns>SatResposta.</returns>
 		public SatResposta AssociarAssinatura(string cnpj, string assinaturaCnpj)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
@@ -314,6 +320,13 @@ namespace ACBr.Net.Sat
 			return FinalizaComando<SatResposta>(ret);
 		}
 
+		/// <summary>
+		/// Função para ativa o Sat.
+		/// </summary>
+		/// <param name="subComando">The sub comando.</param>
+		/// <param name="cnpj">The CNPJ.</param>
+		/// <param name="uf">The uf.</param>
+		/// <returns>SatResposta.</returns>
 		public SatResposta AtivarSAT(int subComando, string cnpj, int uf)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
@@ -323,6 +336,10 @@ namespace ACBr.Net.Sat
 			return FinalizaComando<SatResposta>(ret);
 		}
 
+		/// <summary>
+		/// Envia um comando para o Sat se atualizar.
+		/// </summary>
+		/// <returns>SatResposta.</returns>
 		public SatResposta AtualizarSoftwareSAT()
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
@@ -332,12 +349,29 @@ namespace ACBr.Net.Sat
 			return FinalizaComando<SatResposta>(ret);
 		}
 
+		/// <summary>
+		/// Bloquea o Sat.
+		/// </summary>
+		/// <returns>SatResposta.</returns>
 		public SatResposta BloquearSAT()
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
 			IniciaComando("BloquearSAT()");
 			var ret = sat.BloquearSAT(Sessao, CodigoAtivacao);
+			return FinalizaComando<SatResposta>(ret);
+		}
+
+		/// <summary>
+		/// Libera o Sat.
+		/// </summary>
+		/// <returns>SatResposta.</returns>
+		public SatResposta DesbloquearSAT()
+		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
+			IniciaComando($"DesbloquearSAT()");
+			var ret = sat.DesbloquearSAT(Sessao, CodigoAtivacao);
 			return FinalizaComando<SatResposta>(ret);
 		}
 
@@ -349,30 +383,43 @@ namespace ACBr.Net.Sat
 		public CancelamentoSatResposta CancelarUltimaVenda(CFe cfe)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+			Guard.Against<ArgumentNullException>(cfe.IsNull(), nameof(cfe));
 
 			var cfeCanc = new CFeCanc(cfe);
-			return CancelarUltimaVenda(cfeCanc.InfCFe.ChCanc, cfeCanc);
+			return CancelarUltimaVenda(cfeCanc);
 		}
 
+		/// <summary>
+		/// Cancela a venda relacionada a classe de cancelamento informada.
+		/// </summary>
+		/// <param name="cfeCanc">The cfe canc.</param>
+		/// <returns>CancelamentoSatResposta.</returns>
+		public CancelamentoSatResposta CancelarUltimaVenda(CFeCanc cfeCanc)
+		{
+			Guard.Against<ArgumentNullException>(cfeCanc.IsNull(), nameof(cfeCanc));
+
+			var dados = GetXml(cfeCanc);
+			return CancelarUltimaVenda(cfeCanc.InfCFe.ChCanc, dados);
+		}
+		
 		/// <summary>
 		/// Cancela a venda
 		/// </summary>
 		/// <param name="chave">A chave da CFe pra cancelar.</param>
-		/// <param name="cfeCanc">Instancia da classe de cancelamento.</param>
+		/// <param name="dadosCancelamento">XML de cancelamento.</param>
 		/// <returns>CancelamentoSatResposta.</returns>
-		public CancelamentoSatResposta CancelarUltimaVenda(string chave, CFeCanc cfeCanc)
+		public CancelamentoSatResposta CancelarUltimaVenda(string chave, string dadosCancelamento)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 			Guard.Against<ArgumentException>(chave.IsEmpty(), "Chave não informada.");
-			Guard.Against<ArgumentNullException>(cfeCanc.IsNull(), "Dados da venda não informado.");
-
-			var dadosCancelamento = GetXml(cfeCanc);
+			Guard.Against<ArgumentException>(dadosCancelamento.IsEmpty(), "Dados de cancelamento não informado.");
+			
 			IniciaComando($"CancelarUltimaVenda({chave}, {dadosCancelamento})");
 
 			if (Arquivos.SalvarEnvio)
 			{
 				var envioPath = Path.Combine(Arquivos.PastaEnvio, Arquivos.PrefixoArqCFe, $"{DateTime.Now:yyyyMMddHHmmss}-{Sessao.ZeroFill(6)}-env.xml");
-				SalvarCFeCanc(cfeCanc, envioPath);
+				File.WriteAllText(envioPath, dadosCancelamento);
 			}
 
 			var e = new EventoDadosEventArgs { DadosVenda = dadosCancelamento };
@@ -399,10 +446,16 @@ namespace ACBr.Net.Sat
 
 			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resposta.Cancelamento.InfCFe.Id}";
 			var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
-			SalvarCFeCanc(resposta.Cancelamento, fullPath);
+			Salvar(resposta.Cancelamento, fullPath);
 			return resposta;
 		}
 
+		/// <summary>
+		/// Seta o certificado para o Sat usa.
+		/// So use caso você utiliza certificado Icp Brasil (NFe).
+		/// </summary>
+		/// <param name="certificado">The certificado.</param>
+		/// <returns>SatResposta.</returns>
 		public SatResposta ComunicarCertificadoIcpBrasil(string certificado)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
@@ -412,15 +465,27 @@ namespace ACBr.Net.Sat
 			return FinalizaComando<SatResposta>(ret);
 		}
 
-		public SatResposta ConfigurarInterfaceDeRede(string dadosConfiguracao)
+		/// <summary>
+		/// Configura a interface de rede do Sat.
+		/// </summary>
+		/// <param name="config">The configuration.</param>
+		/// <returns>SatResposta.</returns>
+		public SatResposta ConfigurarInterfaceDeRede(CFeRede config)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+			Guard.Against<ArgumentNullException>(config.IsNull(), nameof(config));
 
-			IniciaComando($"ConfigurarInterfaceDeRede({dadosConfiguracao})");
-			var ret = sat.ConfigurarInterfaceDeRede(Sessao, CodigoAtivacao, dadosConfiguracao);
+			var configuracao = GetXml(config);
+			IniciaComando($"ConfigurarInterfaceDeRede({configuracao})");
+			var ret = sat.ConfigurarInterfaceDeRede(Sessao, CodigoAtivacao, configuracao);
 			return FinalizaComando<SatResposta>(ret);
 		}
 
+		/// <summary>
+		/// Consulta os dados da sessão informada.
+		/// </summary>
+		/// <param name="numeroSessao">The numero sessao.</param>
+		/// <returns>SatResposta.</returns>
 		public SatResposta ConsultarNumeroSessao(int numeroSessao)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
@@ -430,6 +495,10 @@ namespace ACBr.Net.Sat
 			return FinalizaComando<SatResposta>(ret);
 		}
 
+		/// <summary>
+		/// Consulta a situação do Sat.
+		/// </summary>
+		/// <returns>SatResposta.</returns>
 		public SatResposta ConsultarSAT()
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
@@ -439,21 +508,16 @@ namespace ACBr.Net.Sat
 			return FinalizaComando<SatResposta>(ret);
 		}
 
+		/// <summary>
+		/// Consulta a situação operacional do Sat.
+		/// </summary>
+		/// <returns>SatResposta.</returns>
 		public SatResposta ConsultarStatusOperacional()
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
 			IniciaComando("ConsultarStatusOperacional()");
 			var ret = sat.ConsultarStatusOperacional(Sessao, CodigoAtivacao);
-			return FinalizaComando<SatResposta>(ret);
-		}
-
-		public SatResposta DesbloquearSAT()
-		{
-			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
-
-			IniciaComando($"DesbloquearSAT()");
-			var ret = sat.DesbloquearSAT(Sessao, CodigoAtivacao);
 			return FinalizaComando<SatResposta>(ret);
 		}
 
@@ -465,6 +529,7 @@ namespace ACBr.Net.Sat
 		public VendaSatResposta EnviarDadosVenda(CFe cfe)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+			Guard.Against<ArgumentNullException>(cfe.IsNull(), nameof(cfe));
 
 			var dadosVenda = GetXml(cfe);
 
@@ -473,7 +538,7 @@ namespace ACBr.Net.Sat
 			if (Arquivos.SalvarEnvio)
 			{
 				var envioPath = Path.Combine(Arquivos.PastaEnvio, Arquivos.PrefixoArqCFe, $"{DateTime.Now:yyyyMMddHHmmss}-{Sessao.ZeroFill(6)}-env.xml");
-				SalvarCFe(cfe, envioPath);
+				Salvar(cfe, envioPath);
 			}
 
 			var e = new EventoDadosEventArgs { DadosVenda = dadosVenda };
@@ -499,21 +564,30 @@ namespace ACBr.Net.Sat
 
 				var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resposta.Venda.InfCFe.Id}";
 				var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
-				SalvarCFe(resposta.Venda, fullPath);
+				Salvar(resposta.Venda, fullPath);
 			}
 
 			return resposta;
 		}
 
+		/// <summary>
+		/// Extrai os logs do Sat.
+		/// </summary>
+		/// <returns>SatResposta.</returns>
 		public SatResposta ExtrairLogs()
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
-			IniciaComando($"ExtrairLogs()");
+			IniciaComando("ExtrairLogs()");
 			var ret = sat.ExtrairLogs(Sessao, CodigoAtivacao);
 			return FinalizaComando<LogResposta>(ret);
 		}
 
+		/// <summary>
+		/// Realiza um teste de fim a fim no Sat.
+		/// </summary>
+		/// <param name="cfe">The cfe.</param>
+		/// <returns>SatResposta.</returns>
 		public SatResposta TesteFimAFim(CFe cfe)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
@@ -525,6 +599,13 @@ namespace ACBr.Net.Sat
 			return FinalizaComando<SatResposta>(ret);
 		}
 
+		/// <summary>
+		/// Troca o codigo de ativação do Sat.
+		/// </summary>
+		/// <param name="opcao">The opcao.</param>
+		/// <param name="novoCodigo">The novo codigo.</param>
+		/// <param name="confNovoCodigo">The conf novo codigo.</param>
+		/// <returns>SatResposta.</returns>
 		public SatResposta TrocarCodigoDeAtivacao(int opcao, string novoCodigo, string confNovoCodigo)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
@@ -534,47 +615,24 @@ namespace ACBr.Net.Sat
 			return FinalizaComando<SatResposta>(ret);
 		}
 
+		/// <summary>
+		/// Retorna a XML do CFe.
+		/// </summary>
+		/// <param name="cfe">Instancia CFe.</param>
+		/// <returns>XML da CFe</returns>
 		public string GetXml(CFe cfe)
 		{
-			using (var stream = new MemoryStream())
-			{
-				SalvarCFe(cfe, stream);
-
-				var xml = new XmlDocument();
-				xml.Load(stream);
-
-				return xml.AsString(true);
-			}
+			return GetXml<CFe>(cfe);
 		}
 
+		/// <summary>
+		/// Retorna a XML do CFe de cancelamento.
+		/// </summary>
+		/// <param name="cfeCanc">Instancia CFeCanc.</param>
+		/// <returns>XML de Cancelamento.</returns>
 		public string GetXml(CFeCanc cfeCanc)
 		{
-			using (var stream = new MemoryStream())
-			{
-				SalvarCFeCanc(cfeCanc, stream);
-
-				var xml = new XmlDocument();
-				xml.Load(stream);
-
-				return xml.AsString(true);
-			}
-		}
-
-		public int GerarNumeroSessao()
-		{
-			if (OnGetNumeroSessao == null)
-			{
-				Sessao = StaticRandom.Next(1, 999999);
-			}
-			else
-			{
-				var e = new NumeroSessaoEventArgs(Sessao);
-				OnGetNumeroSessao.Raise(this, e);
-
-				Sessao = e.Sessao;
-			}
-
-			return Sessao;
+			return GetXml<CFeCanc>(cfeCanc);
 		}
 
 		#endregion Public
@@ -611,31 +669,39 @@ namespace ACBr.Net.Sat
 			serializer.Options.FormatarXml = Configuracoes.FormatarXml;
 			return serializer;
 		}
-
-		private void SalvarCFe(CFe cfe, string path)
+		
+		private void GerarNumeroSessao()
 		{
-			var serializer = GetSerializer<CFe>();
-			serializer.Serialize(cfe, path);
+			Sessao = StaticRandom.Next(1, 999999);
+
+			var e = new NumeroSessaoEventArgs(Sessao);
+			OnGetNumeroSessao.Raise(this, e);
+			Sessao = e.Sessao;
 		}
 
-		private void SalvarCFe(CFe cfe, Stream stream)
+		private string GetXml<T>(T cfe) where T : class
 		{
-			var serializer = GetSerializer<CFe>();
-			serializer.Serialize(cfe, stream);
+			using (var stream = new MemoryStream())
+			{
+				Salvar<T>(cfe, stream);
+
+				var xml = new XmlDocument();
+				xml.Load(stream);
+
+				return xml.AsString(true);
+			}
 		}
 
-		private void SalvarCFeCanc(CFeCanc cfeCanc, string path)
+		private void Salvar<T>(T item, string path) where T : class
 		{
-			var serializer = GetSerializer<CFeCanc>();
-			serializer.Serialize(cfeCanc, path);
-			return;
+			var serializer = GetSerializer<T>();
+			serializer.Serialize(item, path);
 		}
 
-		private void SalvarCFeCanc(CFeCanc cfeCanc, Stream stream)
+		private void Salvar<T>(T item, Stream stream) where T : class
 		{
-			var serializer = GetSerializer<CFeCanc>();
-			serializer.Serialize(cfeCanc, stream);
-			return;
+			var serializer = GetSerializer<T>();
+			serializer.Serialize(item, stream);
 		}
 
 		#endregion Private
