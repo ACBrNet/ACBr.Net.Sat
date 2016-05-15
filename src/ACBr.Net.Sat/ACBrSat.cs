@@ -88,6 +88,14 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		public event EventHandler<EventoDadosEventArgs> OnCancelarUltimaVenda;
 
+		/// <summary>
+		/// Ocorre quando é chamado o comando ConsultarSat para caso o usuario queria tratar esta função.
+		/// </summary>
+		public event EventHandler<EventoEventArgs> OnConsultarSat;
+
+		/// <summary>
+		/// Ocorre quando é chamado o comando ConsultaStatusOperacional para caso o usuario queria tratar esta função.
+		/// </summary>
 		public event EventHandler<EventoEventArgs> OnConsultaStatusOperacional;
 
 		public event EventHandler<EventoEventArgs> OnExtrairLogs;
@@ -428,10 +436,12 @@ namespace ACBr.Net.Sat
 			var ret = sat.CancelarUltimaVenda(Sessao, CodigoAtivacao, chave, dadosCancelamento);
 			var resposta = FinalizaComando<CancelamentoSatResposta>(ret);
 
-			if (!Arquivos.SalvarCFe)
+			if (!Arquivos.SalvarCFeCanc)
 				return resposta;
 
-			var path = Path.Combine(Arquivos.PastaCFeVenda, resposta.Cancelamento.Emit.CNPJ, $"{resposta.Cancelamento.Ide.DEmi:yyyyMM}");
+			var cnpj = Arquivos.SepararPorCNPJ ? resposta.Cancelamento.Emit.CNPJ : "";
+			var data = Arquivos.SepararPorMes ? $"{resposta.Cancelamento.Ide.DEmi:yyyy}\\{resposta.Cancelamento.Ide.DEmi:MM}" : "";
+			var path = Path.Combine(Arquivos.PastaCFeVenda, cnpj, data);
 			var calcPathEventEventArgs = new CalcPathEventEventArgs
 			{
 				CNPJ = resposta.Cancelamento.Emit.CNPJ,
@@ -502,23 +512,32 @@ namespace ACBr.Net.Sat
 		public SatResposta ConsultarSAT()
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+			IniciaComando("ConsultarSAT()");
+			var e = new EventoEventArgs {Retorno = string.Empty};
+			OnConsultarSat.Raise(this, e);
 
-			IniciaComando($"ConsultarSAT()");
-			var ret = sat.ConsultarSAT(Sessao);
-			return FinalizaComando<SatResposta>(ret);
+			if(e.Retorno.IsEmpty())
+				e.Retorno = sat.ConsultarSAT(Sessao);
+
+			return FinalizaComando<SatResposta>(e.Retorno);
 		}
 
 		/// <summary>
 		/// Consulta a situação operacional do Sat.
 		/// </summary>
 		/// <returns>SatResposta.</returns>
-		public SatResposta ConsultarStatusOperacional()
+		public StatusOperacionalResposta ConsultarStatusOperacional()
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
 			IniciaComando("ConsultarStatusOperacional()");
-			var ret = sat.ConsultarStatusOperacional(Sessao, CodigoAtivacao);
-			return FinalizaComando<SatResposta>(ret);
+			var e = new EventoEventArgs { Retorno = string.Empty };
+			OnConsultaStatusOperacional.Raise(this, e);
+			
+			if (e.Retorno.IsEmpty())
+				e.Retorno = sat.ConsultarStatusOperacional(Sessao, CodigoAtivacao);
+
+			return FinalizaComando<StatusOperacionalResposta>(e.Retorno);
 		}
 
 		/// <summary>
@@ -549,8 +568,9 @@ namespace ACBr.Net.Sat
 
 			if (Arquivos.SalvarCFe)
 			{
-				var path = Path.Combine(Arquivos.PastaCFeVenda, resposta.Venda.InfCFe.Emit.CNPJ, $"{resposta.Venda.InfCFe.Ide.DEmi:yyyyMM}");
-
+				var cnpj = Arquivos.SepararPorCNPJ ? resposta.Venda.InfCFe.Emit.CNPJ : "";
+				var data = Arquivos.SepararPorMes ? $"{resposta.Venda.InfCFe.Ide.DEmi:yyyy}\\{resposta.Venda.InfCFe.Ide.DEmi:MM}" : "";
+				var path = Path.Combine(Arquivos.PastaCFeVenda, cnpj, data);
 				var calcPathEventEventArgs = new CalcPathEventEventArgs
 				{
 					CNPJ = resposta.Venda.InfCFe.Emit.CNPJ,

@@ -4,6 +4,21 @@
         <name>ACBr.Net.Core</name>
     </assembly>
     <members>
+        <member name="T:ACBr.Net.Core.ACBrExpandableObjectConverter">
+            <summary>
+            Classe ACBrExpandableObjectConverter.
+            </summary>
+        </member>
+        <member name="M:ACBr.Net.Core.ACBrExpandableObjectConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
+            <summary>
+            Converts to.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="culture">The culture.</param>
+            <param name="value">The value.</param>
+            <param name="destType">Type of the dest.</param>
+            <returns>System.Object.</returns>
+        </member>
         <member name="T:ACBr.Net.Core.CalcDigito">
             <summary>
             Class CalcDigito. This class cannot be inherited.
@@ -72,37 +87,22 @@
             Calculoes the padrao.
             </summary>
         </member>
-        <member name="T:ACBr.Net.Core.ACBrExpandableObjectConverter">
-            <summary>
-            Classe ACBrExpandableObjectConverter.
-            </summary>
-        </member>
-        <member name="M:ACBr.Net.Core.ACBrExpandableObjectConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
-            <summary>
-            Converts to.
-            </summary>
-            <param name="context">The context.</param>
-            <param name="culture">The culture.</param>
-            <param name="value">The value.</param>
-            <param name="destType">Type of the dest.</param>
-            <returns>System.Object.</returns>
-        </member>
-        <member name="T:ACBr.Net.Core.Enum.CalcDigFormula">
+        <member name="T:ACBr.Net.Core.CalcDigFormula">
             <summary>
             Enum CalcDigFormula
             </summary>
         </member>
-        <member name="F:ACBr.Net.Core.Enum.CalcDigFormula.Modulo11">
+        <member name="F:ACBr.Net.Core.CalcDigFormula.Modulo11">
             <summary>
             The modulo11
             </summary>
         </member>
-        <member name="F:ACBr.Net.Core.Enum.CalcDigFormula.Modulo10PIS">
+        <member name="F:ACBr.Net.Core.CalcDigFormula.Modulo10PIS">
             <summary>
             The modulo10 pis
             </summary>
         </member>
-        <member name="F:ACBr.Net.Core.Enum.CalcDigFormula.Modulo10">
+        <member name="F:ACBr.Net.Core.CalcDigFormula.Modulo10">
             <summary>
             The modulo10
             </summary>
@@ -217,6 +217,11 @@
             </summary>
             <param name="array">The array.</param>
             <returns>String com todos os dados da lista de strings</returns>
+        </member>
+        <member name="T:ACBr.Net.Core.Extensions.EnumExtension">
+            <summary>
+            Class EnumExtension.
+            </summary>
         </member>
         <member name="M:ACBr.Net.Core.Extensions.EnumExtension.GetEnumDescription``1(``0)">
             <summary>
@@ -732,20 +737,44 @@
             Encrypts the specified data.
             </summary>
             <param name="data">The data.</param>
-            <param name="key">The key.</param>
+            <param name="password">The password.</param>
             <returns>System.String.</returns>
             <exception cref="T:System.Exception">Erro ao criptografar a string</exception>
-            <exception cref="T:System.Exception">Erro ao criptografar string</exception>
+            <exception cref="T:System.Exception">Erro ao criptografar a string</exception>
         </member>
         <member name="M:ACBr.Net.Core.Extensions.StringExtensions.Decrypt(System.String,System.String)">
             <summary>
             Decrypts the specified data.
             </summary>
             <param name="data">The data.</param>
-            <param name="key">The key.</param>
+            <param name="password">The password.</param>
             <returns>System.String.</returns>
             <exception cref="T:System.Exception">Erro ao descriptografar string</exception>
             <exception cref="T:System.Exception">Erro ao descriptografar string</exception>
+        </member>
+        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.Encrypt``1(System.String,System.String,System.String,System.String)">
+            <summary>
+            Encrypts the specified password.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value">The value.</param>
+            <param name="password">The password.</param>
+            <param name="salt">The salt.</param>
+            <param name="vector">The vector.</param>
+            <returns>System.String.</returns>
+            <exception cref="T:ACBr.Net.Core.ACBrException">Erro ao criptografar a string</exception>
+        </member>
+        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.Decrypt``1(System.String,System.String,System.String,System.String)">
+            <summary>
+            Decrypts the specified password.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value">The value.</param>
+            <param name="password">The password.</param>
+            <param name="salt">The salt.</param>
+            <param name="vector">The vector.</param>
+            <returns>System.String.</returns>
+            <exception cref="T:ACBr.Net.Core.ACBrException">Erro ao descriptografar string</exception>
         </member>
         <member name="M:ACBr.Net.Core.Extensions.StringExtensions.ToMd5Hash(System.String)">
             <summary>
@@ -791,6 +820,23 @@
             <param name="dados">The dados.</param>
             <param name="def">The definition.</param>
             <returns>System.Double.</returns>
+        </member>
+        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.ToDouble(System.String,System.IFormatProvider)">
+            <summary>
+            To the double.
+            </summary>
+            <param name="dados">The dados.</param>
+            <param name="format">The format.</param>
+            <returns>System.Double.</returns>
+        </member>
+        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.ToDouble(System.String,System.Double,System.IFormatProvider)">
+            <summary>
+            To the double.
+            </summary>
+            <param name="dados">The dados.</param>
+            <param name="def">The definition.</param>
+            <param name="format">The format.</param>
+            <returns>System.Double.</returns>
             <exception cref="T:System.Exception">Erro ao converter string</exception>
             <exception cref="T:System.Exception">Erro ao converter string</exception>
         </member>
@@ -804,6 +850,24 @@
             <exception cref="T:System.Exception">Erro ao converter string</exception>
             <exception cref="T:System.Exception">Erro ao converter string</exception>
         </member>
+        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.ToDecimal(System.String,System.IFormatProvider)">
+            <summary>
+            To the decimal.
+            </summary>
+            <param name="dados">The dados.</param>
+            <param name="format">The format.</param>
+            <returns>System.Decimal.</returns>
+        </member>
+        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.ToDecimal(System.String,System.Decimal,System.IFormatProvider)">
+            <summary>
+            To the decimal.
+            </summary>
+            <param name="dados">The dados.</param>
+            <param name="def">The definition.</param>
+            <param name="format">The format.</param>
+            <returns>System.Decimal.</returns>
+            <exception cref="T:System.Exception">Erro ao converter string</exception>
+        </member>
         <member name="M:ACBr.Net.Core.Extensions.StringExtensions.ToInt32(System.String,System.Int32)">
             <summary>
             To the int32.
@@ -814,12 +878,47 @@
             <exception cref="T:System.Exception">Erro ao converter string</exception>
             <exception cref="T:System.Exception">Erro ao converter string</exception>
         </member>
+        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.ToInt32(System.String,System.IFormatProvider)">
+            <summary>
+            To the int32.
+            </summary>
+            <param name="dados">The dados.</param>
+            <param name="format">The format.</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.ToInt32(System.String,System.Int32,System.IFormatProvider)">
+            <summary>
+            To the int32.
+            </summary>
+            <param name="dados">The dados.</param>
+            <param name="def">The definition.</param>
+            <param name="format">The format.</param>
+            <returns>System.Int32.</returns>
+            <exception cref="T:System.Exception">Erro ao converter string</exception>
+        </member>
         <member name="M:ACBr.Net.Core.Extensions.StringExtensions.ToInt64(System.String,System.Int64)">
             <summary>
             To the int64.
             </summary>
             <param name="dados">The dados.</param>
             <param name="def">The definition.</param>
+            <returns>System.Int64.</returns>
+        </member>
+        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.ToInt64(System.String,System.IFormatProvider)">
+            <summary>
+            To the int64.
+            </summary>
+            <param name="dados">The dados.</param>
+            <param name="format">The format.</param>
+            <returns>System.Int64.</returns>
+        </member>
+        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.ToInt64(System.String,System.Int64,System.IFormatProvider)">
+            <summary>
+            To the int64.
+            </summary>
+            <param name="dados">The dados.</param>
+            <param name="def">The definition.</param>
+            <param name="format">The format.</param>
             <returns>Int64.</returns>
             <exception cref="T:System.Exception">Erro ao converter string</exception>
             <exception cref="T:System.Exception">Erro ao converter string</exception>
@@ -1209,20 +1308,17 @@
         </member>
         <member name="M:ACBr.Net.Core.Exceptions.Guard.Against``1(System.Boolean,System.String)">
             <summary>
-            Will throw exception of type <typeparamref name="TException"/>
+            Will throw exception of type <typeparamref name="TException" />
             with the specified message if the assertion is true
             </summary>
-            <typeparam name="TException"></typeparam>
+            <typeparam name="TException">The type of the t exception.</typeparam>
             <param name="assertion">if set to <c>true</c> [assertion].</param>
             <param name="message">The message.</param>
             <example>
             Sample usage:
-            <code>
-            <![CDATA[
+            <code><![CDATA[
             Guard.Against<ArgumentException>(string.IsNullOrEmpty(name), "Name must have a value");
-            ]]>
-            </code>
-            </example>
+            ]]></code></example>
         </member>
         <member name="M:ACBr.Net.Core.Exceptions.Guard.Against``1(System.Boolean,System.String,System.Object[])">
             <summary>
@@ -1801,12 +1897,12 @@
             The logger conf key
             </summary>
         </member>
-        <member name="F:ACBr.Net.Core.Logging.LoggerProvider.LoggerFactory">
+        <member name="F:ACBr.Net.Core.Logging.LoggerProvider.loggerFactory">
             <summary>
             The logger factory
             </summary>
         </member>
-        <member name="F:ACBr.Net.Core.Logging.LoggerProvider._instance">
+        <member name="F:ACBr.Net.Core.Logging.LoggerProvider.instance">
             <summary>
             The _instance
             </summary>
@@ -2314,36 +2410,41 @@
             of numbers), use System.Random.
             </summary>
         </member>
+        <member name="F:ACBr.Net.Core.StaticRandom.Random">
+            <summary>
+            The random
+            </summary>
+        </member>
+        <member name="F:ACBr.Net.Core.StaticRandom.MyLock">
+            <summary>
+            My lock
+            </summary>
+        </member>
         <member name="M:ACBr.Net.Core.StaticRandom.Next">
             <summary>
-            Returns a nonnegative random number. 
-            </summary>		
+            Returns a nonnegative random number.
+            </summary>
             <returns>A 32-bit signed integer greater than or equal to zero and less than Int32.MaxValue.</returns>
         </member>
         <member name="M:ACBr.Net.Core.StaticRandom.Next(System.Int32)">
             <summary>
-            Returns a nonnegative random number less than the specified maximum. 
+            Returns a nonnegative random number less than the specified maximum.
             </summary>
-            <returns>
-            A 32-bit signed integer greater than or equal to zero, and less than maxValue; 
-            that is, the range of return values includes zero but not maxValue.
-            </returns>
+            <param name="max">The maximum.</param>
+            <returns>A 32-bit signed integer greater than or equal to zero, and less than maxValue;
+            that is, the range of return values includes zero but not maxValue.</returns>
             <exception cref="T:System.ArgumentOutOfRangeException">maxValue is less than zero.</exception>
         </member>
         <member name="M:ACBr.Net.Core.StaticRandom.Next(System.Int32,System.Int32)">
             <summary>
-            Returns a random number within a specified range. 
+            Returns a random number within a specified range.
             </summary>
-            <param name="min">The inclusive lower bound of the random number returned. </param>
-            <param name="max">
-            The exclusive upper bound of the random number returned. 
-            maxValue must be greater than or equal to minValue.
-            </param>
-            <returns>
-            A 32-bit signed integer greater than or equal to minValue and less than maxValue;
+            <param name="min">The inclusive lower bound of the random number returned.</param>
+            <param name="max">The exclusive upper bound of the random number returned.
+            maxValue must be greater than or equal to minValue.</param>
+            <returns>A 32-bit signed integer greater than or equal to minValue and less than maxValue;
             that is, the range of return values includes minValue but not maxValue.
-            If minValue equals maxValue, minValue is returned.
-            </returns>
+            If minValue equals maxValue, minValue is returned.</returns>
             <exception cref="T:System.ArgumentOutOfRangeException">minValue is greater than maxValue.</exception>
         </member>
         <member name="M:ACBr.Net.Core.StaticRandom.NextDouble">

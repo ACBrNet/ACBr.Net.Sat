@@ -72,6 +72,7 @@
       <SubType>ACBr.Net</SubType>
     </Compile>
     <Compile Include="CFeRede.cs" />
+    <Compile Include="StatusOperacionalResposta.cs" />
     <Compile Include="LogResposta.cs" />
     <Compile Include="CancelamentoSatResposta.cs" />
     <Compile Include="CancInfCFe.cs" />

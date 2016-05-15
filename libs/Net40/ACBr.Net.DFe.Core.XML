@@ -311,12 +311,22 @@
             Classe CertificadoDigital.
             </summary>
         </member>
-        <member name="M:ACBr.Net.DFe.Core.CertificadoDigital.Assinar(System.String,System.String,System.Security.Cryptography.X509Certificates.X509Certificate2)">
+        <member name="M:ACBr.Net.DFe.Core.CertificadoDigital.SignXml(System.String,System.String,System.Security.Cryptography.X509Certificates.X509Certificate2)">
             <summary>
-            Assina a NFe usando o certificado informado.
+            Assina o XML usando o certificado informado.
             </summary>
-            <param name="nFe">A NFe.</param>
-            <param name="pUri">A Url.</param>
+            <param name="xml">A NFe.</param>
+            <param name="element">A Url.</param>
+            <param name="pCertificado">O certificado.</param>
+            <returns>System.String.</returns>
+            <exception cref="T:System.Exception">Erro ao efetuar assinatura digital, detalhes:  + ex.Message</exception>
+        </member>
+        <member name="M:ACBr.Net.DFe.Core.CertificadoDigital.SignElements(System.String,System.String,System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Assina os elementos do XML usando o certificado informado.
+            </summary>
+            <param name="xml">A NFe.</param>
+            <param name="element">A Url.</param>
             <param name="pCertificado">O certificado.</param>
             <returns>System.String.</returns>
             <exception cref="T:System.Exception">Erro ao efetuar assinatura digital, detalhes:  + ex.Message</exception>
@@ -537,7 +547,7 @@
         </member>
         <member name="P:ACBr.Net.DFe.Core.Serializer.SerializerOptions.RemoverAcentos">
             <summary>
-            Gets or sets a value indicating whether [retirar acentos].
+            Indica se é para retirar acentos do XML ou não.
             </summary>
             <value><c>true</c> if [retirar acentos]; otherwise, <c>false</c>.</value>
         </member>

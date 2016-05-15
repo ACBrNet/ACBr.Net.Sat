@@ -4,6 +4,8 @@ using NLog.Config;
 using NLog.Targets;
 using NLog.Windows.Forms;
 using System;
+using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -40,19 +42,6 @@ namespace ACBr.Net.Sat.Demo
 		private void Initialize()
 		{
 			acbrSat = new ACBrSat();
-			acbrSat.Modelo = ModeloSat.StdCall;
-			acbrSat.PathDll = @"C:\Lixo\SAT\BemaSAT.dll";
-			acbrSat.CodigoAtivacao = @"bema1234";
-			acbrSat.SignAC = "SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT";
-			acbrSat.Encoding = Encoding.UTF8;
-			acbrSat.Configuracoes.EmitCNPJ = "82373077000171";
-			acbrSat.Configuracoes.EmitIE = "111111111111";
-			acbrSat.Configuracoes.IdeCNPJ = "16716114000172";
-			acbrSat.Configuracoes.EmitCRegTrib = RegTrib.SimplesNacional;
-			acbrSat.Configuracoes.EmitCRegTribISSQN = RegTribIssqn.Nenhum;
-			acbrSat.Configuracoes.EmitIndRatISSQN = RatIssqn.Nao;
-			acbrSat.Configuracoes.IdeTpAmb = TipoAmbiente.Homologacao;
-
 			cmbAmbiente.EnumDataSource<TipoAmbiente>(TipoAmbiente.Homologacao);
 			cmbModeloSat.EnumDataSource<ModeloSat>(ModeloSat.StdCall);
 			cmbEmiRegTrib.EnumDataSource<RegTrib>(RegTrib.Normal);
@@ -104,12 +93,12 @@ namespace ACBr.Net.Sat.Demo
 			cfeAtual.InfCFe.Ide.NumeroCaixa = 1;
 			cfeAtual.InfCFe.Dest.CPF = "09506738700";
 			cfeAtual.InfCFe.Dest.Nome = "D.J. SYSTEM ÁÉÍÓÚáéíóúÇç";
-			//cfeAtual.InfCFe.Entrega.XLgr = "logradouro";
-			//cfeAtual.InfCFe.Entrega.Nro = "112233";
-			//cfeAtual.InfCFe.Entrega.XCpl = "complemento";
-			//cfeAtual.InfCFe.Entrega.XBairro = "bairro";
-			//cfeAtual.InfCFe.Entrega.XMun = "municipio";
-			//cfeAtual.InfCFe.Entrega.UF = "MS";
+			cfeAtual.InfCFe.Entrega.XLgr = "logradouro";
+			cfeAtual.InfCFe.Entrega.Nro = "112233";
+			cfeAtual.InfCFe.Entrega.XCpl = "complemento";
+			cfeAtual.InfCFe.Entrega.XBairro = "bairro";
+			cfeAtual.InfCFe.Entrega.XMun = "municipio";
+			cfeAtual.InfCFe.Entrega.UF = "MS";
 			for (var i = 0; i < 3; i++)
 			{
 				var det1 = cfeAtual.InfCFe.Det.AddNew();
@@ -142,19 +131,19 @@ namespace ACBr.Net.Sat.Demo
 					}
 				};
 
-				//det1.Imposto.PIS.PIS = new ImpostoPisAliq
-				//{
-				//	CST = "01",
-				//	VBc = totalItem,
-				//	PPIS = 0.0065M
-				//};
+				det1.Imposto.PIS.PIS = new ImpostoPisAliq
+				{
+					CST = "01",
+					VBc = totalItem,
+					PPIS = 0.0065M
+				};
 
-				//det1.Imposto.COFINS.Cofins = new ImpostoCofinsAliq()
-				//{
-				//	Cst = "01",
-				//	VBc = totalItem,
-				//	PCOFINS = 0.0065M
-				//};
+				det1.Imposto.COFINS.Cofins = new ImpostoCofinsAliq()
+				{
+					Cst = "01",
+					VBc = totalItem,
+					PCOFINS = 0.0065M
+				};
 
 				det1.InfAdProd = "Informacoes adicionais";
 			}
@@ -178,6 +167,87 @@ namespace ACBr.Net.Sat.Demo
 			logger.Info("CFe gerado com sucesso !");
 		}
 
+		private void ToogleInitialize()
+		{
+			if (acbrSat.Ativo)
+			{
+				acbrSat.Desativar();
+				btnIniDesini.Text = @"Inicializar";
+			}
+			else
+			{
+				acbrSat.Ativar();
+				btnIniDesini.Text = @"Desinicializar";
+			}
+		}
+
+		private void LoadConfig()
+		{
+			var config = Helpers.GetConfiguration();
+			cmbModeloSat.SelectedItem = Enum.Parse(typeof(ModeloSat), config.AppSettings.Settings["ModeloSat"]?.Value ?? "Cdecl");
+			txtDllPath.Text = config.AppSettings.Settings["DllPath"]?.Value ?? @"C:\SAT\SAT.dll";
+			cmbAmbiente.SelectedItem = Enum.Parse(typeof(TipoAmbiente), config.AppSettings.Settings["Ambiente"]?.Value ?? "Homologacao");
+			txtAtivacao.Text = config.AppSettings.Settings["Ativacao"]?.Value ?? "12345678";
+			txtCodUF.Text = config.AppSettings.Settings["CodUF"]?.Value ?? "35";
+			nunPaginaCodigo.Value = config.AppSettings.Settings["PaginaCodigo"]?.Value.ToDecimal(0, CultureInfo.InvariantCulture) ?? 1252;
+			nunCaixa.Value = config.AppSettings.Settings["Caixa"]?.Value.ToDecimal(1, CultureInfo.InvariantCulture) ?? 1;
+			nunVersaoCFe.Value = config.AppSettings.Settings["VersaoCFe"]?.Value.ToDecimal(0.06M, CultureInfo.InvariantCulture) ?? 0.06M;
+			chkUTF8.Checked = Convert.ToBoolean(config.AppSettings.Settings["UTF8"]?.Value ?? "False");
+			chkFomartXML.Checked = Convert.ToBoolean(config.AppSettings.Settings["FomartXML"]?.Value ?? "True");
+			chkRemoveAcentos.Checked = Convert.ToBoolean(config.AppSettings.Settings["RemoveAcentos"]?.Value ?? "False");
+			chkSaveEnvio.Checked = Convert.ToBoolean(config.AppSettings.Settings["SaveEnvio"]?.Value ?? "True");
+			chkSaveCFe.Checked = Convert.ToBoolean(config.AppSettings.Settings["SaveCFe"]?.Value ?? "True");
+			chkSaveCFeCanc.Checked = Convert.ToBoolean(config.AppSettings.Settings["SaveCFeCanc"]?.Value ?? "True");
+			chkSepararCNPJ.Checked = Convert.ToBoolean(config.AppSettings.Settings["SepararCNPJ"]?.Value ?? "True");
+			chkSepararData.Checked = Convert.ToBoolean(config.AppSettings.Settings["SepararData"]?.Value ?? "True");
+			txtEmitCNPJ.Text = config.AppSettings.Settings["EmitCNPJ"]?.Value ?? "11111111111111";
+			txtEmitIE.Text = config.AppSettings.Settings["EmitIE"]?.Value ?? string.Empty;
+			txtEmitIM.Text = config.AppSettings.Settings["EmitIM"]?.Value ?? string.Empty;
+			cmbEmiRegTrib.SelectedItem = Enum.Parse(typeof(RegTrib), config.AppSettings.Settings["EmiRegTrib"]?.Value ?? "SimplesNacional");
+			cmbEmiRegTribISSQN.SelectedItem = Enum.Parse(typeof(RegTribIssqn), config.AppSettings.Settings["EmiRegTribISSQN"]?.Value ?? "Nenhum");
+			cmbEmiRegTrib.SelectedItem = Enum.Parse(typeof(RatIssqn), config.AppSettings.Settings["EmiRatIISQN"]?.Value ?? "Sim");
+			txtIdeCNPJ.Text = config.AppSettings.Settings["IdeCNPJ"]?.Value ?? "22222222222222";
+			txtSignAC.Text = config.AppSettings.Settings["SignAC"]?.Value ?? 
+				"1111111111111222222222222221111111111111122222222222222111111111111112222222222222211111" +
+				"111111111222222222222221111111111111122222222222222111111111111112222222222222211111111" +
+				"111111222222222222221111111111111122222222222222111111111111112222222222222211111111111" +
+				"1112222222222222211111111111111222222222222221111111111111122222222222222111111111"; ;
+
+			MessageBox.Show(this, @"Configurações Carregada com sucesso !", @"S@T Demo");
+		}
+
+		private void SaveConfig()
+		{
+			var config = Helpers.GetConfiguration();
+			config.AppSettings.Settings.AddValue("ModeloSat", cmbModeloSat.SelectedItem.ToString());
+			config.AppSettings.Settings.AddValue("DllPath", txtDllPath.Text);
+			config.AppSettings.Settings.AddValue("Ambiente", cmbAmbiente.SelectedItem.ToString());
+			config.AppSettings.Settings.AddValue("Ativacao", txtAtivacao.Text);
+			config.AppSettings.Settings.AddValue("CodUF", txtCodUF.Text);
+			config.AppSettings.Settings.AddValue("PaginaCodigo", nunPaginaCodigo.Value.ToString(CultureInfo.InvariantCulture));
+			config.AppSettings.Settings.AddValue("Caixa", nunCaixa.Value.ToString(CultureInfo.InvariantCulture));
+			config.AppSettings.Settings.AddValue("VersaoCFe", nunVersaoCFe.Value.ToString(CultureInfo.InvariantCulture));
+			config.AppSettings.Settings.AddValue("UTF8", chkUTF8.Checked.ToString());
+			config.AppSettings.Settings.AddValue("FomartXML", chkFomartXML.Checked.ToString());
+			config.AppSettings.Settings.AddValue("RemoveAcentos", chkRemoveAcentos.Checked.ToString());
+			config.AppSettings.Settings.AddValue("SaveEnvio", chkSaveEnvio.Checked.ToString());
+			config.AppSettings.Settings.AddValue("SaveCFe", chkSaveCFe.Checked.ToString());
+			config.AppSettings.Settings.AddValue("SaveCFeCanc", chkSaveCFeCanc.Checked.ToString());
+			config.AppSettings.Settings.AddValue("SepararCNPJ", chkSepararCNPJ.Checked.ToString());
+			config.AppSettings.Settings.AddValue("SepararData", chkSepararData.Checked.ToString());
+			config.AppSettings.Settings.AddValue("EmitCNPJ", txtEmitCNPJ.Text);
+			config.AppSettings.Settings.AddValue("EmitIE", txtEmitIE.Text);
+			config.AppSettings.Settings.AddValue("EmitIM", txtEmitIM.Text);
+			config.AppSettings.Settings.AddValue("EmiRegTrib", cmbEmiRegTrib.SelectedItem.ToString());
+			config.AppSettings.Settings.AddValue("EmiRegTribISSQN", cmbEmiRegTribISSQN.SelectedItem.ToString());
+			config.AppSettings.Settings.AddValue("EmiRatIISQN", cmbEmiRatIISQN.SelectedItem.ToString());
+			config.AppSettings.Settings.AddValue("IdeCNPJ", txtIdeCNPJ.Text);
+			config.AppSettings.Settings.AddValue("SignAC", txtSignAC.Text);
+
+			config.Save(ConfigurationSaveMode.Minimal, true);
+			MessageBox.Show(this, @"Configurações Salva com sucesso !", @"S@T Demo");
+		}
+
 		#endregion Methods
 
 		#region EventHandlers
@@ -186,7 +256,7 @@ namespace ACBr.Net.Sat.Demo
 
 		private void ativarSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!acbrSat.Ativo) acbrSat.Ativar();
+			if (!acbrSat.Ativo) ToogleInitialize();
 			acbrSat.AtivarSAT(1, txtEmitCNPJ.Text, txtCodUF.Text.ToInt32());
 		}
 
@@ -200,13 +270,13 @@ namespace ACBr.Net.Sat.Demo
 
 		private void bloquearSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!acbrSat.Ativo) acbrSat.Ativar();
+			if (!acbrSat.Ativo) ToogleInitialize();
 			acbrSat.BloquearSAT();
 		}
 
 		private void desbloquearSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!acbrSat.Ativo) acbrSat.Ativar();
+			if (!acbrSat.Ativo) ToogleInitialize();
 			acbrSat.DesbloquearSAT();
 		}
 
@@ -221,7 +291,7 @@ namespace ACBr.Net.Sat.Demo
 
 		private void enviarVendaToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!acbrSat.Ativo) acbrSat.Ativar();
+			if (!acbrSat.Ativo) ToogleInitialize();
 			acbrSat.EnviarDadosVenda(cfeAtual);
 		}
 
@@ -260,25 +330,25 @@ namespace ACBr.Net.Sat.Demo
 
 		private void consultarStatusOperacionalToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!acbrSat.Ativo) acbrSat.Ativar();
+			if (!acbrSat.Ativo) ToogleInitialize();
 			acbrSat.ConsultarStatusOperacional();
 		}
 
 		private void consultarSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!acbrSat.Ativo) acbrSat.Ativar();
+			if (!acbrSat.Ativo) ToogleInitialize();
 			acbrSat.ConsultarSAT();
 		}
 
 		private void atualizarSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!acbrSat.Ativo) acbrSat.Ativar();
+			if (!acbrSat.Ativo) ToogleInitialize();
 			acbrSat.AtualizarSoftwareSAT();
 		}
 
 		private void extrairLogsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!acbrSat.Ativo) acbrSat.Ativar();
+			if (!acbrSat.Ativo) ToogleInitialize();
 			var resposta = acbrSat.ExtrairLogs();
 		}
 
@@ -303,7 +373,7 @@ namespace ACBr.Net.Sat.Demo
 
 		private void cmbAmbiente_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			acbrSat.Configuracoes.IdeTpAmb = (TipoAmbiente)cmbAmbiente.SelectedIndex;
+			acbrSat.Configuracoes.IdeTpAmb = (TipoAmbiente)cmbAmbiente.SelectedValue;
 		}
 
 		private void nunCaixa_ValueChanged(object sender, EventArgs e)
@@ -340,24 +410,100 @@ namespace ACBr.Net.Sat.Demo
 			acbrSat.Configuracoes.RemoverAcentos = chkRemoveAcentos.Checked;
 		}
 
+		private void nunVersaoCFe_ValueChanged(object sender, EventArgs e)
+		{
+			acbrSat.Configuracoes.InfCFeVersaoDadosEnt = nunVersaoCFe.Value;
+		}
+
+		private void chkSaveCFe_CheckedChanged(object sender, EventArgs e)
+		{
+			acbrSat.Arquivos.SalvarCFe = chkSaveCFe.Checked;
+		}
+
+		private void chkSaveEnvio_CheckedChanged(object sender, EventArgs e)
+		{
+			acbrSat.Arquivos.SalvarEnvio = chkSaveEnvio.Checked;
+		}
+
+		private void chkSaveCFeCanc_CheckedChanged(object sender, EventArgs e)
+		{
+			acbrSat.Arquivos.SalvarCFeCanc = chkSaveCFeCanc.Checked;
+		}
+
+		private void chkSepararCNPJ_CheckedChanged(object sender, EventArgs e)
+		{
+			acbrSat.Arquivos.SepararPorCNPJ = chkSepararCNPJ.Checked;
+		}
+
+		private void chkSepararData_CheckedChanged(object sender, EventArgs e)
+		{
+			acbrSat.Arquivos.SepararPorMes = chkSepararData.Checked;
+		}
+
+		private void txtEmitCNPJ_TextChanged(object sender, EventArgs e)
+		{
+			acbrSat.Configuracoes.EmitCNPJ = txtEmitCNPJ.Text.OnlyNumbers();
+		}
+
+		private void txtEmitIE_TextChanged(object sender, EventArgs e)
+		{
+			acbrSat.Configuracoes.EmitIE = txtEmitIE.Text.OnlyNumbers();
+		}
+
+		private void txtEmitIM_TextChanged(object sender, EventArgs e)
+		{
+			acbrSat.Configuracoes.EmitIM = txtEmitIM.Text.OnlyNumbers();
+		}
+
+		private void cmbEmiRegTrib_SelectedValueChanged(object sender, EventArgs e)
+		{
+			acbrSat.Configuracoes.EmitCRegTrib = (RegTrib) cmbEmiRegTrib.SelectedValue;
+		}
+
+		private void cmbEmiRegTribISSQN_SelectedValueChanged(object sender, EventArgs e)
+		{
+			acbrSat.Configuracoes.EmitCRegTribISSQN = (RegTribIssqn)cmbEmiRegTribISSQN.SelectedValue;
+		}
+
+		private void cmbEmiRatIISQN_SelectedValueChanged(object sender, EventArgs e)
+		{
+			acbrSat.Configuracoes.EmitIndRatISSQN = (RatIssqn)cmbEmiRatIISQN.SelectedValue;
+		}
+
+		private void txtIdeCNPJ_TextChanged(object sender, EventArgs e)
+		{
+			acbrSat.Configuracoes.IdeCNPJ = txtIdeCNPJ.Text.OnlyNumbers();
+		}
+
+		private void txtSignAC_TextChanged(object sender, EventArgs e)
+		{
+			acbrSat.SignAC = txtSignAC.Text;
+		}
+
 		#endregion ValueChanged
 
 		#region Botoes
 
+		private void btnIniDesini_Click(object sender, EventArgs e)
+		{
+			ToogleInitialize();
+		}
+
+		private void btnParamLoad_Click(object sender, EventArgs e)
+		{
+			LoadConfig();
+		}
+
+		private void btnParamSave_Click(object sender, EventArgs e)
+		{
+			SaveConfig();
+		}
+
 		private void btnSelDll_Click(object sender, EventArgs e)
 		{
-			using (var ofd = new OpenFileDialog())
-			{
-				ofd.CheckPathExists = true;
-				ofd.CheckFileExists = true;
-				ofd.Multiselect = false;
-				ofd.Filter = @"Sat Library | *.dll";
-
-				if (ofd.ShowDialog().Equals(DialogResult.Cancel))
-					return;
-
-				txtDllPath.Text = ofd.FileName;
-			}
+			var file = Helpers.OpenFiles(@"Sat Library | *.dll");
+			if (!file.IsEmpty())
+				txtDllPath.Text = file;
 		}
 
 		#endregion Botoes
