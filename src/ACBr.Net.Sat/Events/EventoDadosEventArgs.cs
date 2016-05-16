@@ -37,7 +37,9 @@ namespace ACBr.Net.Sat.Events
 	{
 		#region Property
 
-		public string DadosVenda { get; set; }
+		public string Dados { get; set; }
+
+		public string Retorno { get; set; }
 
 		#endregion Property
 	}

@@ -98,8 +98,14 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		public event EventHandler<EventoEventArgs> OnConsultaStatusOperacional;
 
+		/// <summary>
+		/// Ocorre quando é chamado o comando ExtrairLogs para caso o usuario queria tratar esta função.
+		/// </summary>
 		public event EventHandler<EventoEventArgs> OnExtrairLogs;
 
+		/// <summary>
+		/// Ocorre quando é chamado o comando ConsultarNumeroSessao para caso o usuario queria tratar esta função.
+		/// </summary>
 		public event EventHandler<EventoDadosEventArgs> OnConsultarNumeroSessao;
 
 		/// <summary>
@@ -430,7 +436,7 @@ namespace ACBr.Net.Sat
 				File.WriteAllText(envioPath, dadosCancelamento);
 			}
 
-			var e = new EventoDadosEventArgs { DadosVenda = dadosCancelamento };
+			var e = new EventoDadosEventArgs { Dados = dadosCancelamento };
 			OnCancelarUltimaVenda.Raise(this, e);
 
 			var ret = sat.CancelarUltimaVenda(Sessao, CodigoAtivacao, chave, dadosCancelamento);
@@ -496,13 +502,22 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <param name="numeroSessao">The numero sessao.</param>
 		/// <returns>SatResposta.</returns>
-		public SatResposta ConsultarNumeroSessao(int numeroSessao)
+		public ConsultaSessaoResposta ConsultarNumeroSessao(int numeroSessao)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
 			IniciaComando($"ConsultarNumeroSessao({numeroSessao})");
-			var ret = sat.ConsultarNumeroSessao(Sessao, CodigoAtivacao, numeroSessao);
-			return FinalizaComando<SatResposta>(ret);
+			var e = new EventoDadosEventArgs
+			{
+				Dados = numeroSessao.ToString(),
+				Retorno = string.Empty
+			};
+			OnConsultarNumeroSessao.Raise(this, e);
+
+			if (e.Retorno.IsEmpty())
+				e.Retorno = sat.ConsultarNumeroSessao(Sessao, CodigoAtivacao, numeroSessao);
+
+			return FinalizaComando<ConsultaSessaoResposta>(e.Retorno);
 		}
 
 		/// <summary>
@@ -560,10 +575,10 @@ namespace ACBr.Net.Sat
 				Salvar(cfe, envioPath);
 			}
 
-			var e = new EventoDadosEventArgs { DadosVenda = dadosVenda };
+			var e = new EventoDadosEventArgs { Dados = dadosVenda };
 			OnEnviarDadosVenda.Raise(this, e);
 
-			var ret = sat.EnviarDadosVenda(Sessao, CodigoAtivacao, e.DadosVenda);
+			var ret = sat.EnviarDadosVenda(Sessao, CodigoAtivacao, e.Dados);
 			var resp = FinalizaComando<VendaSatResposta>(ret);
 
 			if (!Arquivos.SalvarCFe || resp.CodigoDeRetorno != 6000)
@@ -599,8 +614,14 @@ namespace ACBr.Net.Sat
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
 			IniciaComando("ExtrairLogs()");
-			var ret = sat.ExtrairLogs(Sessao, CodigoAtivacao);
-			return FinalizaComando<LogResposta>(ret);
+
+			var e = new EventoEventArgs { Retorno = string.Empty };
+			OnExtrairLogs.Raise(this, e);
+
+			if(e.Retorno.IsEmpty())
+				e.Retorno = sat.ExtrairLogs(Sessao, CodigoAtivacao);
+
+			return FinalizaComando<LogResposta>(e.Retorno);
 		}
 
 		/// <summary>

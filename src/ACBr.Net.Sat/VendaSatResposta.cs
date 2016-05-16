@@ -40,34 +40,27 @@ namespace ACBr.Net.Sat
 
 		public VendaSatResposta(string retorno, Encoding encoding) : base(retorno, encoding)
 		{
-			if (CodigoDeRetorno != 6000) return;
+			if (CodigoDeRetorno != 6000  || RetornoLst.Count < 6)
+				return;
 
-			if (RetornoLst.Count >= 6)
-			{
-				using (var stream = new MemoryStream(Convert.FromBase64String(RetornoLst[6])))
-				{
-					Venda = CFe.Load(stream, encoding);
-				}
-			}
+			using (var stream = new MemoryStream(Convert.FromBase64String(RetornoLst[6])))
+				Venda = CFe.Load(stream, encoding);
 
 			if (RetornoLst.Count > 8)
-			{
 				ChaveConsulta = RetornoLst[8];
-			}
 
-			if (RetornoLst.Count > 12)
+			if (RetornoLst.Count <= 12)
+				return;
+
+			//O QRCode é montado a partir dos últimos campos do retorno
+			var indexOf = -1;
+			for (var i = 0; i < 8; i++)
 			{
-				//O QRCode é montado a partir dos últimos campos do retorno
-
-				var indexOf = -1;
-				for (var i = 0; i < 8; i++)
-				{
-					indexOf = RetornoStr.IndexOf('|', indexOf + 1);
-					if (indexOf == -1) break;
-				}
-
-				QRCode = RetornoStr.Substring(indexOf + 1);
+				indexOf = RetornoStr.IndexOf('|', indexOf + 1);
+				if (indexOf == -1) break;
 			}
+
+			QRCode = RetornoStr.Substring(indexOf + 1);
 		}
 
 		#endregion Constructors

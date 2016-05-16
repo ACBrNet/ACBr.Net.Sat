@@ -71,6 +71,7 @@
     <Compile Include="ACBrSat.cs">
       <SubType>ACBr.Net</SubType>
     </Compile>
+    <Compile Include="ConsultaSessaoResposta.cs" />
     <Compile Include="SatRede.cs" />
     <Compile Include="StatusOperacionalResposta.cs" />
     <Compile Include="LogResposta.cs" />

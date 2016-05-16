@@ -40,15 +40,11 @@ namespace ACBr.Net.Sat
 
 		public CancelamentoSatResposta(string retorno, Encoding encoding) : base(retorno, encoding)
 		{
-			if (CodigoDeRetorno != 7000) return;
+			if (CodigoDeRetorno != 7000 || RetornoLst.Count < 6)
+				return;
 
-			if (RetornoLst.Count >= 5)
-			{
-				using (var stream = new MemoryStream(Convert.FromBase64String(RetornoLst[5])))
-				{
-					Cancelamento = CFeCanc.Load(stream, encoding);
-				}
-			}
+			using (var stream = new MemoryStream(Convert.FromBase64String(RetornoLst[6])))
+				Cancelamento = CFeCanc.Load(stream, encoding);
 		}
 
 		#endregion Constructors
