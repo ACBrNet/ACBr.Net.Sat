@@ -5,6 +5,7 @@ using NLog.Targets;
 using NLog.Windows.Forms;
 using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -19,6 +20,7 @@ namespace ACBr.Net.Sat.Demo
 		private ILogger logger;
 		private ACBrSat acbrSat;
 		private CFe cfeAtual;
+		private CFeCanc cfeCancAtual;
 
 		#endregion Fields
 
@@ -41,7 +43,18 @@ namespace ACBr.Net.Sat.Demo
 
 		private void Initialize()
 		{
-			acbrSat = new ACBrSat();
+			acbrSat = new ACBrSat
+			{
+				Arquivos =
+				{
+					SalvarEnvio = true,
+					SalvarCFe = true,
+					SalvarCFeCanc = true,
+					SepararPorMes = true,
+					SepararPorCNPJ = true
+				}
+			};
+
 			cmbAmbiente.EnumDataSource<TipoAmbiente>(TipoAmbiente.Homologacao);
 			cmbModeloSat.EnumDataSource<ModeloSat>(ModeloSat.StdCall);
 			cmbEmiRegTrib.EnumDataSource<RegTrib>(RegTrib.Normal);
@@ -101,27 +114,28 @@ namespace ACBr.Net.Sat.Demo
 			cfeAtual.InfCFe.Entrega.UF = "MS";
 			for (var i = 0; i < 3; i++)
 			{
-				var det1 = cfeAtual.InfCFe.Det.AddNew();
-				det1.NItem = 1 + i;
-				det1.Prod.CProd = "ACBR001";
-				det1.Prod.CEAN = "6291041500213";
-				det1.Prod.XProd = "Assinatura SAC";
-				det1.Prod.NCM = "99";
-				det1.Prod.CFOP = "5120";
-				det1.Prod.UCom = "UN";
-				det1.Prod.QCom = 1;
-				det1.Prod.VUnCom = 120.00M;
-				det1.Prod.IndRegra = IndRegra.Truncamento;
-				det1.Prod.VDesc = 1;
-				var obs = det1.Prod.ObsFiscoDet.AddNew();
+				var det = cfeAtual.InfCFe.Det.AddNew();
+				det.NItem = 1 + i;
+				det.Prod.CProd = $"ACBR{det.NItem:000}";
+				det.Prod.CEAN = "6291041500213";
+				det.Prod.XProd = "Assinatura SAC";
+				det.Prod.NCM = "99";
+				det.Prod.CFOP = "5120";
+				det.Prod.UCom = "UN";
+				det.Prod.QCom = 1;
+				det.Prod.VUnCom = 120.00M;
+				det.Prod.IndRegra = IndRegra.Truncamento;
+				det.Prod.VDesc = 1;
+
+				var obs = det.Prod.ObsFiscoDet.AddNew();
 				obs.XCampoDet = "campo";
 				obs.XTextoDet = "texto";
 
-				var totalItem = det1.Prod.QCom * det1.Prod.VUnCom;
+				var totalItem = det.Prod.QCom * det.Prod.VUnCom;
 				totalGeral += totalItem;
-				det1.Imposto.VItem12741 = totalItem * 0.12M;
+				det.Imposto.VItem12741 = totalItem * 0.12M;
 
-				det1.Imposto.Imposto = new ImpostoIcms
+				det.Imposto.Imposto = new ImpostoIcms
 				{
 					ICMS = new ImpostoIcms00
 					{
@@ -131,21 +145,21 @@ namespace ACBr.Net.Sat.Demo
 					}
 				};
 
-				det1.Imposto.PIS.PIS = new ImpostoPisAliq
+				det.Imposto.PIS.PIS = new ImpostoPisAliq
 				{
 					CST = "01",
 					VBc = totalItem,
 					PPIS = 0.0065M
 				};
 
-				det1.Imposto.COFINS.Cofins = new ImpostoCofinsAliq
+				det.Imposto.COFINS.Cofins = new ImpostoCofinsAliq
 				{
 					Cst = "01",
 					VBc = totalItem,
 					PCOFINS = 0.0065M
 				};
 
-				det1.InfAdProd = "Informacoes adicionais";
+				det.InfAdProd = "Informacoes adicionais";
 			}
 
 			cfeAtual.InfCFe.Total.DescAcrEntr.VDescSubtot = 5;
@@ -314,7 +328,13 @@ namespace ACBr.Net.Sat.Demo
 		private void enviarVendaToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (!acbrSat.Ativo) ToogleInitialize();
-			acbrSat.EnviarDadosVenda(cfeAtual);
+			var ret = acbrSat.EnviarDadosVenda(cfeAtual);
+			if(ret.CodigoDeRetorno != 6000)
+				return;
+
+			cfeAtual = ret.Venda;
+			wbrXmlRecebido.LoadXml(acbrSat.GetXml(ret.Venda));
+			tbcXml.SelectedTab = tpgXmlRecebido;
 		}
 
 		private void imprimirExtratoVendaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -350,6 +370,39 @@ namespace ACBr.Net.Sat.Demo
 			}
 		}
 
+		private void gerarXMLCancelamentoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			logger.Info("Gerando XML de Cancelamento !");
+
+			if (cfeAtual == null)
+			{
+				logger.Warn("Nenhum Xml de Venda carregado !");
+				return;
+			}
+
+			cfeCancAtual = new CFeCanc(cfeAtual);
+			wbrXmlGerado.LoadXml(acbrSat.GetXml(cfeCancAtual));
+			tbcXml.SelectedTab = tpgXmlGerado;
+			logger.Info("CFe de Cancelamento gerado com sucesso !");
+		}
+
+		private void enviarCancelamentoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (!acbrSat.Ativo) ToogleInitialize();
+			var ret = cfeCancAtual != null ? acbrSat.CancelarUltimaVenda(cfeCancAtual) : acbrSat.CancelarUltimaVenda(cfeAtual);
+			if (ret.CodigoDeRetorno != 7000)
+				return;
+
+			cfeCancAtual = ret.Cancelamento;
+			wbrXmlRecebido.LoadXml(acbrSat.GetXml(ret.Cancelamento));
+			tbcXml.SelectedTab = tpgXmlRecebido;
+		}
+
+		private void imprimirExtratoCancelamentoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
+
 		private void consultarStatusOperacionalToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (!acbrSat.Ativo) ToogleInitialize();
@@ -372,6 +425,9 @@ namespace ACBr.Net.Sat.Demo
 		{
 			if (!acbrSat.Ativo) ToogleInitialize();
 			var resposta = acbrSat.ExtrairLogs();
+			var pathLog = Path.Combine(Application.StartupPath, "logSat.txt");
+			File.WriteAllText(pathLog, resposta.Log);
+			Process.Start(pathLog);
 		}
 
 		#endregion Menu

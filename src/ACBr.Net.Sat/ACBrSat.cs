@@ -412,7 +412,7 @@ namespace ACBr.Net.Sat
 		{
 			Guard.Against<ArgumentNullException>(cfeCanc.IsNull(), nameof(cfeCanc));
 
-			var dados = GetXml(cfeCanc);
+			var dados = GetXml(cfeCanc, false, false);
 			return CancelarUltimaVenda(cfeCanc.InfCFe.ChCanc, dados);
 		}
 		
@@ -432,8 +432,12 @@ namespace ACBr.Net.Sat
 
 			if (Arquivos.SalvarEnvio)
 			{
-				var envioPath = Path.Combine(Arquivos.PastaEnvio, Arquivos.PrefixoArqCFe, $"{DateTime.Now:yyyyMMddHHmmss}-{Sessao.ZeroFill(6)}-env.xml");
-				File.WriteAllText(envioPath, dadosCancelamento);
+				var envioPath = Arquivos.PastaEnvio;
+				var fullName = Path.Combine(envioPath, $"{Arquivos.PrefixoArqCFe}{DateTime.Now:yyyyMMddHHmmss}-{Sessao.ZeroFill(6)}-env.xml");
+				if (!Directory.Exists(envioPath))
+					Directory.CreateDirectory(envioPath);
+
+				File.WriteAllText(fullName, dadosCancelamento);
 			}
 
 			var e = new EventoDadosEventArgs { Dados = dadosCancelamento };
@@ -445,13 +449,13 @@ namespace ACBr.Net.Sat
 			if (!Arquivos.SalvarCFeCanc || resp.CodigoDeRetorno != 7000)
 				return resp;
 
-			var cnpj = Arquivos.SepararPorCNPJ ? resp.Cancelamento.Emit.CNPJ : "";
-			var data = Arquivos.SepararPorMes ? $"{resp.Cancelamento.Ide.DEmi:yyyy}\\{resp.Cancelamento.Ide.DEmi:MM}" : "";
+			var cnpj = Arquivos.SepararPorCNPJ ? resp.Cancelamento.InfCFe.Emit.CNPJ : "";
+			var data = Arquivos.SepararPorMes ? $"{resp.Cancelamento.InfCFe.Ide.DEmi:yyyy}\\{resp.Cancelamento.InfCFe.Ide.DEmi:MM}" : "";
 			var path = Path.Combine(Arquivos.PastaCFeVenda, cnpj, data);
 			var calcPathEventEventArgs = new CalcPathEventEventArgs
 			{
-				CNPJ = resp.Cancelamento.Emit.CNPJ,
-				Data = resp.Cancelamento.Ide.DEmi,
+				CNPJ = resp.Cancelamento.InfCFe.Emit.CNPJ,
+				Data = resp.Cancelamento.InfCFe.Ide.DEmi,
 				Path = path
 			};
 
@@ -460,7 +464,7 @@ namespace ACBr.Net.Sat
 			if (!Directory.Exists(calcPathEventEventArgs.Path))
 				Directory.CreateDirectory(calcPathEventEventArgs.Path);
 
-			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.Cancelamento.InfCFe.Id}";
+			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.Cancelamento.InfCFe.Id}.xml";
 			var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
 			Salvar(resp.Cancelamento, fullPath);
 			return resp;
@@ -565,14 +569,18 @@ namespace ACBr.Net.Sat
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 			Guard.Against<ArgumentNullException>(cfe.IsNull(), nameof(cfe));
 
-			var dadosVenda = GetXml(cfe);
+			var dadosVenda = GetXml(cfe, false, false);
 
 			IniciaComando($"EnviarDadosVenda({dadosVenda})");
 
 			if (Arquivos.SalvarEnvio)
 			{
-				var envioPath = Path.Combine(Arquivos.PastaEnvio, Arquivos.PrefixoArqCFe, $"{DateTime.Now:yyyyMMddHHmmss}-{Sessao.ZeroFill(6)}-env.xml");
-				Salvar(cfe, envioPath);
+				var envioPath = Arquivos.PastaEnvio;
+				var fullName = Path.Combine(envioPath, $"{Arquivos.PrefixoArqCFe}{DateTime.Now:yyyyMMddHHmmss}-{Sessao.ZeroFill(6)}-env.xml");
+				if (!Directory.Exists(envioPath))
+					Directory.CreateDirectory(envioPath);
+
+				File.WriteAllText(fullName, dadosVenda);
 			}
 
 			var e = new EventoDadosEventArgs { Dados = dadosVenda };
@@ -598,7 +606,7 @@ namespace ACBr.Net.Sat
 
 			if (!Directory.Exists(calcPathEventEventArgs.Path)) Directory.CreateDirectory(calcPathEventEventArgs.Path);
 
-			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.Venda.InfCFe.Id}";
+			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.Venda.InfCFe.Id}.xml";
 			var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
 			Salvar(resp.Venda, fullPath);
 
@@ -633,13 +641,17 @@ namespace ACBr.Net.Sat
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
-			var dadosVenda = GetXml(cfe);
+			var dadosVenda = GetXml(cfe, false, false);
 			IniciaComando($"TesteFimAFim({dadosVenda})");
 
 			if (Arquivos.SalvarEnvio)
 			{
-				var envioPath = Path.Combine(Arquivos.PastaEnvio, Arquivos.PrefixoArqCFe, $"{DateTime.Now:yyyyMMddHHmmss}-{Sessao.ZeroFill(6)}-teste-env.xml");
-				File.WriteAllText(envioPath, dadosVenda);
+				var envioPath = Arquivos.PastaEnvio;
+				var fullName = Path.Combine(envioPath, $"{Arquivos.PrefixoArqCFe}{DateTime.Now:yyyyMMddHHmmss}-{Sessao.ZeroFill(6)}-teste-env.xml");
+				if (!Directory.Exists(envioPath))
+					Directory.CreateDirectory(envioPath);
+
+				File.WriteAllText(fullName, dadosVenda);
 			}
 
 			var ret = sat.TesteFimAFim(Sessao, CodigoAtivacao, dadosVenda);
@@ -661,7 +673,7 @@ namespace ACBr.Net.Sat
 
 			if (!Directory.Exists(calcPathEventEventArgs.Path)) Directory.CreateDirectory(calcPathEventEventArgs.Path);
 
-			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.VendaTeste.InfCFe.Id}";
+			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.VendaTeste.InfCFe.Id}.xml";
 			var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
 			Salvar(resp.VendaTeste, fullPath);
 
@@ -693,7 +705,7 @@ namespace ACBr.Net.Sat
 		{
 			return GetXml<CFe>(cfe);
 		}
-
+		
 		/// <summary>
 		/// Retorna a XML do CFe de cancelamento.
 		/// </summary>
@@ -702,6 +714,16 @@ namespace ACBr.Net.Sat
 		public string GetXml(CFeCanc cfeCanc)
 		{
 			return GetXml<CFeCanc>(cfeCanc);
+		}
+		
+		/// <summary>
+		/// Retorna a XML de configuração da rede do Sat.
+		/// </summary>
+		/// <param name="rede">Instancia da classe SatRede.</param>
+		/// <returns>XML da configuração da rede do Sat</returns>
+		public string GetXml(SatRede rede)
+		{
+			return GetXml<SatRede>(rede);
 		}
 
 		#endregion Public
@@ -747,8 +769,8 @@ namespace ACBr.Net.Sat
 			OnGetNumeroSessao.Raise(this, e);
 			Sessao = e.Sessao;
 		}
-
-		private string GetXml<T>(T cfe) where T : class
+		
+		private string GetXml<T>(T cfe, bool identado = true, bool showDeclaration = true) where T : class
 		{
 			using (var stream = new MemoryStream())
 			{
@@ -757,7 +779,7 @@ namespace ACBr.Net.Sat
 				var xml = new XmlDocument();
 				xml.Load(stream);
 
-				return xml.AsString(true);
+				return xml.AsString(identado, showDeclaration);
 			}
 		}
 

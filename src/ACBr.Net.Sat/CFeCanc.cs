@@ -51,11 +51,6 @@ namespace ACBr.Net.Sat
 		public CFeCanc()
 		{
 			InfCFe = new CancInfCFe();
-			Ide = new CFeCancIde();
-			Emit = new CFeCancEmit();
-			Dest = new CFeCancDest();
-			Total = new CFeCancTotal();
-			InfAdic = new CFeCancInfAdic();
 			Signature = new Signature();
 		}
 
@@ -65,13 +60,12 @@ namespace ACBr.Net.Sat
 		/// <param name="cfe">The cfe.</param>
 		public CFeCanc(CFe cfe) : this()
 		{
-			InfCFe.ChCanc = $"CFe{cfe.InfCFe.Id}";
-			InfCFe.DhEmissao = cfe.InfCFe.Ide.DhEmissao;
-			Ide.CNPJ = cfe.InfCFe.Ide.CNPJ;
-			Ide.SignAC = cfe.InfCFe.Ide.SignAC;
-			Ide.NumeroCaixa = cfe.InfCFe.Ide.NumeroCaixa;
-			Dest.CPF = cfe.InfCFe.Dest.CPF;
-			Dest.CNPJ = cfe.InfCFe.Dest.CNPJ;
+			InfCFe.ChCanc = $"CFe{cfe.InfCFe.Id.OnlyNumbers()}";
+			InfCFe.Ide.CNPJ = cfe.InfCFe.Ide.CNPJ;
+			InfCFe.Ide.SignAC = cfe.InfCFe.Ide.SignAC;
+			InfCFe.Ide.NumeroCaixa = cfe.InfCFe.Ide.NumeroCaixa;
+			InfCFe.Dest.CPF = cfe.InfCFe.Dest.CPF;
+			InfCFe.Dest.CNPJ = cfe.InfCFe.Dest.CNPJ;
 		}
 
 		#endregion Constructors
@@ -84,42 +78,7 @@ namespace ACBr.Net.Sat
 		/// <value>The inf c fe.</value>
 		[DFeElement("infCFe", Ocorrencias = 1)]
 		public CancInfCFe InfCFe { get; set; }
-
-		/// <summary>
-		/// Gets the IDE.
-		/// </summary>
-		/// <value>The IDE.</value>
-		[DFeElement("ide", Id = "B01", Ocorrencias = 1)]
-		public CFeCancIde Ide { get; set; }
-
-		/// <summary>
-		/// Gets the emit.
-		/// </summary>
-		/// <value>The emit.</value>
-		[DFeElement("emit", Id = "C01", Ocorrencias = 1)]
-		public CFeCancEmit Emit { get; set; }
-
-		/// <summary>
-		/// Gets the dest.
-		/// </summary>
-		/// <value>The dest.</value>
-		[DFeElement("dest", Id = "E01", Ocorrencias = 1)]
-		public CFeCancDest Dest { get; set; }
-
-		/// <summary>
-		/// Gets the total.
-		/// </summary>
-		/// <value>The total.</value>
-		[DFeElement("total", Id = "W01", Ocorrencias = 1)]
-		public CFeCancTotal Total { get; set; }
-
-		/// <summary>
-		/// Gets the inf adic.
-		/// </summary>
-		/// <value>The inf adic.</value>
-		[DFeElement("infAdic", Id = "Z01", Ocorrencias = 1)]
-		public CFeCancInfAdic InfAdic { get; set; }
-
+		
 		/// <summary>
 		/// Gets or sets the signature.
 		/// </summary>

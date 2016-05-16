@@ -47,7 +47,6 @@ namespace ACBr.Net.Sat
 
 		private CFe parent;
 		private CFeDetCollection det;
-		private string id;
 
 		#endregion Fields
 
@@ -102,14 +101,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The identifier.</value>
 		[DFeAttribute(TipoCampo.Str, "Id")]
-		public string Id
-		{
-			get { return id; }
-			set
-			{
-				id = value.SafeReplace("CFe", string.Empty);
-			}
-		}
+		public string Id { get; set; }
 
 		/// <summary>
 		/// Gets the versao.

@@ -432,18 +432,21 @@
 			this.gerarXMLCancelamentoToolStripMenuItem.Name = "gerarXMLCancelamentoToolStripMenuItem";
 			this.gerarXMLCancelamentoToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
 			this.gerarXMLCancelamentoToolStripMenuItem.Text = "Gerar XML Cancelamento";
+			this.gerarXMLCancelamentoToolStripMenuItem.Click += new System.EventHandler(this.gerarXMLCancelamentoToolStripMenuItem_Click);
 			// 
 			// enviarCancelamentoToolStripMenuItem
 			// 
 			this.enviarCancelamentoToolStripMenuItem.Name = "enviarCancelamentoToolStripMenuItem";
 			this.enviarCancelamentoToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
 			this.enviarCancelamentoToolStripMenuItem.Text = "Enviar Cancelamento";
+			this.enviarCancelamentoToolStripMenuItem.Click += new System.EventHandler(this.enviarCancelamentoToolStripMenuItem_Click);
 			// 
 			// imprimirExtratoCancelamentoToolStripMenuItem
 			// 
 			this.imprimirExtratoCancelamentoToolStripMenuItem.Name = "imprimirExtratoCancelamentoToolStripMenuItem";
 			this.imprimirExtratoCancelamentoToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
 			this.imprimirExtratoCancelamentoToolStripMenuItem.Text = "Imprimir Extrato Cancelamento";
+			this.imprimirExtratoCancelamentoToolStripMenuItem.Click += new System.EventHandler(this.imprimirExtratoCancelamentoToolStripMenuItem_Click);
 			// 
 			// consultasToolStripMenuItem
 			// 

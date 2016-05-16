@@ -40,11 +40,19 @@ namespace ACBr.Net.Sat
 	/// </summary>
 	public sealed class CancInfCFe
 	{
-		#region Fields
+		#region Constructors
 
-		private string id;
+		public CancInfCFe()
+		{
 
-		#endregion Fields
+			Ide = new CFeCancIde();
+			Emit = new CFeCancEmit();
+			Dest = new CFeCancDest();
+			Total = new CFeCancTotal();
+			InfAdic = new CFeCancInfAdic();
+		}
+
+		#endregion Constructors
 
 		#region Propriedades
 
@@ -53,14 +61,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The identifier.</value>
 		[DFeAttribute(TipoCampo.Str, "Id", Id = "A04", Ocorrencias = 1)]
-		public string Id
-		{
-			get { return id; }
-			set
-			{
-				id = value.SafeReplace("CFe", string.Empty);
-			}
-		}
+		public string Id { get; set; }
 
 		/// <summary>
 		/// Gets the versao.
@@ -110,6 +111,41 @@ namespace ACBr.Net.Sat
 				DhEmissao = (DhEmissao?.Date ?? DateTime.MinValue.Date) + value.TimeOfDay;
 			}
 		}
+
+		/// <summary>
+		/// Gets the IDE.
+		/// </summary>
+		/// <value>The IDE.</value>
+		[DFeElement("ide", Id = "B01", Ocorrencias = 1)]
+		public CFeCancIde Ide { get; set; }
+
+		/// <summary>
+		/// Gets the emit.
+		/// </summary>
+		/// <value>The emit.</value>
+		[DFeElement("emit", Id = "C01", Ocorrencias = 1)]
+		public CFeCancEmit Emit { get; set; }
+
+		/// <summary>
+		/// Gets the dest.
+		/// </summary>
+		/// <value>The dest.</value>
+		[DFeElement("dest", Id = "E01", Ocorrencias = 1)]
+		public CFeCancDest Dest { get; set; }
+
+		/// <summary>
+		/// Gets the total.
+		/// </summary>
+		/// <value>The total.</value>
+		[DFeElement("total", Id = "W01", Ocorrencias = 1)]
+		public CFeCancTotal Total { get; set; }
+
+		/// <summary>
+		/// Gets the inf adic.
+		/// </summary>
+		/// <value>The inf adic.</value>
+		[DFeElement("infAdic", Id = "Z01", Ocorrencias = 1)]
+		public CFeCancInfAdic InfAdic { get; set; }
 
 		#endregion Propriedades
 
