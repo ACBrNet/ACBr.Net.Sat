@@ -42,7 +42,7 @@ namespace ACBr.Net.Sat
 		{
 			if (CodigoDeRetorno != 7000) return;
 
-			if (RetornoLst.Count > 5)
+			if (RetornoLst.Count >= 5)
 			{
 				using (var stream = new MemoryStream(Convert.FromBase64String(RetornoLst[5])))
 				{

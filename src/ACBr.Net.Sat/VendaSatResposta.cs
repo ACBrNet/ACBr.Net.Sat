@@ -42,7 +42,7 @@ namespace ACBr.Net.Sat
 		{
 			if (CodigoDeRetorno != 6000) return;
 
-			if (RetornoLst.Count > 6)
+			if (RetornoLst.Count >= 6)
 			{
 				using (var stream = new MemoryStream(Convert.FromBase64String(RetornoLst[6])))
 				{
@@ -60,7 +60,7 @@ namespace ACBr.Net.Sat
 				//O QRCode é montado a partir dos últimos campos do retorno
 
 				var indexOf = -1;
-				for (int i = 0; i < 8; i++)
+				for (var i = 0; i < 8; i++)
 				{
 					indexOf = RetornoStr.IndexOf('|', indexOf + 1);
 					if (indexOf == -1) break;

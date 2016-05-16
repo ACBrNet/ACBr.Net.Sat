@@ -4,8 +4,10 @@ using ACBr.Net.DFe.Core.Serializer;
 namespace ACBr.Net.Sat
 {
 	[DFeRoot("config")]
-	public sealed class CFeRede
+	public sealed class SatRede
 	{
+		#region Propriedades
+
 		[DFeElement(TipoCampo.Enum, "tipoInter", Id = "C01", Min = 1, Max = 4, Ocorrencias = 1)]
 		public TipoInterface TipoInterface { get; set; }
 
@@ -56,5 +58,81 @@ namespace ACBr.Net.Sat
 
 		[DFeElement(TipoCampo.Str, "proxy_senha", Id = "C17", Min = 1, Max = 64, Ocorrencias = 1)]
 		public string ProxyPass { get; set; }
+
+		#endregion Propriedades
+
+		#region Methods
+
+		private bool ShouldSerializeSSID()
+		{
+			return TipoInterface == TipoInterface.Wifi;
+		}
+
+		private bool ShouldSerializeSeguranca()
+		{
+			return TipoInterface == TipoInterface.Wifi;
+		}
+
+		private bool ShouldSerializeCodigo()
+		{
+			return TipoInterface == TipoInterface.Wifi;
+		}
+
+		private bool ShouldSerializeLanIp()
+		{
+			return TipoLan == TipoLan.IPFIX;
+		}
+
+		private bool ShouldSerializeLanMask()
+		{
+			return TipoLan == TipoLan.IPFIX;
+		}
+
+		private bool ShouldSerializeLanGateway()
+		{
+			return TipoLan == TipoLan.IPFIX;
+		}
+
+		private bool ShouldSerializeLanDNS1()
+		{
+			return TipoLan == TipoLan.IPFIX;
+		}
+
+		private bool ShouldSerializeLanDNS2()
+		{
+			return TipoLan == TipoLan.IPFIX;
+		}
+
+		private bool ShouldSerializeUsuario()
+		{
+			return TipoLan == TipoLan.PPPoE;
+		}
+
+		private bool ShouldSerializeSenha()
+		{
+			return TipoLan == TipoLan.PPPoE;
+		}
+
+		private bool ShouldSerializeProxyIp()
+		{
+			return Proxy != TipoProxy.None;
+		}
+
+		private bool ShouldSerializeProxyPorta()
+		{
+			return Proxy != TipoProxy.None;
+		}
+
+		private bool ShouldSerializeProxyUser()
+		{
+			return Proxy != TipoProxy.None;
+		}
+
+		private bool ShouldSerializeProxyPass()
+		{
+			return Proxy != TipoProxy.None;
+		}
+
+		#endregion Methods
 	}
 }

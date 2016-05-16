@@ -41,7 +41,7 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the nserie.
 		/// </summary>
 		/// <value>The nserie.</value>
-		public string Nserie { get; set; }
+		public string NSerie { get; set; }
 
 		/// <summary>
 		/// Gets or sets the lan mac.

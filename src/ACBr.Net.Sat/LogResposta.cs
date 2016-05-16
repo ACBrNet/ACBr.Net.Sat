@@ -42,9 +42,7 @@ namespace ACBr.Net.Sat
 			if (CodigoDeRetorno != 15000) return;
 
 			if (RetornoLst.Count > 5)
-			{
 				Log = encoding.GetString(Convert.FromBase64String(RetornoLst[5]));
-			}
 		}
 
 		#endregion Constructors

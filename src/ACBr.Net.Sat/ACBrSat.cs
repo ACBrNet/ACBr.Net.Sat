@@ -434,18 +434,18 @@ namespace ACBr.Net.Sat
 			OnCancelarUltimaVenda.Raise(this, e);
 
 			var ret = sat.CancelarUltimaVenda(Sessao, CodigoAtivacao, chave, dadosCancelamento);
-			var resposta = FinalizaComando<CancelamentoSatResposta>(ret);
+			var resp = FinalizaComando<CancelamentoSatResposta>(ret);
 
-			if (!Arquivos.SalvarCFeCanc)
-				return resposta;
+			if (!Arquivos.SalvarCFeCanc || resp.CodigoDeRetorno != 7000)
+				return resp;
 
-			var cnpj = Arquivos.SepararPorCNPJ ? resposta.Cancelamento.Emit.CNPJ : "";
-			var data = Arquivos.SepararPorMes ? $"{resposta.Cancelamento.Ide.DEmi:yyyy}\\{resposta.Cancelamento.Ide.DEmi:MM}" : "";
+			var cnpj = Arquivos.SepararPorCNPJ ? resp.Cancelamento.Emit.CNPJ : "";
+			var data = Arquivos.SepararPorMes ? $"{resp.Cancelamento.Ide.DEmi:yyyy}\\{resp.Cancelamento.Ide.DEmi:MM}" : "";
 			var path = Path.Combine(Arquivos.PastaCFeVenda, cnpj, data);
 			var calcPathEventEventArgs = new CalcPathEventEventArgs
 			{
-				CNPJ = resposta.Cancelamento.Emit.CNPJ,
-				Data = resposta.Cancelamento.Ide.DEmi,
+				CNPJ = resp.Cancelamento.Emit.CNPJ,
+				Data = resp.Cancelamento.Ide.DEmi,
 				Path = path
 			};
 
@@ -454,10 +454,10 @@ namespace ACBr.Net.Sat
 			if (!Directory.Exists(calcPathEventEventArgs.Path))
 				Directory.CreateDirectory(calcPathEventEventArgs.Path);
 
-			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resposta.Cancelamento.InfCFe.Id}";
+			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.Cancelamento.InfCFe.Id}";
 			var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
-			Salvar(resposta.Cancelamento, fullPath);
-			return resposta;
+			Salvar(resp.Cancelamento, fullPath);
+			return resp;
 		}
 
 		/// <summary>
@@ -480,7 +480,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <param name="config">The configuration.</param>
 		/// <returns>SatResposta.</returns>
-		public SatResposta ConfigurarInterfaceDeRede(CFeRede config)
+		public SatResposta ConfigurarInterfaceDeRede(SatRede config)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 			Guard.Against<ArgumentNullException>(config.IsNull(), nameof(config));
@@ -564,37 +564,37 @@ namespace ACBr.Net.Sat
 			OnEnviarDadosVenda.Raise(this, e);
 
 			var ret = sat.EnviarDadosVenda(Sessao, CodigoAtivacao, e.DadosVenda);
-			var resposta = FinalizaComando<VendaSatResposta>(ret);
+			var resp = FinalizaComando<VendaSatResposta>(ret);
 
-			if (Arquivos.SalvarCFe)
+			if (!Arquivos.SalvarCFe || resp.CodigoDeRetorno != 6000)
+				return resp;
+
+			var cnpj = Arquivos.SepararPorCNPJ ? resp.Venda.InfCFe.Emit.CNPJ : "";
+			var data = Arquivos.SepararPorMes ? $"{resp.Venda.InfCFe.Ide.DEmi:yyyy}\\{resp.Venda.InfCFe.Ide.DEmi:MM}" : "";
+			var path = Path.Combine(Arquivos.PastaCFeVenda, cnpj, data);
+			var calcPathEventEventArgs = new CalcPathEventEventArgs
 			{
-				var cnpj = Arquivos.SepararPorCNPJ ? resposta.Venda.InfCFe.Emit.CNPJ : "";
-				var data = Arquivos.SepararPorMes ? $"{resposta.Venda.InfCFe.Ide.DEmi:yyyy}\\{resposta.Venda.InfCFe.Ide.DEmi:MM}" : "";
-				var path = Path.Combine(Arquivos.PastaCFeVenda, cnpj, data);
-				var calcPathEventEventArgs = new CalcPathEventEventArgs
-				{
-					CNPJ = resposta.Venda.InfCFe.Emit.CNPJ,
-					Data = resposta.Venda.InfCFe.Ide.DEmi,
-					Path = path
-				};
+				CNPJ = resp.Venda.InfCFe.Emit.CNPJ,
+				Data = resp.Venda.InfCFe.Ide.DEmi,
+				Path = path
+			};
 
-				OnCalcPath.Raise(this, calcPathEventEventArgs);
+			OnCalcPath.Raise(this, calcPathEventEventArgs);
 
-				if (!Directory.Exists(calcPathEventEventArgs.Path)) Directory.CreateDirectory(calcPathEventEventArgs.Path);
+			if (!Directory.Exists(calcPathEventEventArgs.Path)) Directory.CreateDirectory(calcPathEventEventArgs.Path);
 
-				var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resposta.Venda.InfCFe.Id}";
-				var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
-				Salvar(resposta.Venda, fullPath);
-			}
+			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.Venda.InfCFe.Id}";
+			var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
+			Salvar(resp.Venda, fullPath);
 
-			return resposta;
+			return resp;
 		}
 
 		/// <summary>
 		/// Extrai os logs do Sat.
 		/// </summary>
 		/// <returns>SatResposta.</returns>
-		public SatResposta ExtrairLogs()
+		public LogResposta ExtrairLogs()
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
@@ -608,15 +608,43 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <param name="cfe">The cfe.</param>
 		/// <returns>SatResposta.</returns>
-		public SatResposta TesteFimAFim(CFe cfe)
+		public TesteResposta TesteFimAFim(CFe cfe)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
 			var dadosVenda = GetXml(cfe);
 			IniciaComando($"TesteFimAFim({dadosVenda})");
 
+			if (Arquivos.SalvarEnvio)
+			{
+				var envioPath = Path.Combine(Arquivos.PastaEnvio, Arquivos.PrefixoArqCFe, $"{DateTime.Now:yyyyMMddHHmmss}-{Sessao.ZeroFill(6)}-teste-env.xml");
+				File.WriteAllText(envioPath, dadosVenda);
+			}
+
 			var ret = sat.TesteFimAFim(Sessao, CodigoAtivacao, dadosVenda);
-			return FinalizaComando<SatResposta>(ret);
+			var resp = FinalizaComando<TesteResposta>(ret);
+			if (!Arquivos.SalvarCFe || resp.CodigoDeRetorno != 9000)
+				return resp;
+
+			var cnpj = Arquivos.SepararPorCNPJ ? resp.VendaTeste.InfCFe.Emit.CNPJ : "";
+			var data = Arquivos.SepararPorMes ? $"{resp.VendaTeste.InfCFe.Ide.DEmi:yyyy}\\{resp.VendaTeste.InfCFe.Ide.DEmi:MM}" : "";
+			var path = Path.Combine(Arquivos.PastaCFeVenda, cnpj, data);
+			var calcPathEventEventArgs = new CalcPathEventEventArgs
+			{
+				CNPJ = resp.VendaTeste.InfCFe.Emit.CNPJ,
+				Data = resp.VendaTeste.InfCFe.Ide.DEmi,
+				Path = path
+			};
+
+			OnCalcPath.Raise(this, calcPathEventEventArgs);
+
+			if (!Directory.Exists(calcPathEventEventArgs.Path)) Directory.CreateDirectory(calcPathEventEventArgs.Path);
+
+			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.VendaTeste.InfCFe.Id}";
+			var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
+			Salvar(resp.VendaTeste, fullPath);
+
+			return resp;
 		}
 
 		/// <summary>

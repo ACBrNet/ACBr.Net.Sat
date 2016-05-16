@@ -71,7 +71,7 @@
     <Compile Include="ACBrSat.cs">
       <SubType>ACBr.Net</SubType>
     </Compile>
-    <Compile Include="CFeRede.cs" />
+    <Compile Include="SatRede.cs" />
     <Compile Include="StatusOperacionalResposta.cs" />
     <Compile Include="LogResposta.cs" />
     <Compile Include="CancelamentoSatResposta.cs" />
@@ -136,6 +136,7 @@
     <Compile Include="Interfaces\ISatLibrary.cs" />
     <Compile Include="ModeloSat.cs" />
     <Compile Include="SegSemFio.cs" />
+    <Compile Include="TesteResposta.cs" />
     <Compile Include="TipoInterface.cs" />
     <Compile Include="TipoLan.cs" />
     <Compile Include="TipoProxy.cs" />

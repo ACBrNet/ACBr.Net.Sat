@@ -138,7 +138,7 @@ namespace ACBr.Net.Sat.Demo
 					PPIS = 0.0065M
 				};
 
-				det1.Imposto.COFINS.Cofins = new ImpostoCofinsAliq()
+				det1.Imposto.COFINS.Cofins = new ImpostoCofinsAliq
 				{
 					Cst = "01",
 					VBc = totalItem,
@@ -183,6 +183,7 @@ namespace ACBr.Net.Sat.Demo
 
 		private void LoadConfig()
 		{
+			if(acbrSat.Ativo) ToogleInitialize();
 			var config = Helpers.GetConfiguration();
 			cmbModeloSat.SelectedItem = Enum.Parse(typeof(ModeloSat), config.AppSettings.Settings["ModeloSat"]?.Value ?? "Cdecl");
 			txtDllPath.Text = config.AppSettings.Settings["DllPath"]?.Value ?? @"C:\SAT\SAT.dll";
@@ -246,6 +247,27 @@ namespace ACBr.Net.Sat.Demo
 
 			config.Save(ConfigurationSaveMode.Minimal, true);
 			MessageBox.Show(this, @"Configurações Salva com sucesso !", @"S@T Demo");
+		}
+
+		private void ConsultarStatusOperacional()
+		{
+			var ret = acbrSat.ConsultarStatusOperacional();
+			logger.Info($"NSERIE.........: {ret.Status.NSerie}");
+			logger.Info($"LAN_MAC........: {ret.Status.LanMac}");
+			logger.Info($"STATUS_LAN.....: {ret.Status.StatusLan}");
+			logger.Info($"NIVEL_BATERIA..: {ret.Status.NivelBateria}");
+			logger.Info($"MT_TOTAL.......: {ret.Status.MTTotal}");
+			logger.Info($"MT_USADA.......: {ret.Status.MTUsada}");
+			logger.Info($"DH_ATUAL.......: {ret.Status.DhAtual}");
+			logger.Info($"VER_SB.........: {ret.Status.VerSb}");
+			logger.Info($"VER_LAYOUT.....: {ret.Status.VerLayout}");
+			logger.Info($"ULTIMO_CFe.....: {ret.Status.UltimoCFe}");
+			logger.Info($"LISTA_INICIAL..: {ret.Status.ListaInicial}");
+			logger.Info($"LISTA_FINAL....: {ret.Status.ListaFinal}");
+			logger.Info($"DH_CFe.........: {ret.Status.DhCFe}");
+			logger.Info($"DH_ULTIMA......: {ret.Status.DhUltima}");
+			logger.Info($"CERT_EMISSAO...: {ret.Status.CertEmissao}");
+			logger.Info($"ESTADO_OPERACAO: {ret.Status.EstadoOperacao}");
 		}
 
 		#endregion Methods
@@ -331,7 +353,7 @@ namespace ACBr.Net.Sat.Demo
 		private void consultarStatusOperacionalToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (!acbrSat.Ativo) ToogleInitialize();
-			acbrSat.ConsultarStatusOperacional();
+			ConsultarStatusOperacional();
 		}
 
 		private void consultarSATToolStripMenuItem_Click(object sender, EventArgs e)
