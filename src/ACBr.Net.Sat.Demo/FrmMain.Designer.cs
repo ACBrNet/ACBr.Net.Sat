@@ -77,7 +77,6 @@
 			this.diversosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.testeFimAFimToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.extrairLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.limparToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tbcDados = new System.Windows.Forms.TabControl();
 			this.tpgConfig = new System.Windows.Forms.TabPage();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -289,8 +288,7 @@
             this.cancelamentoToolStripMenuItem,
             this.consultasToolStripMenuItem,
             this.configuraçãoToolStripMenuItem,
-            this.diversosToolStripMenuItem,
-            this.limparToolStripMenuItem});
+            this.diversosToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(722, 24);
@@ -477,6 +475,7 @@
 			this.consultarNumeroDeSessãoToolStripMenuItem.Name = "consultarNumeroDeSessãoToolStripMenuItem";
 			this.consultarNumeroDeSessãoToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
 			this.consultarNumeroDeSessãoToolStripMenuItem.Text = "Consultar Numero de Sessão";
+			this.consultarNumeroDeSessãoToolStripMenuItem.Click += new System.EventHandler(this.consultarNumeroDeSessãoToolStripMenuItem_Click);
 			// 
 			// configuraçãoToolStripMenuItem
 			// 
@@ -508,12 +507,14 @@
 			this.lerXMLConfiguraçãoDeInterfaceDeRedeToolStripMenuItem.Name = "lerXMLConfiguraçãoDeInterfaceDeRedeToolStripMenuItem";
 			this.lerXMLConfiguraçãoDeInterfaceDeRedeToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
 			this.lerXMLConfiguraçãoDeInterfaceDeRedeToolStripMenuItem.Text = "Ler Xml de Interface de Rede";
+			this.lerXMLConfiguraçãoDeInterfaceDeRedeToolStripMenuItem.Click += new System.EventHandler(this.lerXMLConfiguraçãoDeInterfaceDeRedeToolStripMenuItem_Click);
 			// 
 			// gravarXmlDeInterfaceDeRedeToolStripMenuItem
 			// 
 			this.gravarXmlDeInterfaceDeRedeToolStripMenuItem.Name = "gravarXmlDeInterfaceDeRedeToolStripMenuItem";
 			this.gravarXmlDeInterfaceDeRedeToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
 			this.gravarXmlDeInterfaceDeRedeToolStripMenuItem.Text = "Gravar Xml de Interface de Rede";
+			this.gravarXmlDeInterfaceDeRedeToolStripMenuItem.Click += new System.EventHandler(this.gravarXmlDeInterfaceDeRedeToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator4
 			// 
@@ -525,6 +526,7 @@
 			this.configurarInterfaceDeRedeToolStripMenuItem.Name = "configurarInterfaceDeRedeToolStripMenuItem";
 			this.configurarInterfaceDeRedeToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
 			this.configurarInterfaceDeRedeToolStripMenuItem.Text = "Configurar Interface de Rede";
+			this.configurarInterfaceDeRedeToolStripMenuItem.Click += new System.EventHandler(this.configurarInterfaceDeRedeToolStripMenuItem_Click);
 			// 
 			// diversosToolStripMenuItem
 			// 
@@ -540,6 +542,7 @@
 			this.testeFimAFimToolStripMenuItem.Name = "testeFimAFimToolStripMenuItem";
 			this.testeFimAFimToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
 			this.testeFimAFimToolStripMenuItem.Text = "Teste Fim a Fim";
+			this.testeFimAFimToolStripMenuItem.Click += new System.EventHandler(this.testeFimAFimToolStripMenuItem_Click);
 			// 
 			// extrairLogsToolStripMenuItem
 			// 
@@ -547,12 +550,6 @@
 			this.extrairLogsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
 			this.extrairLogsToolStripMenuItem.Text = "Extrair Logs";
 			this.extrairLogsToolStripMenuItem.Click += new System.EventHandler(this.extrairLogsToolStripMenuItem_Click);
-			// 
-			// limparToolStripMenuItem
-			// 
-			this.limparToolStripMenuItem.Name = "limparToolStripMenuItem";
-			this.limparToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
-			this.limparToolStripMenuItem.Text = "Limpar";
 			// 
 			// tbcDados
 			// 
@@ -925,7 +922,7 @@
 			this.cmbEmiRatIISQN.Name = "cmbEmiRatIISQN";
 			this.cmbEmiRatIISQN.Size = new System.Drawing.Size(186, 21);
 			this.cmbEmiRatIISQN.TabIndex = 14;
-			this.cmbEmiRatIISQN.SelectedValueChanged += new System.EventHandler(this.cmbEmiRatIISQN_SelectedValueChanged);
+			this.cmbEmiRatIISQN.SelectedIndexChanged += new System.EventHandler(this.cmbEmiRatIISQN_SelectedIndexChanged);
 			// 
 			// label11
 			// 
@@ -947,7 +944,7 @@
 			this.cmbEmiRegTribISSQN.Name = "cmbEmiRegTribISSQN";
 			this.cmbEmiRegTribISSQN.Size = new System.Drawing.Size(186, 21);
 			this.cmbEmiRegTribISSQN.TabIndex = 12;
-			this.cmbEmiRegTribISSQN.SelectedValueChanged += new System.EventHandler(this.cmbEmiRegTribISSQN_SelectedValueChanged);
+			this.cmbEmiRegTribISSQN.SelectedIndexChanged += new System.EventHandler(this.cmbEmiRegTribISSQN_SelectedIndexChanged);
 			// 
 			// label10
 			// 
@@ -969,7 +966,7 @@
 			this.cmbEmiRegTrib.Name = "cmbEmiRegTrib";
 			this.cmbEmiRegTrib.Size = new System.Drawing.Size(186, 21);
 			this.cmbEmiRegTrib.TabIndex = 10;
-			this.cmbEmiRegTrib.SelectedValueChanged += new System.EventHandler(this.cmbEmiRegTrib_SelectedValueChanged);
+			this.cmbEmiRegTrib.SelectedIndexChanged += new System.EventHandler(this.cmbEmiRegTrib_SelectedIndexChanged);
 			// 
 			// txtEmitIM
 			// 
@@ -1233,7 +1230,6 @@
 		private System.Windows.Forms.ToolStripMenuItem diversosToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem testeFimAFimToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem extrairLogsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem limparToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem gerarVendaToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem enviarVendaToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem imprimirExtratoVendaToolStripMenuItem;

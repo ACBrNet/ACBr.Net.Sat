@@ -1,4 +1,6 @@
-﻿using ACBr.Net.DFe.Core.Attributes;
+﻿using System.IO;
+using System.Text;
+using ACBr.Net.DFe.Core.Attributes;
 using ACBr.Net.DFe.Core.Serializer;
 
 namespace ACBr.Net.Sat
@@ -62,6 +64,22 @@ namespace ACBr.Net.Sat
 		#endregion Propriedades
 
 		#region Methods
+
+		public static SatRede Load(string path, Encoding encoding = null)
+		{
+			var serializer = DFeSerializer.CreateSerializer<SatRede>();
+			if (encoding != null)
+				serializer.Options.Encoder = encoding;
+			return serializer.Deserialize(path);
+		}
+
+		public static SatRede Load(Stream stream, Encoding encoding = null)
+		{
+			var serializer = DFeSerializer.CreateSerializer<SatRede>();
+			if (encoding != null)
+				serializer.Options.Encoder = encoding;
+			return serializer.Deserialize(stream);
+		}
 
 		private bool ShouldSerializeSSID()
 		{

@@ -21,6 +21,7 @@ namespace ACBr.Net.Sat.Demo
 		private ACBrSat acbrSat;
 		private CFe cfeAtual;
 		private CFeCanc cfeCancAtual;
+		private SatRede redeAtual;
 
 		#endregion Fields
 
@@ -231,7 +232,7 @@ namespace ACBr.Net.Sat.Demo
 			MessageBox.Show(this, @"Configurações Carregada com sucesso !", @"S@T Demo");
 		}
 
-		private void SaveConfig()
+		private void SaveConfig(bool msg = true)
 		{
 			var config = Helpers.GetConfiguration();
 			config.AppSettings.Settings.AddValue("ModeloSat", cmbModeloSat.SelectedItem.ToString());
@@ -260,7 +261,8 @@ namespace ACBr.Net.Sat.Demo
 			config.AppSettings.Settings.AddValue("SignAC", txtSignAC.Text);
 
 			config.Save(ConfigurationSaveMode.Minimal, true);
-			MessageBox.Show(this, @"Configurações Salva com sucesso !", @"S@T Demo");
+			if(msg)
+				MessageBox.Show(this, @"Configurações Salva com sucesso !", @"S@T Demo");
 		}
 
 		private void ConsultarStatusOperacional()
@@ -298,10 +300,22 @@ namespace ACBr.Net.Sat.Demo
 
 		private void comunicarCertificadoToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (!acbrSat.Ativo) ToogleInitialize();
+			logger.Info("Comunicar certificado.");
+			var file = Helpers.OpenFiles(@"Certificado|*.cer|Arquivo Texto|*.txt");
+			if (file.IsEmpty())
+			{
+				logger.Info("Comunicar certificado Cancelado.");
+				return;
+			}
+
+			acbrSat.ComunicarCertificadoIcpBrasil(File.ReadAllText(file));
 		}
 
 		private void associarAssinaturaToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (!acbrSat.Ativo) ToogleInitialize();
+			acbrSat.AssociarAssinatura(txtIdeCNPJ.Text + txtEmitCNPJ.Text, txtSignAC.Text);
 		}
 
 		private void bloquearSATToolStripMenuItem_Click(object sender, EventArgs e)
@@ -318,6 +332,30 @@ namespace ACBr.Net.Sat.Demo
 
 		private void trocarCódigoDeAtivaçãoToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (!acbrSat.Ativo) ToogleInitialize();
+
+			var codigo = txtAtivacao.Text;
+			if(InputBox.Show("Trocar Código de Ativação", "Entre com o Código de Ativação ou de Emergência:", ref codigo).Equals(DialogResult.Cancel))
+				return;
+
+			var tipoCodigo = "1";
+			if (InputBox.Show("Trocar Código de Ativação",
+							  "Qual o Tipo do Código Informado anteriormente ?" + Environment.NewLine +
+							  "1 – Código de Ativação" + Environment.NewLine +
+							  "2 – Código de Ativação de Emergência", ref tipoCodigo).Equals(DialogResult.Cancel))
+				return;
+
+			var novoCodigo = string.Empty;
+			if (InputBox.Show("Trocar Código de Ativação", "Entre com o Número do Novo Código de Ativação:", ref novoCodigo).Equals(DialogResult.Cancel))
+				return;
+
+			var ret = acbrSat.TrocarCodigoDeAtivacao(codigo, tipoCodigo.ToInt32(1), novoCodigo);
+			if (ret.CodigoDeRetorno != 1800)
+				return;
+
+			txtAtivacao.Text = novoCodigo;
+			logger.Info("Codigo de Ativação trocado com sucesso");
+			SaveConfig(false);
 		}
 
 		private void gerarVendaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -348,26 +386,17 @@ namespace ACBr.Net.Sat.Demo
 		private void carregarXMLToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			logger.Info("Carregar XML CFe.");
-
-			using (var ofd = new OpenFileDialog())
+			var file = Helpers.OpenFiles(@"CFe Xml | *.xml");
+			if (file.IsEmpty())
 			{
-				ofd.CheckPathExists = true;
-				ofd.CheckFileExists = true;
-				ofd.Multiselect = false;
-				ofd.Filter = @"CFe Xml | *.xml";
-
-				if (ofd.ShowDialog().Equals(DialogResult.Cancel))
-				{
-					logger.Info("Carregar XML CFe Cancelado.");
-					return;
-				}
-
-				cfeAtual = CFe.Load(ofd.FileName);
-
-				wbrXmlGerado.LoadXml(File.ReadAllText(ofd.FileName));
-				tbcXml.SelectedTab = tpgXmlGerado;
-				logger.Info("XML CFe carregado com sucesso.");
+				logger.Info("Carregar XML CFe Cancelado.");
+				return;
 			}
+
+			cfeAtual = CFe.Load(file);
+			wbrXmlGerado.LoadXml(acbrSat.GetXml(cfeAtual));
+			tbcXml.SelectedTab = tpgXmlGerado;
+			logger.Info("XML CFe carregado com sucesso.");
 		}
 
 		private void gerarXMLCancelamentoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -381,8 +410,8 @@ namespace ACBr.Net.Sat.Demo
 			}
 
 			cfeCancAtual = new CFeCanc(cfeAtual);
-			wbrXmlGerado.LoadXml(acbrSat.GetXml(cfeCancAtual));
-			tbcXml.SelectedTab = tpgXmlGerado;
+			wbrXmlCancelamento.LoadXml(acbrSat.GetXml(cfeCancAtual));
+			tbcXml.SelectedTab = tpgXmlCancelamento;
 			logger.Info("CFe de Cancelamento gerado com sucesso !");
 		}
 
@@ -415,10 +444,74 @@ namespace ACBr.Net.Sat.Demo
 			acbrSat.ConsultarSAT();
 		}
 
+		private void consultarNumeroDeSessãoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (!acbrSat.Ativo) ToogleInitialize();
+			
+			var sessao = string.Empty;
+			if (InputBox.Show("Consultar Sessão", "Digite o número da sessão", ref sessao).Equals(DialogResult.Cancel))
+				return;
+
+			if(!sessao.IsNumeric())
+				return;
+
+			var ret = acbrSat.ConsultarNumeroSessao(sessao.ToInt32());
+
+			if (ret.CodigoDeRetorno == 6000)
+				wbrXmlRecebido.LoadXml(acbrSat.GetXml(ret.Venda));
+			else if(ret.CodigoDeRetorno == 7000)
+				wbrXmlRecebido.LoadXml(acbrSat.GetXml(ret.Cancelamento));
+			else
+				return;
+
+			tbcXml.SelectedTab = tpgXmlRecebido;
+		}
+
 		private void atualizarSATToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (!acbrSat.Ativo) ToogleInitialize();
 			acbrSat.AtualizarSoftwareSAT();
+		}
+		
+		private void lerXMLConfiguraçãoDeInterfaceDeRedeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			logger.Info("Carregar XML Rede.");
+			var file = Helpers.OpenFiles(@"Xml Rede | *.xml");
+			if (file.IsEmpty())
+			{
+				logger.Info("Carregar XML Rede Cancelado.");
+				return;
+			}
+
+			redeAtual = SatRede.Load(file);
+			wbrXmlRede.LoadXml(acbrSat.GetXml(redeAtual));
+			tbcXml.SelectedTab = tpgRede;
+			logger.Info("XML Rede carregado com sucesso.");
+		}
+
+		private void gravarXmlDeInterfaceDeRedeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void configurarInterfaceDeRedeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void testeFimAFimToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (!acbrSat.Ativo) ToogleInitialize();
+
+			if(cfeAtual == null)
+				GerarCFe();
+
+			var ret = acbrSat.TesteFimAFim(cfeAtual);
+			if(ret.CodigoDeRetorno != 9000)
+				return;
+
+			wbrXmlRecebido.LoadXml(acbrSat.GetXml(ret.VendaTeste));
+			tbcXml.SelectedTab = tpgXmlRecebido;
 		}
 
 		private void extrairLogsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -451,7 +544,7 @@ namespace ACBr.Net.Sat.Demo
 
 		private void cmbAmbiente_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			acbrSat.Configuracoes.IdeTpAmb = (TipoAmbiente)cmbAmbiente.SelectedValue;
+			acbrSat.Configuracoes.IdeTpAmb = (TipoAmbiente)cmbAmbiente.SelectedItem;
 		}
 
 		private void nunCaixa_ValueChanged(object sender, EventArgs e)
@@ -533,19 +626,19 @@ namespace ACBr.Net.Sat.Demo
 			acbrSat.Configuracoes.EmitIM = txtEmitIM.Text.OnlyNumbers();
 		}
 
-		private void cmbEmiRegTrib_SelectedValueChanged(object sender, EventArgs e)
+		private void cmbEmiRegTrib_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			acbrSat.Configuracoes.EmitCRegTrib = (RegTrib) cmbEmiRegTrib.SelectedValue;
+			acbrSat.Configuracoes.EmitCRegTrib = (RegTrib)cmbEmiRegTrib.SelectedItem;
 		}
 
-		private void cmbEmiRegTribISSQN_SelectedValueChanged(object sender, EventArgs e)
+		private void cmbEmiRegTribISSQN_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			acbrSat.Configuracoes.EmitCRegTribISSQN = (RegTribIssqn)cmbEmiRegTribISSQN.SelectedValue;
+			acbrSat.Configuracoes.EmitCRegTribISSQN = (RegTribIssqn)cmbEmiRegTribISSQN.SelectedItem;
 		}
 
-		private void cmbEmiRatIISQN_SelectedValueChanged(object sender, EventArgs e)
+		private void cmbEmiRatIISQN_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			acbrSat.Configuracoes.EmitIndRatISSQN = (RatIssqn)cmbEmiRatIISQN.SelectedValue;
+			acbrSat.Configuracoes.EmitIndRatISSQN = (RatIssqn)cmbEmiRatIISQN.SelectedItem;
 		}
 
 		private void txtIdeCNPJ_TextChanged(object sender, EventArgs e)

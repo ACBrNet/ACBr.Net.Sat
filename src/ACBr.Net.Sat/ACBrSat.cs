@@ -683,16 +683,16 @@ namespace ACBr.Net.Sat
 		/// <summary>
 		/// Troca o codigo de ativação do Sat.
 		/// </summary>
+		/// <param name="codigo">The novo codigo.</param>
 		/// <param name="opcao">The opcao.</param>
-		/// <param name="novoCodigo">The novo codigo.</param>
-		/// <param name="confNovoCodigo">The conf novo codigo.</param>
+		/// <param name="novoCodigo">The conf novo codigo.</param>
 		/// <returns>SatResposta.</returns>
-		public SatResposta TrocarCodigoDeAtivacao(int opcao, string novoCodigo, string confNovoCodigo)
+		public SatResposta TrocarCodigoDeAtivacao(string codigo, int opcao, string novoCodigo)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
-			IniciaComando($"TrocarCodigoDeAtivacao({opcao}, {novoCodigo}, {confNovoCodigo})");
-			var ret = sat.TrocarCodigoDeAtivacao(Sessao, CodigoAtivacao, opcao, novoCodigo, confNovoCodigo);
+			IniciaComando($"TrocarCodigoDeAtivacao({codigo}, {opcao}, {novoCodigo})");
+			var ret = sat.TrocarCodigoDeAtivacao(Sessao, CodigoAtivacao, opcao, codigo, novoCodigo);
 			return FinalizaComando<SatResposta>(ret);
 		}
 

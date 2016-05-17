@@ -276,7 +276,7 @@ namespace ACBr.Net.Sat
 
 		public string TesteFimAFim(int numeroSessao, string codigoDeAtivacao, string dadosVenda)
 		{
-			var funcaoSat = handle.GetMethod<Delegates.TesteFimAFim>("ExtrairLogs");
+			var funcaoSat = handle.GetMethod<Delegates.TesteFimAFim>("TesteFimAFim");
 			var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao, FromEncoding(dadosVenda));
 
 			var ret = Marshal.PtrToStringAnsi(retPtr);
