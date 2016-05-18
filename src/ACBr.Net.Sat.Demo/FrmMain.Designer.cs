@@ -1112,6 +1112,7 @@
 			this.cmbModeloSat.Name = "cmbModeloSat";
 			this.cmbModeloSat.Size = new System.Drawing.Size(108, 21);
 			this.cmbModeloSat.TabIndex = 18;
+			this.cmbModeloSat.SelectedIndexChanged += new System.EventHandler(this.cmbModeloSat_SelectedIndexChanged);
 			// 
 			// btnIniDesini
 			// 

@@ -105,8 +105,8 @@ namespace ACBr.Net.Sat.Demo
 			var totalGeral = 0M;
 			cfeAtual = acbrSat.NewCFe();
 			cfeAtual.InfCFe.Ide.NumeroCaixa = 1;
-			cfeAtual.InfCFe.Dest.CPF = "09506738700";
-			cfeAtual.InfCFe.Dest.Nome = "D.J. SYSTEM ÁÉÍÓÚáéíóúÇç";
+			cfeAtual.InfCFe.Dest.CPF = "02304742505";
+			cfeAtual.InfCFe.Dest.Nome = "JOSÉ DA SILVA";
 			cfeAtual.InfCFe.Entrega.XLgr = "logradouro";
 			cfeAtual.InfCFe.Entrega.Nro = "112233";
 			cfeAtual.InfCFe.Entrega.XCpl = "complemento";
@@ -198,7 +198,7 @@ namespace ACBr.Net.Sat.Demo
 
 		private void LoadConfig()
 		{
-			if(acbrSat.Ativo) ToogleInitialize();
+			if (acbrSat.Ativo) ToogleInitialize();
 			var config = Helpers.GetConfiguration();
 			cmbModeloSat.SelectedItem = Enum.Parse(typeof(ModeloSat), config.AppSettings.Settings["ModeloSat"]?.Value ?? "Cdecl");
 			txtDllPath.Text = config.AppSettings.Settings["DllPath"]?.Value ?? @"C:\SAT\SAT.dll";
@@ -223,7 +223,7 @@ namespace ACBr.Net.Sat.Demo
 			cmbEmiRegTribISSQN.SelectedItem = Enum.Parse(typeof(RegTribIssqn), config.AppSettings.Settings["EmiRegTribISSQN"]?.Value ?? "Nenhum");
 			cmbEmiRegTrib.SelectedItem = Enum.Parse(typeof(RatIssqn), config.AppSettings.Settings["EmiRatIISQN"]?.Value ?? "Sim");
 			txtIdeCNPJ.Text = config.AppSettings.Settings["IdeCNPJ"]?.Value ?? "22222222222222";
-			txtSignAC.Text = config.AppSettings.Settings["SignAC"]?.Value ?? 
+			txtSignAC.Text = config.AppSettings.Settings["SignAC"]?.Value ??
 				"1111111111111222222222222221111111111111122222222222222111111111111112222222222222211111" +
 				"111111111222222222222221111111111111122222222222222111111111111112222222222222211111111" +
 				"111111222222222222221111111111111122222222222222111111111111112222222222222211111111111" +
@@ -261,7 +261,7 @@ namespace ACBr.Net.Sat.Demo
 			config.AppSettings.Settings.AddValue("SignAC", txtSignAC.Text);
 
 			config.Save(ConfigurationSaveMode.Minimal, true);
-			if(msg)
+			if (msg)
 				MessageBox.Show(this, @"Configurações Salva com sucesso !", @"S@T Demo");
 		}
 
@@ -335,7 +335,7 @@ namespace ACBr.Net.Sat.Demo
 			if (!acbrSat.Ativo) ToogleInitialize();
 
 			var codigo = txtAtivacao.Text;
-			if(InputBox.Show("Trocar Código de Ativação", "Entre com o Código de Ativação ou de Emergência:", ref codigo).Equals(DialogResult.Cancel))
+			if (InputBox.Show("Trocar Código de Ativação", "Entre com o Código de Ativação ou de Emergência:", ref codigo).Equals(DialogResult.Cancel))
 				return;
 
 			var tipoCodigo = "1";
@@ -367,7 +367,7 @@ namespace ACBr.Net.Sat.Demo
 		{
 			if (!acbrSat.Ativo) ToogleInitialize();
 			var ret = acbrSat.EnviarDadosVenda(cfeAtual);
-			if(ret.CodigoDeRetorno != 6000)
+			if (ret.CodigoDeRetorno != 6000)
 				return;
 
 			cfeAtual = ret.Venda;
@@ -429,7 +429,6 @@ namespace ACBr.Net.Sat.Demo
 
 		private void imprimirExtratoCancelamentoToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
 		}
 
 		private void consultarStatusOperacionalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -447,19 +446,19 @@ namespace ACBr.Net.Sat.Demo
 		private void consultarNumeroDeSessãoToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (!acbrSat.Ativo) ToogleInitialize();
-			
+
 			var sessao = string.Empty;
 			if (InputBox.Show("Consultar Sessão", "Digite o número da sessão", ref sessao).Equals(DialogResult.Cancel))
 				return;
 
-			if(!sessao.IsNumeric())
+			if (!sessao.IsNumeric())
 				return;
 
 			var ret = acbrSat.ConsultarNumeroSessao(sessao.ToInt32());
 
 			if (ret.CodigoDeRetorno == 6000)
 				wbrXmlRecebido.LoadXml(acbrSat.GetXml(ret.Venda));
-			else if(ret.CodigoDeRetorno == 7000)
+			else if (ret.CodigoDeRetorno == 7000)
 				wbrXmlRecebido.LoadXml(acbrSat.GetXml(ret.Cancelamento));
 			else
 				return;
@@ -472,7 +471,7 @@ namespace ACBr.Net.Sat.Demo
 			if (!acbrSat.Ativo) ToogleInitialize();
 			acbrSat.AtualizarSoftwareSAT();
 		}
-		
+
 		private void lerXMLConfiguraçãoDeInterfaceDeRedeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			logger.Info("Carregar XML Rede.");
@@ -491,23 +490,21 @@ namespace ACBr.Net.Sat.Demo
 
 		private void gravarXmlDeInterfaceDeRedeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
 		}
 
 		private void configurarInterfaceDeRedeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
 		}
 
 		private void testeFimAFimToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (!acbrSat.Ativo) ToogleInitialize();
 
-			if(cfeAtual == null)
+			if (cfeAtual == null)
 				GerarCFe();
 
 			var ret = acbrSat.TesteFimAFim(cfeAtual);
-			if(ret.CodigoDeRetorno != 9000)
+			if (ret.CodigoDeRetorno != 9000)
 				return;
 
 			wbrXmlRecebido.LoadXml(acbrSat.GetXml(ret.VendaTeste));
@@ -526,6 +523,11 @@ namespace ACBr.Net.Sat.Demo
 		#endregion Menu
 
 		#region ValueChanged
+
+		private void cmbModeloSat_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			acbrSat.Modelo = (ModeloSat)cmbModeloSat.SelectedItem;
+		}
 
 		private void txtDllPath_TextChanged(object sender, EventArgs e)
 		{
