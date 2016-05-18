@@ -692,7 +692,7 @@ namespace ACBr.Net.Sat
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
 			IniciaComando($"TrocarCodigoDeAtivacao({codigo}, {opcao}, {novoCodigo})");
-			var ret = sat.TrocarCodigoDeAtivacao(Sessao, CodigoAtivacao, opcao, codigo, novoCodigo);
+			var ret = sat.TrocarCodigoDeAtivacao(Sessao, codigo, opcao, novoCodigo, novoCodigo);
 			return FinalizaComando<SatResposta>(ret);
 		}
 
