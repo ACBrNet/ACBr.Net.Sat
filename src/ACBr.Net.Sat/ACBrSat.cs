@@ -141,28 +141,35 @@ namespace ACBr.Net.Sat
 		#region Properties
 
 		/// <summary>
-		/// Indica se o componente esta ativo ou não.
-		/// </summary>
-		/// <value><c>true</c> if ativo; otherwise, <c>false</c>.</value>
-		public bool Ativo { get; private set; }
-
-		/// <summary>
-		/// Número da sessão atual.
-		/// </summary>
-		/// <value>The sessao.</value>
-		public int Sessao { get; private set; }
-
-		/// <summary>
 		/// Configurações do ACBrSat
 		/// </summary>
 		/// <value>The configuracoes.</value>
-		public SatConfig Configuracoes { get; private set; }
+		public SatConfig Configuracoes { get; }
 
 		/// <summary>
 		/// Configurações de como ACBrSat vai se comportar com os arquivos gerado e recebido.
 		/// </summary>
 		/// <value>The arquivos.</value>
-		public CfgArquivos Arquivos { get; private set; }
+		public CfgArquivos Arquivos { get; }
+
+		
+		/// <summary>
+		/// Enconding usado para tratar as string que são enviadas/recebidas.
+		/// </summary>
+		/// <value>O Enconder</value>
+		/// <exception cref="Exception">Não é possível definir a propriedade com o componente ativo</exception>
+		public Encoding Encoding
+		{
+			get
+			{
+				return encoding;
+			}
+			set
+			{
+				Guard.Against<ACBrException>(Ativo, "Não é possível definir a propriedade com o componente ativo");
+				encoding = value;
+			}
+		}
 
 		/// <summary>
 		/// Modelo a ser utilizado pelo ACBrSat.
@@ -180,6 +187,24 @@ namespace ACBr.Net.Sat
 				modelo = value;
 			}
 		}
+
+		/// <summary>
+		/// Classe responsavel por imprimir o Extrato do Sat.
+		/// </summary>
+		/// <value>The extrato.</value>
+		public IExtratoSat Extrato { get; set; }
+
+		/// <summary>
+		/// Indica se o componente esta ativo ou não.
+		/// </summary>
+		/// <value><c>true</c> if ativo; otherwise, <c>false</c>.</value>
+		public bool Ativo { get; private set; }
+
+		/// <summary>
+		/// Número da sessão atual.
+		/// </summary>
+		/// <value>The sessao.</value>
+		public int Sessao { get; private set; }
 
 		/// <summary>
 		/// Código usado para ativar o Sat
@@ -234,24 +259,6 @@ namespace ACBr.Net.Sat
 			{
 				Guard.Against<ACBrException>(Ativo, "Não é possível definir a propriedade com o componente ativo");
 				pathDll = value;
-			}
-		}
-
-		/// <summary>
-		/// Enconding usado para tratar as string que são enviadas/recebidas.
-		/// </summary>
-		/// <value>O Enconder</value>
-		/// <exception cref="Exception">Não é possível definir a propriedade com o componente ativo</exception>
-		public Encoding Encoding
-		{
-			get
-			{
-				return encoding;
-			}
-			set
-			{
-				Guard.Against<ACBrException>(Ativo, "Não é possível definir a propriedade com o componente ativo");
-				encoding = value;
 			}
 		}
 
@@ -694,6 +701,37 @@ namespace ACBr.Net.Sat
 			IniciaComando($"TrocarCodigoDeAtivacao({codigo}, {opcao}, {novoCodigo})");
 			var ret = sat.TrocarCodigoDeAtivacao(Sessao, codigo, opcao, novoCodigo, novoCodigo);
 			return FinalizaComando<SatResposta>(ret);
+		}
+
+		/// <summary>
+		/// Imprime o extrato do Cfe.
+		/// </summary>
+		/// <param name="cfe">The cfe.</param>
+		public void ImprimirExtrato(CFe cfe)
+		{
+			Guard.Against<NullReferenceException>(Extrato == null, "Componente de Impressão não definido !");
+			Extrato.ImprimirExtrato(cfe);
+		}
+
+		/// <summary>
+		/// Imprime o extrato resumido do CFe.
+		/// </summary>
+		/// <param name="cfe">The cfe.</param>
+		public void ImprimirExtratoResumido(CFe cfe)
+		{
+			Guard.Against<NullReferenceException>(Extrato == null, "Componente de Impressão não definido !");
+			Extrato.ImprimirExtratoResumido(cfe);
+		}
+
+		/// <summary>
+		/// Imprimir o extrato de cancelamento do CFe.
+		/// </summary>
+		/// <param name="cfe">The cfe.</param>
+		/// <param name="cFeCanc">The c fe canc.</param>
+		public void ImprimirExtratoCancelamento(CFe cfe, CFeCanc cFeCanc)
+		{
+			Guard.Against<NullReferenceException>(Extrato == null, "Componente de Impressão não definido !");
+			Extrato.ImprimirExtratoCancelamento(cfe, cFeCanc);
 		}
 
 		/// <summary>

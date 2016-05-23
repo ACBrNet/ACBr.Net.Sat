@@ -235,3 +235,4 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 /src/*.tss
+/src/ACBr.Net.Sat.VC.db

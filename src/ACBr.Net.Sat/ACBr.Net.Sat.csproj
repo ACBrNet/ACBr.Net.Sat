@@ -61,6 +61,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,6 +73,9 @@
       <SubType>ACBr.Net</SubType>
     </Compile>
     <Compile Include="ConsultaSessaoResposta.cs" />
+    <Compile Include="ExtratoFiltro.cs" />
+    <Compile Include="ExtratoLayOut.cs" />
+    <Compile Include="Interfaces\IExtratoSat.cs" />
     <Compile Include="SatRede.cs" />
     <Compile Include="StatusOperacionalResposta.cs" />
     <Compile Include="LogResposta.cs" />
