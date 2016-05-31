@@ -46,14 +46,14 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the original.
 		/// </summary>
 		/// <value>The original.</value>
-		[DFeElement(TipoCampo.Str, "Orig", Id = "N06", Min = 1, Max = 1, Ocorrencias = 1)]
-		public string Orig { get; set; }
+		[DFeElement(TipoCampo.Enum, "Orig", Id = "N06", Min = 1, Max = 1, Ocorrencias = 1)]
+		public OrigemMercadoria Orig { get; set; }
 
 		/// <summary>
 		/// Gets or sets the Cst.
 		/// </summary>
 		/// <value>The Cst.</value>
 		[DFeElement(TipoCampo.Str, "CST", Id = "N07", Min = 2, Max = 2, Ocorrencias = 1)]
-		public string CST { get; set; }
+		public string Cst { get; set; }
 	}
 }

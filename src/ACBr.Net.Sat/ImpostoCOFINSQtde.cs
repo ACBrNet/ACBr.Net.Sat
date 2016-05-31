@@ -50,7 +50,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The Cst.</value>
 		[DFeElement(TipoCampo.Str, "CST", Id = "S07", Min = 2, Max = 2, Ocorrencias = 1)]
-		public string CST { get; set; }
+		public string Cst { get; set; }
 
 		/// <summary>
 		/// Gets or sets the q bc product.
@@ -71,7 +71,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The vcofins.</value>
 		[DFeElement(TipoCampo.De2, "vCOFINS", Id = "S10", Min = 1, Max = 15, Ocorrencias = 1)]
-		public decimal VCOFINS { get; set; }
+		public decimal VCofins { get; set; }
 
 		#endregion Propriedades
 
@@ -81,9 +81,9 @@ namespace ACBr.Net.Sat
 		/// Shoulds the serialize vcofins.
 		/// </summary>
 		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-		private bool ShouldSerializeVCOFINS()
+		private bool ShouldSerializeVCofins()
 		{
-			return VCOFINS > 0;
+			return VCofins > 0;
 		}
 
 		#endregion Methods

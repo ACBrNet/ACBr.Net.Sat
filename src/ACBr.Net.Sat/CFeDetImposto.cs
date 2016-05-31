@@ -49,10 +49,10 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		public CFeDetImposto()
 		{
-			COFINSST = new ImpostoCofinsSt();
-			COFINS = new ImpostoCofins();
-			PISST = new ImpostoPisSt();
-			PIS = new ImpostoPIS();
+			CofinsSt = new ImpostoCofinsSt();
+			Cofins = new ImpostoCofins();
+			PisSt = new ImpostoPisSt();
+			Pis = new ImpostoPIS();
 		}
 
 		#endregion Constructors
@@ -79,28 +79,28 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The pis.</value>
 		[DFeElement("PIS", Id = "Q01", Ocorrencias = 1)]
-		public ImpostoPIS PIS { get; set; }
+		public ImpostoPIS Pis { get; set; }
 
 		/// <summary>
 		/// Gets or sets the pisst.
 		/// </summary>
 		/// <value>The pisst.</value>
 		[DFeElement("PISST", Id = "R01", Ocorrencias = 1)]
-		public ImpostoPisSt PISST { get; set; }
+		public ImpostoPisSt PisSt { get; set; }
 
 		/// <summary>
 		/// Gets or sets the cofins.
 		/// </summary>
 		/// <value>The cofins.</value>
 		[DFeElement("COFINS", Id = "S01", Ocorrencias = 1)]
-		public ImpostoCofins COFINS { get; set; }
+		public ImpostoCofins Cofins { get; set; }
 
 		/// <summary>
 		/// Gets or sets the cofinsst.
 		/// </summary>
 		/// <value>The cofinsst.</value>
 		[DFeElement("COFINSST", Id = "T01", Ocorrencias = 1)]
-		public ImpostoCofinsSt COFINSST { get; set; }
+		public ImpostoCofinsSt CofinsSt { get; set; }
 
 		#endregion Propriedades
 
@@ -116,23 +116,23 @@ namespace ACBr.Net.Sat
 			if (Imposto is ImpostoIssqn)
 			{
 				var issqn = (ImpostoIssqn)Imposto;
-				return issqn.VDeducISSQN > 0 || issqn.VBc > 0 ||
-				       issqn.VAliq > 0 || issqn.VISSQN > 0;
+				return issqn.VDeducIssqn > 0 || issqn.VBc > 0 ||
+				       issqn.VAliq > 0 || issqn.VIssqn > 0;
 			}
 
 			return true;
 		}
 
-		private bool ShouldSerializePISST()
+		private bool ShouldSerializePisSt()
 		{
-			return PISST.PPIS > 0 || PISST.VBc > 0 ||
-					   PISST.QBcProd > 0 || PISST.VPIS > 0;
+			return PisSt.PPis > 0 || PisSt.VBc > 0 ||
+					   PisSt.QBcProd > 0 || PisSt.VPis > 0;
 		}
 
-		private bool ShouldSerializeCOFINSST()
+		private bool ShouldSerializeCofinsSt()
 		{
-			return COFINSST.PCOFINS > 0 || COFINSST.VBc > 0 ||
-					   COFINSST.QBcProd > 0 || COFINSST.VCOFINS > 0;
+			return CofinsSt.PCofins > 0 || CofinsSt.VBc > 0 ||
+					   CofinsSt.QBcProd > 0 || CofinsSt.VCofins > 0;
 		}
 
 		#endregion Methods

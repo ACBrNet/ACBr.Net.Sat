@@ -54,7 +54,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The p pis.</value>
 		[DFeElement(TipoCampo.De4, "pPIS", Id = "R03", Min = 5, Max = 5, Ocorrencias = 1)]
-		public decimal PPIS { get; set; }
+		public decimal PPis { get; set; }
 
 		/// <summary>
 		/// Gets or sets the q bc product.
@@ -74,7 +74,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The v pis.</value>
 		[DFeElement(TipoCampo.De2, "vPIS", Id = "R06", Min = 1, Max = 15, Ocorrencias = 1)]
-		public decimal VPIS { get; set; }
+		public decimal VPis { get; set; }
 
 		#endregion Propriedades
 
@@ -111,7 +111,7 @@ namespace ACBr.Net.Sat
 		/// Shoulds the serialize ppis.
 		/// </summary>
 		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-		private bool ShouldSerializePPIS()
+		private bool ShouldSerializePPis()
 		{
 			return VAliqProd == 0;
 		}
@@ -120,9 +120,9 @@ namespace ACBr.Net.Sat
 		/// Shoulds the serialize vpis.
 		/// </summary>
 		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-		private bool ShouldSerializeVPIS()
+		private bool ShouldSerializeVPis()
 		{
-			return VPIS > 0;
+			return VPis > 0;
 		}
 
 		#endregion Methods

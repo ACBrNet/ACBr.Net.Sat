@@ -49,6 +49,6 @@ namespace ACBr.Net.Sat
 		[DFeItem(typeof(ImpostoPisOutr), "PISOutr")]
 		[DFeItem(typeof(ImpostoPisQtde), "PISQtde")]
 		[DFeItem(typeof(ImpostoPisSn), "PISSN")]
-		public ICFePis PIS { get; set; }
+		public ICFePis Pis { get; set; }
 	}
 }

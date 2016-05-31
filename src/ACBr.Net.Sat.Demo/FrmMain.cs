@@ -138,26 +138,26 @@ namespace ACBr.Net.Sat.Demo
 
 				det.Imposto.Imposto = new ImpostoIcms
 				{
-					ICMS = new ImpostoIcms00
+					Icms = new ImpostoIcms00
 					{
 						Orig = OrigemMercadoria.Nacional,
-						CST = "00",
-						PICMS = 18
+						Cst = "00",
+						PIcms = 18
 					}
 				};
 
-				det.Imposto.PIS.PIS = new ImpostoPisAliq
-				{
-					CST = "01",
-					VBc = totalItem,
-					PPIS = 0.0065M
-				};
-
-				det.Imposto.COFINS.Cofins = new ImpostoCofinsAliq
+				det.Imposto.Pis.Pis = new ImpostoPisAliq
 				{
 					Cst = "01",
 					VBc = totalItem,
-					PCOFINS = 0.0065M
+					PPis = 0.0065M
+				};
+
+				det.Imposto.Cofins.Cofins = new ImpostoCofinsAliq
+				{
+					Cst = "01",
+					VBc = totalItem,
+					PCofins = 0.0065M
 				};
 
 				det.InfAdProd = "Informacoes adicionais";

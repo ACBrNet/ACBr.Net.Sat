@@ -49,7 +49,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The v deduc issqn.</value>
 		[DFeElement(TipoCampo.De2, "vDeducISSQN", Id = "U02", Min = 3, Max = 15, Ocorrencias = 1)]
-		public decimal VDeducISSQN { get; set; }
+		public decimal VDeducIssqn { get; set; }
 
 		/// <summary>
 		/// Gets or sets the v bc.
@@ -70,7 +70,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The vissqn.</value>
 		[DFeElement(TipoCampo.De2, "vISSQN", Id = "U05", Min = 3, Max = 15, Ocorrencias = 1)]
-		public decimal VISSQN { get; set; }
+		public decimal VIssqn { get; set; }
 
 		/// <summary>
 		/// Gets or sets the c mun fg.
@@ -116,9 +116,9 @@ namespace ACBr.Net.Sat
 			return VBc > 0;
 		}
 
-		private bool ShouldSerializeVISSQN()
+		private bool ShouldSerializeVIssqn()
 		{
-			return VISSQN > 0;
+			return VIssqn > 0;
 		}
 
 		#endregion Methods

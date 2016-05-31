@@ -56,29 +56,29 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The Cst.</value>
 		[DFeElement(TipoCampo.Str, "CST", Id = "N07", Min = 2, Max = 2, Ocorrencias = 1)]
-		public string CST { get; set; }
+		public string Cst { get; set; }
 
 		/// <summary>
 		/// Gets or sets the p icms.
 		/// </summary>
 		/// <value>The p icms.</value>
 		[DFeElement(TipoCampo.De2, "pICMS", Id = "N08", Min = 3, Max = 5, Ocorrencias = 1)]
-		public decimal PICMS { get; set; }
+		public decimal PIcms { get; set; }
 
 		/// <summary>
 		/// Gets or sets the v icms.
 		/// </summary>
 		/// <value>The v icms.</value>
 		[DFeElement(TipoCampo.De2, "vICMS", Id = "N09", Min = 3, Max = 15, Ocorrencias = 1)]
-		public decimal VICMS { get; set; }
+		public decimal VIcms { get; set; }
 
 		#endregion Propriedades
 
 		#region Methods
 
-		private bool ShouldSerializeVICMS()
+		private bool ShouldSerializeVIcms()
 		{
-			return VICMS > 0;
+			return VIcms > 0;
 		}
 
 		#endregion Methods

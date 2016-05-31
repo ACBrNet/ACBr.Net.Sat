@@ -48,6 +48,6 @@ namespace ACBr.Net.Sat
 		[DFeItem(typeof(ImpostoIcms40), "ICMS40")]
 		[DFeItem(typeof(ImpostoIcmsSn102), "ICMSSN102")]
 		[DFeItem(typeof(ImpostoIcmsSn900), "ICMSSN900")]
-		public ICFeIcms ICMS { get; set; }
+		public ICFeIcms Icms { get; set; }
 	}
 }

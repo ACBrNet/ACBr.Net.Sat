@@ -49,7 +49,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The Cst.</value>
 		[DFeElement(TipoCampo.Str, "CST", Id = "Q07", Min = 2, Max = 2, Ocorrencias = 1)]
-		public string CST { get; set; }
+		public string Cst { get; set; }
 
 		/// <summary>
 		/// Gets or sets the q bc product.
@@ -70,7 +70,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The vpis.</value>
 		[DFeElement(TipoCampo.De2, "vPIS", Id = "Q10", Min = 1, Max = 15, Ocorrencias = 1)]
-		public decimal VPIS { get; set; }
+		public decimal VPis { get; set; }
 
 		#endregion Propriedades
 
@@ -80,9 +80,9 @@ namespace ACBr.Net.Sat
 		/// Shoulds the serialize vpis.
 		/// </summary>
 		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-		private bool ShouldSerializeVPIS()
+		private bool ShouldSerializeVPis()
 		{
-			return VPIS > 0;
+			return VPis > 0;
 		}
 
 		#endregion Methods
