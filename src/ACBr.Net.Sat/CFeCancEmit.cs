@@ -105,13 +105,13 @@ namespace ACBr.Net.Sat
 		{
 			return !CNPJ.IsEmpty();
 		}
-		
-		private bool ShouldSerializeNome()
+
+		private bool ShouldSerializeXNome()
 		{
 			return !XNome.IsEmpty();
 		}
-		
-		private bool ShouldSerializeFant()
+
+		private bool ShouldSerializeXFant()
 		{
 			return !XFant.IsEmpty();
 		}

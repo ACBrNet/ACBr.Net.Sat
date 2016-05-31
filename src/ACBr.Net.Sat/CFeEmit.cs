@@ -123,12 +123,12 @@ namespace ACBr.Net.Sat
 
 		#region Methods
 
-		private bool ShouldSerializeNome()
+		private bool ShouldSerializeXNome()
 		{
 			return !XNome.IsEmpty();
 		}
 
-		private bool ShouldSerializeFant()
+		private bool ShouldSerializeXFant()
 		{
 			return !XFant.IsEmpty();
 		}
