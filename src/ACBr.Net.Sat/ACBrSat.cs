@@ -439,7 +439,7 @@ namespace ACBr.Net.Sat
 
 			if (Arquivos.SalvarEnvio)
 			{
-				var envioPath = Arquivos.PastaCFeCancelamento;
+				var envioPath = Arquivos.PastaEnvio;
 				var fullName = Path.Combine(envioPath, $"{Arquivos.PrefixoArqCFeCanc}{DateTime.Now:yyyyMMddHHmmss}-{Sessao.ZeroFill(6)}-env.xml");
 				if (!Directory.Exists(envioPath))
 					Directory.CreateDirectory(envioPath);
