@@ -1102,19 +1102,37 @@
             <param name="length">Tamanho final desejado</param>
             <returns>String do tamanho especificado e se menor complementada com zero a direita/esquerda</returns>
         </member>
-        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.RemoveCe(System.String)">
+        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.RemoveAccent(System.String)">
             <summary>
-            Normalize e substitui os caracteres especiais de uma string.
+            Normalize e substitui os caracteres acentuados de uma string.
             </summary>
             <param name="value">The text.</param>
             <returns>String sem carateres especiais e normalizada</returns>
         </member>
-        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.SubstituiCe(System.String)">
+        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.CleanCe(System.String)">
             <summary>
-            Substitue os caracteres especiais de uma string.
+            Limpa os caracteres especiais de uma string.
             </summary>
             <param name="text">The text.</param>
             <returns>String sem carateres especiais</returns>
+        </member>
+        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.ReplaceAny(System.String,System.Collections.Generic.IEnumerable{System.Char},System.Char)">
+            <summary>
+            Subistitui todos os caracteres passado no array pelo novo caracter e retorna a nova string.
+            </summary>
+            <param name="text">The text.</param>
+            <param name="oldChars">The old chars.</param>
+            <param name="newChar">The new character.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:ACBr.Net.Core.Extensions.StringExtensions.ReplaceAny(System.String,System.Collections.Generic.IEnumerable{System.String},System.String)">
+            <summary>
+            Subistitui todos os caracteres passado no array pelo novo caracter e retorna a nova string.
+            </summary>
+            <param name="text">The text.</param>
+            <param name="oldChars">The old chars.</param>
+            <param name="newChar">The new character.</param>
+            <returns>System.String.</returns>
         </member>
         <member name="M:ACBr.Net.Core.Extensions.StringExtensions.FormataCPFCNPJ(System.String)">
             <summary>
