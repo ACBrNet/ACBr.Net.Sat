@@ -440,7 +440,7 @@ namespace ACBr.Net.Sat
 			if (Arquivos.SalvarEnvio)
 			{
 				var envioPath = Arquivos.PastaEnvio;
-				var fullName = Path.Combine(envioPath, $"{Arquivos.PrefixoArqCFe}{DateTime.Now:yyyyMMddHHmmss}-{Sessao.ZeroFill(6)}-env.xml");
+				var fullName = Path.Combine(envioPath, $"{Arquivos.PrefixoArqCFeCanc}{DateTime.Now:yyyyMMddHHmmss}-{Sessao.ZeroFill(6)}-env.xml");
 				if (!Directory.Exists(envioPath))
 					Directory.CreateDirectory(envioPath);
 
@@ -458,7 +458,7 @@ namespace ACBr.Net.Sat
 
 			var cnpj = Arquivos.SepararPorCNPJ ? resp.Cancelamento.InfCFe.Emit.CNPJ : "";
 			var data = Arquivos.SepararPorMes ? $"{resp.Cancelamento.InfCFe.Ide.DEmi:yyyy}\\{resp.Cancelamento.InfCFe.Ide.DEmi:MM}" : "";
-			var path = Path.Combine(Arquivos.PastaCFeVenda, cnpj, data);
+			var path = Path.Combine(Arquivos.PastaCFeCancelamento, cnpj, data);
 			var calcPathEventEventArgs = new CalcPathEventEventArgs
 			{
 				CNPJ = resp.Cancelamento.InfCFe.Emit.CNPJ,
@@ -471,7 +471,7 @@ namespace ACBr.Net.Sat
 			if (!Directory.Exists(calcPathEventEventArgs.Path))
 				Directory.CreateDirectory(calcPathEventEventArgs.Path);
 
-			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.Cancelamento.InfCFe.Id}.xml";
+			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.Cancelamento.InfCFe.Id.OnlyNumbers()}.xml";
 			var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
 			Salvar(resp.Cancelamento, fullPath);
 			return resp;
@@ -613,7 +613,7 @@ namespace ACBr.Net.Sat
 
 			if (!Directory.Exists(calcPathEventEventArgs.Path)) Directory.CreateDirectory(calcPathEventEventArgs.Path);
 
-			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.Venda.InfCFe.Id}.xml";
+			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.Venda.InfCFe.Id.OnlyNumbers()}.xml";
 			var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
 			Salvar(resp.Venda, fullPath);
 
