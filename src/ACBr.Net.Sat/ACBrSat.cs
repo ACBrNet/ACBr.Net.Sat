@@ -471,7 +471,7 @@ namespace ACBr.Net.Sat
 			if (!Directory.Exists(calcPathEventEventArgs.Path))
 				Directory.CreateDirectory(calcPathEventEventArgs.Path);
 
-			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.Cancelamento.InfCFe.Id.OnlyNumbers()}.xml";
+			var nomeArquivo = $"{Arquivos.PrefixoArqCFeCanc}{resp.Cancelamento.InfCFe.Id.OnlyNumbers()}.xml";
 			var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
 			Salvar(resp.Cancelamento, fullPath);
 			return resp;
