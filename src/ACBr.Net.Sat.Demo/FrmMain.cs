@@ -78,7 +78,7 @@ namespace ACBr.Net.Sat.Demo
 			config.AddTarget("RichTextBox", target);
 			config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, target));
 
-			var infoTarget = new FileTarget()
+			var infoTarget = new FileTarget
 			{
 				FileName = "${basedir:dir=Logs:file=ACBrSat.log}",
 				Layout = "${processid}|${longdate}|${level:uppercase=true}|" +

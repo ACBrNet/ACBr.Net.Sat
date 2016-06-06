@@ -47,8 +47,7 @@
     <Reference Include="ACBr.Net.Core">
       <HintPath>..\..\libs\Net40\ACBr.Net.Core.dll</HintPath>
     </Reference>
-    <Reference Include="ACBr.Net.DFe.Core, Version=0.9.3.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="ACBr.Net.DFe.Core">
       <HintPath>..\..\libs\Net40\ACBr.Net.DFe.Core.dll</HintPath>
     </Reference>
     <Reference Include="ExtraConstraints, Version=1.10.8.0, Culture=neutral, PublicKeyToken=8b9afd7f380a7d64, processorArchitecture=MSIL">

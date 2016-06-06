@@ -46,11 +46,9 @@ namespace ACBr.Net.Sat
 	/// Classe do componente ACBrSat.
 	/// </summary>
 	/// <seealso cref="ACBr.Net.Core.ACBrComponent" />
-	public class ACBrSat : ACBrComponent
+	public class ACBrSat : ACBrComponent, IACBrLog
 	{
 		#region Fields
-
-		internal readonly IInternalLogger Logger = LoggerProvider.LoggerFor(typeof(ACBrSat));
 
 		private ISatLibrary sat;
 		private Encoding encoding;
@@ -771,23 +769,22 @@ namespace ACBr.Net.Sat
 		private void IniciaComando(string comandoLog)
 		{
 			GerarNumeroSessao();
-			Logger.Info($"NumeroSessao: {Sessao} - Comando: {comandoLog}");
+			this.Log().Info($"NumeroSessao: {Sessao} - Comando: {comandoLog}");
 		}
 
 		private T FinalizaComando<T>(string resposta) where T : SatResposta
 		{
-			Logger.Info($"NumeroSessao: {Sessao} - Resposta: {resposta}");
+			this.Log().Info($"NumeroSessao: {Sessao} - Resposta: {resposta}");
 			var resp = (T)Activator.CreateInstance(typeof(T), resposta, Encoding);
 
-			if (OnMensagemSefaz != null)
-			{
-				if (resp.CodigoSEFAZ > 0 && !resp.MensagemSEFAZ.IsEmpty())
-				{
-					var e = new SatMensagemEventArgs(resp.CodigoSEFAZ, resp.MensagemSEFAZ);
-					OnMensagemSefaz.Raise(this, e);
-				}
-			}
+			if (OnMensagemSefaz == null)
+				return resp;
 
+			if (resp.CodigoSEFAZ <= 0 || resp.MensagemSEFAZ.IsEmpty())
+				return resp;
+
+			var e = new SatMensagemEventArgs(resp.CodigoSEFAZ, resp.MensagemSEFAZ);
+			OnMensagemSefaz.Raise(this, e);
 			return resp;
 		}
 
@@ -812,7 +809,7 @@ namespace ACBr.Net.Sat
 		{
 			using (var stream = new MemoryStream())
 			{
-				Salvar<T>(cfe, stream);
+				Salvar(cfe, stream);
 
 				var xml = new XmlDocument();
 				xml.Load(stream);

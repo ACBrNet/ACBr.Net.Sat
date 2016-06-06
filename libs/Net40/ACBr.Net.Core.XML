@@ -1440,128 +1440,128 @@
             Pushes changes since the last <see cref="M:System.ComponentModel.IEditableObject.BeginEdit" /> or <see cref="M:System.ComponentModel.IBindingList.AddNew" /> call into the underlying object.
             </summary>
         </member>
-        <member name="T:ACBr.Net.Core.Logging.IInternalLogger">
+        <member name="T:ACBr.Net.Core.Logging.IACBrLogger">
             <summary>
-            Interface IInternalLogger
+            Interface IACBrLogger
             </summary>
         </member>
-        <member name="P:ACBr.Net.Core.Logging.IInternalLogger.IsErrorEnabled">
+        <member name="P:ACBr.Net.Core.Logging.IACBrLogger.IsErrorEnabled">
             <summary>
             Gets a value indicating whether this instance is error enabled.
             </summary>
             <value><c>true</c> if this instance is error enabled; otherwise, <c>false</c>.</value>
         </member>
-        <member name="P:ACBr.Net.Core.Logging.IInternalLogger.IsFatalEnabled">
+        <member name="P:ACBr.Net.Core.Logging.IACBrLogger.IsFatalEnabled">
             <summary>
             Gets a value indicating whether this instance is fatal enabled.
             </summary>
             <value><c>true</c> if this instance is fatal enabled; otherwise, <c>false</c>.</value>
         </member>
-        <member name="P:ACBr.Net.Core.Logging.IInternalLogger.IsDebugEnabled">
+        <member name="P:ACBr.Net.Core.Logging.IACBrLogger.IsDebugEnabled">
             <summary>
             Gets a value indicating whether this instance is debug enabled.
             </summary>
             <value><c>true</c> if this instance is debug enabled; otherwise, <c>false</c>.</value>
         </member>
-        <member name="P:ACBr.Net.Core.Logging.IInternalLogger.IsInfoEnabled">
+        <member name="P:ACBr.Net.Core.Logging.IACBrLogger.IsInfoEnabled">
             <summary>
             Gets a value indicating whether this instance is information enabled.
             </summary>
             <value><c>true</c> if this instance is information enabled; otherwise, <c>false</c>.</value>
         </member>
-        <member name="P:ACBr.Net.Core.Logging.IInternalLogger.IsWarnEnabled">
+        <member name="P:ACBr.Net.Core.Logging.IACBrLogger.IsWarnEnabled">
             <summary>
             Gets a value indicating whether this instance is warn enabled.
             </summary>
             <value><c>true</c> if this instance is warn enabled; otherwise, <c>false</c>.</value>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.IInternalLogger.Error(System.Object)">
+        <member name="M:ACBr.Net.Core.Logging.IACBrLogger.Error(System.Object)">
             <summary>
             Errors the specified message.
             </summary>
             <param name="message">The message.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.IInternalLogger.Error(System.Object,System.Exception)">
+        <member name="M:ACBr.Net.Core.Logging.IACBrLogger.Error(System.Object,System.Exception)">
             <summary>
             Errors the specified message.
             </summary>
             <param name="message">The message.</param>
             <param name="exception">The exception.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.IInternalLogger.ErrorFormat(System.String,System.Object[])">
+        <member name="M:ACBr.Net.Core.Logging.IACBrLogger.ErrorFormat(System.String,System.Object[])">
             <summary>
             Errors the format.
             </summary>
             <param name="format">The format.</param>
             <param name="args">The arguments.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.IInternalLogger.Fatal(System.Object)">
+        <member name="M:ACBr.Net.Core.Logging.IACBrLogger.Fatal(System.Object)">
             <summary>
             Fatals the specified message.
             </summary>
             <param name="message">The message.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.IInternalLogger.Fatal(System.Object,System.Exception)">
+        <member name="M:ACBr.Net.Core.Logging.IACBrLogger.Fatal(System.Object,System.Exception)">
             <summary>
             Fatals the specified message.
             </summary>
             <param name="message">The message.</param>
             <param name="exception">The exception.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.IInternalLogger.Debug(System.Object)">
+        <member name="M:ACBr.Net.Core.Logging.IACBrLogger.Debug(System.Object)">
             <summary>
             Debugs the specified message.
             </summary>
             <param name="message">The message.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.IInternalLogger.Debug(System.Object,System.Exception)">
+        <member name="M:ACBr.Net.Core.Logging.IACBrLogger.Debug(System.Object,System.Exception)">
             <summary>
             Debugs the specified message.
             </summary>
             <param name="message">The message.</param>
             <param name="exception">The exception.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.IInternalLogger.DebugFormat(System.String,System.Object[])">
+        <member name="M:ACBr.Net.Core.Logging.IACBrLogger.DebugFormat(System.String,System.Object[])">
             <summary>
             Debugs the format.
             </summary>
             <param name="format">The format.</param>
             <param name="args">The arguments.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.IInternalLogger.Info(System.Object)">
+        <member name="M:ACBr.Net.Core.Logging.IACBrLogger.Info(System.Object)">
             <summary>
             Informations the specified message.
             </summary>
             <param name="message">The message.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.IInternalLogger.Info(System.Object,System.Exception)">
+        <member name="M:ACBr.Net.Core.Logging.IACBrLogger.Info(System.Object,System.Exception)">
             <summary>
             Informations the specified message.
             </summary>
             <param name="message">The message.</param>
             <param name="exception">The exception.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.IInternalLogger.InfoFormat(System.String,System.Object[])">
+        <member name="M:ACBr.Net.Core.Logging.IACBrLogger.InfoFormat(System.String,System.Object[])">
             <summary>
             Informations the format.
             </summary>
             <param name="format">The format.</param>
             <param name="args">The arguments.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.IInternalLogger.Warn(System.Object)">
+        <member name="M:ACBr.Net.Core.Logging.IACBrLogger.Warn(System.Object)">
             <summary>
             Warns the specified message.
             </summary>
             <param name="message">The message.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.IInternalLogger.Warn(System.Object,System.Exception)">
+        <member name="M:ACBr.Net.Core.Logging.IACBrLogger.Warn(System.Object,System.Exception)">
             <summary>
             Warns the specified message.
             </summary>
             <param name="message">The message.</param>
             <param name="exception">The exception.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.IInternalLogger.WarnFormat(System.String,System.Object[])">
+        <member name="M:ACBr.Net.Core.Logging.IACBrLogger.WarnFormat(System.String,System.Object[])">
             <summary>
             Warns the format.
             </summary>
@@ -1578,14 +1578,20 @@
             Loggers for.
             </summary>
             <param name="keyName">Name of the key.</param>
-            <returns>IInternalLogger.</returns>
+            <returns>IACBrLogger.</returns>
         </member>
         <member name="M:ACBr.Net.Core.Logging.ILoggerFactory.LoggerFor(System.Type)">
             <summary>
             Loggers for.
             </summary>
             <param name="type">The type.</param>
-            <returns>IInternalLogger.</returns>
+            <returns>IACBrLogger.</returns>
+        </member>
+        <member name="M:ACBr.Net.Core.Logging.ILoggerExtensions.Log``1(``0)">
+            <summary>
+            Call this method to write log entries on behalf of the current 
+            class.
+            </summary>
         </member>
         <member name="T:ACBr.Net.Core.Logging.Log4NetLogger">
             <summary>
@@ -1889,14 +1895,14 @@
             Loggers for.
             </summary>
             <param name="keyName">Name of the key.</param>
-            <returns>IInternalLogger.</returns>
+            <returns>IACBrLogger.</returns>
         </member>
         <member name="M:ACBr.Net.Core.Logging.Log4NetLoggerFactory.LoggerFor(System.Type)">
             <summary>
             Loggers for.
             </summary>
             <param name="type">The type.</param>
-            <returns>IInternalLogger.</returns>
+            <returns>IACBrLogger.</returns>
         </member>
         <member name="M:ACBr.Net.Core.Logging.Log4NetLoggerFactory.GetGetLoggerMethodCall``1">
             <summary>
@@ -1918,11 +1924,6 @@
         <member name="F:ACBr.Net.Core.Logging.LoggerProvider.loggerFactory">
             <summary>
             The logger factory
-            </summary>
-        </member>
-        <member name="F:ACBr.Net.Core.Logging.LoggerProvider.instance">
-            <summary>
-            The _instance
             </summary>
         </member>
         <member name="M:ACBr.Net.Core.Logging.LoggerProvider.#cctor">
@@ -1949,31 +1950,38 @@
             </summary>
             <returns>System.String.</returns>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.LoggerProvider.SetLoggersFactory(ACBr.Net.Core.Logging.ILoggerFactory)">
+        <member name="M:ACBr.Net.Core.Logging.LoggerProvider.SetLoggerFactory(ACBr.Net.Core.Logging.ILoggerFactory)">
             <summary>
-            Sets the loggers factory.
+            Sets the logger factory.
             </summary>
-            <param name="loggerFactory">The logger factory.</param>
+            <param name="factory">The factory.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.LoggerProvider.#ctor(ACBr.Net.Core.Logging.ILoggerFactory)">
+        <member name="M:ACBr.Net.Core.Logging.LoggerProvider.SetLoggerFactory``1">
             <summary>
-            Initializes a new instance of the <see cref="T:ACBr.Net.Core.Logging.LoggerProvider"/> class.
+            Sets the logger factory.
             </summary>
-            <param name="loggerFactory">The logger factory.</param>
+            <typeparam name="T"></typeparam>
         </member>
         <member name="M:ACBr.Net.Core.Logging.LoggerProvider.LoggerFor(System.String)">
             <summary>
             Loggers for.
             </summary>
             <param name="keyName">Name of the key.</param>
-            <returns>IInternalLogger.</returns>
+            <returns>IACBrLogger.</returns>
         </member>
         <member name="M:ACBr.Net.Core.Logging.LoggerProvider.LoggerFor(System.Type)">
             <summary>
             Loggers for.
             </summary>
             <param name="type">The type.</param>
-            <returns>IInternalLogger.</returns>
+            <returns>IACBrLogger.</returns>
+        </member>
+        <member name="M:ACBr.Net.Core.Logging.LoggerProvider.LoggerFor``1">
+            <summary>
+            Loggers for.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>IACBrLogger.</returns>
         </member>
         <member name="T:ACBr.Net.Core.Logging.NLogLoggerFactory">
             <summary>
@@ -2000,14 +2008,14 @@
             Loggers for.
             </summary>
             <param name="type">The type.</param>
-            <returns>IInternalLogger.</returns>
+            <returns>IACBrLogger.</returns>
         </member>
         <member name="M:ACBr.Net.Core.Logging.NLogLoggerFactory.LoggerFor(System.String)">
             <summary>
             Loggers for.
             </summary>
             <param name="keyName">Name of the key.</param>
-            <returns>IInternalLogger.</returns>
+            <returns>IACBrLogger.</returns>
         </member>
         <member name="M:ACBr.Net.Core.Logging.NLogLoggerFactory.CreateLoggerInstance">
             <summary>
@@ -2268,128 +2276,128 @@
             <param name="parameters">The parameters.</param>
             <returns>MethodInfo.</returns>
         </member>
-        <member name="T:ACBr.Net.Core.Logging.NoLoggingInternalLogger">
+        <member name="T:ACBr.Net.Core.Logging.NoLoggingLogger">
             <summary>
-            Classe NoLoggingInternalLogger.
+            Classe NoLoggingLogger.
             </summary>
         </member>
-        <member name="P:ACBr.Net.Core.Logging.NoLoggingInternalLogger.IsErrorEnabled">
+        <member name="P:ACBr.Net.Core.Logging.NoLoggingLogger.IsErrorEnabled">
             <summary>
             Gets a value indicating whether this instance is error enabled.
             </summary>
             <value><c>true</c> if this instance is error enabled; otherwise, <c>false</c>.</value>
         </member>
-        <member name="P:ACBr.Net.Core.Logging.NoLoggingInternalLogger.IsFatalEnabled">
+        <member name="P:ACBr.Net.Core.Logging.NoLoggingLogger.IsFatalEnabled">
             <summary>
             Gets a value indicating whether this instance is fatal enabled.
             </summary>
             <value><c>true</c> if this instance is fatal enabled; otherwise, <c>false</c>.</value>
         </member>
-        <member name="P:ACBr.Net.Core.Logging.NoLoggingInternalLogger.IsDebugEnabled">
+        <member name="P:ACBr.Net.Core.Logging.NoLoggingLogger.IsDebugEnabled">
             <summary>
             Gets a value indicating whether this instance is debug enabled.
             </summary>
             <value><c>true</c> if this instance is debug enabled; otherwise, <c>false</c>.</value>
         </member>
-        <member name="P:ACBr.Net.Core.Logging.NoLoggingInternalLogger.IsInfoEnabled">
+        <member name="P:ACBr.Net.Core.Logging.NoLoggingLogger.IsInfoEnabled">
             <summary>
             Gets a value indicating whether this instance is information enabled.
             </summary>
             <value><c>true</c> if this instance is information enabled; otherwise, <c>false</c>.</value>
         </member>
-        <member name="P:ACBr.Net.Core.Logging.NoLoggingInternalLogger.IsWarnEnabled">
+        <member name="P:ACBr.Net.Core.Logging.NoLoggingLogger.IsWarnEnabled">
             <summary>
             Gets a value indicating whether this instance is warn enabled.
             </summary>
             <value><c>true</c> if this instance is warn enabled; otherwise, <c>false</c>.</value>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.NoLoggingInternalLogger.Error(System.Object)">
+        <member name="M:ACBr.Net.Core.Logging.NoLoggingLogger.Error(System.Object)">
             <summary>
             Errors the specified message.
             </summary>
             <param name="message">The message.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.NoLoggingInternalLogger.Error(System.Object,System.Exception)">
+        <member name="M:ACBr.Net.Core.Logging.NoLoggingLogger.Error(System.Object,System.Exception)">
             <summary>
             Errors the specified message.
             </summary>
             <param name="message">The message.</param>
             <param name="exception">The exception.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.NoLoggingInternalLogger.ErrorFormat(System.String,System.Object[])">
+        <member name="M:ACBr.Net.Core.Logging.NoLoggingLogger.ErrorFormat(System.String,System.Object[])">
             <summary>
             Errors the format.
             </summary>
             <param name="format">The format.</param>
             <param name="args">The arguments.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.NoLoggingInternalLogger.Fatal(System.Object)">
+        <member name="M:ACBr.Net.Core.Logging.NoLoggingLogger.Fatal(System.Object)">
             <summary>
             Fatals the specified message.
             </summary>
             <param name="message">The message.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.NoLoggingInternalLogger.Fatal(System.Object,System.Exception)">
+        <member name="M:ACBr.Net.Core.Logging.NoLoggingLogger.Fatal(System.Object,System.Exception)">
             <summary>
             Fatals the specified message.
             </summary>
             <param name="message">The message.</param>
             <param name="exception">The exception.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.NoLoggingInternalLogger.Debug(System.Object)">
+        <member name="M:ACBr.Net.Core.Logging.NoLoggingLogger.Debug(System.Object)">
             <summary>
             Debugs the specified message.
             </summary>
             <param name="message">The message.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.NoLoggingInternalLogger.Debug(System.Object,System.Exception)">
+        <member name="M:ACBr.Net.Core.Logging.NoLoggingLogger.Debug(System.Object,System.Exception)">
             <summary>
             Debugs the specified message.
             </summary>
             <param name="message">The message.</param>
             <param name="exception">The exception.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.NoLoggingInternalLogger.DebugFormat(System.String,System.Object[])">
+        <member name="M:ACBr.Net.Core.Logging.NoLoggingLogger.DebugFormat(System.String,System.Object[])">
             <summary>
             Debugs the format.
             </summary>
             <param name="format">The format.</param>
             <param name="args">The arguments.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.NoLoggingInternalLogger.Info(System.Object)">
+        <member name="M:ACBr.Net.Core.Logging.NoLoggingLogger.Info(System.Object)">
             <summary>
             Informations the specified message.
             </summary>
             <param name="message">The message.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.NoLoggingInternalLogger.Info(System.Object,System.Exception)">
+        <member name="M:ACBr.Net.Core.Logging.NoLoggingLogger.Info(System.Object,System.Exception)">
             <summary>
             Informations the specified message.
             </summary>
             <param name="message">The message.</param>
             <param name="exception">The exception.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.NoLoggingInternalLogger.InfoFormat(System.String,System.Object[])">
+        <member name="M:ACBr.Net.Core.Logging.NoLoggingLogger.InfoFormat(System.String,System.Object[])">
             <summary>
             Informations the format.
             </summary>
             <param name="format">The format.</param>
             <param name="args">The arguments.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.NoLoggingInternalLogger.Warn(System.Object)">
+        <member name="M:ACBr.Net.Core.Logging.NoLoggingLogger.Warn(System.Object)">
             <summary>
             Warns the specified message.
             </summary>
             <param name="message">The message.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.NoLoggingInternalLogger.Warn(System.Object,System.Exception)">
+        <member name="M:ACBr.Net.Core.Logging.NoLoggingLogger.Warn(System.Object,System.Exception)">
             <summary>
             Warns the specified message.
             </summary>
             <param name="message">The message.</param>
             <param name="exception">The exception.</param>
         </member>
-        <member name="M:ACBr.Net.Core.Logging.NoLoggingInternalLogger.WarnFormat(System.String,System.Object[])">
+        <member name="M:ACBr.Net.Core.Logging.NoLoggingLogger.WarnFormat(System.String,System.Object[])">
             <summary>
             Warns the format.
             </summary>
@@ -2411,14 +2419,14 @@
             Loggers for.
             </summary>
             <param name="keyName">Name of the key.</param>
-            <returns>IInternalLogger.</returns>
+            <returns>IACBrLogger.</returns>
         </member>
         <member name="M:ACBr.Net.Core.Logging.NoLoggingLoggerFactory.LoggerFor(System.Type)">
             <summary>
             Loggers for.
             </summary>
             <param name="type">The type.</param>
-            <returns>IInternalLogger.</returns>
+            <returns>IACBrLogger.</returns>
         </member>
         <member name="T:ACBr.Net.Core.StaticRandom">
             <summary>
