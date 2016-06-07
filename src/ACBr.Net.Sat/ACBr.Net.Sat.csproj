@@ -44,11 +44,13 @@
     <DocumentationFile>..\..\bin\COM Interop\ACBr.Net.Sat.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ACBr.Net.Core">
-      <HintPath>..\..\libs\Net40\ACBr.Net.Core.dll</HintPath>
+    <Reference Include="ACBr.Net.Core, Version=0.9.3.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\ACBr.Net.Core.0.9.3.0-rc1\lib\net40\ACBr.Net.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="ACBr.Net.DFe.Core">
-      <HintPath>..\..\libs\Net40\ACBr.Net.DFe.Core.dll</HintPath>
+    <Reference Include="ACBr.Net.DFe.Core, Version=0.9.4.2, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\ACBr.Net.DFe.Core.0.9.4.2-rc1\lib\net40\ACBr.Net.DFe.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ExtraConstraints, Version=1.10.8.0, Culture=neutral, PublicKeyToken=8b9afd7f380a7d64, processorArchitecture=MSIL">
       <HintPath>..\packages\ExtraConstraints.Fody.1.10.8\lib\portable-net4+sl5+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\ExtraConstraints.dll</HintPath>

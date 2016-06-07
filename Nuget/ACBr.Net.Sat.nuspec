@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+    <metadata>
+        <id>ACBr.Net.Sat</id>
+        <version>1.0.0.0-rc1</version>
+        <title>ACBr.Net.Sat</title>
+        <authors>Grupo ACBr.Net</authors>
+        <owners>Grupo ACBr.Net</owners>
+        <projectUrl>https://acbrnet.github.io</projectUrl>
+        <iconUrl>https://avatars2.githubusercontent.com/u/7342977?v=3&amp;s=200</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Biblioteca para utilização do Sat</description>
+        <copyright>Copyright © Grupo ACBr.Net 2014 - 2016</copyright>
+        <language>pt-BR</language>
+        <tags>ACBr ACBr.Net Automação Comercial</tags>
+        <dependencies>
+            <dependency id="ACBr.Net.Core" version="0.9.3.0-rc1" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\bin\Release\ACBr.Net.Sat.dll" target="lib\net40\ACBr.Net.Sat.dll" />
+        <file src="..\bin\Release\ACBr.Net.Sat.XML" target="lib\net40\ACBr.Net.Sat.XML" />
+    </files>
+</package>
