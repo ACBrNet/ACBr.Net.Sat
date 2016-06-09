@@ -28,6 +28,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+using ACBr.Net.Core.Extensions;
 using System;
 using System.IO;
 using System.Text;
@@ -50,15 +51,19 @@ namespace ACBr.Net.Sat
 
 			if (RetornoLst.Count > 8) ChaveConsulta = RetornoLst[8];
 
-			//O QRCode é montado a partir dos últimos campos do retorno
-			var indexOf = -1;
-			for (var i = 0; i < 8; i++)
-			{
-				indexOf = RetornoStr.IndexOf('|', indexOf + 1);
-				if (indexOf == -1) break;
-			}
+			#region Comments
 
-			QRCode = RetornoStr.Substring(indexOf + 1);
+			//O QRCode é montado a partir dos valores retornados pelo SAT
+
+			//Posições dos campos de retorno
+			//numeroSessao, EEEEE, CCCC, mensagem, cod, mensagemSEFAZ, base64, timeStamp, chaveConsulta, valorTotalCFe, CPFCNPJValue, assinaturaQRCOD
+
+			//Cadeia para o QRCode
+			//chaveConsulta|timeStamp|valorTotal|CPFCNPJValue|assinaturaQRCODE
+
+			#endregion Comments
+
+			QRCode = string.Format("{0}|{1}|{2}|{3}|{4}", RetornoLst[8].OnlyNumbers(), RetornoLst[7], RetornoLst[9], RetornoLst[10], RetornoLst[11]);
 		}
 
 		#endregion Constructors
