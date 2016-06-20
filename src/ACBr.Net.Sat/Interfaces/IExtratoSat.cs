@@ -7,6 +7,8 @@ namespace ACBr.Net.Sat.Interfaces
 	{
 		#region Propriedades
 
+		ACBrSat Parent { get; set; }
+
 		Image Logo { get; set; }
 
 		ExtratoLayOut LayOut { get; set; }
@@ -34,7 +36,7 @@ namespace ACBr.Net.Sat.Interfaces
 		#region Methods
 
 		/// <summary>
-		/// Gera a url para o QrCode.
+		/// Gera o conteudo do QrCode.
 		/// </summary>
 		/// <param name="id"></param>
 		/// <param name="dhEmissao"></param>

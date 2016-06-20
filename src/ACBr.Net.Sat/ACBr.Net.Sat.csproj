@@ -76,6 +76,7 @@
     <Compile Include="ConsultaSessaoResposta.cs" />
     <Compile Include="ExtratoFiltro.cs" />
     <Compile Include="ExtratoLayOut.cs" />
+    <Compile Include="Extrato\ExtratoSat.cs" />
     <Compile Include="Interfaces\IExtratoSat.cs" />
     <Compile Include="SatRede.cs" />
     <Compile Include="StatusOperacionalResposta.cs" />
