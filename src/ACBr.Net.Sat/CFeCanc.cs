@@ -61,6 +61,7 @@ namespace ACBr.Net.Sat
 		public CFeCanc(CFe cfe) : this()
 		{
 			InfCFe.ChCanc = $"CFe{cfe.InfCFe.Id.OnlyNumbers()}";
+			InfCFe.Versao = cfe.InfCFe.Versao;
 			InfCFe.Ide.CNPJ = cfe.InfCFe.Ide.CNPJ;
 			InfCFe.Ide.SignAC = cfe.InfCFe.Ide.SignAC;
 			InfCFe.Ide.NumeroCaixa = cfe.InfCFe.Ide.NumeroCaixa;

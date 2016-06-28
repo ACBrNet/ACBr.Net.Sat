@@ -56,8 +56,8 @@
       <HintPath>..\packages\ExtraConstraints.Fody.1.10.8\lib\portable-net4+sl5+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\ExtraConstraints.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="PropertyChanged, Version=1.51.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
-      <HintPath>..\packages\PropertyChanged.Fody.1.51.0\lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
+    <Reference Include="PropertyChanged, Version=1.51.3.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.1.51.3\lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

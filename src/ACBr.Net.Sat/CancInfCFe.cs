@@ -40,6 +40,8 @@ namespace ACBr.Net.Sat
 	/// </summary>
 	public sealed class CancInfCFe
 	{
+		private CFeCancDest dest;
+
 		#region Constructors
 
 		public CancInfCFe()
@@ -131,7 +133,16 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The dest.</value>
 		[DFeElement("dest", Id = "E01", Ocorrencias = 1)]
-		public CFeCancDest Dest { get; set; }
+		public CFeCancDest Dest
+		{
+			get { return dest; }
+			set
+			{
+				dest = value;
+				if (dest.Parent != this)
+					dest.Parent = this;
+			}
+		}
 
 		/// <summary>
 		/// Gets the total.
@@ -158,7 +169,7 @@ namespace ACBr.Net.Sat
 
 		private bool ShouldSerializeVersao()
 		{
-			return Versao > 0;
+			return !Id.IsEmpty();
 		}
 
 		private bool ShouldSerializeDEmi()

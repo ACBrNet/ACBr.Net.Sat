@@ -43,6 +43,9 @@ namespace ACBr.Net.Sat
 	{
 		#region Propriedades
 
+		[DFeIgnore]
+		public CancInfCFe Parent { get; set; }
+
 		/// <summary>
 		/// Gets or sets the CPF.
 		/// </summary>
@@ -67,7 +70,7 @@ namespace ACBr.Net.Sat
 		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		private bool ShouldSerializeCPF()
 		{
-			return CNPJ.IsEmpty();
+			return Parent.Versao < 0.07M && CNPJ.IsEmpty();
 		}
 
 		/// <summary>
@@ -76,7 +79,7 @@ namespace ACBr.Net.Sat
 		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 		private bool ShouldSerializeCNPJ()
 		{
-			return CPF.IsEmpty();
+			return Parent.Versao < 0.07M && CPF.IsEmpty();
 		}
 
 		#endregion Methods
