@@ -56,6 +56,7 @@ namespace ACBr.Net.Sat
 		private string pathDll;
 		private string signAC;
 		private string codigoAtivacao;
+		private IExtratoSat extrato;
 
 		#endregion Fields
 
@@ -118,39 +119,20 @@ namespace ACBr.Net.Sat
 
 		#endregion Events
 
-		#region Constructor
-
-		/// <summary>
-		/// Inicializa uma nova instancia da classe <see cref="ACBrSat"/>.
-		/// </summary>
-		public ACBrSat()
-		{
-			Configuracoes = new SatConfig();
-			Arquivos = new CfgArquivos();
-			Encoding = Encoding.UTF8;
-
-			PathDll = @"C:\SAT\SAT.dll";
-			CodigoAtivacao = "123456";
-			signAC = string.Empty;
-		}
-
-		#endregion Constructor
-
 		#region Properties
 
 		/// <summary>
 		/// Configurações do ACBrSat
 		/// </summary>
 		/// <value>The configuracoes.</value>
-		public SatConfig Configuracoes { get; }
+		public SatConfig Configuracoes { get; private set; }
 
 		/// <summary>
 		/// Configurações de como ACBrSat vai se comportar com os arquivos gerado e recebido.
 		/// </summary>
 		/// <value>The arquivos.</value>
-		public CfgArquivos Arquivos { get; }
+		public CfgArquivos Arquivos { get; private set; }
 
-		
 		/// <summary>
 		/// Enconding usado para tratar as string que são enviadas/recebidas.
 		/// </summary>
@@ -190,7 +172,16 @@ namespace ACBr.Net.Sat
 		/// Classe responsavel por imprimir o Extrato do Sat.
 		/// </summary>
 		/// <value>The extrato.</value>
-		public IExtratoSat Extrato { get; set; }
+		public IExtratoSat Extrato
+		{
+			get { return extrato; }
+			set
+			{
+				extrato = value;
+				if (extrato.Parent != this)
+					extrato.Parent = this;
+			}
+		}
 
 		/// <summary>
 		/// Indica se o componente esta ativo ou não.
@@ -420,7 +411,7 @@ namespace ACBr.Net.Sat
 			var dados = GetXml(cfeCanc, false, false);
 			return CancelarUltimaVenda(cfeCanc.InfCFe.ChCanc, dados);
 		}
-		
+
 		/// <summary>
 		/// Cancela a venda
 		/// </summary>
@@ -432,7 +423,7 @@ namespace ACBr.Net.Sat
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 			Guard.Against<ArgumentException>(chave.IsEmpty(), "Chave não informada.");
 			Guard.Against<ArgumentException>(dadosCancelamento.IsEmpty(), "Dados de cancelamento não informado.");
-			
+
 			IniciaComando($"CancelarUltimaVenda({chave}, {dadosCancelamento})");
 
 			if (Arquivos.SalvarEnvio)
@@ -537,10 +528,10 @@ namespace ACBr.Net.Sat
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 			IniciaComando("ConsultarSAT()");
-			var e = new EventoEventArgs {Retorno = string.Empty};
+			var e = new EventoEventArgs { Retorno = string.Empty };
 			OnConsultarSat.Raise(this, e);
 
-			if(e.Retorno.IsEmpty())
+			if (e.Retorno.IsEmpty())
 				e.Retorno = sat.ConsultarSAT(Sessao);
 
 			return FinalizaComando<SatResposta>(e.Retorno);
@@ -557,7 +548,7 @@ namespace ACBr.Net.Sat
 			IniciaComando("ConsultarStatusOperacional()");
 			var e = new EventoEventArgs { Retorno = string.Empty };
 			OnConsultaStatusOperacional.Raise(this, e);
-			
+
 			if (e.Retorno.IsEmpty())
 				e.Retorno = sat.ConsultarStatusOperacional(Sessao, CodigoAtivacao);
 
@@ -631,7 +622,7 @@ namespace ACBr.Net.Sat
 			var e = new EventoEventArgs { Retorno = string.Empty };
 			OnExtrairLogs.Raise(this, e);
 
-			if(e.Retorno.IsEmpty())
+			if (e.Retorno.IsEmpty())
 				e.Retorno = sat.ExtrairLogs(Sessao, CodigoAtivacao);
 
 			return FinalizaComando<LogResposta>(e.Retorno);
@@ -707,7 +698,9 @@ namespace ACBr.Net.Sat
 		/// <param name="cfe">The cfe.</param>
 		public void ImprimirExtrato(CFe cfe)
 		{
-			Guard.Against<NullReferenceException>(Extrato == null, "Componente de Impressão não definido !");
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+			Guard.Against<ArgumentNullException>(Extrato.IsNull(), "Componente de Impressão não definido !");
+
 			Extrato.ImprimirExtrato(cfe);
 		}
 
@@ -717,7 +710,9 @@ namespace ACBr.Net.Sat
 		/// <param name="cfe">The cfe.</param>
 		public void ImprimirExtratoResumido(CFe cfe)
 		{
-			Guard.Against<NullReferenceException>(Extrato == null, "Componente de Impressão não definido !");
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+			Guard.Against<ArgumentNullException>(Extrato.IsNull(), "Componente de Impressão não definido !");
+
 			Extrato.ImprimirExtratoResumido(cfe);
 		}
 
@@ -728,7 +723,9 @@ namespace ACBr.Net.Sat
 		/// <param name="cFeCanc">The c fe canc.</param>
 		public void ImprimirExtratoCancelamento(CFe cfe, CFeCanc cFeCanc)
 		{
-			Guard.Against<NullReferenceException>(Extrato == null, "Componente de Impressão não definido !");
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+			Guard.Against<ArgumentNullException>(Extrato.IsNull(), "Componente de Impressão não definido !");
+
 			Extrato.ImprimirExtratoCancelamento(cfe, cFeCanc);
 		}
 
@@ -741,7 +738,7 @@ namespace ACBr.Net.Sat
 		{
 			return GetXml<CFe>(cfe);
 		}
-		
+
 		/// <summary>
 		/// Retorna a XML do CFe de cancelamento.
 		/// </summary>
@@ -751,7 +748,7 @@ namespace ACBr.Net.Sat
 		{
 			return GetXml<CFeCanc>(cfeCanc);
 		}
-		
+
 		/// <summary>
 		/// Retorna a XML de configuração da rede do Sat.
 		/// </summary>
@@ -777,9 +774,6 @@ namespace ACBr.Net.Sat
 			this.Log().Info($"NumeroSessao: {Sessao} - Resposta: {resposta}");
 			var resp = (T)Activator.CreateInstance(typeof(T), resposta, Encoding);
 
-			if (OnMensagemSefaz == null)
-				return resp;
-
 			if (resp.CodigoSEFAZ <= 0 || resp.MensagemSEFAZ.IsEmpty())
 				return resp;
 
@@ -795,7 +789,7 @@ namespace ACBr.Net.Sat
 			serializer.Options.FormatarXml = Configuracoes.FormatarXml;
 			return serializer;
 		}
-		
+
 		private void GerarNumeroSessao()
 		{
 			Sessao = StaticRandom.Next(1, 999999);
@@ -804,7 +798,7 @@ namespace ACBr.Net.Sat
 			OnGetNumeroSessao.Raise(this, e);
 			Sessao = e.Sessao;
 		}
-		
+
 		private string GetXml<T>(T cfe, bool identado = true, bool showDeclaration = true) where T : class
 		{
 			using (var stream = new MemoryStream())
@@ -836,6 +830,13 @@ namespace ACBr.Net.Sat
 
 		protected override void OnInitialize()
 		{
+			Configuracoes = new SatConfig();
+			Arquivos = new CfgArquivos();
+			Encoding = Encoding.UTF8;
+
+			PathDll = @"C:\SAT\SAT.dll";
+			CodigoAtivacao = "123456";
+			signAC = string.Empty;
 		}
 
 		protected override void OnDisposing()

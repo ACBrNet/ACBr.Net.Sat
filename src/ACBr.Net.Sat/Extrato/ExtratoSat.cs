@@ -8,9 +8,24 @@ namespace ACBr.Net.Sat.Extrato
 {
 	public abstract class ExtratoSat : IExtratoSat
 	{
+		#region Fields
+
+		private ACBrSat parent;
+
+		#endregion Fields
+
 		#region Propriedades
 
-		public ACBrSat Parent { get; set; }
+		public ACBrSat Parent
+		{
+			get { return parent; }
+			set
+			{
+				parent = value;
+				if (parent.Extrato != this)
+					parent.Extrato = this;
+			}
+		}
 
 		public Image Logo { get; set; }
 
