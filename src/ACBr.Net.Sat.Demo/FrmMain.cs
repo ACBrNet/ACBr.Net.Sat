@@ -1,4 +1,5 @@
 ﻿using ACBr.Net.Core.Extensions;
+using ACBr.Net.DFe.Core.Common;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
