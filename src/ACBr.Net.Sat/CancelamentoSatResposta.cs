@@ -44,7 +44,9 @@ namespace ACBr.Net.Sat
 				return;
 
 			using (var stream = new MemoryStream(Convert.FromBase64String(RetornoLst[6])))
+			{
 				Cancelamento = CFeCanc.Load(stream, encoding);
+			}
 		}
 
 		#endregion Constructors

@@ -734,6 +734,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <param name="cfe">Instancia CFe.</param>
 		/// <returns>XML da CFe</returns>
+		[Obsolete("Usar o metodo save da classe CFe")]
 		public string GetXml(CFe cfe)
 		{
 			return GetXml<CFe>(cfe);
@@ -744,6 +745,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <param name="cfeCanc">Instancia CFeCanc.</param>
 		/// <returns>XML de Cancelamento.</returns>
+		[Obsolete("Usar o metodo save da classe CFeCanc")]
 		public string GetXml(CFeCanc cfeCanc)
 		{
 			return GetXml<CFeCanc>(cfeCanc);
@@ -754,6 +756,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <param name="rede">Instancia da classe SatRede.</param>
 		/// <returns>XML da configuração da rede do Sat</returns>
+		[Obsolete("Usar o metodo save da classe SatRede")]
 		public string GetXml(SatRede rede)
 		{
 			return GetXml<SatRede>(rede);

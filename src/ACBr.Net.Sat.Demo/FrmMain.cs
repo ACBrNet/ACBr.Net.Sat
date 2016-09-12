@@ -395,7 +395,7 @@ namespace ACBr.Net.Sat.Demo
 			}
 
 			cfeAtual = CFe.Load(file);
-			wbrXmlGerado.LoadXml(acbrSat.GetXml(cfeAtual));
+			wbrXmlGerado.LoadXml(cfeAtual.GetXml());
 			tbcXml.SelectedTab = tpgXmlGerado;
 			logger.Info("XML CFe carregado com sucesso.");
 		}
@@ -411,7 +411,7 @@ namespace ACBr.Net.Sat.Demo
 			}
 
 			cfeCancAtual = new CFeCanc(cfeAtual);
-			wbrXmlCancelamento.LoadXml(acbrSat.GetXml(cfeCancAtual));
+			wbrXmlCancelamento.LoadXml(cfeCancAtual.GetXml());
 			tbcXml.SelectedTab = tpgXmlCancelamento;
 			logger.Info("CFe de Cancelamento gerado com sucesso !");
 		}
@@ -424,7 +424,7 @@ namespace ACBr.Net.Sat.Demo
 				return;
 
 			cfeCancAtual = ret.Cancelamento;
-			wbrXmlRecebido.LoadXml(acbrSat.GetXml(ret.Cancelamento));
+			wbrXmlRecebido.LoadXml(cfeCancAtual.GetXml());
 			tbcXml.SelectedTab = tpgXmlRecebido;
 		}
 
@@ -457,12 +457,19 @@ namespace ACBr.Net.Sat.Demo
 
 			var ret = acbrSat.ConsultarNumeroSessao(sessao.ToInt32());
 
-			if (ret.CodigoDeRetorno == 6000)
-				wbrXmlRecebido.LoadXml(acbrSat.GetXml(ret.Venda));
-			else if (ret.CodigoDeRetorno == 7000)
-				wbrXmlRecebido.LoadXml(acbrSat.GetXml(ret.Cancelamento));
-			else
-				return;
+			switch (ret.CodigoDeRetorno)
+			{
+				case 6000:
+					wbrXmlRecebido.LoadXml(ret.Venda.GetXml());
+					break;
+
+				case 7000:
+					wbrXmlRecebido.LoadXml(ret.Cancelamento.GetXml());
+					break;
+
+				default:
+					return;
+			}
 
 			tbcXml.SelectedTab = tpgXmlRecebido;
 		}
@@ -484,7 +491,7 @@ namespace ACBr.Net.Sat.Demo
 			}
 
 			redeAtual = SatRede.Load(file);
-			wbrXmlRede.LoadXml(acbrSat.GetXml(redeAtual));
+			wbrXmlRede.LoadXml(redeAtual.GetXml());
 			tbcXml.SelectedTab = tpgRede;
 			logger.Info("XML Rede carregado com sucesso.");
 		}
@@ -508,7 +515,7 @@ namespace ACBr.Net.Sat.Demo
 			if (ret.CodigoDeRetorno != 9000)
 				return;
 
-			wbrXmlRecebido.LoadXml(acbrSat.GetXml(ret.VendaTeste));
+			wbrXmlRecebido.LoadXml(ret.VendaTeste.GetXml());
 			tbcXml.SelectedTab = tpgXmlRecebido;
 		}
 

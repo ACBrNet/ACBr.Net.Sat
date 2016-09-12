@@ -31,15 +31,13 @@
 
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.DFe.Core.Attributes;
+using ACBr.Net.DFe.Core.Common;
 using ACBr.Net.DFe.Core.Document;
-using ACBr.Net.DFe.Core.Serializer;
-using System.IO;
-using System.Text;
 
 namespace ACBr.Net.Sat
 {
 	[DFeRoot("CFe")]
-	public sealed class CFe
+	public sealed class CFe : DFeDocument<CFe>
 	{
 		#region Fields
 
@@ -76,22 +74,6 @@ namespace ACBr.Net.Sat
 		#endregion Propriedades
 
 		#region Methods
-
-		public static CFe Load(string path, Encoding encoding = null)
-		{
-			var serializer = DFeSerializer.CreateSerializer<CFe>();
-			if(encoding != null)
-				serializer.Options.Encoder = encoding;
-			return serializer.Deserialize(path);
-		}
-
-		public static CFe Load(Stream stream, Encoding encoding = null)
-		{
-			var serializer = DFeSerializer.CreateSerializer<CFe>();
-			if (encoding != null)
-				serializer.Options.Encoder = encoding;
-			return serializer.Deserialize(stream);
-		}
 
 		private bool ShouldSerializeSignature()
 		{

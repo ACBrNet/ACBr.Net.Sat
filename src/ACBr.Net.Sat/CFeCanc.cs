@@ -30,10 +30,8 @@
 // ***********************************************************************
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.DFe.Core.Attributes;
+using ACBr.Net.DFe.Core.Common;
 using ACBr.Net.DFe.Core.Document;
-using ACBr.Net.DFe.Core.Serializer;
-using System.IO;
-using System.Text;
 
 namespace ACBr.Net.Sat
 {
@@ -41,7 +39,7 @@ namespace ACBr.Net.Sat
 	/// Class CFeCanc. This class cannot be inherited.
 	/// </summary>
 	[DFeRoot("CFeCanc")]
-	public sealed class CFeCanc
+	public sealed class CFeCanc : DFeDocument<CFeCanc>
 	{
 		#region Constructors
 
@@ -79,7 +77,7 @@ namespace ACBr.Net.Sat
 		/// <value>The inf c fe.</value>
 		[DFeElement("infCFe", Ocorrencias = 1)]
 		public CancInfCFe InfCFe { get; set; }
-		
+
 		/// <summary>
 		/// Gets or sets the signature.
 		/// </summary>
@@ -93,28 +91,6 @@ namespace ACBr.Net.Sat
 		private bool ShouldSerializeSignature()
 		{
 			return !Signature.SignatureValue.IsEmpty();
-		}
-
-		/// <summary>
-		/// Loads the c fe.
-		/// </summary>
-		/// <param name="path">The path.</param>
-		/// <returns>CFe.</returns>
-		public static CFeCanc Load(string path, Encoding encoding = null)
-		{
-			var serializer = DFeSerializer.CreateSerializer<CFeCanc>();
-			return serializer.Deserialize(path);
-		}
-
-		/// <summary>
-		/// Loads the c fe.
-		/// </summary>
-		/// <param name="stream">The stream.</param>
-		/// <returns>CFe.</returns>
-		public static CFeCanc Load(Stream stream, Encoding encoding = null)
-		{
-			var serializer = DFeSerializer.CreateSerializer<CFeCanc>();
-			return serializer.Deserialize(stream);
 		}
 
 		#endregion Methods
