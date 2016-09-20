@@ -88,7 +88,6 @@
 			this.label7 = new System.Windows.Forms.Label();
 			this.chkRemoveAcentos = new System.Windows.Forms.CheckBox();
 			this.nunVersaoCFe = new System.Windows.Forms.NumericUpDown();
-			this.chkFomartXML = new System.Windows.Forms.CheckBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.chkUTF8 = new System.Windows.Forms.CheckBox();
 			this.nunPaginaCodigo = new System.Windows.Forms.NumericUpDown();
@@ -570,7 +569,6 @@
 			this.tpgConfig.Controls.Add(this.label7);
 			this.tpgConfig.Controls.Add(this.chkRemoveAcentos);
 			this.tpgConfig.Controls.Add(this.nunVersaoCFe);
-			this.tpgConfig.Controls.Add(this.chkFomartXML);
 			this.tpgConfig.Controls.Add(this.groupBox1);
 			this.tpgConfig.Controls.Add(this.label5);
 			this.tpgConfig.Controls.Add(this.nunCaixa);
@@ -718,20 +716,6 @@
             0,
             131072});
 			this.nunVersaoCFe.ValueChanged += new System.EventHandler(this.nunVersaoCFe_ValueChanged);
-			// 
-			// chkFomartXML
-			// 
-			this.chkFomartXML.AutoSize = true;
-			this.chkFomartXML.Checked = true;
-			this.chkFomartXML.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkFomartXML.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.chkFomartXML.Location = new System.Drawing.Point(206, 108);
-			this.chkFomartXML.Name = "chkFomartXML";
-			this.chkFomartXML.Size = new System.Drawing.Size(104, 17);
-			this.chkFomartXML.TabIndex = 12;
-			this.chkFomartXML.Text = "Formatar XML";
-			this.chkFomartXML.UseVisualStyleBackColor = true;
-			this.chkFomartXML.CheckedChanged += new System.EventHandler(this.chkFomartXML_CheckedChanged);
 			// 
 			// groupBox1
 			// 
@@ -1271,7 +1255,6 @@
 		private System.Windows.Forms.CheckBox chkUTF8;
 		private System.Windows.Forms.NumericUpDown nunPaginaCodigo;
 		private System.Windows.Forms.CheckBox chkRemoveAcentos;
-		private System.Windows.Forms.CheckBox chkFomartXML;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.NumericUpDown nunVersaoCFe;
 		private System.Windows.Forms.GroupBox groupBox2;

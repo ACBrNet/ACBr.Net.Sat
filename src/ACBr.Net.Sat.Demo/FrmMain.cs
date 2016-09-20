@@ -178,7 +178,7 @@ namespace ACBr.Net.Sat.Demo
 			cfeAtual.InfCFe.InfAdic.InfCpl = "Acesse www.projetoacbr.com.br para obter mais;informações sobre o componente ACBrSAT;" +
 											 "Precisa de um PAF-ECF homologado?;Conheça o DJPDV - www.djpdv.com.br";
 
-			wbrXmlGerado.LoadXml(acbrSat.GetXml(cfeAtual));
+			wbrXmlGerado.LoadXml(cfeAtual.GetXml());
 			tbcXml.SelectedTab = tpgXmlGerado;
 			logger.Info("CFe gerado com sucesso !");
 		}
@@ -210,7 +210,6 @@ namespace ACBr.Net.Sat.Demo
 			nunCaixa.Value = config.AppSettings.Settings["Caixa"]?.Value.ToDecimal(1, CultureInfo.InvariantCulture) ?? 1;
 			nunVersaoCFe.Value = config.AppSettings.Settings["VersaoCFe"]?.Value.ToDecimal(0.06M, CultureInfo.InvariantCulture) ?? 0.06M;
 			chkUTF8.Checked = Convert.ToBoolean(config.AppSettings.Settings["UTF8"]?.Value ?? "False");
-			chkFomartXML.Checked = Convert.ToBoolean(config.AppSettings.Settings["FomartXML"]?.Value ?? "True");
 			chkRemoveAcentos.Checked = Convert.ToBoolean(config.AppSettings.Settings["RemoveAcentos"]?.Value ?? "False");
 			chkSaveEnvio.Checked = Convert.ToBoolean(config.AppSettings.Settings["SaveEnvio"]?.Value ?? "True");
 			chkSaveCFe.Checked = Convert.ToBoolean(config.AppSettings.Settings["SaveCFe"]?.Value ?? "True");
@@ -245,7 +244,6 @@ namespace ACBr.Net.Sat.Demo
 			config.AppSettings.Settings.AddValue("Caixa", nunCaixa.Value.ToString(CultureInfo.InvariantCulture));
 			config.AppSettings.Settings.AddValue("VersaoCFe", nunVersaoCFe.Value.ToString(CultureInfo.InvariantCulture));
 			config.AppSettings.Settings.AddValue("UTF8", chkUTF8.Checked.ToString());
-			config.AppSettings.Settings.AddValue("FomartXML", chkFomartXML.Checked.ToString());
 			config.AppSettings.Settings.AddValue("RemoveAcentos", chkRemoveAcentos.Checked.ToString());
 			config.AppSettings.Settings.AddValue("SaveEnvio", chkSaveEnvio.Checked.ToString());
 			config.AppSettings.Settings.AddValue("SaveCFe", chkSaveCFe.Checked.ToString());
@@ -372,7 +370,7 @@ namespace ACBr.Net.Sat.Demo
 				return;
 
 			cfeAtual = ret.Venda;
-			wbrXmlRecebido.LoadXml(acbrSat.GetXml(ret.Venda));
+			wbrXmlRecebido.LoadXml(ret.Venda.GetXml());
 			tbcXml.SelectedTab = tpgXmlRecebido;
 		}
 
@@ -579,11 +577,6 @@ namespace ACBr.Net.Sat.Demo
 		private void chkUTF8_CheckedChanged(object sender, EventArgs e)
 		{
 			nunPaginaCodigo.Value = chkUTF8.Checked ? 65001M : 0;
-		}
-
-		private void chkFomartXML_CheckedChanged(object sender, EventArgs e)
-		{
-			acbrSat.Configuracoes.FormatarXml = chkFomartXML.Checked;
 		}
 
 		private void chkRemoveAcentos_CheckedChanged(object sender, EventArgs e)

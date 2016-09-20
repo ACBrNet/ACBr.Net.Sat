@@ -134,12 +134,6 @@ namespace ACBr.Net.Sat
 		/// <value>The pagina de codigo.</value>
 		public bool RemoverAcentos { get; set; }
 
-		/// <summary>
-		/// Gets or sets a value indicating whether [formatar XML].
-		/// </summary>
-		/// <value><c>true</c> if [formatar XML]; otherwise, <c>false</c>.</value>
-		public bool FormatarXml { get; set; }
-
 		#endregion Propriedades
 	}
 }

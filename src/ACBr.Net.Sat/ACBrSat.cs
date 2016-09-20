@@ -32,13 +32,13 @@ using ACBr.Net.Core;
 using ACBr.Net.Core.Exceptions;
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.Core.Logging;
+using ACBr.Net.DFe.Core.Common;
 using ACBr.Net.DFe.Core.Serializer;
 using ACBr.Net.Sat.Events;
 using ACBr.Net.Sat.Interfaces;
 using System;
 using System.IO;
 using System.Text;
-using System.Xml;
 
 namespace ACBr.Net.Sat
 {
@@ -408,7 +408,11 @@ namespace ACBr.Net.Sat
 		{
 			Guard.Against<ArgumentNullException>(cfeCanc.IsNull(), nameof(cfeCanc));
 
-			var dados = GetXml(cfeCanc, false, false);
+			var options = DFeSaveOptions.OmitDeclaration | DFeSaveOptions.DisableFormatting;
+			if (Configuracoes.RemoverAcentos)
+				options |= DFeSaveOptions.RemoveAccents;
+
+			var dados = cfeCanc.GetXml(options);
 			return CancelarUltimaVenda(cfeCanc.InfCFe.ChCanc, dados);
 		}
 
@@ -462,7 +466,7 @@ namespace ACBr.Net.Sat
 
 			var nomeArquivo = $"{Arquivos.PrefixoArqCFeCanc}{resp.Cancelamento.InfCFe.Id.OnlyNumbers()}.xml";
 			var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
-			Salvar(resp.Cancelamento, fullPath);
+			resp.Cancelamento.Save(fullPath);
 			return resp;
 		}
 
@@ -491,7 +495,7 @@ namespace ACBr.Net.Sat
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 			Guard.Against<ArgumentNullException>(config.IsNull(), nameof(config));
 
-			var configuracao = GetXml(config);
+			var configuracao = config.GetXml();
 			IniciaComando($"ConfigurarInterfaceDeRede({configuracao})");
 			var ret = sat.ConfigurarInterfaceDeRede(Sessao, CodigoAtivacao, configuracao);
 			return FinalizaComando<SatResposta>(ret);
@@ -565,7 +569,11 @@ namespace ACBr.Net.Sat
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 			Guard.Against<ArgumentNullException>(cfe.IsNull(), nameof(cfe));
 
-			var dadosVenda = GetXml(cfe, false, false);
+			var options = DFeSaveOptions.OmitDeclaration | DFeSaveOptions.DisableFormatting;
+			if (Configuracoes.RemoverAcentos)
+				options |= DFeSaveOptions.RemoveAccents;
+
+			var dadosVenda = cfe.GetXml(options);
 
 			IniciaComando($"EnviarDadosVenda({dadosVenda})");
 
@@ -604,7 +612,7 @@ namespace ACBr.Net.Sat
 
 			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.Venda.InfCFe.Id.OnlyNumbers()}.xml";
 			var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
-			Salvar(resp.Venda, fullPath);
+			resp.Venda.Save(fullPath);
 
 			return resp;
 		}
@@ -637,7 +645,11 @@ namespace ACBr.Net.Sat
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
-			var dadosVenda = GetXml(cfe, false, false);
+			var options = DFeSaveOptions.OmitDeclaration | DFeSaveOptions.DisableFormatting;
+			if (Configuracoes.RemoverAcentos)
+				options |= DFeSaveOptions.RemoveAccents;
+
+			var dadosVenda = cfe.GetXml(options);
 			IniciaComando($"TesteFimAFim({dadosVenda})");
 
 			if (Arquivos.SalvarEnvio)
@@ -671,7 +683,7 @@ namespace ACBr.Net.Sat
 
 			var nomeArquivo = $"{Arquivos.PrefixoArqCFe}{resp.VendaTeste.InfCFe.Id}.xml";
 			var fullPath = Path.Combine(calcPathEventEventArgs.Path, nomeArquivo);
-			Salvar(resp.VendaTeste, fullPath);
+			resp.VendaTeste.Save(fullPath);
 
 			return resp;
 		}
@@ -734,7 +746,9 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <param name="cfe">Instancia CFe.</param>
 		/// <returns>XML da CFe</returns>
-		[Obsolete("Usar o metodo save da classe CFe")]
+		[ObsoleteEx(TreatAsErrorFromVersion = "1.0.5",
+					RemoveInVersion = "1.1.0",
+					ReplacementTypeOrMember = "GetXml da classe")]
 		public string GetXml(CFe cfe)
 		{
 			return GetXml<CFe>(cfe);
@@ -745,7 +759,9 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <param name="cfeCanc">Instancia CFeCanc.</param>
 		/// <returns>XML de Cancelamento.</returns>
-		[Obsolete("Usar o metodo save da classe CFeCanc")]
+		[ObsoleteEx(TreatAsErrorFromVersion = "1.0.5",
+					RemoveInVersion = "1.1.0",
+					ReplacementTypeOrMember = "GetXml da classe")]
 		public string GetXml(CFeCanc cfeCanc)
 		{
 			return GetXml<CFeCanc>(cfeCanc);
@@ -756,7 +772,9 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <param name="rede">Instancia da classe SatRede.</param>
 		/// <returns>XML da configuração da rede do Sat</returns>
-		[Obsolete("Usar o metodo save da classe SatRede")]
+		[ObsoleteEx(TreatAsErrorFromVersion = "1.0.5",
+					RemoveInVersion = "1.1.0",
+					ReplacementTypeOrMember = "GetXml da classe")]
 		public string GetXml(SatRede rede)
 		{
 			return GetXml<SatRede>(rede);
@@ -789,7 +807,6 @@ namespace ACBr.Net.Sat
 		{
 			var serializer = DFeSerializer.CreateSerializer<T>();
 			serializer.Options.RemoverAcentos = Configuracoes.RemoverAcentos;
-			serializer.Options.FormatarXml = Configuracoes.FormatarXml;
 			return serializer;
 		}
 
@@ -806,24 +823,20 @@ namespace ACBr.Net.Sat
 		{
 			using (var stream = new MemoryStream())
 			{
-				Salvar(cfe, stream);
+				Salvar(cfe, stream, identado, showDeclaration);
 
-				var xml = new XmlDocument();
-				xml.Load(stream);
-
-				return xml.AsString(identado, showDeclaration);
+				using (var reader = new StreamReader(stream))
+				{
+					return reader.ReadToEnd();
+				}
 			}
 		}
 
-		private void Salvar<T>(T item, string path) where T : class
+		private void Salvar<T>(T item, Stream stream, bool identado = true, bool showDeclaration = true) where T : class
 		{
 			var serializer = GetSerializer<T>();
-			serializer.Serialize(item, path);
-		}
-
-		private void Salvar<T>(T item, Stream stream) where T : class
-		{
-			var serializer = GetSerializer<T>();
+			serializer.Options.FormatarXml = identado;
+			serializer.Options.OmitirDeclaracao = !showDeclaration;
 			serializer.Serialize(item, stream);
 		}
 
