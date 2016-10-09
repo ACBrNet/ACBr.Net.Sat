@@ -58,16 +58,16 @@
       <HintPath>..\packages\ACBr.Net.DFe.Core.1.0.1.3-beta4\lib\net40\ACBr.Net.DFe.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ExtraConstraints, Version=1.10.8.0, Culture=neutral, PublicKeyToken=8b9afd7f380a7d64, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExtraConstraints.Fody.1.10.8\lib\portable-net4+sl5+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\ExtraConstraints.dll</HintPath>
+    <Reference Include="ExtraConstraints, Version=1.10.9.0, Culture=neutral, PublicKeyToken=8b9afd7f380a7d64, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExtraConstraints.Fody.1.10.9\lib\portable-net4+sl5+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\ExtraConstraints.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Obsolete, Version=4.1.0.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
       <HintPath>..\packages\Obsolete.Fody.4.1.0\lib\portable-net4+sl5+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\Obsolete.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="PropertyChanged, Version=1.51.3.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
-      <HintPath>..\packages\PropertyChanged.Fody.1.51.3\lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
+    <Reference Include="PropertyChanged, Version=1.52.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.1.52.0\lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -87,6 +87,7 @@
     <Compile Include="ExtratoFiltro.cs" />
     <Compile Include="ExtratoLayOut.cs" />
     <Compile Include="Extrato\ExtratoSat.cs" />
+    <Compile Include="Interfaces\IACBrSat.cs" />
     <Compile Include="Interfaces\IExtratoSat.cs" />
     <Compile Include="SatRede.cs" />
     <Compile Include="StatusOperacionalResposta.cs" />
@@ -137,7 +138,7 @@
     <Compile Include="OrigemMercadoria.cs" />
     <Compile Include="ProdObsFisco.cs" />
     <Compile Include="CFeInfAdic.cs" />
-    <Compile Include="InfAdicObsFisco.cs" />
+    <Compile Include="CFeObsFisco.cs" />
     <Compile Include="CFePgto.cs" />
     <Compile Include="CFePgtoMP.cs" />
     <Compile Include="CFeTotal.cs" />
@@ -190,6 +191,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>if "COM Interop" == "$(ConfigurationName)" (
+$(SolutionDir)..\Tools\TlbExp.exe "$(TargetPath)" /out:"$(TargetDir)$(TargetName).tlb"
+)</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

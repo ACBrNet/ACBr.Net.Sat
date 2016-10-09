@@ -40,13 +40,31 @@ using System;
 using System.IO;
 using System.Text;
 
+#region COM Interop Attributes
+
+#if COM_INTEROP
+
+using System.Runtime.InteropServices;
+
+#endif
+
+#endregion COM Interop Attributes
+
 namespace ACBr.Net.Sat
 {
-	/// <summary>
-	/// Classe do componente ACBrSat.
-	/// </summary>
-	/// <seealso cref="ACBr.Net.Core.ACBrComponent" />
-	public class ACBrSat : ACBrComponent, IACBrLog
+	#region COM Interop Attributes
+
+#if COM_INTEROP
+
+	[ComVisible(true)]
+	[Guid("BBF461A7-10E5-47F2-BE8F-2736F3A2EF4E")]
+	[ComSourceInterfaces(typeof(IACBrSat))]
+	[ClassInterface(ClassInterfaceType.AutoDual)]
+#endif
+
+	#endregion COM Interop Attributes
+
+	public class ACBrSat : ACBrComponent, IACBrLog, IACBrSat
 	{
 		#region Fields
 

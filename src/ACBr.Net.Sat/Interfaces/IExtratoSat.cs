@@ -15,8 +15,6 @@ namespace ACBr.Net.Sat.Interfaces
 
 		ExtratoFiltro Filtro { get; set; }
 
-		bool ImprimeQrcode { get; set; }
-
 		bool MostrarPreview { get; set; }
 
 		bool MostrarSetup { get; set; }

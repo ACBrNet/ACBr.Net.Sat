@@ -47,7 +47,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		public CFeCancInfAdic()
 		{
-			ObsFisco = new DFeCollection<InfAdicObsFisco>();
+			ObsFisco = new DFeCollection<CFeObsFisco>();
 		}
 
 		#endregion Constructors
@@ -59,7 +59,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The obs fisco.</value>
 		[DFeElement("obsFisco", Id = "Z03", Min = 0, Max = 10, Ocorrencias = 0)]
-		public DFeCollection<InfAdicObsFisco> ObsFisco { get; set; }
+		public DFeCollection<CFeObsFisco> ObsFisco { get; set; }
 
 		#endregion Propriedades
 	}

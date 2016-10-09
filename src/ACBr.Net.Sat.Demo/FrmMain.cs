@@ -129,9 +129,10 @@ namespace ACBr.Net.Sat.Demo
 				det.Prod.IndRegra = IndRegra.Truncamento;
 				det.Prod.VDesc = 1;
 
-				var obs = det.Prod.ObsFiscoDet.AddNew();
+				var obs = new ProdObsFisco();
 				obs.XCampoDet = "campo";
 				obs.XTextoDet = "texto";
+				det.Prod.ObsFiscoDet.Add(obs);
 
 				var totalItem = det.Prod.QCom * det.Prod.VUnCom;
 				totalGeral += totalItem;
