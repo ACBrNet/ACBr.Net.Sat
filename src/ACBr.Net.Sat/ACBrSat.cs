@@ -281,20 +281,7 @@ namespace ACBr.Net.Sat
 		/// <exception cref="NotImplementedException"></exception>
 		public void Ativar()
 		{
-			switch (Modelo)
-			{
-				case ModeloSat.Cdecl:
-					sat = new SatCdecl(PathDll, encoding);
-					break;
-
-				case ModeloSat.StdCall:
-					sat = new SatStdCall(PathDll, encoding);
-					break;
-
-				default:
-					throw new NotImplementedException("Modelo não impementado !");
-			}
-
+			sat = SatManager.GetLibrary(Modelo, PathDll, Encoding);
 			Ativo = true;
 		}
 
@@ -813,8 +800,7 @@ namespace ACBr.Net.Sat
 			this.Log().Info($"NumeroSessao: {Sessao} - Resposta: {resposta}");
 			var resp = (T)Activator.CreateInstance(typeof(T), resposta, Encoding);
 
-			if (resp.CodigoSEFAZ <= 0 || resp.MensagemSEFAZ.IsEmpty())
-				return resp;
+			if (resp.CodigoSEFAZ <= 0 || resp.MensagemSEFAZ.IsEmpty()) return resp;
 
 			var e = new SatMensagemEventArgs(resp.CodigoSEFAZ, resp.MensagemSEFAZ);
 			OnMensagemSefaz.Raise(this, e);
