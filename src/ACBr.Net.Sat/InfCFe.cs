@@ -163,7 +163,10 @@ namespace ACBr.Net.Sat
 			set
 			{
 				det = value;
-				det.Parent = parent;
+				if (det.Parent != parent)
+				{
+					det.Parent = parent;
+				}
 			}
 		}
 

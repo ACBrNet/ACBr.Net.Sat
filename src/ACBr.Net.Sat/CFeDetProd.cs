@@ -30,9 +30,9 @@
 // ***********************************************************************
 
 using ACBr.Net.DFe.Core.Attributes;
+using ACBr.Net.DFe.Core.Collection;
 using ACBr.Net.DFe.Core.Serializer;
 using PropertyChanged;
-using System.Collections.Generic;
 using System.Globalization;
 
 namespace ACBr.Net.Sat
@@ -56,7 +56,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		public CFeDetProd()
 		{
-			ObsFiscoDet = new List<ProdObsFisco>();
+			ObsFiscoDet = new DFeCollection<ProdObsFisco>();
 			EhCombustivel = false;
 		}
 
@@ -213,7 +213,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The obs fisco det.</value>
 		[DFeElement("obsFiscoDet", Id = "I18", Min = 0, Max = 500, Ocorrencias = 0)]
-		public List<ProdObsFisco> ObsFiscoDet { get; set; }
+		public DFeCollection<ProdObsFisco> ObsFiscoDet { get; set; }
 
 		#endregion Propriedades
 

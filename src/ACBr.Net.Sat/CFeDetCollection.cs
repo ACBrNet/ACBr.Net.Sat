@@ -41,7 +41,7 @@ namespace ACBr.Net.Sat
 	/// <seealso>
 	///     <cref>ACBr.Net.DFe.Core.Collection.DFeCollection{ACBr.Net.Sat.CFeDet}</cref>
 	/// </seealso>
-	public sealed class CFeDetCollection : DFeCollection<CFeDet>, IEnumerable<CFeDet>
+	public sealed class CFeDetCollection : DFeCollection<CFeDet>
 	{
 		#region Fields
 
@@ -91,7 +91,7 @@ namespace ACBr.Net.Sat
 			set
 			{
 				parent = value;
-				foreach (var cFeDet in List)
+				foreach (var cFeDet in this)
 					cFeDet.Parent = value;
 			}
 		}
@@ -107,18 +107,23 @@ namespace ACBr.Net.Sat
 		public override CFeDet AddNew()
 		{
 			var ret = new CFeDet(Parent);
-			List.Add(ret);
+			base.Add(ret);
 			return ret;
 		}
 
-		/// <summary>
-		/// Adds the range.
-		/// </summary>
-		/// <param name="item">The item.</param>
 		public override void Add(CFeDet item)
 		{
 			item.Parent = Parent;
 			base.Add(item);
+		}
+
+		public override void AddRange(IEnumerable<CFeDet> itens)
+		{
+			foreach (var item in itens)
+			{
+				item.Parent = Parent;
+				base.Add(item);
+			}
 		}
 
 		#endregion Methods

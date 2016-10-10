@@ -30,9 +30,9 @@
 // ***********************************************************************
 
 using ACBr.Net.DFe.Core.Attributes;
+using ACBr.Net.DFe.Core.Collection;
 using ACBr.Net.DFe.Core.Serializer;
 using PropertyChanged;
-using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace ACBr.Net.Sat
@@ -50,7 +50,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		public CFeInfAdic()
 		{
-			ObsFisco = new List<CFeObsFisco>();
+			ObsFisco = new DFeCollection<CFeObsFisco>();
 		}
 
 		#endregion Constructors
@@ -70,7 +70,7 @@ namespace ACBr.Net.Sat
 		/// <value>The obs fisco.</value>
 		[Browsable(true)]
 		[DFeElement("obsFisco", Id = "Z03", Min = 0, Max = 10, Ocorrencias = 0)]
-		public List<CFeObsFisco> ObsFisco { get; set; }
+		public DFeCollection<CFeObsFisco> ObsFisco { get; set; }
 
 		#endregion Propriedades
 	}
