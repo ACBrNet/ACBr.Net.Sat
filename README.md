@@ -14,6 +14,7 @@ Está licenciada sobre a MIT.
 - Uma versão demo do FastReport pode ser baixada em https://www.fast-report.com/pt/product/fast-report-net/
 
 **Dependencias**
+
 O projeto tem dependencias de outras lib do projeto ACBr.Net
 	
 - ACBr.Net.Core (https://github.com/ACBrNet/ACBr.Net.Core)
