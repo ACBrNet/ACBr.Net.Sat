@@ -50,14 +50,14 @@ namespace ACBr.Net.Sat
 		public CFe()
 		{
 			infCFe = new InfCFe(this);
-			Signature = new Signature();
+			Signature = new DFeSignature();
 		}
 
 		#endregion Constructors
 
 		#region Propriedades
 
-		[DFeElement("infCFe", Ocorrencias = 1)]
+		[DFeElement("infCFe", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public InfCFe InfCFe
 		{
 			get { return infCFe; }
@@ -69,7 +69,7 @@ namespace ACBr.Net.Sat
 			}
 		}
 
-		public Signature Signature { get; set; }
+		public DFeSignature Signature { get; set; }
 
 		#endregion Propriedades
 

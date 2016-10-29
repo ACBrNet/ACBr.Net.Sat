@@ -62,21 +62,21 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the identifier.
 		/// </summary>
 		/// <value>The identifier.</value>
-		[DFeAttribute(TipoCampo.Str, "Id", Id = "A04", Ocorrencias = 1)]
+		[DFeAttribute(TipoCampo.Str, "Id", Id = "A04", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public string Id { get; set; }
 
 		/// <summary>
 		/// Gets the versao.
 		/// </summary>
 		/// <value>The versao.</value>
-		[DFeAttribute(TipoCampo.De2, "versao", Id = "A05", Min = 4, Max = 9, Ocorrencias = 1)]
+		[DFeAttribute(TipoCampo.De2, "versao", Id = "A05", Min = 4, Max = 9, Ocorrencia = Ocorrencia.Obrigatoria)]
 		public decimal Versao { get; set; }
 
 		/// <summary>
 		/// Gets or sets the ch canc.
 		/// </summary>
 		/// <value>The ch canc.</value>
-		[DFeAttribute(TipoCampo.Str, "chCanc", Id = "A06", Ocorrencias = 1)]
+		[DFeAttribute(TipoCampo.Str, "chCanc", Id = "A06", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public string ChCanc { get; set; }
 
 		/// <summary>
@@ -90,7 +90,7 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the d emi.
 		/// </summary>
 		/// <value>The d emi.</value>
-		[DFeElement(TipoCampo.DatCFe, "dEmi", Id = "A07", Min = 8, Max = 8, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.DatCFe, "dEmi", Id = "A07", Min = 8, Max = 8, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public DateTime DEmi
 		{
 			get { return DhEmissao ?? DateTime.MinValue; }
@@ -104,7 +104,7 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the h emi.
 		/// </summary>
 		/// <value>The h emi.</value>
-		[DFeElement(TipoCampo.HorCFe, "hEmi", Id = "A08", Min = 6, Max = 6, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.HorCFe, "hEmi", Id = "A08", Min = 6, Max = 6, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public DateTime HEmi
 		{
 			get { return DhEmissao ?? DateTime.MinValue; }
@@ -118,21 +118,21 @@ namespace ACBr.Net.Sat
 		/// Gets the IDE.
 		/// </summary>
 		/// <value>The IDE.</value>
-		[DFeElement("ide", Id = "B01", Ocorrencias = 1)]
+		[DFeElement("ide", Id = "B01", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public CFeCancIde Ide { get; set; }
 
 		/// <summary>
 		/// Gets the emit.
 		/// </summary>
 		/// <value>The emit.</value>
-		[DFeElement("emit", Id = "C01", Ocorrencias = 1)]
+		[DFeElement("emit", Id = "C01", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public CFeCancEmit Emit { get; set; }
 
 		/// <summary>
 		/// Gets the dest.
 		/// </summary>
 		/// <value>The dest.</value>
-		[DFeElement("dest", Id = "E01", Ocorrencias = 1)]
+		[DFeElement("dest", Id = "E01", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public CFeCancDest Dest
 		{
 			get { return dest; }
@@ -148,14 +148,14 @@ namespace ACBr.Net.Sat
 		/// Gets the total.
 		/// </summary>
 		/// <value>The total.</value>
-		[DFeElement("total", Id = "W01", Ocorrencias = 1)]
+		[DFeElement("total", Id = "W01", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public CFeCancTotal Total { get; set; }
 
 		/// <summary>
 		/// Gets the inf adic.
 		/// </summary>
 		/// <value>The inf adic.</value>
-		[DFeElement("infAdic", Id = "Z01", Ocorrencias = 1)]
+		[DFeElement("infAdic", Id = "Z01", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public CFeCancInfAdic InfAdic { get; set; }
 
 		#endregion Propriedades

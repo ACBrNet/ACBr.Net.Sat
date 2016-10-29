@@ -10,20 +10,20 @@
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2016 Grupo ACBr.Net
 //
-//	 Permission is hereby granted, free of charge, to any person obtaining 
-// a copy of this software and associated documentation files (the "Software"), 
-// to deal in the Software without restriction, including without limitation 
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-// and/or sell copies of the Software, and to permit persons to whom the 
+//	 Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following conditions:
-//	 The above copyright notice and this permission notice shall be 
+//	 The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//	 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
-// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+//	 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // </copyright>
 // <summary></summary>
@@ -61,45 +61,40 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the icms tot.
 		/// </summary>
 		/// <value>The icms tot.</value>
-		[DFeElement("ICMSTot", Id = "W02", Ocorrencias = 0)]
+		[DFeElement("ICMSTot", Id = "W02", Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public CFeTotalIcms ICMSTot { get; set; }
 
 		/// <summary>
 		/// Gets or sets the v c fe.
 		/// </summary>
 		/// <value>The v c fe.</value>
-		[DFeElement(TipoCampo.De2, "vCFe", Id = "W11", Min = 3, Max = 15, Ocorrencias = 1)]
+		[DFeElement(TipoCampo.De2, "vCFe", Id = "W11", Min = 3, Max = 15, Ocorrencia = Ocorrencia.MaiorQueZero)]
 		public decimal VCFe { get; set; }
 
 		/// <summary>
 		/// Gets or sets the issq ntot.
 		/// </summary>
 		/// <value>The issq ntot.</value>
-		[DFeElement("ISSQNtot", Id = "W12", Ocorrencias = 0)]
+		[DFeElement("ISSQNtot", Id = "W12", Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public CFeTotalIssqn ISSQNTot { get; set; }
 
 		/// <summary>
 		/// Gets or sets the desc acr entr.
 		/// </summary>
 		/// <value>The desc acr entr.</value>
-		[DFeElement("DescAcrEntr", Id = "W19", Ocorrencias = 0)]
+		[DFeElement("DescAcrEntr", Id = "W19", Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public CFeTotalDescAcr DescAcrEntr { get; set; }
 
 		/// <summary>
 		/// Gets or sets the v c fe lei12741.
 		/// </summary>
 		/// <value>The v c fe lei12741.</value>
-		[DFeElement(TipoCampo.De2, "vCFeLei12741", Id = "W22", Min = 3, Max = 15, Ocorrencias = 1)]
+		[DFeElement(TipoCampo.De2, "vCFeLei12741", Id = "W22", Min = 3, Max = 15, Ocorrencia = Ocorrencia.MaiorQueZero)]
 		public decimal VCFeLei12741 { get; set; }
 
 		#endregion Propriedades
 
 		#region Methods
-
-		private bool ShouldSerializeVCFe()
-		{
-			return VCFe > 0;
-		}
 
 		private bool ShouldSerializeICMSTot()
 		{
@@ -119,11 +114,6 @@ namespace ACBr.Net.Sat
 		private bool ShouldSerializeDescAcrEntr()
 		{
 			return DescAcrEntr.VDescSubtot > 0 || DescAcrEntr.VAcresSubtot > 0;
-		}
-
-		private bool ShouldSerializeVCFeLei12741()
-		{
-			return VCFeLei12741 > 0;
 		}
 
 		#endregion Methods

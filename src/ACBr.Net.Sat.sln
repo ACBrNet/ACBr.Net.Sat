@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACBr.Net.Sat", "ACBr.Net.Sat\ACBr.Net.Sat.csproj", "{EE443D74-27E7-4236-851E-5E31A8AB8E63}"
 EndProject
@@ -9,19 +9,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACBr.Net.Sat.Demo", "ACBr.N
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		COM Interop|Any CPU = COM Interop|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EE443D74-27E7-4236-851E-5E31A8AB8E63}.COM Interop|Any CPU.ActiveCfg = COM Interop|Any CPU
-		{EE443D74-27E7-4236-851E-5E31A8AB8E63}.COM Interop|Any CPU.Build.0 = COM Interop|Any CPU
 		{EE443D74-27E7-4236-851E-5E31A8AB8E63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EE443D74-27E7-4236-851E-5E31A8AB8E63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE443D74-27E7-4236-851E-5E31A8AB8E63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE443D74-27E7-4236-851E-5E31A8AB8E63}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D0D31D3B-C7D4-45F3-B09F-618FF56A48B8}.COM Interop|Any CPU.ActiveCfg = Release|Any CPU
-		{D0D31D3B-C7D4-45F3-B09F-618FF56A48B8}.COM Interop|Any CPU.Build.0 = Release|Any CPU
 		{D0D31D3B-C7D4-45F3-B09F-618FF56A48B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D0D31D3B-C7D4-45F3-B09F-618FF56A48B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0D31D3B-C7D4-45F3-B09F-618FF56A48B8}.Release|Any CPU.ActiveCfg = Release|Any CPU

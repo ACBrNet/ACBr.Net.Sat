@@ -43,42 +43,42 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the x LGR.
 		/// </summary>
 		/// <value>The x LGR.</value>
-		[DFeElement(TipoCampo.Str, "xLgr", Id = "C06", Min = 2, Max = 60, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.Str, "xLgr", Id = "C06", Min = 2, Max = 60, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public string XLgr { get; set; }
 
 		/// <summary>
 		/// Gets or sets the nro.
 		/// </summary>
 		/// <value>The nro.</value>
-		[DFeElement(TipoCampo.Str, "nro", Id = "C07", Min = 1, Max = 60, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.Str, "nro", Id = "C07", Min = 1, Max = 60, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public string Nro { get; set; }
 
 		/// <summary>
 		/// Gets or sets the x CPL.
 		/// </summary>
 		/// <value>The x CPL.</value>
-		[DFeElement(TipoCampo.Str, "xCpl", Id = "C08", Min = 1, Max = 60, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.Str, "xCpl", Id = "C08", Min = 1, Max = 60, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public string XCpl { get; set; }
 
 		/// <summary>
 		/// Gets or sets the x bairro.
 		/// </summary>
 		/// <value>The x bairro.</value>
-		[DFeElement(TipoCampo.Str, "xBairro", Id = "C09", Min = 2, Max = 60, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.Str, "xBairro", Id = "C09", Min = 2, Max = 60, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public string XBairro { get; set; }
 
 		/// <summary>
 		/// Gets or sets the x mun.
 		/// </summary>
 		/// <value>The x mun.</value>
-		[DFeElement(TipoCampo.Str, "xMun", Id = "C10", Min = 2, Max = 60, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.Str, "xMun", Id = "C10", Min = 2, Max = 60, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public string XMun { get; set; }
 
 		/// <summary>
 		/// Gets or sets the cep.
 		/// </summary>
 		/// <value>The cep.</value>
-		[DFeElement(TipoCampo.StrNumber, "CEP", Id = "C11", Min = 8, Max = 8, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.StrNumber, "CEP", Id = "C11", Min = 8, Max = 8, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public string CEP { get; set; }
 	}
 }

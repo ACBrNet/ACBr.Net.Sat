@@ -58,7 +58,7 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the obs fisco.
 		/// </summary>
 		/// <value>The obs fisco.</value>
-		[DFeElement("obsFisco", Id = "Z03", Min = 0, Max = 10, Ocorrencias = 0)]
+		[DFeElement("obsFisco", Id = "Z03", Min = 0, Max = 10, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public DFeCollection<CFeObsFisco> ObsFisco { get; set; }
 
 		#endregion Propriedades

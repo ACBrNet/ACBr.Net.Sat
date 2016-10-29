@@ -56,7 +56,7 @@ namespace ACBr.Net.Sat.Demo
 				}
 			};
 
-			cmbAmbiente.EnumDataSource<TipoAmbiente>(TipoAmbiente.Homologacao);
+			cmbAmbiente.EnumDataSource<DFeTipoAmbiente>(DFeTipoAmbiente.Homologacao);
 			cmbModeloSat.EnumDataSource<ModeloSat>(ModeloSat.StdCall);
 			cmbEmiRegTrib.EnumDataSource<RegTrib>(RegTrib.Normal);
 			cmbEmiRegTribISSQN.EnumDataSource<RegTribIssqn>(RegTribIssqn.Nenhum);
@@ -205,7 +205,7 @@ namespace ACBr.Net.Sat.Demo
 			var config = Helpers.GetConfiguration();
 			cmbModeloSat.SelectedItem = config.GetAppSetting("ModeloSat", ModeloSat.Cdecl);
 			txtDllPath.Text = config.GetAppSetting("DllPath", @"C:\SAT\SAT.dll");
-			cmbAmbiente.SelectedItem = config.GetAppSetting("Ambiente", TipoAmbiente.Homologacao);
+			cmbAmbiente.SelectedItem = config.GetAppSetting("Ambiente", DFeTipoAmbiente.Homologacao);
 			txtAtivacao.Text = config.GetAppSetting("Ativacao", "12345678");
 			txtCodUF.Text = config.GetAppSetting("CodUF", "35");
 			nunPaginaCodigo.Value = config.GetAppSetting("PaginaCodigo", 1252M);
@@ -552,7 +552,7 @@ namespace ACBr.Net.Sat.Demo
 
 		private void cmbAmbiente_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			acbrSat.Configuracoes.IdeTpAmb = (TipoAmbiente)cmbAmbiente.SelectedItem;
+			acbrSat.Configuracoes.IdeTpAmb = (DFeTipoAmbiente)cmbAmbiente.SelectedItem;
 		}
 
 		private void nunCaixa_ValueChanged(object sender, EventArgs e)

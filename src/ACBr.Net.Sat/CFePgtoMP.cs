@@ -47,21 +47,21 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the c mp.
 		/// </summary>
 		/// <value>The c mp.</value>
-		[DFeElement(TipoCampo.Enum, "cMP", Id = "WA04", Min = 2, Max = 2, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.Enum, "cMP", Id = "WA04", Min = 2, Max = 2, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public CodigoMP CMp { get; set; }
 
 		/// <summary>
 		/// Gets or sets the v mp.
 		/// </summary>
 		/// <value>The v mp.</value>
-		[DFeElement(TipoCampo.De2, "vMP", Id = "WA05", Min = 3, Max = 15, Ocorrencias = 1)]
+		[DFeElement(TipoCampo.De2, "vMP", Id = "WA05", Min = 3, Max = 15, Ocorrencia = Ocorrencia.Obrigatoria)]
 		public decimal VMp { get; set; }
 
 		/// <summary>
 		/// Gets or sets the c adm c.
 		/// </summary>
 		/// <value>The c adm c.</value>
-		[DFeElement(TipoCampo.Int, "cAdmC", Id = "WA06", Min = 3, Max = 3, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.Int, "cAdmC", Id = "WA06", Min = 3, Max = 3, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public int? CAdmC { get; set; }
 
 		#endregion Properties

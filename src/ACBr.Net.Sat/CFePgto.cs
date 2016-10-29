@@ -60,25 +60,16 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the pagamentos.
 		/// </summary>
 		/// <value>The pagamentos.</value>
-		[DFeElement("MP", Id = "WA02", Min = 1, Max = 50, Ocorrencias = 1)]
+		[DFeElement("MP", Id = "WA02", Min = 1, Max = 50, Ocorrencia = Ocorrencia.Obrigatoria)]
 		public DFeCollection<CFePgtoMp> Pagamentos { get; set; }
 
 		/// <summary>
 		/// Gets or sets the v troco.
 		/// </summary>
 		/// <value>The v troco.</value>
-		[DFeElement(TipoCampo.De2, "vTroco", Id = "WA06", Min = 3, Max = 15, Ocorrencias = 1)]
+		[DFeElement(TipoCampo.De2, "vTroco", Id = "WA06", Min = 3, Max = 15, Ocorrencia = Ocorrencia.MaiorQueZero)]
 		public decimal VTroco { get; set; }
 
 		#endregion Propriedades
-
-		#region Methods
-
-		private bool ShouldSerializeVTroco()
-		{
-			return VTroco > 0;
-		}
-
-		#endregion Methods
 	}
 }

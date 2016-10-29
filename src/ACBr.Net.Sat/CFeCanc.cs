@@ -49,7 +49,7 @@ namespace ACBr.Net.Sat
 		public CFeCanc()
 		{
 			InfCFe = new CancInfCFe();
-			Signature = new Signature();
+			Signature = new DFeSignature();
 		}
 
 		/// <summary>
@@ -75,14 +75,14 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the inf c fe.
 		/// </summary>
 		/// <value>The inf c fe.</value>
-		[DFeElement("infCFe", Ocorrencias = 1)]
+		[DFeElement("infCFe", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public CancInfCFe InfCFe { get; set; }
 
 		/// <summary>
 		/// Gets or sets the signature.
 		/// </summary>
 		/// <value>The signature.</value>
-		public Signature Signature { get; set; }
+		public DFeSignature Signature { get; set; }
 
 		#endregion Propriedades
 

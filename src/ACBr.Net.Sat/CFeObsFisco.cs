@@ -45,14 +45,14 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the x campo.
 		/// </summary>
 		/// <value>The x campo.</value>
-		[DFeAttribute("xCampo", Id = "Z04", Min = 1, Max = 20, Ocorrencias = 1)]
+		[DFeAttribute("xCampo", Id = "Z04", Min = 1, Max = 20, Ocorrencia = Ocorrencia.Obrigatoria)]
 		public string XCampo { get; set; }
 
 		/// <summary>
 		/// Gets or sets the x texto.
 		/// </summary>
 		/// <value>The x texto.</value>
-		[DFeElement(TipoCampo.Str, "xTexto", Id = "Z05", Min = 1, Max = 60, Ocorrencias = 1)]
+		[DFeElement(TipoCampo.Str, "xTexto", Id = "Z05", Min = 1, Max = 60, Ocorrencia = Ocorrencia.Obrigatoria)]
 		public string XTexto { get; set; }
 	}
 }

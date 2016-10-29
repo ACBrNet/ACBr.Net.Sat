@@ -45,7 +45,7 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the Cst.
 		/// </summary>
 		/// <value>The Cst.</value>
-		[DFeElement(TipoCampo.Str, "CST", Id = "Q07", Min = 2, Max = 2, Ocorrencias = 1)]
+		[DFeElement(TipoCampo.Str, "CST", Id = "Q07", Min = 2, Max = 2, Ocorrencia = Ocorrencia.Obrigatoria)]
 		public string Cst { get; set; }
 	}
 }

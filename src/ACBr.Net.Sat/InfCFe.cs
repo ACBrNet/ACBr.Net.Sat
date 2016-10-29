@@ -107,49 +107,49 @@ namespace ACBr.Net.Sat
 		/// Gets the versao.
 		/// </summary>
 		/// <value>The versao.</value>
-		[DFeAttribute(TipoCampo.De2, "versao", Min = 4, Max = 9)]
+		[DFeAttribute(TipoCampo.De2, "versao", Min = 4, Max = 9, Ocorrencia = Ocorrencia.MaiorQueZero)]
 		public decimal Versao { get; set; }
 
 		/// <summary>
 		/// Gets the versao dados ent.
 		/// </summary>
 		/// <value>The versao dados ent.</value>
-		[DFeAttribute(TipoCampo.De2, "versaoDadosEnt", Min = 4, Max = 9, Ocorrencias = 1)]
+		[DFeAttribute(TipoCampo.De2, "versaoDadosEnt", Min = 4, Max = 9, Ocorrencia = Ocorrencia.MaiorQueZero)]
 		public decimal VersaoDadosEnt { get; set; }
 
 		/// <summary>
 		/// Gets the versao sb.
 		/// </summary>
 		/// <value>The versao sb.</value>
-		[DFeAttribute(TipoCampo.De2, "versaoSB")]
+		[DFeAttribute(TipoCampo.De2, "versaoSB", Ocorrencia = Ocorrencia.MaiorQueZero)]
 		public decimal VersaoSb { get; set; }
 
 		/// <summary>
 		/// Gets the IDE.
 		/// </summary>
 		/// <value>The IDE.</value>
-		[DFeElement("ide", Id = "B01", Ocorrencias = 1)]
+		[DFeElement("ide", Id = "B01", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public CFeIde Ide { get; set; }
 
 		/// <summary>
 		/// Gets the emit.
 		/// </summary>
 		/// <value>The emit.</value>
-		[DFeElement("emit", Id = "C01", Ocorrencias = 1)]
+		[DFeElement("emit", Id = "C01", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public CFeEmit Emit { get; set; }
 
 		/// <summary>
 		/// Gets the dest.
 		/// </summary>
 		/// <value>The dest.</value>
-		[DFeElement("dest", Id = "E01", Ocorrencias = 1)]
+		[DFeElement("dest", Id = "E01", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public CFeDest Dest { get; set; }
 
 		/// <summary>
 		/// Gets the entrega.
 		/// </summary>
 		/// <value>The entrega.</value>
-		[DFeElement("entrega", Id = "G01", Ocorrencias = 0)]
+		[DFeElement("entrega", Id = "G01", Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public CFeEntrega Entrega { get; set; }
 
 		/// <summary>
@@ -174,21 +174,21 @@ namespace ACBr.Net.Sat
 		/// Gets the total.
 		/// </summary>
 		/// <value>The total.</value>
-		[DFeElement("total", Id = "W01", Ocorrencias = 1)]
+		[DFeElement("total", Id = "W01", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public CFeTotal Total { get; set; }
 
 		/// <summary>
 		/// Gets the pgto.
 		/// </summary>
 		/// <value>The pgto.</value>
-		[DFeElement("pgto", Id = "WA01", Ocorrencias = 1)]
+		[DFeElement("pgto", Id = "WA01", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public CFePgto Pagto { get; set; }
 
 		/// <summary>
 		/// Gets the inf adic.
 		/// </summary>
 		/// <value>The inf adic.</value>
-		[DFeElement("infAdic", Id = "Z01", Ocorrencias = 1)]
+		[DFeElement("infAdic", Id = "Z01", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public CFeInfAdic InfAdic { get; set; }
 
 		#endregion Propriedades
@@ -198,16 +198,6 @@ namespace ACBr.Net.Sat
 		private bool ShouldSerializeId()
 		{
 			return !Id.IsEmpty();
-		}
-
-		private bool ShouldSerializeVersao()
-		{
-			return Versao > 0;
-		}
-
-		private bool ShouldSerializeVersaoSb()
-		{
-			return VersaoSb > 0;
 		}
 
 		private bool ShouldSerializeEntrega()

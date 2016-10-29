@@ -38,6 +38,8 @@ using ACBr.Net.Sat.Events;
 using ACBr.Net.Sat.Interfaces;
 using System;
 using System.IO;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 #region COM Interop Attributes
@@ -744,6 +746,25 @@ namespace ACBr.Net.Sat
 			Guard.Against<ArgumentNullException>(Extrato.IsNull(), "Componente de Impressão não definido !");
 
 			Extrato.ImprimirExtratoCancelamento(cfe, cFeCanc);
+		}
+
+		/// <summary>
+		/// Gera o SignAC usando o certificado informado.
+		/// </summary>
+		/// <param name="certificado">The certificado.</param>
+		/// <param name="CNPJSoftwareHouse">O CNPJ da software house.</param>
+		/// <param name="CNPJEstbComercial">O CNPJ do estabelecimento comercial.</param>
+		/// <returns>System.String.</returns>
+		public string GerarSignAc(X509Certificate2 certificado, string CNPJSoftwareHouse, string CNPJEstbComercial)
+		{
+			Guard.Against<ArgumentNullException>(certificado == null, nameof(certificado));
+			Guard.Against<ArgumentNullException>(CNPJSoftwareHouse.IsEmpty(), nameof(CNPJSoftwareHouse));
+			Guard.Against<ArgumentNullException>(CNPJEstbComercial.IsEmpty(), nameof(CNPJEstbComercial));
+
+			var rsa = certificado.PrivateKey as RSACryptoServiceProvider;
+			var data = Encoding.UTF8.GetBytes(CNPJSoftwareHouse + CNPJEstbComercial);
+			var sign = rsa.SignData(data, "SHA256");
+			return sign.ToBase64();
 		}
 
 		/// <summary>

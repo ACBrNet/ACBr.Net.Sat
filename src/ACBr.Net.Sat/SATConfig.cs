@@ -48,7 +48,7 @@ namespace ACBr.Net.Sat
 			InfCFeVersaoDadosEnt = 0.06M;
 			IdeCNPJ = @"11111111111111";
 			IdeNumeroCaixa = 1;
-			IdeTpAmb = TipoAmbiente.Homologacao;
+			IdeTpAmb = DFeTipoAmbiente.Homologacao;
 			EmitCNPJ = @"11111111111111";
 			EmitIE = string.Empty;
 			EmitIM = string.Empty;
@@ -84,7 +84,7 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the ide_tp amb.
 		/// </summary>
 		/// <value>The ide_tp amb.</value>
-		public TipoAmbiente IdeTpAmb { get; set; }
+		public DFeTipoAmbiente IdeTpAmb { get; set; }
 
 		/// <summary>
 		/// Gets or sets the emit_ CNPJ.

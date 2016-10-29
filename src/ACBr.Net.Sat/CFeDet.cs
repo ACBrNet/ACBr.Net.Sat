@@ -86,28 +86,28 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the n item.
 		/// </summary>
 		/// <value>The n item.</value>
-		[DFeAttribute(TipoCampo.Int, "nItem", Id = "H02", Min = 1, Max = 3, Ocorrencias = 1)]
+		[DFeAttribute(TipoCampo.Int, "nItem", Id = "H02", Min = 1, Max = 3, Ocorrencia = Ocorrencia.Obrigatoria)]
 		public int NItem { get; set; }
 
 		/// <summary>
 		/// Gets or sets the product.
 		/// </summary>
 		/// <value>The product.</value>
-		[DFeElement("prod", Id = "I01", Ocorrencias = 1)]
+		[DFeElement("prod", Id = "I01", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public CFeDetProd Prod { get; set; }
 
 		/// <summary>
 		/// Gets or sets the imposto.
 		/// </summary>
 		/// <value>The imposto.</value>
-		[DFeElement("imposto", Id = "M01", Ocorrencias = 1)]
+		[DFeElement("imposto", Id = "M01", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public CFeDetImposto Imposto { get; set; }
 
 		/// <summary>
 		/// Gets or sets the inf ad product.
 		/// </summary>
 		/// <value>The inf ad product.</value>
-		[DFeElement(TipoCampo.Str, "infAdProd", Id = "V01", Min = 1, Max = 500, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.Str, "infAdProd", Id = "V01", Min = 1, Max = 500, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public string InfAdProd { get; set; }
 
 		#endregion Propriedades

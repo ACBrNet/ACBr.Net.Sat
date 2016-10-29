@@ -61,7 +61,7 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the inf CPL.
 		/// </summary>
 		/// <value>The inf CPL.</value>
-		[DFeElement(TipoCampo.Str, "infCpl", Id = "Z02", Min = 1, Max = 5000, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.Str, "infCpl", Id = "Z02", Min = 1, Max = 5000, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public string InfCpl { get; set; }
 
 		/// <summary>
@@ -69,7 +69,7 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The obs fisco.</value>
 		[Browsable(true)]
-		[DFeElement("obsFisco", Id = "Z03", Min = 0, Max = 10, Ocorrencias = 0)]
+		[DFeElement("obsFisco", Id = "Z03", Min = 0, Max = 10, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public DFeCollection<CFeObsFisco> ObsFisco { get; set; }
 
 		#endregion Propriedades

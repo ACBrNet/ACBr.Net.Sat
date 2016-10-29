@@ -59,42 +59,42 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the CNPJ.
 		/// </summary>
 		/// <value>The CNPJ.</value>
-		[DFeElement(TipoCampo.StrNumberFill, "CNPJ", Id = "C02", Min = 14, Max = 14, Ocorrencias = 1)]
+		[DFeElement(TipoCampo.StrNumberFill, "CNPJ", Id = "C02", Min = 14, Max = 14, Ocorrencia = Ocorrencia.Obrigatoria)]
 		public string CNPJ { get; set; }
 
 		/// <summary>
 		/// Gets or sets the x nome.
 		/// </summary>
 		/// <value>The x nome.</value>
-		[DFeElement(TipoCampo.Str, "xNome", Id = "C03", Min = 1, Max = 60, Ocorrencias = 1)]
+		[DFeElement(TipoCampo.Str, "xNome", Id = "C03", Min = 1, Max = 60, Ocorrencia = Ocorrencia.Obrigatoria)]
 		public string XNome { get; set; }
 
 		/// <summary>
 		/// Gets or sets the x fant.
 		/// </summary>
 		/// <value>The x fant.</value>
-		[DFeElement(TipoCampo.Str, "xFant", Id = "C04", Min = 1, Max = 60, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.Str, "xFant", Id = "C04", Min = 1, Max = 60, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public string XFant { get; set; }
 
 		/// <summary>
 		/// Gets the ender emit.
 		/// </summary>
 		/// <value>The ender emit.</value>
-		[DFeElement("enderEmit", Id = "C05", Ocorrencias = 0)]
+		[DFeElement("enderEmit", Id = "C05", Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public CFeEnderEmit EnderEmit { get; set; }
 
 		/// <summary>
 		/// Gets or sets the ie.
 		/// </summary>
 		/// <value>The ie.</value>
-		[DFeElement(TipoCampo.Str, "IE", Id = "C12", Min = 12, Max = 12, Ocorrencias = 1)]
+		[DFeElement(TipoCampo.Str, "IE", Id = "C12", Min = 12, Max = 12, Ocorrencia = Ocorrencia.Obrigatoria)]
 		public string IE { get; set; }
 
 		/// <summary>
 		/// Gets or sets the im.
 		/// </summary>
 		/// <value>The im.</value>
-		[DFeElement(TipoCampo.Str, "IM", Id = "C13", Min = 1, Max = 15, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.Str, "IM", Id = "C13", Min = 1, Max = 15, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public string IM { get; set; }
 
 		#endregion Propriedades

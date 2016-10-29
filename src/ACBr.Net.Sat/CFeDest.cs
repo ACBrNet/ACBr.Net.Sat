@@ -48,21 +48,21 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the CPF.
 		/// </summary>
 		/// <value>The CPF.</value>
-		[DFeElement(TipoCampo.StrNumberFill, "CPF", Id = "E02", Min = 11, Max = 11, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.StrNumberFill, "CPF", Id = "E02", Min = 11, Max = 11, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public string CPF { get; set; }
 
 		/// <summary>
 		/// Gets or sets the CNPJ.
 		/// </summary>
 		/// <value>The CNPJ.</value>
-		[DFeElement(TipoCampo.StrNumberFill, "CNPJ", Id = "E03", Min = 14, Max = 14, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.StrNumberFill, "CNPJ", Id = "E03", Min = 14, Max = 14, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public string CNPJ { get; set; }
 
 		/// <summary>
 		/// Gets or sets the x nome.
 		/// </summary>
 		/// <value>The x nome.</value>
-		[DFeElement(TipoCampo.Str, "xNome", Id = "E04", Min = 1, Max = 60, Ocorrencias = 0)]
+		[DFeElement(TipoCampo.Str, "xNome", Id = "E04", Min = 1, Max = 60, Ocorrencia = Ocorrencia.NaoObrigatoria)]
 		public string Nome { get; set; }
 
 		#endregion Propriedades
