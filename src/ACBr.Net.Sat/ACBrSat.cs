@@ -751,20 +751,27 @@ namespace ACBr.Net.Sat
 		/// <summary>
 		/// Gera o SignAC usando o certificado informado.
 		/// </summary>
-		/// <param name="certificado">The certificado.</param>
+		/// <param name="certificado">O certificado.</param>
 		/// <param name="CNPJSoftwareHouse">O CNPJ da software house.</param>
 		/// <param name="CNPJEstbComercial">O CNPJ do estabelecimento comercial.</param>
 		/// <returns>System.String.</returns>
 		public string GerarSignAc(X509Certificate2 certificado, string CNPJSoftwareHouse, string CNPJEstbComercial)
 		{
-			Guard.Against<ArgumentNullException>(certificado == null, nameof(certificado));
+			Guard.Against<ArgumentNullException>(certificado.IsNull(), nameof(certificado));
 			Guard.Against<ArgumentNullException>(CNPJSoftwareHouse.IsEmpty(), nameof(CNPJSoftwareHouse));
 			Guard.Against<ArgumentNullException>(CNPJEstbComercial.IsEmpty(), nameof(CNPJEstbComercial));
 
+			this.Log().Info($"GerarSignAc: Certificado: {certificado.SerialNumber} - CNPJSoftwareHouse: {CNPJSoftwareHouse} - CNPJEstbComercial: {CNPJEstbComercial}");
+
 			var rsa = certificado.PrivateKey as RSACryptoServiceProvider;
 			var data = Encoding.UTF8.GetBytes(CNPJSoftwareHouse + CNPJEstbComercial);
-			var sign = rsa.SignData(data, "SHA256");
-			return sign.ToBase64();
+			var signData = rsa.SignData(data, "SHA256");
+
+			var sign = signData.ToBase64();
+
+			this.Log().Info($"GerarSignAc: Sign: {sign}");
+
+			return sign;
 		}
 
 		/// <summary>
