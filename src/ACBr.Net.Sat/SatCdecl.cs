@@ -30,7 +30,6 @@
 // ***********************************************************************
 using ACBr.Net.Core;
 using ACBr.Net.Core.Exceptions;
-using ACBr.Net.Sat.Interfaces;
 using ACBr.Net.Sat.Utils;
 using System;
 using System.Runtime.ExceptionServices;
@@ -39,7 +38,7 @@ using System.Text;
 
 namespace ACBr.Net.Sat
 {
-	internal class SatCdecl : ISatLibrary, IDisposable
+	internal sealed class SatCdecl : SatLibrary
 	{
 		#region InnerTypes
 
@@ -121,44 +120,21 @@ namespace ACBr.Net.Sat
 
 		#endregion InnerTypes
 
-		#region Fields
-
-		private IntPtr handle;
-
-		#endregion Fields
-
 		#region Constructors
 
-		public SatCdecl(string pathDll, Encoding encoding)
+		public SatCdecl(string pathDll, Encoding encoding) : base(pathDll, encoding)
 		{
-			PathDll = pathDll;
-			Encoding = encoding;
-
+			ModeloStr = "";
 			handle = NativeMethods.LoadLibrary(pathDll);
 			Guard.Against<ACBrException>(handle == IntPtr.Zero, "Não foi possivel carregar a biblioteca Sat");
 		}
 
-		~SatCdecl()
-		{
-			Dispose(false);
-		}
-
 		#endregion Constructors
-
-		#region Propriedades
-
-		public Encoding Encoding { get; private set; }
-
-		public string PathDll { get; private set; }
-
-		public string ModeloStr => "CdeclSatLibrary";
-
-		#endregion Propriedades
 
 		#region Method
 
 		[HandleProcessCorruptedStateExceptions]
-		public string AssociarAssinatura(int numeroSessao, string codigoAtivacao, string cnpjValue, string assinaturacnpj)
+		public override string AssociarAssinatura(int numeroSessao, string codigoAtivacao, string cnpjValue, string assinaturacnpj)
 		{
 			try
 			{
@@ -176,7 +152,7 @@ namespace ACBr.Net.Sat
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		public string AtivarSAT(int numeroSessao, int subComando, string codigoDeAtivacao, string cnpj, int cUF)
+		public override string AtivarSAT(int numeroSessao, int subComando, string codigoDeAtivacao, string cnpj, int cUF)
 		{
 			try
 			{
@@ -194,7 +170,7 @@ namespace ACBr.Net.Sat
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		public string AtualizarSoftwareSAT(int numeroSessao, string codigoDeAtivacao)
+		public override string AtualizarSoftwareSAT(int numeroSessao, string codigoDeAtivacao)
 		{
 			try
 			{
@@ -212,7 +188,7 @@ namespace ACBr.Net.Sat
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		public string BloquearSAT(int numeroSessao, string codigoDeAtivacao)
+		public override string BloquearSAT(int numeroSessao, string codigoDeAtivacao)
 		{
 			try
 			{
@@ -229,7 +205,7 @@ namespace ACBr.Net.Sat
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		public string CancelarUltimaVenda(int numeroSessao, string codigoDeAtivacao, string chave, string dadosCancelamento)
+		public override string CancelarUltimaVenda(int numeroSessao, string codigoDeAtivacao, string chave, string dadosCancelamento)
 		{
 			try
 			{
@@ -246,7 +222,7 @@ namespace ACBr.Net.Sat
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		public string ComunicarCertificadoIcpBrasil(int numeroSessao, string codigoDeAtivacao, string certificado)
+		public override string ComunicarCertificadoIcpBrasil(int numeroSessao, string codigoDeAtivacao, string certificado)
 		{
 			try
 			{
@@ -263,7 +239,7 @@ namespace ACBr.Net.Sat
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		public string ConfigurarInterfaceDeRede(int numeroSessao, string codigoDeAtivacao, string dadosConfiguracao)
+		public override string ConfigurarInterfaceDeRede(int numeroSessao, string codigoDeAtivacao, string dadosConfiguracao)
 		{
 			try
 			{
@@ -280,7 +256,7 @@ namespace ACBr.Net.Sat
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		public string ConsultarNumeroSessao(int numeroSessao, string codigoDeAtivacao, int cNumeroDeSessao)
+		public override string ConsultarNumeroSessao(int numeroSessao, string codigoDeAtivacao, int cNumeroDeSessao)
 		{
 			try
 			{
@@ -297,7 +273,7 @@ namespace ACBr.Net.Sat
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		public string ConsultarSAT(int numeroSessao)
+		public override string ConsultarSAT(int numeroSessao)
 		{
 			try
 			{
@@ -314,7 +290,7 @@ namespace ACBr.Net.Sat
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		public string ConsultarStatusOperacional(int numeroSessao, string codigoDeAtivacao)
+		public override string ConsultarStatusOperacional(int numeroSessao, string codigoDeAtivacao)
 		{
 			try
 			{
@@ -331,7 +307,7 @@ namespace ACBr.Net.Sat
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		public string DesbloquearSAT(int numeroSessao, string codigoDeAtivacao)
+		public override string DesbloquearSAT(int numeroSessao, string codigoDeAtivacao)
 		{
 			try
 			{
@@ -348,7 +324,7 @@ namespace ACBr.Net.Sat
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		public string EnviarDadosVenda(int numeroSessao, string codigoDeAtivacao, string dadosVenda)
+		public override string EnviarDadosVenda(int numeroSessao, string codigoDeAtivacao, string dadosVenda)
 		{
 			try
 			{
@@ -365,7 +341,7 @@ namespace ACBr.Net.Sat
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		public string ExtrairLogs(int numeroSessao, string codigoDeAtivacao)
+		public override string ExtrairLogs(int numeroSessao, string codigoDeAtivacao)
 		{
 			try
 			{
@@ -382,7 +358,7 @@ namespace ACBr.Net.Sat
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		public string TesteFimAFim(int numeroSessao, string codigoDeAtivacao, string dadosVenda)
+		public override string TesteFimAFim(int numeroSessao, string codigoDeAtivacao, string dadosVenda)
 		{
 			try
 			{
@@ -399,7 +375,7 @@ namespace ACBr.Net.Sat
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		public string TrocarCodigoDeAtivacao(int numeroSessao, string codigoDeAtivacao, int opcao, string novoCodigo, string confNovoCodigo)
+		public override string TrocarCodigoDeAtivacao(int numeroSessao, string codigoDeAtivacao, int opcao, string novoCodigo, string confNovoCodigo)
 		{
 			try
 			{
@@ -415,35 +391,6 @@ namespace ACBr.Net.Sat
 			}
 		}
 
-		private string FromEncoding(string str)
-		{
-			return Encoding.GetString(Encoding.Default.GetBytes(str));
-		}
-
-		private string ToEncoding(string str)
-		{
-			return Encoding.Default.GetString(Encoding.GetBytes(str));
-		}
-
 		#endregion Method
-
-		#region IDisposable
-
-		public void Dispose()
-		{
-			Dispose(true);
-		}
-
-		private void Dispose(bool disposing)
-		{
-			if (disposing) GC.SuppressFinalize(this);
-			if (handle != IntPtr.Zero)
-			{
-				handle.FreeLibrary();
-				handle = IntPtr.Zero;
-			}
-		}
-
-		#endregion IDisposable
 	}
 }

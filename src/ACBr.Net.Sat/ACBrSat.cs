@@ -28,6 +28,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using ACBr.Net.Core;
 using ACBr.Net.Core.Exceptions;
 using ACBr.Net.Core.Extensions;
@@ -35,48 +36,31 @@ using ACBr.Net.Core.Logging;
 using ACBr.Net.DFe.Core.Common;
 using ACBr.Net.DFe.Core.Serializer;
 using ACBr.Net.Sat.Events;
-using ACBr.Net.Sat.Interfaces;
 using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
-#region COM Interop Attributes
-
-#if COM_INTEROP
-
-using System.Runtime.InteropServices;
-
-#endif
-
-#endregion COM Interop Attributes
-
 namespace ACBr.Net.Sat
 {
-	#region COM Interop Attributes
-
-#if COM_INTEROP
-
-	[ComVisible(true)]
-	[Guid("BBF461A7-10E5-47F2-BE8F-2736F3A2EF4E")]
-	[ComSourceInterfaces(typeof(IACBrSat))]
-	[ClassInterface(ClassInterfaceType.AutoDual)]
-#endif
-
-	#endregion COM Interop Attributes
-
-	public class ACBrSat : ACBrComponent, IACBrLog, IACBrSat
+	// ReSharper disable once InconsistentNaming
+	/// <summary>
+	/// Classe ACBrSat, responsavel por comunicar com o CF-e-SAT.
+	/// </summary>
+	/// <seealso cref="ACBr.Net.Core.ACBrComponent" />
+	/// <seealso cref="ACBr.Net.Core.Logging.IACBrLog" />
+	public class ACBrSat : ACBrComponent, IACBrLog
 	{
 		#region Fields
 
-		private ISatLibrary sat;
+		private SatLibrary sat;
 		private Encoding encoding;
 		private ModeloSat modelo;
 		private string pathDll;
 		private string signAC;
 		private string codigoAtivacao;
-		private IExtratoSat extrato;
+		private ExtratoSat extrato;
 
 		#endregion Fields
 
@@ -192,7 +176,7 @@ namespace ACBr.Net.Sat
 		/// Classe responsavel por imprimir o Extrato do Sat.
 		/// </summary>
 		/// <value>The extrato.</value>
-		public IExtratoSat Extrato
+		public ExtratoSat Extrato
 		{
 			get { return extrato; }
 			set
@@ -309,7 +293,7 @@ namespace ACBr.Net.Sat
 		{
 			var ret = new CFe();
 			ret.InfCFe.Ide.CNPJ = Configuracoes.IdeCNPJ;
-			ret.InfCFe.Ide.TpAmb = Configuracoes.IdeTpAmb;
+			ret.InfCFe.Ide.TpAmb = null;
 			ret.InfCFe.Ide.NumeroCaixa = Configuracoes.IdeNumeroCaixa;
 			ret.InfCFe.Ide.SignAC = SignAC;
 			ret.InfCFe.Emit.CNPJ = Configuracoes.EmitCNPJ;

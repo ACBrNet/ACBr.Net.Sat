@@ -140,8 +140,8 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the tp amb.
 		/// </summary>
 		/// <value>The tp amb.</value>
-		[DFeElement(TipoCampo.Enum, "tpAmb", Id = "B10", Min = 1, Max = 1, Ocorrencia = Ocorrencia.Obrigatoria)]
-		public DFeTipoAmbiente TpAmb { get; set; }
+		[DFeElement(TipoCampo.Enum, "tpAmb", Id = "B10", Min = 1, Max = 1, Ocorrencia = Ocorrencia.NaoObrigatoria)]
+		public DFeTipoAmbiente? TpAmb { get; set; }
 
 		/// <summary>
 		/// Gets or sets the CNPJ.

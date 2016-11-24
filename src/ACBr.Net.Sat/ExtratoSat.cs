@@ -1,12 +1,11 @@
 using ACBr.Net.Core.Extensions;
-using ACBr.Net.Sat.Interfaces;
 using System;
 using System.Drawing;
 using System.Globalization;
 
-namespace ACBr.Net.Sat.Extrato
+namespace ACBr.Net.Sat
 {
-	public abstract class ExtratoSat : IExtratoSat
+	public abstract class ExtratoSat
 	{
 		#region Fields
 

@@ -1,12 +1,11 @@
-﻿using ACBr.Net.Sat.Interfaces;
-using System;
+﻿using System;
 using System.Text;
 
 namespace ACBr.Net.Sat
 {
 	public static class SatManager
 	{
-		public static ISatLibrary GetLibrary(ModeloSat modelo, string pathDll, Encoding encoding)
+		public static SatLibrary GetLibrary(ModeloSat modelo, string pathDll, Encoding encoding)
 		{
 			switch (modelo)
 			{
