@@ -1,6 +1,3 @@
-using System.Configuration;
-using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
 namespace ACBr.Net.Sat.Demo
@@ -21,28 +18,6 @@ namespace ACBr.Net.Sat.Demo
 
 				return ofd.FileName;
 			}
-		}
-
-		public static Configuration GetConfiguration()
-		{
-			var configFile = Path.Combine(Application.StartupPath, "sat.config");
-			if (!File.Exists(configFile))
-			{
-				var sb = new StringBuilder();
-				sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
-				sb.AppendLine("<configuration>");
-				sb.AppendLine("	<appSettings>");
-				sb.AppendLine("	</appSettings>");
-				sb.AppendLine("</configuration>");
-				File.WriteAllText(configFile, sb.ToString());
-			}
-
-			var configFileMap = new ExeConfigurationFileMap
-			{
-				ExeConfigFilename = Path.Combine(Application.StartupPath, "sat.config")
-			};
-
-			return ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
 		}
 	}
 }

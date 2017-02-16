@@ -4,7 +4,7 @@
 // Created          : 05-10-2016
 //
 // Last Modified By : RFTD
-// Last Modified On : 05-10-2016
+// Last Modified On : 02-16-2017
 // ***********************************************************************
 // <copyright file="CancelamentoSatResposta.cs" company="ACBr.Net">
 //		        		   The MIT License (MIT)
@@ -28,20 +28,29 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.IO;
 using System.Text;
 
 namespace ACBr.Net.Sat
 {
+	/// <summary>
+	/// Classe que retorna a resposta do Sat quando usado o metodo de cancelamento.
+	/// </summary>
+	/// <seealso cref="ACBr.Net.Sat.SatResposta" />
 	public class CancelamentoSatResposta : SatResposta
 	{
 		#region Constructors
 
+		/// <summary>
+		/// Inicializar uma nova instancida da classe <see cref="CancelamentoSatResposta"/>.
+		/// </summary>
+		/// <param name="retorno">O retorno.</param>
+		/// <param name="encoding">O encoding.</param>
 		public CancelamentoSatResposta(string retorno, Encoding encoding) : base(retorno, encoding)
 		{
-			if (CodigoDeRetorno != 7000 || RetornoLst.Count < 6)
-				return;
+			if (CodigoDeRetorno != 7000 || RetornoLst.Count < 6) return;
 
 			using (var stream = new MemoryStream(Convert.FromBase64String(RetornoLst[6])))
 			{
@@ -53,7 +62,11 @@ namespace ACBr.Net.Sat
 
 		#region Properties
 
-		public CFeCanc Cancelamento { get; set; }
+		/// <summary>
+		/// Retorna o cancelamento caso tenha ocorrido com sucesso.
+		/// </summary>
+		/// <value>The cancelamento.</value>
+		public CFeCanc Cancelamento { get; private set; }
 
 		#endregion Properties
 	}

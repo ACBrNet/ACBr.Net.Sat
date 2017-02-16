@@ -4,7 +4,7 @@
 // Created          : 05-10-2016
 //
 // Last Modified By : RFTD
-// Last Modified On : 05-10-2016
+// Last Modified On : 02-16-2017
 // ***********************************************************************
 // <copyright file="VendaSatResposta.cs" company="ACBr.Net">
 //		        		   The MIT License (MIT)
@@ -35,14 +35,22 @@ using System.Text;
 
 namespace ACBr.Net.Sat
 {
+	/// <summary>
+	/// Classe que retorna a resposta do Sat quando usado o metodo de venda.
+	/// </summary>
+	/// <seealso cref="ACBr.Net.Sat.SatResposta" />
 	public class VendaSatResposta : SatResposta
 	{
 		#region Constructors
 
+		/// <summary>
+		/// Inicializa uma nova instancia da classe <see cref="VendaSatResposta"/>.
+		/// </summary>
+		/// <param name="retorno">O retorno.</param>
+		/// <param name="encoding">O encoding.</param>
 		public VendaSatResposta(string retorno, Encoding encoding) : base(retorno, encoding)
 		{
-			if (CodigoDeRetorno != 6000 || RetornoLst.Count < 6)
-				return;
+			if (CodigoDeRetorno != 6000 || RetornoLst.Count < 6) return;
 
 			using (var stream = new MemoryStream(Convert.FromBase64String(RetornoLst[6])))
 			{
@@ -70,10 +78,22 @@ namespace ACBr.Net.Sat
 
 		#region Propriedades
 
+		/// <summary>
+		/// Retorna o CFe caso tenha sido realizado com sucesso.
+		/// </summary>
+		/// <value>The venda.</value>
 		public CFe Venda { get; private set; }
 
+		/// <summary>
+		/// Retorna a chave de consulta do CFe caso tenha sido realizado com sucesso.
+		/// </summary>
+		/// <value>The chave consulta.</value>
 		public string ChaveConsulta { get; private set; }
 
+		/// <summary>
+		/// Retorna o QRCode caso tenha sido realizado com sucesso.
+		/// </summary>
+		/// <value>The qr code.</value>
 		public string QRCode { get; private set; }
 
 		#endregion Propriedades

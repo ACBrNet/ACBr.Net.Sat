@@ -4,7 +4,7 @@
 // Created          : 03-29-2016
 //
 // Last Modified By : RFTD
-// Last Modified On : 05-05-2016
+// Last Modified On : 02-16-2017
 // ***********************************************************************
 // <copyright file="ACBrSat.cs" company="ACBr.Net">
 //		        		   The MIT License (MIT)
@@ -37,6 +37,7 @@ using ACBr.Net.DFe.Core.Common;
 using ACBr.Net.DFe.Core.Serializer;
 using ACBr.Net.Sat.Events;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -50,6 +51,7 @@ namespace ACBr.Net.Sat
 	/// </summary>
 	/// <seealso cref="ACBr.Net.Core.ACBrComponent" />
 	/// <seealso cref="ACBr.Net.Core.Logging.IACBrLog" />
+	[ToolboxBitmap(typeof(ACBrSat), "ACBrSAT")]
 	public class ACBrSat : ACBrComponent, IACBrLog
 	{
 		#region Fields
@@ -742,12 +744,22 @@ namespace ACBr.Net.Sat
 		public string GerarSignAc(X509Certificate2 certificado, string CNPJSoftwareHouse, string CNPJEstbComercial)
 		{
 			Guard.Against<ArgumentNullException>(certificado.IsNull(), nameof(certificado));
-			Guard.Against<ArgumentNullException>(CNPJSoftwareHouse.IsEmpty(), nameof(CNPJSoftwareHouse));
-			Guard.Against<ArgumentNullException>(CNPJEstbComercial.IsEmpty(), nameof(CNPJEstbComercial));
+			Guard.Against<ArgumentException>(CNPJSoftwareHouse.IsEmpty(), nameof(CNPJSoftwareHouse));
+			Guard.Against<ArgumentException>(CNPJEstbComercial.IsEmpty(), nameof(CNPJEstbComercial));
 
 			this.Log().Info($"GerarSignAc: Certificado: {certificado.SerialNumber} - CNPJSoftwareHouse: {CNPJSoftwareHouse} - CNPJEstbComercial: {CNPJEstbComercial}");
 
-			var rsa = certificado.PrivateKey as RSACryptoServiceProvider;
+			var privateProvider = certificado.PrivateKey as RSACryptoServiceProvider;
+			if (privateProvider == null) return null;
+
+			var cspParameters = new CspParameters
+			{
+				KeyContainerName = privateProvider.CspKeyContainerInfo.KeyContainerName,
+				KeyNumber = privateProvider.CspKeyContainerInfo.KeyNumber == KeyNumber.Exchange ? 1 : 2
+			};
+
+			var rsa = new RSACryptoServiceProvider(cspParameters) { PersistKeyInCsp = false };
+
 			var data = Encoding.UTF8.GetBytes(CNPJSoftwareHouse + CNPJEstbComercial);
 			var signData = rsa.SignData(data, "SHA256");
 
@@ -763,8 +775,8 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <param name="cfe">Instancia CFe.</param>
 		/// <returns>XML da CFe</returns>
-		[ObsoleteEx(TreatAsErrorFromVersion = "1.0.5",
-					RemoveInVersion = "1.1.0",
+		[ObsoleteEx(TreatAsErrorFromVersion = "1.1.0",
+					RemoveInVersion = "1.2.0",
 					ReplacementTypeOrMember = "GetXml da classe")]
 		public string GetXml(CFe cfe)
 		{
@@ -776,8 +788,8 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <param name="cfeCanc">Instancia CFeCanc.</param>
 		/// <returns>XML de Cancelamento.</returns>
-		[ObsoleteEx(TreatAsErrorFromVersion = "1.0.5",
-					RemoveInVersion = "1.1.0",
+		[ObsoleteEx(TreatAsErrorFromVersion = "1.1.0",
+					RemoveInVersion = "1.2.0",
 					ReplacementTypeOrMember = "GetXml da classe")]
 		public string GetXml(CFeCanc cfeCanc)
 		{
@@ -789,8 +801,8 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <param name="rede">Instancia da classe SatRede.</param>
 		/// <returns>XML da configuração da rede do Sat</returns>
-		[ObsoleteEx(TreatAsErrorFromVersion = "1.0.5",
-					RemoveInVersion = "1.1.0",
+		[ObsoleteEx(TreatAsErrorFromVersion = "1.1.0",
+					RemoveInVersion = "1.2.0",
 					ReplacementTypeOrMember = "GetXml da classe")]
 		public string GetXml(SatRede rede)
 		{

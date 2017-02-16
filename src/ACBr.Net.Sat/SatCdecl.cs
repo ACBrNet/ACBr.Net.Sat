@@ -4,7 +4,7 @@
 // Created          : 03-30-2016
 //
 // Last Modified By : RFTD
-// Last Modified On : 04-22-2016
+// Last Modified On : 02-16-2017
 // ***********************************************************************
 // <copyright file="SatCdecl.cs" company="ACBr.Net">
 //		        		   The MIT License (MIT)
@@ -147,7 +147,7 @@ namespace ACBr.Net.Sat
 			}
 			catch (Exception exception)
 			{
-				throw exception;
+				throw new ACBrException(exception, exception.Message);
 			}
 		}
 
@@ -165,7 +165,7 @@ namespace ACBr.Net.Sat
 			}
 			catch (Exception exception)
 			{
-				throw exception;
+				throw new ACBrException(exception, exception.Message);
 			}
 		}
 
@@ -183,7 +183,7 @@ namespace ACBr.Net.Sat
 			}
 			catch (Exception exception)
 			{
-				throw exception;
+				throw new ACBrException(exception, exception.Message);
 			}
 		}
 
@@ -200,7 +200,7 @@ namespace ACBr.Net.Sat
 			}
 			catch (Exception exception)
 			{
-				throw exception;
+				throw new ACBrException(exception, exception.Message);
 			}
 		}
 
@@ -217,7 +217,7 @@ namespace ACBr.Net.Sat
 			}
 			catch (Exception exception)
 			{
-				throw exception;
+				throw new ACBrException(exception, exception.Message);
 			}
 		}
 
@@ -234,7 +234,7 @@ namespace ACBr.Net.Sat
 			}
 			catch (Exception exception)
 			{
-				throw exception;
+				throw new ACBrException(exception, exception.Message);
 			}
 		}
 
@@ -251,7 +251,7 @@ namespace ACBr.Net.Sat
 			}
 			catch (Exception exception)
 			{
-				throw exception;
+				throw new ACBrException(exception, exception.Message);
 			}
 		}
 
@@ -268,7 +268,7 @@ namespace ACBr.Net.Sat
 			}
 			catch (Exception exception)
 			{
-				throw exception;
+				throw new ACBrException(exception, exception.Message);
 			}
 		}
 
@@ -285,7 +285,7 @@ namespace ACBr.Net.Sat
 			}
 			catch (Exception exception)
 			{
-				throw exception;
+				throw new ACBrException(exception, exception.Message);
 			}
 		}
 
@@ -302,7 +302,7 @@ namespace ACBr.Net.Sat
 			}
 			catch (Exception exception)
 			{
-				throw exception;
+				throw new ACBrException(exception, exception.Message);
 			}
 		}
 
@@ -319,7 +319,7 @@ namespace ACBr.Net.Sat
 			}
 			catch (Exception exception)
 			{
-				throw exception;
+				throw new ACBrException(exception, exception.Message);
 			}
 		}
 
@@ -336,7 +336,7 @@ namespace ACBr.Net.Sat
 			}
 			catch (Exception exception)
 			{
-				throw exception;
+				throw new ACBrException(exception, exception.Message);
 			}
 		}
 
@@ -353,7 +353,7 @@ namespace ACBr.Net.Sat
 			}
 			catch (Exception exception)
 			{
-				throw exception;
+				throw new ACBrException(exception, exception.Message);
 			}
 		}
 
@@ -370,7 +370,7 @@ namespace ACBr.Net.Sat
 			}
 			catch (Exception exception)
 			{
-				throw exception;
+				throw new ACBrException(exception, exception.Message);
 			}
 		}
 
@@ -387,7 +387,7 @@ namespace ACBr.Net.Sat
 			}
 			catch (Exception exception)
 			{
-				throw exception;
+				throw new ACBrException(exception, exception.Message);
 			}
 		}
 

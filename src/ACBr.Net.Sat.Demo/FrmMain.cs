@@ -5,7 +5,6 @@ using NLog.Config;
 using NLog.Targets;
 using NLog.Windows.Forms;
 using System;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -22,6 +21,7 @@ namespace ACBr.Net.Sat.Demo
 		private CFe cfeAtual;
 		private CFeCanc cfeCancAtual;
 		private SatRede redeAtual;
+		private ACBrConfig config;
 
 		#endregion Fields
 
@@ -30,6 +30,7 @@ namespace ACBr.Net.Sat.Demo
 		public FrmMain()
 		{
 			InitializeComponent();
+			config = ACBrConfig.CreateOrLoad(Path.Combine(Application.StartupPath, "sat.config"));
 		}
 
 		private void FrmMain_Shown(object sender, EventArgs e)
@@ -105,8 +106,8 @@ namespace ACBr.Net.Sat.Demo
 			var totalGeral = 0M;
 			cfeAtual = acbrSat.NewCFe();
 			cfeAtual.InfCFe.Ide.NumeroCaixa = 1;
-			cfeAtual.InfCFe.Dest.CPF = "02304742505";
-			cfeAtual.InfCFe.Dest.Nome = "JOSÉ DA SILVA";
+			cfeAtual.InfCFe.Dest.CPF = "";
+			cfeAtual.InfCFe.Dest.Nome = "CONSUMIDOR";
 			cfeAtual.InfCFe.Entrega.XLgr = "logradouro";
 			cfeAtual.InfCFe.Entrega.Nro = "112233";
 			cfeAtual.InfCFe.Entrega.XCpl = "complemento";
@@ -202,30 +203,31 @@ namespace ACBr.Net.Sat.Demo
 		{
 			if (acbrSat.Ativo) ToogleInitialize();
 
-			var config = Helpers.GetConfiguration();
-			cmbModeloSat.SelectedItem = config.GetAppSetting("ModeloSat", ModeloSat.Cdecl);
-			txtDllPath.Text = config.GetAppSetting("DllPath", @"C:\SAT\SAT.dll");
-			cmbAmbiente.SelectedItem = config.GetAppSetting("Ambiente", DFeTipoAmbiente.Homologacao);
-			txtAtivacao.Text = config.GetAppSetting("Ativacao", "12345678");
-			txtCodUF.Text = config.GetAppSetting("CodUF", "35");
-			nunPaginaCodigo.Value = config.GetAppSetting("PaginaCodigo", 1252M);
-			nunCaixa.Value = config.GetAppSetting("Caixa", 1M);
-			nunVersaoCFe.Value = config.GetAppSetting("VersaoCFe", 0.06M);
-			chkUTF8.Checked = config.GetAppSetting("UTF8", false);
-			chkRemoveAcentos.Checked = config.GetAppSetting("RemoveAcentos", false);
-			chkSaveEnvio.Checked = config.GetAppSetting("SaveEnvio", true);
-			chkSaveCFe.Checked = config.GetAppSetting("SaveCFe", true);
-			chkSaveCFeCanc.Checked = config.GetAppSetting("SaveCFeCanc", true);
-			chkSepararCNPJ.Checked = config.GetAppSetting("SepararCNPJ", true);
-			chkSepararData.Checked = config.GetAppSetting("SepararData", true);
-			txtEmitCNPJ.Text = config.GetAppSetting("EmitCNPJ", "11111111111111");
-			txtEmitIE.Text = config.GetAppSetting("EmitIE", string.Empty);
-			txtEmitIM.Text = config.GetAppSetting("EmitIM", string.Empty);
-			cmbEmiRegTrib.SelectedItem = config.GetAppSetting("EmiRegTrib", RegTrib.SimplesNacional);
-			cmbEmiRegTribISSQN.SelectedItem = config.GetAppSetting("EmiRegTribISSQN", RegTribIssqn.Nenhum);
-			cmbEmiRegTrib.SelectedItem = config.GetAppSetting("EmiRatIISQN", RatIssqn.Sim);
-			txtIdeCNPJ.Text = config.GetAppSetting("IdeCNPJ", "22222222222222");
-			txtSignAC.Text = config.GetAppSetting("SignAC", "1111111111111222222222222221111111111111122222222222222111111111111112222222222222211111" +
+			cmbModeloSat.SelectedItem = config.Get("ModeloSat", ModeloSat.Cdecl);
+			txtDllPath.Text = config.Get("DllPath", @"C:\SAT\SAT.dll");
+			cmbAmbiente.SelectedItem = config.Get("Ambiente", DFeTipoAmbiente.Homologacao);
+			txtAtivacao.Text = config.Get("Ativacao", "12345678");
+			txtCodUF.Text = config.Get("CodUF", "35");
+			nunPaginaCodigo.Value = config.Get("PaginaCodigo", 1252M);
+			nunCaixa.Value = config.Get("Caixa", 1M);
+			nunVersaoCFe.Value = config.Get("VersaoCFe", 0.06M);
+			chkUTF8_CheckedChanged(nunVersaoCFe, EventArgs.Empty);
+
+			chkUTF8.Checked = config.Get("UTF8", false);
+			chkRemoveAcentos.Checked = config.Get("RemoveAcentos", false);
+			chkSaveEnvio.Checked = config.Get("SaveEnvio", true);
+			chkSaveCFe.Checked = config.Get("SaveCFe", true);
+			chkSaveCFeCanc.Checked = config.Get("SaveCFeCanc", true);
+			chkSepararCNPJ.Checked = config.Get("SepararCNPJ", true);
+			chkSepararData.Checked = config.Get("SepararData", true);
+			txtEmitCNPJ.Text = config.Get("EmitCNPJ", "11111111111111");
+			txtEmitIE.Text = config.Get("EmitIE", string.Empty);
+			txtEmitIM.Text = config.Get("EmitIM", string.Empty);
+			cmbEmiRegTrib.SelectedItem = config.Get("EmiRegTrib", RegTrib.SimplesNacional);
+			cmbEmiRegTribISSQN.SelectedItem = config.Get("EmiRegTribISSQN", RegTribIssqn.Nenhum);
+			cmbEmiRegTrib.SelectedItem = config.Get("EmiRatIISQN", RatIssqn.Sim);
+			txtIdeCNPJ.Text = config.Get("IdeCNPJ", "22222222222222");
+			txtSignAC.Text = config.Get("SignAC", "1111111111111222222222222221111111111111122222222222222111111111111112222222222222211111" +
 															"111111111222222222222221111111111111122222222222222111111111111112222222222222211111111" +
 															"111111222222222222221111111111111122222222222222111111111111112222222222222211111111111" +
 															"1112222222222222211111111111111222222222222221111111111111122222222222222111111111");
@@ -235,34 +237,35 @@ namespace ACBr.Net.Sat.Demo
 
 		private void SaveConfig(bool msg = true)
 		{
-			var config = Helpers.GetConfiguration();
+			config.Set("ModeloSat", cmbModeloSat.SelectedItem);
+			config.Set("DllPath", txtDllPath.Text);
+			config.Set("Ambiente", cmbAmbiente.SelectedItem);
+			config.Set("Ativacao", txtAtivacao.Text);
+			config.Set("CodUF", txtCodUF.Text);
+			config.Set("PaginaCodigo", nunPaginaCodigo.Value);
+			config.Set("Caixa", nunCaixa.Value);
+			config.Set("VersaoCFe", nunVersaoCFe.Value);
+			config.Set("UTF8", chkUTF8.Checked);
+			config.Set("RemoveAcentos", chkRemoveAcentos.Checked);
+			config.Set("SaveEnvio", chkSaveEnvio.Checked);
+			config.Set("SaveCFe", chkSaveCFe.Checked);
+			config.Set("SaveCFeCanc", chkSaveCFeCanc.Checked);
+			config.Set("SepararCNPJ", chkSepararCNPJ.Checked);
+			config.Set("SepararData", chkSepararData.Checked);
+			config.Set("EmitCNPJ", txtEmitCNPJ.Text);
+			config.Set("EmitIE", txtEmitIE.Text);
+			config.Set("EmitIM", txtEmitIM.Text);
+			config.Set("EmiRegTrib", cmbEmiRegTrib.SelectedItem);
+			config.Set("EmiRegTribISSQN", cmbEmiRegTribISSQN.SelectedItem);
+			config.Set("EmiRatIISQN", cmbEmiRatIISQN.SelectedItem);
+			config.Set("IdeCNPJ", txtIdeCNPJ.Text);
+			config.Set("SignAC", txtSignAC.Text);
+			config.Save();
 
-			config.SetAppSetting("ModeloSat", cmbModeloSat.SelectedItem);
-			config.SetAppSetting("DllPath", txtDllPath.Text);
-			config.SetAppSetting("Ambiente", cmbAmbiente.SelectedItem);
-			config.SetAppSetting("Ativacao", txtAtivacao.Text);
-			config.SetAppSetting("CodUF", txtCodUF.Text);
-			config.SetAppSetting("PaginaCodigo", nunPaginaCodigo.Value);
-			config.SetAppSetting("Caixa", nunCaixa.Value);
-			config.SetAppSetting("VersaoCFe", nunVersaoCFe.Value);
-			config.SetAppSetting("UTF8", chkUTF8.Checked);
-			config.SetAppSetting("RemoveAcentos", chkRemoveAcentos.Checked);
-			config.SetAppSetting("SaveEnvio", chkSaveEnvio.Checked);
-			config.SetAppSetting("SaveCFe", chkSaveCFe.Checked);
-			config.SetAppSetting("SaveCFeCanc", chkSaveCFeCanc.Checked);
-			config.SetAppSetting("SepararCNPJ", chkSepararCNPJ.Checked);
-			config.SetAppSetting("SepararData", chkSepararData.Checked);
-			config.SetAppSetting("EmitCNPJ", txtEmitCNPJ.Text);
-			config.SetAppSetting("EmitIE", txtEmitIE.Text);
-			config.SetAppSetting("EmitIM", txtEmitIM.Text);
-			config.SetAppSetting("EmiRegTrib", cmbEmiRegTrib.SelectedItem);
-			config.SetAppSetting("EmiRegTribISSQN", cmbEmiRegTribISSQN.SelectedItem);
-			config.SetAppSetting("EmiRatIISQN", cmbEmiRatIISQN.SelectedItem);
-			config.SetAppSetting("IdeCNPJ", txtIdeCNPJ.Text);
-			config.SetAppSetting("SignAC", txtSignAC.Text);
-
-			config.Save(ConfigurationSaveMode.Minimal, true);
-			if (msg) MessageBox.Show(this, @"Configurações Salva com sucesso !", @"S@T Demo");
+			if (msg)
+			{
+				MessageBox.Show(this, @"Configurações Salva com sucesso !", @"S@T Demo");
+			}
 		}
 
 		private void ConsultarStatusOperacional()
