@@ -77,7 +77,7 @@ namespace ACBr.Net.Sat
 		/// Gets or sets the modelo.
 		/// </summary>
 		/// <value>The modelo.</value>
-		[DFeElement(TipoCampo.Int, "mod", Id = "B04", Min = 6, Max = 6, Ocorrencia = Ocorrencia.MaiorQueZero)]
+		[DFeElement(TipoCampo.Int, "mod", Id = "B04", Min = 2, Max = 2, Ocorrencia = Ocorrencia.MaiorQueZero)]
 		public int Modelo { get; set; }
 
 		/// <summary>
