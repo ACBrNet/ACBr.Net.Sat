@@ -73,27 +73,25 @@ namespace ACBr.Net.Sat
 			}
 
 			var idx = 2;
+			if (RetornoLst.Count <= idx) return;
 
-			if (RetornoLst.Count > idx)
+			//Enviar e Cancelar venda tem um campo a mais no inicio da resposta(CCCC)
+			var value = RetornoLst[idx].Trim();
+			if (value.Length == 4 && value.IsNumeric())
 			{
-				//Enviar e Cancelar venda tem um campo a mais no inicio da resposta(CCCC)
-				var value = RetornoLst[idx].Trim();
-				if (value.Length == 4 && value.IsNumeric())
-				{
-					CodigoDeErro = RetornoLst[idx].ToInt32();
-					idx++;
-				}
+				CodigoDeErro = RetornoLst[idx].ToInt32();
+				idx = 3;
+			}
 
-				if (RetornoLst.Count > idx + 2)
-				{
-					MensagemRetorno = RetornoLst[idx];
-					CodigoSEFAZ = RetornoLst[idx + 1].ToInt32();
-					MensagemSEFAZ = RetornoLst[idx + 2];
-				}
-				else
-				{
-					MensagemRetorno = resposta;
-				}
+			if (RetornoLst.Count > idx + 2)
+			{
+				MensagemRetorno = RetornoLst[idx];
+				CodigoSEFAZ = RetornoLst[idx + 1].ToInt32();
+				MensagemSEFAZ = RetornoLst[idx + 2];
+			}
+			else
+			{
+				MensagemRetorno = resposta;
 			}
 		}
 
