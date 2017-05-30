@@ -56,6 +56,8 @@ namespace ACBr.Net.Sat
 			EmitCRegTribISSQN = RegTribIssqn.Nenhum;
 			EmitIndRatISSQN = RatIssqn.Nao;
 			IsUtf8 = false;
+			MFePathEnvio = string.Empty;
+			MFePathResposta = string.Empty;
 		}
 
 		#endregion Constructor
@@ -133,6 +135,10 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The pagina de codigo.</value>
 		public bool RemoverAcentos { get; set; }
+
+		public string MFePathEnvio { get; set; }
+
+		public string MFePathResposta { get; set; }
 
 		#endregion Propriedades
 	}

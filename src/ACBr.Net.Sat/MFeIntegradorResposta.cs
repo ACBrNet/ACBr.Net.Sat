@@ -1,12 +1,12 @@
 // ***********************************************************************
 // Assembly         : ACBr.Net.Sat
 // Author           : RFTD
-// Created          : 04-23-2016
+// Created          : 05-30-2017
 //
 // Last Modified By : RFTD
-// Last Modified On : 04-28-2016
+// Last Modified On : 05-30-2017
 // ***********************************************************************
-// <copyright file="CFe.cs" company="ACBr.Net">
+// <copyright file="MFeIntegradorResposta.cs" company="ACBr.Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2016 Grupo ACBr.Net
 //
@@ -29,69 +29,12 @@
 // <summary></summary>
 // ***********************************************************************
 
-using ACBr.Net.Core.Extensions;
-using ACBr.Net.DFe.Core.Attributes;
-using ACBr.Net.DFe.Core.Common;
-using ACBr.Net.DFe.Core.Document;
-
 namespace ACBr.Net.Sat
 {
-	[DFeRoot("CFe")]
-	public sealed class CFe : DFeDocument<CFe>
+	public sealed class MFeIntegradorResposta
 	{
-		#region Fields
+		public string Codigo { get; set; }
 
-		private InfCFe infCFe;
-
-		#endregion Fields
-
-		#region Constructors
-
-		public CFe()
-		{
-			infCFe = new InfCFe(this);
-			Signature = new DFeSignature();
-		}
-
-		#endregion Constructors
-
-		#region Properties
-
-		[DFeElement("infCFe", Ocorrencia = Ocorrencia.Obrigatoria)]
-		public InfCFe InfCFe
-		{
-			get { return infCFe; }
-			set
-			{
-				infCFe = value;
-				if (value != null && value.Parent == null)
-					value.Parent = this;
-			}
-		}
-
-		public DFeSignature Signature { get; set; }
-
-		#endregion Properties
-
-		#region Methods
-
-		/// <summary>
-		/// Retorna o valor do QrCode
-		/// </summary>
-		/// <returns>Código QrCode</returns>
-		public string GetQRCode()
-		{
-			var documento = InfCFe.Dest.CNPJ.IsEmpty() ? InfCFe.Dest.CPF.OnlyNumbers() : InfCFe.Dest.CNPJ.OnlyNumbers();
-			return $"{InfCFe.Id.OnlyNumbers()}|{InfCFe.Ide.DhEmissao:yyyyMMddHHmmss}|{InfCFe.Total.VCFe:0.00}|{documento}|{InfCFe.Ide.AssinaturaQrcode}";
-		}
-
-		private bool ShouldSerializeSignature()
-		{
-			return !Signature.SignatureValue.IsEmpty() &&
-				   !Signature.SignedInfo.Reference.DigestValue.IsEmpty() &&
-				   !Signature.KeyInfo.X509Data.X509Certificate.IsEmpty();
-		}
-
-		#endregion Methods
+		public string Valor { get; set; }
 	}
 }

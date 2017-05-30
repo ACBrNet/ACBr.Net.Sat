@@ -71,7 +71,7 @@ namespace ACBr.Net.Sat
 
 			#endregion Comments
 
-			QRCode = string.Format("{0}|{1}|{2}|{3}|{4}", RetornoLst[8].OnlyNumbers(), RetornoLst[7], RetornoLst[9], RetornoLst[10], RetornoLst[11]);
+			QRCode = $"{RetornoLst[8].OnlyNumbers()}|{RetornoLst[7]}|{RetornoLst[9]}|{RetornoLst[10]}|{RetornoLst[11]}";
 		}
 
 		#endregion Constructors

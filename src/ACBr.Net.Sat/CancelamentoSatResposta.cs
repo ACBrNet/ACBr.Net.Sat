@@ -32,6 +32,7 @@
 using System;
 using System.IO;
 using System.Text;
+using ACBr.Net.Core.Extensions;
 
 namespace ACBr.Net.Sat
 {
@@ -56,6 +57,8 @@ namespace ACBr.Net.Sat
 			{
 				Cancelamento = CFeCanc.Load(stream, encoding);
 			}
+
+			QRCode = $"{RetornoLst[8].OnlyNumbers()}|{RetornoLst[7]}|{RetornoLst[9]}|{RetornoLst[10]}|{RetornoLst[11]}";
 		}
 
 		#endregion Constructors
@@ -67,6 +70,12 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <value>The cancelamento.</value>
 		public CFeCanc Cancelamento { get; private set; }
+
+		/// <summary>
+		/// Retorna o QRCode caso tenha sido realizado com sucesso.
+		/// </summary>
+		/// <value>The qr code.</value>
+		public string QRCode { get; private set; }
 
 		#endregion Properties
 	}

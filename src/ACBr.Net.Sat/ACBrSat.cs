@@ -34,7 +34,6 @@ using ACBr.Net.Core.Exceptions;
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.Core.Logging;
 using ACBr.Net.DFe.Core.Common;
-using ACBr.Net.DFe.Core.Serializer;
 using ACBr.Net.Sat.Events;
 using System;
 using System.Drawing;
@@ -52,7 +51,7 @@ namespace ACBr.Net.Sat
 	/// <seealso cref="ACBr.Net.Core.ACBrComponent" />
 	/// <seealso cref="ACBr.Net.Core.Logging.IACBrLog" />
 	[ToolboxBitmap(typeof(ACBrSat), "ACBrSAT")]
-	public class ACBrSat : ACBrComponent, IACBrLog
+	public sealed class ACBrSat : ACBrComponent, IACBrLog
 	{
 		#region Fields
 
@@ -760,14 +759,26 @@ namespace ACBr.Net.Sat
 
 			var rsa = new RSACryptoServiceProvider(cspParameters) { PersistKeyInCsp = false };
 
-			var data = Encoding.UTF8.GetBytes(CNPJSoftwareHouse + CNPJEstbComercial);
-			var signData = rsa.SignData(data, "SHA256");
+			try
+			{
+				var data = Encoding.UTF8.GetBytes(CNPJSoftwareHouse + CNPJEstbComercial);
+				var signData = rsa.SignData(data, "SHA256");
 
-			var sign = signData.ToBase64();
+				var sign = signData.ToBase64();
 
-			this.Log().Info($"GerarSignAc: Sign: {sign}");
+				this.Log().Info($"GerarSignAc: Sign: {sign}");
 
-			return sign;
+				return sign;
+			}
+			catch (Exception exception)
+			{
+				this.Log().Error(exception);
+				throw new ACBrException("Erro ao gerar a assinatura.", exception);
+			}
+			finally
+			{
+				rsa.Dispose();
+			}
 		}
 
 		/// <summary>
@@ -780,7 +791,7 @@ namespace ACBr.Net.Sat
 					ReplacementTypeOrMember = "GetXml da classe")]
 		public string GetXml(CFe cfe)
 		{
-			return GetXml<CFe>(cfe);
+			throw new NotImplementedException();
 		}
 
 		/// <summary>
@@ -793,7 +804,7 @@ namespace ACBr.Net.Sat
 					ReplacementTypeOrMember = "GetXml da classe")]
 		public string GetXml(CFeCanc cfeCanc)
 		{
-			return GetXml<CFeCanc>(cfeCanc);
+			throw new NotImplementedException();
 		}
 
 		/// <summary>
@@ -806,7 +817,7 @@ namespace ACBr.Net.Sat
 					ReplacementTypeOrMember = "GetXml da classe")]
 		public string GetXml(SatRede rede)
 		{
-			return GetXml<SatRede>(rede);
+			throw new NotImplementedException();
 		}
 
 		#endregion Public
@@ -831,13 +842,6 @@ namespace ACBr.Net.Sat
 			return resp;
 		}
 
-		private DFeSerializer<T> GetSerializer<T>() where T : class
-		{
-			var serializer = DFeSerializer.CreateSerializer<T>();
-			serializer.Options.RemoverAcentos = Configuracoes.RemoverAcentos;
-			return serializer;
-		}
-
 		private void GerarNumeroSessao()
 		{
 			Sessao = StaticRandom.Next(1, 999999);
@@ -845,27 +849,6 @@ namespace ACBr.Net.Sat
 			var e = new NumeroSessaoEventArgs(Sessao);
 			OnGetNumeroSessao.Raise(this, e);
 			Sessao = e.Sessao;
-		}
-
-		private string GetXml<T>(T cfe, bool identado = true, bool showDeclaration = true) where T : class
-		{
-			using (var stream = new MemoryStream())
-			{
-				Salvar(cfe, stream, identado, showDeclaration);
-
-				using (var reader = new StreamReader(stream))
-				{
-					return reader.ReadToEnd();
-				}
-			}
-		}
-
-		private void Salvar<T>(T item, Stream stream, bool identado = true, bool showDeclaration = true) where T : class
-		{
-			var serializer = GetSerializer<T>();
-			serializer.Options.FormatarXml = identado;
-			serializer.Options.OmitirDeclaracao = !showDeclaration;
-			serializer.Serialize(item, stream);
 		}
 
 		#endregion Private
