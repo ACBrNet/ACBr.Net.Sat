@@ -30,18 +30,20 @@
 // ***********************************************************************
 
 using ACBr.Net.DFe.Core.Attributes;
+using ACBr.Net.DFe.Core.Common;
 using ACBr.Net.DFe.Core.Serializer;
 
 namespace ACBr.Net.Sat
 {
 	[DFeRoot("Integrador")]
-	public sealed class MFeIntegradorResp
+	public sealed class MFeIntegradorResp : DFeDocument<MFeIntegradorResp>
+
 	{
 		#region Constructors
 
 		public MFeIntegradorResp()
 		{
-			Idetificador = new MFeIdentificador();
+			Identificador = new MFeIdentificador();
 			IntegradorResposta = new MFeIntegradorResposta();
 			Resposta = new MFeResposta();
 		}
@@ -51,7 +53,7 @@ namespace ACBr.Net.Sat
 		#region Properties
 
 		[DFeElement("Identificador", Ocorrencia = Ocorrencia.Obrigatoria)]
-		public MFeIdentificador Idetificador { get; set; }
+		public MFeIdentificador Identificador { get; set; }
 
 		[DFeElement("IntegradorResposta", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public MFeIntegradorResposta IntegradorResposta { get; set; }

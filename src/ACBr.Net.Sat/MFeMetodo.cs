@@ -30,7 +30,6 @@
 // ***********************************************************************
 
 using ACBr.Net.DFe.Core.Attributes;
-using ACBr.Net.DFe.Core.Collection;
 using ACBr.Net.DFe.Core.Serializer;
 
 namespace ACBr.Net.Sat
@@ -41,7 +40,7 @@ namespace ACBr.Net.Sat
 
 		public MFeMetodo()
 		{
-			Parametros = new DFeCollection<MFeParametro>();
+			Parametros = new MFeParametroCollection();
 		}
 
 		#endregion Constructors
@@ -53,7 +52,7 @@ namespace ACBr.Net.Sat
 
 		[DFeElement("Parametros")]
 		[DFeItem(typeof(MFeParametro), "Parametro")]
-		public DFeCollection<MFeParametro> Parametros { get; set; }
+		public MFeParametroCollection Parametros { get; set; }
 
 		#endregion Properties
 	}

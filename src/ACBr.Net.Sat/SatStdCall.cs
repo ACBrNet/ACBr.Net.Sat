@@ -28,6 +28,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using ACBr.Net.Core;
 using ACBr.Net.Core.Exceptions;
 using ACBr.Net.Sat.Utils;
@@ -122,10 +123,10 @@ namespace ACBr.Net.Sat
 
 		#region Constructors
 
-		public SatStdCall(string pathDll, Encoding encoding) : base(pathDll, encoding)
+		public SatStdCall(SatConfig config, string pathDll, Encoding encoding) : base(config, pathDll, encoding)
 		{
 			ModeloStr = "StdCallSatLibrary";
-			handle = NativeMethods.LoadLibrary(pathDll);
+			handle = NativeMethods.LoadLibrary(PathDll);
 			Guard.Against<ACBrException>(handle == IntPtr.Zero, "Não foi possivel carregar a biblioteca Sat");
 		}
 

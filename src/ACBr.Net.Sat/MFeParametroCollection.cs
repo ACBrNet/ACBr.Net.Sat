@@ -6,7 +6,7 @@
 // Last Modified By : RFTD
 // Last Modified On : 05-30-2017
 // ***********************************************************************
-// <copyright file="MFeIntegradorEnvio.cs" company="ACBr.Net">
+// <copyright file="MFeParametroCollection.cs" company="ACBr.Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2016 Grupo ACBr.Net
 //
@@ -29,32 +29,17 @@
 // <summary></summary>
 // ***********************************************************************
 
-using ACBr.Net.DFe.Core.Attributes;
-using ACBr.Net.DFe.Core.Common;
+using ACBr.Net.DFe.Core.Collection;
 
 namespace ACBr.Net.Sat
 {
-	[DFeRoot("Integrador")]
-	public sealed class MFeIntegradorEnvio : DFeDocument<MFeIntegradorEnvio>
+	public sealed class MFeParametroCollection : DFeCollection<MFeParametro>
 	{
-		#region Constructors
-
-		public MFeIntegradorEnvio()
+		public void AddParametro(string nome, string valor)
 		{
-			Identificador = new MFeIdentificador();
-			Componente = new MFeComponente();
+			var parametro = AddNew();
+			parametro.Nome = nome;
+			parametro.Valor = valor;
 		}
-
-		#endregion Constructors
-
-		#region Properties
-
-		[DFeElement("Identificador", Ocorrencia = Ocorrencia.Obrigatoria)]
-		public MFeIdentificador Identificador { get; set; }
-
-		[DFeElement("Componente", Ocorrencia = Ocorrencia.Obrigatoria)]
-		public MFeComponente Componente { get; set; }
-
-		#endregion Properties
 	}
 }

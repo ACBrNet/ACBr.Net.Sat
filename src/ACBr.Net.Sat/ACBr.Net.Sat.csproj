@@ -98,6 +98,8 @@
     <Compile Include="MFeIntegradorResposta.cs" />
     <Compile Include="MFeMetodo.cs" />
     <Compile Include="MFeParametro.cs" />
+    <Compile Include="MFeParametroCollection.cs" />
+    <Compile Include="SatIntegradorMFe.cs" />
     <Compile Include="SatLibrary.cs" />
     <Compile Include="SatManager.cs" />
     <Compile Include="SatRede.cs" />

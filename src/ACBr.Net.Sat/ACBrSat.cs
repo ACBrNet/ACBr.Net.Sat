@@ -157,7 +157,7 @@ namespace ACBr.Net.Sat
 		}
 
 		/// <summary>
-		/// Modelo a ser utilizado pelo ACBrSat.
+		/// Define/retorna o modelo a ser utilizado pelo ACBrSat.
 		/// </summary>
 		/// <value>The modelo.</value>
 		public ModeloSat Modelo
@@ -174,7 +174,7 @@ namespace ACBr.Net.Sat
 		}
 
 		/// <summary>
-		/// Classe responsavel por imprimir o Extrato do Sat.
+		/// Define/retorna a classe responsável por imprimir o Extrato do Sat.
 		/// </summary>
 		/// <value>The extrato.</value>
 		public ExtratoSat Extrato
@@ -189,19 +189,19 @@ namespace ACBr.Net.Sat
 		}
 
 		/// <summary>
-		/// Indica se o componente esta ativo ou não.
+		/// Retorna o indicador se o componente esta ativo ou não.
 		/// </summary>
 		/// <value><c>true</c> if ativo; otherwise, <c>false</c>.</value>
 		public bool Ativo { get; private set; }
 
 		/// <summary>
-		/// Número da sessão atual.
+		/// Retorna o número da sessão atual.
 		/// </summary>
 		/// <value>The sessao.</value>
 		public int Sessao { get; private set; }
 
 		/// <summary>
-		/// Código usado para ativar o Sat
+		/// Define/retorna o código usado para ativar o Sat
 		/// </summary>
 		/// <value>Código ativacao.</value>
 		public string CodigoAtivacao
@@ -221,7 +221,7 @@ namespace ACBr.Net.Sat
 		}
 
 		/// <summary>
-		/// Assinatura de (CNPJ Software House + CNPJ Emitente) que gerou o CF-e </summary>
+		/// Define/retorna a assinatura de (CNPJ Software House + CNPJ Emitente) que gerou o CF-e </summary>
 		/// <value>SignAC.</value>
 		public string SignAC
 		{
@@ -240,7 +240,7 @@ namespace ACBr.Net.Sat
 		}
 
 		/// <summary>
-		/// Caminho onde se encontra a biblioteca do Sat.
+		/// Define/retorna o caminho onde se encontra a biblioteca do Sat.
 		/// </summary>
 		/// <value>O caminho da dll.</value>
 		public string PathDll
@@ -268,7 +268,7 @@ namespace ACBr.Net.Sat
 		/// <exception cref="NotImplementedException"></exception>
 		public void Ativar()
 		{
-			sat = SatManager.GetLibrary(Modelo, PathDll, Encoding);
+			sat = SatManager.GetLibrary(Modelo, Configuracoes, PathDll, Encoding);
 			Ativo = true;
 		}
 

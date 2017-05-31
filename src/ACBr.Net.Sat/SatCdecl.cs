@@ -122,10 +122,10 @@ namespace ACBr.Net.Sat
 
 		#region Constructors
 
-		public SatCdecl(string pathDll, Encoding encoding) : base(pathDll, encoding)
+		public SatCdecl(SatConfig config, string pathDll, Encoding encoding) : base(config, pathDll, encoding)
 		{
-			ModeloStr = "";
-			handle = NativeMethods.LoadLibrary(pathDll);
+			ModeloStr = "SatCdeclSatLibrary";
+			handle = NativeMethods.LoadLibrary(PathDll);
 			Guard.Against<ACBrException>(handle == IntPtr.Zero, "Não foi possivel carregar a biblioteca Sat");
 		}
 
