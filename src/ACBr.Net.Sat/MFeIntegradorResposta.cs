@@ -29,12 +29,17 @@
 // <summary></summary>
 // ***********************************************************************
 
+using ACBr.Net.DFe.Core.Attributes;
+using ACBr.Net.DFe.Core.Serializer;
+
 namespace ACBr.Net.Sat
 {
 	public sealed class MFeIntegradorResposta
 	{
-		public string Codigo { get; set; }
+        [DFeElement(TipoCampo.Str, "Codigo", Ocorrencia = Ocorrencia.Obrigatoria)]
+        public string Codigo { get; set; }
 
-		public string Valor { get; set; }
+        [DFeElement(TipoCampo.Str, "Valor", Ocorrencia = Ocorrencia.Obrigatoria)]
+        public string Valor { get; set; }
 	}
 }

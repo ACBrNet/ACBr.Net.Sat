@@ -63,11 +63,11 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("cnpjValue", cnpjValue);
                 parametros.AddParametro("assinaturaCNPJs", assinaturacnpj);
 
-                envio.Save(Config.MFePathEnvio);
+                EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao);
+                var resposta = AguardarResposta(numeroSessao.ToString());
 
-                return resposta.Retorno;
+                return resposta.Resposta.Retorno;
             }
             catch (Exception exception)
             {
@@ -88,11 +88,11 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("CNPJ", cnpj);
                 parametros.AddParametro("cUF", cUF.ToString());
 
-                envio.Save(Config.MFePathEnvio);
+                EnviarComando(envio);
+                
+                var resposta = AguardarResposta(numeroSessao.ToString());
 
-                var resposta = AguardarResposta(numeroSessao);
-
-                return resposta.Retorno;
+                return resposta.Resposta.Retorno;
             }
             catch (Exception exception)
             {
@@ -110,11 +110,11 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
                 parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
 
-                envio.Save(Config.MFePathEnvio);
+                EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao);
+                var resposta = AguardarResposta(numeroSessao.ToString());
 
-                return resposta.Retorno;
+                return resposta.Resposta.Retorno;
             }
             catch (Exception exception)
             {
@@ -132,11 +132,11 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
                 parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
 
-                envio.Save(Config.MFePathEnvio);
+                EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao);
+                var resposta = AguardarResposta(numeroSessao.ToString());
 
-                return resposta.Retorno;
+                return resposta.Resposta.Retorno;
             }
             catch (Exception exception)
             {
@@ -156,11 +156,11 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("chave", chave);
                 parametros.AddParametro("dadosCancelamento", $"<![CDATA[{dadosCancelamento}]]>");
 
-                envio.Save(Config.MFePathEnvio);
+                EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao);
+                var resposta = AguardarResposta(numeroSessao.ToString());
 
-                return resposta.Retorno;
+                return resposta.Resposta.Retorno;
             }
             catch (Exception exception)
             {
@@ -179,11 +179,11 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
                 parametros.AddParametro("certificado", certificado);
 
-                envio.Save(Config.MFePathEnvio);
+                EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao);
+                var resposta = AguardarResposta(numeroSessao.ToString());
 
-                return resposta.Retorno;
+                return resposta.Resposta.Retorno;
             }
             catch (Exception exception)
             {
@@ -207,11 +207,11 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
                 parametros.AddParametro("cNumeroDeSessao", cNumeroDeSessao.ToString());
 
-                envio.Save(Config.MFePathEnvio);
+                EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao);
+                var resposta = AguardarResposta(numeroSessao.ToString());
 
-                return resposta.Retorno;
+                return resposta.Resposta.Retorno;
             }
             catch (Exception exception)
             {
@@ -228,11 +228,11 @@ namespace ACBr.Net.Sat
                 var parametros = envio.Componente.Metodo.Parametros;
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
 
-                envio.Save(Config.MFePathEnvio);
+                EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao);
+                var resposta = AguardarResposta(numeroSessao.ToString());
 
-                return resposta.Retorno;
+                return resposta.Resposta.Retorno;
             }
             catch (Exception exception)
             {
@@ -250,11 +250,11 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
                 parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
 
-                envio.Save(Config.MFePathEnvio);
+                EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao);
+                var resposta = AguardarResposta(numeroSessao.ToString());
 
-                return resposta.Retorno;
+                return resposta.Resposta.Retorno;
             }
             catch (Exception exception)
             {
@@ -272,11 +272,11 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
                 parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
 
-                envio.Save(Config.MFePathEnvio);
+                EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao);
+                var resposta = AguardarResposta(numeroSessao.ToString());
 
-                return resposta.Retorno;
+                return resposta.Resposta.Retorno;
             }
             catch (Exception exception)
             {
@@ -296,11 +296,11 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("dadosVenda", $"<![CDATA[{dadosVenda}]]>");
                 parametros.AddParametro("nrDocumento", numeroSessao.ToString());
 
-                envio.Save(Config.MFePathEnvio);
+                EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao);
+                var resposta = AguardarResposta(numeroSessao.ToString());
 
-                return resposta.Retorno;
+                return resposta.Resposta.Retorno;
             }
             catch (Exception exception)
             {
@@ -318,11 +318,11 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
                 parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
 
-                envio.Save(Config.MFePathEnvio);
+                EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao);
+                var resposta = AguardarResposta(numeroSessao.ToString());
 
-                return resposta.Retorno;
+                return resposta.Resposta.Retorno;
             }
             catch (Exception exception)
             {
@@ -341,11 +341,11 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
                 parametros.AddParametro("dadosVenda", $"<![CDATA[{dadosVenda}]]>");
 
-                envio.Save(Config.MFePathEnvio);
+                EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao);
+                var resposta = AguardarResposta(numeroSessao.ToString());
 
-                return resposta.Retorno;
+                return resposta.Resposta.Retorno;
             }
             catch (Exception exception)
             {
@@ -366,11 +366,11 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("novoCodigo", novoCodigo);
                 parametros.AddParametro("confNovoCodigo", confNovoCodigo);
 
-                envio.Save(Config.MFePathEnvio);
+                EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao);
+                var resposta = AguardarResposta(numeroSessao.ToString());
 
-                return resposta.Retorno;
+                return resposta.Resposta.Retorno;
             }
             catch (Exception exception)
             {
@@ -387,8 +387,15 @@ namespace ACBr.Net.Sat
 
             return envio;
         }
+        
+        private void EnviarComando(MFeIntegradorEnvio envio)
+        {
+            string file = Path.Combine(Config.MFePathEnvio, $"{envio.Componente.Metodo.Nome}_{envio.Identificador.Valor}.tmp");
+            envio.Save(file);
+            File.Move(file, $"{file.Substring(0, file.Length - 4)}.xml");
+        }
 
-        private MFeIntegradorResp AguardarResposta(int numeroSessao)
+        private MFeIntegradorResp AguardarResposta(string identificacao)
         {
             MFeIntegradorResp resposta = null;
 
@@ -397,7 +404,9 @@ namespace ACBr.Net.Sat
 
             do
             {
-                Thread.Sleep(500);
+                if ((Config.MFeTimeOut > 0) && (resposta == null) && (sw.ElapsedMilliseconds >= Config.MFeTimeOut))
+                    throw new TimeoutException();
+                
                 var files = Directory.GetFiles(Config.MFePathResposta, "*.xml");
                 if (files.Length < 1) continue;
 
@@ -406,7 +415,7 @@ namespace ACBr.Net.Sat
                     try
                     {
                         var resp = MFeIntegradorResp.Load(file);
-                        if (resp.Identificador.Valor != numeroSessao.ToString()) continue;
+                        if (resp.Identificador.Valor != identificacao) continue;
 
                         resposta = resp;
                         break;
@@ -415,12 +424,9 @@ namespace ACBr.Net.Sat
                     {
                         //
                     }
-
                 }
 
-                if ((resposta == null) && (sw.ElapsedMilliseconds >= Config.MFeTimeOut))
-                    throw new TimeoutException();
-
+                Thread.Sleep(500);
             } while (resposta == null);
 
             return resposta;

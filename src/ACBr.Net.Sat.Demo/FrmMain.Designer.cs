@@ -1183,6 +1183,7 @@
             this.txtMFeEnvio.Size = new System.Drawing.Size(269, 20);
             this.txtMFeEnvio.TabIndex = 4;
             this.txtMFeEnvio.Text = "C:\\Integrador\\Input";
+            this.txtMFeEnvio.TextChanged += new System.EventHandler(this.txtMFeEnvio_TextChanged);
             // 
             // label16
             // 
@@ -1201,6 +1202,7 @@
             this.txtMFeResposta.Size = new System.Drawing.Size(269, 20);
             this.txtMFeResposta.TabIndex = 6;
             this.txtMFeResposta.Text = "C:\\Integrador\\Output";
+            this.txtMFeResposta.TextChanged += new System.EventHandler(this.txtMFeResposta_TextChanged);
             // 
             // label17
             // 
@@ -1230,6 +1232,7 @@
             0,
             0,
             0});
+            this.nunMFeTimeout.ValueChanged += new System.EventHandler(this.nunMFeTimeout_ValueChanged);
             // 
             // label18
             // 

@@ -232,8 +232,8 @@ namespace ACBr.Net.Sat.Demo
 															"111111222222222222221111111111111122222222222222111111111111112222222222222211111111111" +
 															"1112222222222222211111111111111222222222222221111111111111122222222222222111111111");
 
-            txtMFeEnvio.Text = config.Get("MFePathEnvio", @"C:\Integrador\Input");
-            txtMFeResposta.Text = config.Get("MFePathResposta", @"C:\Integrador\Output");
+            txtMFeEnvio.Text = config.Get("MFePathEnvio", @"C:\Integrador\Input\");
+            txtMFeResposta.Text = config.Get("MFePathResposta", @"C:\Integrador\Output\");
             nunMFeTimeout.Value = config.Get("MFeTimeOut", 45000M);
 
             MessageBox.Show(this, @"Configurações Carregada com sucesso !", @"S@T Demo");
@@ -264,7 +264,10 @@ namespace ACBr.Net.Sat.Demo
 			config.Set("EmiRatIISQN", cmbEmiRatIISQN.SelectedItem);
 			config.Set("IdeCNPJ", txtIdeCNPJ.Text);
 			config.Set("SignAC", txtSignAC.Text);
-			config.Save();
+            config.Set("MFePathEnvio", txtMFeEnvio.Text);
+            config.Set("MFePathResposta", txtMFeResposta.Text);
+            config.Set("MFeTimeOut", nunMFeTimeout.Value);
+            config.Save();
 
 			if (msg)
 			{
@@ -661,11 +664,26 @@ namespace ACBr.Net.Sat.Demo
 			acbrSat.SignAC = txtSignAC.Text;
 		}
 
-		#endregion ValueChanged
+        private void txtMFeEnvio_TextChanged(object sender, EventArgs e)
+        {
+            acbrSat.Configuracoes.MFePathEnvio = txtMFeEnvio.Text;
+        }
 
-		#region Botoes
+        private void txtMFeResposta_TextChanged(object sender, EventArgs e)
+        {
+            acbrSat.Configuracoes.MFePathResposta = txtMFeResposta.Text;
+        }
 
-		private void btnIniDesini_Click(object sender, EventArgs e)
+        private void nunMFeTimeout_ValueChanged(object sender, EventArgs e)
+        {
+            acbrSat.Configuracoes.MFeTimeOut = (int)nunMFeTimeout.Value;
+        }
+
+        #endregion ValueChanged
+
+        #region Botoes
+
+        private void btnIniDesini_Click(object sender, EventArgs e)
 		{
 			ToogleInitialize();
 		}
@@ -707,10 +725,9 @@ namespace ACBr.Net.Sat.Demo
             throw new NotImplementedException();
         }
 
+
         #endregion Botoes
 
-        #endregion EventHandlers
-
-
+        #endregion EventHandlers        
     }
 }
