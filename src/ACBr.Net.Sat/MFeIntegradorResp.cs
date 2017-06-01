@@ -45,7 +45,7 @@ namespace ACBr.Net.Sat
 		{
 			Identificador = new MFeIdentificador();
 			IntegradorResposta = new MFeIntegradorResposta();
-			Resposta = new MFeResposta();
+            Retorno = string.Empty;
 		}
 
 		#endregion Constructors
