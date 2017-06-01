@@ -232,7 +232,11 @@ namespace ACBr.Net.Sat.Demo
 															"111111222222222222221111111111111122222222222222111111111111112222222222222211111111111" +
 															"1112222222222222211111111111111222222222222221111111111111122222222222222111111111");
 
-			MessageBox.Show(this, @"Configurações Carregada com sucesso !", @"S@T Demo");
+            txtMFeEnvio.Text = config.Get("MFePathEnvio", @"C:\Integrador\Input");
+            txtMFeResposta.Text = config.Get("MFePathResposta", @"C:\Integrador\Output");
+            nunMFeTimeout.Value = config.Get("MFeTimeOut", 45000M);
+
+            MessageBox.Show(this, @"Configurações Carregada com sucesso !", @"S@T Demo");
 		}
 
 		private void SaveConfig(bool msg = true)
@@ -683,8 +687,30 @@ namespace ACBr.Net.Sat.Demo
 				txtDllPath.Text = file;
 		}
 
-		#endregion Botoes
+        private void btnEnviarPagamento_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
-		#endregion EventHandlers
-	}
+        private void btnEnviarStatusPagamento_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void btnVerificarStatusValidador_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void btnRespostaFiscal_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion Botoes
+
+        #endregion EventHandlers
+
+
+    }
 }

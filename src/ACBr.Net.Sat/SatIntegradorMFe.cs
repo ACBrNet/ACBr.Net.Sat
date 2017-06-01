@@ -34,6 +34,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using ACBr.Net.Core;
+using System.Diagnostics;
 
 namespace ACBr.Net.Sat
 {
@@ -54,7 +55,7 @@ namespace ACBr.Net.Sat
         {
             try
             {
-                var envio = NovoEnvio("AssociarAssinatura");
+                var envio = NovoEnvio("AssociarAssinatura", numeroSessao.ToString());
 
                 var parametros = envio.Componente.Metodo.Parametros;
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
@@ -78,7 +79,7 @@ namespace ACBr.Net.Sat
         {
             try
             {
-                var envio = NovoEnvio("AtivarMFe");
+                var envio = NovoEnvio("AtivarMFe", numeroSessao.ToString());
 
                 var parametros = envio.Componente.Metodo.Parametros;
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
@@ -103,7 +104,7 @@ namespace ACBr.Net.Sat
         {
             try
             {
-                var envio = NovoEnvio("AtualizarSoftwareMFe");
+                var envio = NovoEnvio("AtualizarSoftwareMFe", numeroSessao.ToString());
 
                 var parametros = envio.Componente.Metodo.Parametros;
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
@@ -125,7 +126,7 @@ namespace ACBr.Net.Sat
         {
             try
             {
-                var envio = NovoEnvio("BloquearMFe");
+                var envio = NovoEnvio("BloquearMFe", numeroSessao.ToString());
 
                 var parametros = envio.Componente.Metodo.Parametros;
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
@@ -147,7 +148,7 @@ namespace ACBr.Net.Sat
         {
             try
             {
-                var envio = NovoEnvio("CancelarUltimaVenda");
+                var envio = NovoEnvio("CancelarUltimaVenda", numeroSessao.ToString());
 
                 var parametros = envio.Componente.Metodo.Parametros;
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
@@ -171,7 +172,7 @@ namespace ACBr.Net.Sat
         {
             try
             {
-                var envio = NovoEnvio("ComunicarCertificadoICPBRASIL");
+                var envio = NovoEnvio("ComunicarCertificadoICPBRASIL", numeroSessao.ToString());
 
                 var parametros = envio.Componente.Metodo.Parametros;
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
@@ -199,7 +200,7 @@ namespace ACBr.Net.Sat
         {
             try
             {
-                var envio = NovoEnvio("ConsultarNumeroSessao");
+                var envio = NovoEnvio("ConsultarNumeroSessao", numeroSessao.ToString());
 
                 var parametros = envio.Componente.Metodo.Parametros;
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
@@ -222,7 +223,7 @@ namespace ACBr.Net.Sat
         {
             try
             {
-                var envio = NovoEnvio("ConsultarMFe");
+                var envio = NovoEnvio("ConsultarMFe", numeroSessao.ToString());
 
                 var parametros = envio.Componente.Metodo.Parametros;
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
@@ -243,7 +244,7 @@ namespace ACBr.Net.Sat
         {
             try
             {
-                var envio = NovoEnvio("ConsultarStatusOperacional");
+                var envio = NovoEnvio("ConsultarStatusOperacional", numeroSessao.ToString());
 
                 var parametros = envio.Componente.Metodo.Parametros;
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
@@ -265,7 +266,7 @@ namespace ACBr.Net.Sat
         {
             try
             {
-                var envio = NovoEnvio("DesbloquearMFe");
+                var envio = NovoEnvio("DesbloquearMFe", numeroSessao.ToString());
 
                 var parametros = envio.Componente.Metodo.Parametros;
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
@@ -287,7 +288,7 @@ namespace ACBr.Net.Sat
         {
             try
             {
-                var envio = NovoEnvio("EnviarDadosVenda");
+                var envio = NovoEnvio("EnviarDadosVenda", numeroSessao.ToString());
 
                 var parametros = envio.Componente.Metodo.Parametros;
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
@@ -311,7 +312,7 @@ namespace ACBr.Net.Sat
         {
             try
             {
-                var envio = NovoEnvio("ExtrairLogs");
+                var envio = NovoEnvio("ExtrairLogs", numeroSessao.ToString());
 
                 var parametros = envio.Componente.Metodo.Parametros;
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
@@ -333,7 +334,7 @@ namespace ACBr.Net.Sat
         {
             try
             {
-                var envio = NovoEnvio("TesteFimAFim");
+                var envio = NovoEnvio("TesteFimAFim", numeroSessao.ToString());
 
                 var parametros = envio.Componente.Metodo.Parametros;
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
@@ -356,7 +357,7 @@ namespace ACBr.Net.Sat
         {
             try
             {
-                var envio = NovoEnvio("TrocarCodigoDeAtivacao");
+                var envio = NovoEnvio("TrocarCodigoDeAtivacao", numeroSessao.ToString());
 
                 var parametros = envio.Componente.Metodo.Parametros;
                 parametros.AddParametro("numeroSessao", numeroSessao.ToString());
@@ -377,10 +378,10 @@ namespace ACBr.Net.Sat
             }
         }
 
-        private MFeIntegradorEnvio NovoEnvio(string metodo)
+        private MFeIntegradorEnvio NovoEnvio(string metodo, string identificacao)
         {
             var envio = new MFeIntegradorEnvio();
-            envio.Identificador.Valor = Config.MFeIdentificacao;
+            envio.Identificador.Valor = identificacao;
             envio.Componente.Nome = "MF-e-Giz";
             envio.Componente.Metodo.Nome = metodo;
 
@@ -390,6 +391,9 @@ namespace ACBr.Net.Sat
         private MFeIntegradorResp AguardarResposta(int numeroSessao)
         {
             MFeIntegradorResp resposta = null;
+
+            var sw = new Stopwatch();
+            sw.Start();
 
             do
             {
@@ -411,7 +415,12 @@ namespace ACBr.Net.Sat
                     {
                         //
                     }
+
                 }
+
+                if ((resposta == null) && (sw.ElapsedMilliseconds >= Config.MFeTimeOut))
+                    throw new TimeoutException();
+
             } while (resposta == null);
 
             return resposta;

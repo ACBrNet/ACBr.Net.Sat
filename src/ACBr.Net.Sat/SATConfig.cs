@@ -58,7 +58,8 @@ namespace ACBr.Net.Sat
 			IsUtf8 = false;
 			MFePathEnvio = string.Empty;
 			MFePathResposta = string.Empty;
-		}
+            MFeTimeOut = 45000;
+        }
 
 		#endregion Constructor
 
@@ -91,8 +92,8 @@ namespace ACBr.Net.Sat
 		public string MFePathEnvio { get; set; }
 
 		public string MFePathResposta { get; set; }
-
-		public string MFeIdentificacao { get; set; }
+		
+        public int MFeTimeOut { get; set; }
 
 		#endregion Propriedades
 	}
