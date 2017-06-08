@@ -1,12 +1,12 @@
-// ***********************************************************************
+﻿// ***********************************************************************
 // Assembly         : ACBr.Net.Sat
 // Author           : RFTD
 // Created          : 05-30-2017
 //
-// Last Modified By : RFTD
-// Last Modified On : 05-30-2017
+// Last Modified By : marcosgerene
+// Last Modified On : 05-31-2017
 // ***********************************************************************
-// <copyright file="MFeIntegradorResp.cs" company="ACBr.Net">
+// <copyright file="MFeIntegradorResposta.cs" company="ACBr.Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2016 Grupo ACBr.Net
 //
@@ -30,36 +30,13 @@
 // ***********************************************************************
 
 using ACBr.Net.DFe.Core.Attributes;
-using ACBr.Net.DFe.Core.Common;
+using ACBr.Net.DFe.Core.Serializer;
 
 namespace ACBr.Net.Sat
 {
-	[DFeRoot("Integrador")]
-	public sealed class MFeIntegradorResp : DFeDocument<MFeIntegradorResp>
-
-	{
-		#region Constructors
-
-		public MFeIntegradorResp()
-		{
-			Identificador = new MFeIdentificador();
-			IntegradorResposta = new MFeIntegradorResposta();
-            Resposta = new MFeResposta();
-        }
-
-		#endregion Constructors
-
-		#region Properties
-
-		[DFeElement("Identificador", Ocorrencia = Ocorrencia.Obrigatoria)]
-		public MFeIdentificador Identificador { get; set; }
-
-		[DFeElement("IntegradorResposta", Ocorrencia = Ocorrencia.Obrigatoria)]
-		public MFeIntegradorResposta IntegradorResposta { get; set; }
-
-        [DFeElement("Resposta", Ocorrencia = Ocorrencia.Obrigatoria)]        
-		public MFeResposta Resposta { get; set; }
-
-		#endregion Properties
-	}
+    public sealed class MFeResposta
+    {
+        [DFeAttribute(TipoCampo.Str, "retorno", Ocorrencia = Ocorrencia.Obrigatoria)]
+        public string Retorno { get; set; }
+    }
 }
