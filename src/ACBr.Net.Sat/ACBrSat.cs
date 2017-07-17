@@ -781,12 +781,79 @@ namespace ACBr.Net.Sat
 			}
 		}
 
-		/// <summary>
-		/// Retorna a XML do CFe.
+        /// <summary>
+		/// Envia pagamento ao MFe
 		/// </summary>
-		/// <param name="cfe">Instancia CFe.</param>
-		/// <returns>XML da CFe</returns>
-		[ObsoleteEx(TreatAsErrorFromVersion = "1.1.0",
+		/// <returns>MFeIntegradorResp.</returns>
+		public MFeIntegradorResp EnviarPagamento(string estabelecimento, string serialPOS, string cnpj, decimal icmsBase, decimal valorTotalVenda, string origemPagamento, 
+            bool habilitarMultiplosPagamentos = true,  bool habilitarControleAntiFraude = false, string codigoMoeda = "BRL", bool emitirCupomNFCE = false)
+        {
+            Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
+            string chaveRequisicao = Guid.NewGuid().ToString();
+
+            IniciaComando($"EnviarPagamento({Sessao}, {sat.Config.ChaveAcessoValidador}, {chaveRequisicao}, {estabelecimento} , {cnpj}, {icmsBase.ToString()}, {valorTotalVenda.ToString()}, {origemPagamento})" +
+                          $"{habilitarMultiplosPagamentos}, {habilitarControleAntiFraude}, {codigoMoeda}, {emitirCupomNFCE})");
+
+
+            return sat.EnviarPagamento(Sessao, sat.Config.ChaveAcessoValidador, chaveRequisicao, estabelecimento, serialPOS, cnpj,
+                icmsBase, valorTotalVenda, origemPagamento, habilitarMultiplosPagamentos, habilitarControleAntiFraude, codigoMoeda, emitirCupomNFCE);
+        }
+
+        /// <summary>
+        /// Verificar status do pagamento no Validador
+        /// </summary>
+        /// <returns>MFeIntegradorResp.</returns>
+        public MFeIntegradorResp VerificarStatusValidador(string idFila, string cnpj)
+        {
+            Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
+            IniciaComando($"VerificarStatusValidador({Sessao}, {sat.Config.ChaveAcessoValidador}, {idFila}, {cnpj})");
+
+
+            return sat.VerificarStatusValidador(Sessao, sat.Config.ChaveAcessoValidador, idFila, cnpj);
+        }
+
+        /// <summary>
+        /// Enviar status do pagamento ao Validador - usado no roteiro TEF
+        /// </summary>
+        /// <returns>MFeIntegradorResp.</returns>
+        public MFeIntegradorResp EnviarStatusPagamento(string codigoAutorizacao, string bin, string donoCartao,
+            string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, string idFila, string tipo, string ultimosQuatroDigitos)
+        {
+            Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
+            IniciaComando($"EnviarStatusPagamento({Sessao}, {sat.Config.ChaveAcessoValidador}, {codigoAutorizacao}, {bin}, {donoCartao}, {dataExpiracao}, {instituicaoFinanceira}," +
+                $"{parcelas}, {codigoPagamento}, {valorPagamento}, {idFila}, {tipo}, {ultimosQuatroDigitos})");
+
+
+            return sat.EnviarStatusPagamento(Sessao, sat.Config.ChaveAcessoValidador, codigoAutorizacao, bin, donoCartao, dataExpiracao, instituicaoFinanceira, parcelas, codigoPagamento,
+                valorPagamento, idFila, tipo, ultimosQuatroDigitos);
+        }
+
+        /// <summary>
+        /// Fecha a operação com cartão ligando a chave do CFe à transação em cartão
+        /// </summary>
+        /// <returns>MFeIntegradorResp.</returns>
+        public MFeIntegradorResp RespostaFiscal(string idFila, string chaveAcesso, string nsu,
+            string numeroAprovacao, string bandeira, string adquirinte, string cnpj, string impressaofiscal, string numeroDocumento)
+        {
+            Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
+            IniciaComando($"RespostaFiscal({Sessao}, {sat.Config.ChaveAcessoValidador}, {idFila}, {chaveAcesso}, {nsu}, {numeroAprovacao}, {bandeira}," +
+                $"{adquirinte}, {cnpj}, {impressaofiscal}, {numeroDocumento})");
+
+
+            return sat.RespostaFiscal(Sessao, sat.Config.ChaveAcessoValidador, idFila, chaveAcesso, nsu, numeroAprovacao, bandeira,
+                adquirinte, cnpj, impressaofiscal, numeroDocumento);
+        }
+
+        /// <summary>
+        /// Retorna a XML do CFe.
+        /// </summary>
+        /// <param name="cfe">Instancia CFe.</param>
+        /// <returns>XML da CFe</returns>
+        [ObsoleteEx(TreatAsErrorFromVersion = "1.1.0",
 					RemoveInVersion = "1.2.0",
 					ReplacementTypeOrMember = "GetXml da classe")]
 		public string GetXml(CFe cfe)

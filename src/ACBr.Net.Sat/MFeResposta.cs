@@ -36,7 +36,70 @@ namespace ACBr.Net.Sat
 {
     public sealed class MFeResposta
     {
-        [DFeAttribute(TipoCampo.Str, "retorno", Ocorrencia = Ocorrencia.Obrigatoria)]
+        [DFeAttribute(TipoCampo.Str, "retorno", Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public string Retorno { get; set; }
+
+        [DFeAttribute(TipoCampo.Int, "IdPagamento", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public int? IdPagamento { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "Mensagem", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string Mensagem { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "StatusPagamento", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string StatusPagamento { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "CodigoAutorizacao", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string CodigoAutorizacao { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "Bin", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string Bin { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "DonoCartao", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string DonoCartao { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "DataExpiracao", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string DataExpiracao { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "InstituicaoFinanceira", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string InstituicaoFinanceira { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "Parcelas", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string Parcelas { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "UltimosQuatroDigitos", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string UltimosQuatroDigitos { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "CodigoPagamento", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string CodigoPagamento { get; set; }
+
+        [DFeAttribute(TipoCampo.De2, "ValorPagamento", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public decimal? ValorPagamento { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "IdFila", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string IdFila { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "Tipo", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string Tipo { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "chaveAcessoValidador", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string ChaveAcessoValidador { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "chaveRequisicao", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string ChaveRequisicao { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "Estabelecimento", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string Estabelecimento { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "CNPJ", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string Cnpj { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "SerialPOS", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string SerialPOS { get; set; }
+
+        [DFeAttribute(TipoCampo.De2, "IcmsBase", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public decimal? IcmsBase { get; set; }
+
+        [DFeAttribute(TipoCampo.De2, "ValorTotalVenda", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public decimal? ValorTotalVenda { get; set; }
     }
 }

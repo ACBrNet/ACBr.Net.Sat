@@ -4,7 +4,7 @@
 // Created          : 03-30-2016
 //
 // Last Modified By : marcosgerene
-// Last Modified On : 06-01-2017
+// Last Modified On : 07-17-2017
 // ***********************************************************************
 // <copyright file="SatIntegradorMFe.cs" company="ACBr.Net">
 //		        		   The MIT License (MIT)
@@ -371,6 +371,127 @@ namespace ACBr.Net.Sat
                 var resposta = AguardarResposta(numeroSessao.ToString());
 
                 return resposta.Resposta.Retorno;
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
+
+        public override MFeIntegradorResp EnviarPagamento(int numeroSessao, string chaveAcessoValidador, string chaveRequisicao, string estabelecimento, string serialPOS, string cnpj,
+            decimal icmsBase, decimal valorTotalVenda, string origemPagamento, bool habilitarMultiplosPagamentos = true, bool habilitarControleAntiFraude = false, 
+            string codigoMoeda = "BRL", bool emitirCupomNFCE = false)
+        {
+            try
+            {
+                var envio = NovoEnvio("EnviarPagamento", numeroSessao.ToString());
+
+                envio.Componente.Nome = "VFP-e";
+                envio.Componente.Metodo.Construtor = new MFeConstrutor();
+                envio.Componente.Metodo.Construtor.Parametros.AddParametro("chaveAcessoValidador", chaveAcessoValidador);
+
+                var parametros = envio.Componente.Metodo.Parametros;
+                parametros.AddParametro("ChaveRequisicao", chaveRequisicao);
+                parametros.AddParametro("Estabelecimento", estabelecimento);
+                parametros.AddParametro("SerialPOS", serialPOS);
+                parametros.AddParametro("Cnpj", cnpj);
+                parametros.AddParametro("IcmsBase", icmsBase.ToString());
+                parametros.AddParametro("ValorTotalVenda", valorTotalVenda.ToString());
+                parametros.AddParametro("HabilitarMultiplosPagamentos", habilitarMultiplosPagamentos ? "true" : "false");
+                parametros.AddParametro("HabilitarControleAntiFraude", habilitarControleAntiFraude ? "true" : "false");
+                parametros.AddParametro("CodigoMoeda", codigoMoeda);
+                parametros.AddParametro("OrigemPagamento", origemPagamento);
+                parametros.AddParametro("EmitirCupomNFCE", emitirCupomNFCE ? "true" : "false");
+
+                EnviarComando(envio);
+                return AguardarResposta(numeroSessao.ToString());
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
+
+        public override MFeIntegradorResp VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, string idFila, string cnpj)
+        {
+            try
+            {
+                var envio = NovoEnvio("VerificarStatusValidador", numeroSessao.ToString());
+
+                envio.Componente.Nome = "VFP-e";
+                envio.Componente.Metodo.Construtor = new MFeConstrutor();
+                envio.Componente.Metodo.Construtor.Parametros.AddParametro("chaveAcessoValidador", chaveAcessoValidador);
+
+                var parametros = envio.Componente.Metodo.Parametros;
+                parametros.AddParametro("idFila", idFila);
+                parametros.AddParametro("cnpj", cnpj);
+
+                EnviarComando(envio);
+                return AguardarResposta(numeroSessao.ToString());
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
+
+        public override MFeIntegradorResp EnviarStatusPagamento(int numeroSessao, string chaveAcessoValidador, string codigoAutorizacao, string bin, string donoCartao,
+            string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, string idFila, string tipo, string ultimosQuatroDigitos)
+        {
+            try
+            {
+                var envio = NovoEnvio("EnviarStatusPagamento", numeroSessao.ToString());
+
+                envio.Componente.Nome = "VFP-e";
+                envio.Componente.Metodo.Construtor = new MFeConstrutor();
+                envio.Componente.Metodo.Construtor.Parametros.AddParametro("chaveAcessoValidador", chaveAcessoValidador);
+
+                var parametros = envio.Componente.Metodo.Parametros;
+                parametros.AddParametro("CodigoAutorizacao", codigoAutorizacao);
+                parametros.AddParametro("Bin", bin);
+                parametros.AddParametro("DonoCartao", donoCartao);
+                parametros.AddParametro("DataExpiracao", dataExpiracao);
+                parametros.AddParametro("InstituicaoFinanceira", instituicaoFinanceira);
+                parametros.AddParametro("Parcelas", parcelas.ToString());
+                parametros.AddParametro("CodigoPagamento", codigoPagamento);
+                parametros.AddParametro("ValorPagamento", valorPagamento.ToString());
+                parametros.AddParametro("IdFila", idFila);
+                parametros.AddParametro("Tipo", tipo);
+                parametros.AddParametro("UltimosQuatroDigitos", ultimosQuatroDigitos);
+
+                EnviarComando(envio);
+                return AguardarResposta(numeroSessao.ToString());
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
+
+        public override MFeIntegradorResp RespostaFiscal(int numeroSessao, string chaveAcessoValidador, string idFila, string chaveAcesso, string nsu,
+            string numeroAprovacao, string bandeira, string adquirinte, string cnpj, string impressaofiscal, string numeroDocumento)
+        {
+            try
+            {
+                var envio = NovoEnvio("RespostaFiscal", numeroSessao.ToString());
+
+                envio.Componente.Nome = "VFP-e";
+                envio.Componente.Metodo.Construtor = new MFeConstrutor();
+                envio.Componente.Metodo.Construtor.Parametros.AddParametro("chaveAcessoValidador", chaveAcessoValidador);
+
+                var parametros = envio.Componente.Metodo.Parametros;
+                parametros.AddParametro("idFila", idFila);
+                parametros.AddParametro("ChaveAcesso", chaveAcesso);
+                parametros.AddParametro("Nsu", nsu);
+                parametros.AddParametro("NumerodeAprovacao", numeroAprovacao);
+                parametros.AddParametro("Bandeira", bandeira);
+                parametros.AddParametro("Adquirente", adquirinte);
+                parametros.AddParametro("Cnpj", cnpj);
+                parametros.AddParametro("ImpressaoFiscal", impressaofiscal);
+                parametros.AddParametro("NumeroDocumento", numeroDocumento);
+
+                EnviarComando(envio);
+                return AguardarResposta(numeroSessao.ToString());
             }
             catch (Exception exception)
             {

@@ -92,6 +92,7 @@
     <Compile Include="ExtratoFiltro.cs" />
     <Compile Include="ExtratoLayOut.cs" />
     <Compile Include="ExtratoSat.cs" />
+    <Compile Include="MFeConstrutor.cs" />
     <Compile Include="MFeIdentificador.cs" />
     <Compile Include="MFeIntegradorEnvio.cs" />
     <Compile Include="MFeIntegradorResp.cs" />
