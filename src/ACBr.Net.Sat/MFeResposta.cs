@@ -34,6 +34,7 @@ using ACBr.Net.DFe.Core.Serializer;
 
 namespace ACBr.Net.Sat
 {
+    [DFeRoot("Resposta")]
     public sealed class MFeResposta
     {
         [DFeAttribute(TipoCampo.Str, "retorno", Ocorrencia = Ocorrencia.NaoObrigatoria)]

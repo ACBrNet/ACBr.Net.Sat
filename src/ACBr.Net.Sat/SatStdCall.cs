@@ -397,18 +397,18 @@ namespace ACBr.Net.Sat
             throw new NotImplementedException();
         }
 
-        public override MFeIntegradorResp VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, string idFila, string cnpj)
+        public override MFeIntegradorResp VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, int idFila, string cnpj)
         {
             throw new NotImplementedException();
         }
 
         public override MFeIntegradorResp EnviarStatusPagamento(int numeroSessao, string chaveAcessoValidador, string codigoAutorizacao, string bin, string donoCartao,
-            string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, string idFila, string tipo, string ultimosQuatroDigitos)
+            string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, int idFila, string tipo, int ultimosQuatroDigitos)
         {
             throw new NotImplementedException();
         }
 
-        public override MFeIntegradorResp RespostaFiscal(int numeroSessao, string chaveAcessoValidador, string idFila, string chaveAcesso, string nsu,
+        public override MFeIntegradorResp RespostaFiscal(int numeroSessao, string chaveAcessoValidador, int idFila, string chaveAcesso, string nsu,
             string numeroAprovacao, string bandeira, string adquirinte, string cnpj, string impressaofiscal, string numeroDocumento)
         {
             throw new NotImplementedException();

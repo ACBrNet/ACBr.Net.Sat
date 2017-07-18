@@ -115,12 +115,12 @@ namespace ACBr.Net.Sat
             decimal icmsBase, decimal valorTotalVenda, string origemPagamento, bool habilitarMultiplosPagamentos = true, bool habilitarControleAntiFraude = false,
             string codigoMoeda = "BRL", bool emitirCupomNFCE = false);
 
-        public abstract MFeIntegradorResp VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, string idFila, string cnpj);
+        public abstract MFeIntegradorResp VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, int idFila, string cnpj);
 
         public abstract MFeIntegradorResp EnviarStatusPagamento(int numeroSessao, string chaveAcessoValidador, string codigoAutorizacao, string bin, string donoCartao,
-            string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, string idFila, string tipo, string ultimosQuatroDigitos);
+            string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, int idFila, string tipo, int ultimosQuatroDigitos);
 
-        public abstract MFeIntegradorResp RespostaFiscal(int numeroSessao, string chaveAcessoValidador, string idFila, string chaveAcesso, string nsu,
+        public abstract MFeIntegradorResp RespostaFiscal(int numeroSessao, string chaveAcessoValidador, int idFila, string chaveAcesso, string nsu,
             string numeroAprovacao, string bandeira, string adquirinte, string cnpj, string impressaofiscal, string numeroDocumento);
 
         protected string FromEncoding(string str)

@@ -804,12 +804,11 @@ namespace ACBr.Net.Sat
         /// Verificar status do pagamento no Validador
         /// </summary>
         /// <returns>MFeIntegradorResp.</returns>
-        public MFeIntegradorResp VerificarStatusValidador(string idFila, string cnpj)
+        public MFeIntegradorResp VerificarStatusValidador(int idFila, string cnpj)
         {
             Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
             IniciaComando($"VerificarStatusValidador({Sessao}, {sat.Config.ChaveAcessoValidador}, {idFila}, {cnpj})");
-
 
             return sat.VerificarStatusValidador(Sessao, sat.Config.ChaveAcessoValidador, idFila, cnpj);
         }
@@ -819,7 +818,7 @@ namespace ACBr.Net.Sat
         /// </summary>
         /// <returns>MFeIntegradorResp.</returns>
         public MFeIntegradorResp EnviarStatusPagamento(string codigoAutorizacao, string bin, string donoCartao,
-            string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, string idFila, string tipo, string ultimosQuatroDigitos)
+            string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, int idFila, string tipo, int ultimosQuatroDigitos)
         {
             Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
@@ -835,7 +834,7 @@ namespace ACBr.Net.Sat
         /// Fecha a operação com cartão ligando a chave do CFe à transação em cartão
         /// </summary>
         /// <returns>MFeIntegradorResp.</returns>
-        public MFeIntegradorResp RespostaFiscal(string idFila, string chaveAcesso, string nsu,
+        public MFeIntegradorResp RespostaFiscal(int idFila, string chaveAcesso, string nsu,
             string numeroAprovacao, string bandeira, string adquirinte, string cnpj, string impressaofiscal, string numeroDocumento)
         {
             Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");

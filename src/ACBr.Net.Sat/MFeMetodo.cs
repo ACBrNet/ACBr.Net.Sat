@@ -40,7 +40,7 @@ namespace ACBr.Net.Sat
 
 		public MFeMetodo()
 		{
-            Construtor = null;
+            Construtor = new MFeConstrutor();
 			Parametros = new MFeParametroCollection();
 		}
 

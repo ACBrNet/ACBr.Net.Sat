@@ -122,23 +122,25 @@
             this.label13 = new System.Windows.Forms.Label();
             this.tpgRede = new System.Windows.Forms.TabPage();
             this.tpgImpressao = new System.Windows.Forms.TabPage();
+            this.tpgMFe = new System.Windows.Forms.TabPage();
+            this.btnRespostaFiscal = new System.Windows.Forms.Button();
+            this.btnVerificarStatusValidador = new System.Windows.Forms.Button();
+            this.btnEnviarStatusPagamento = new System.Windows.Forms.Button();
+            this.btnEnviarPagamento = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
+            this.nunMFeTimeout = new System.Windows.Forms.NumericUpDown();
+            this.txtMFeResposta = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtMFeEnvio = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.cmbModeloSat = new System.Windows.Forms.ComboBox();
             this.btnIniDesini = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnParamSave = new System.Windows.Forms.Button();
             this.btnParamLoad = new System.Windows.Forms.Button();
-            this.tpgMFe = new System.Windows.Forms.TabPage();
-            this.txtMFeEnvio = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.txtMFeResposta = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.nunMFeTimeout = new System.Windows.Forms.NumericUpDown();
-            this.label18 = new System.Windows.Forms.Label();
-            this.btnEnviarPagamento = new System.Windows.Forms.Button();
-            this.btnEnviarStatusPagamento = new System.Windows.Forms.Button();
-            this.btnVerificarStatusValidador = new System.Windows.Forms.Button();
-            this.btnRespostaFiscal = new System.Windows.Forms.Button();
+            this.txtChaveAcessoValidador = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
             this.tpgLog.SuspendLayout();
             this.tbcXml.SuspendLayout();
             this.tpgXmlGerado.SuspendLayout();
@@ -156,9 +158,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.nunCaixa)).BeginInit();
             this.tpgEmitente.SuspendLayout();
             this.tpgSwHouse.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.tpgMFe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nunMFeTimeout)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tpgLog
@@ -1093,6 +1095,136 @@
             this.tpgImpressao.Text = "Impressão";
             this.tpgImpressao.UseVisualStyleBackColor = true;
             // 
+            // tpgMFe
+            // 
+            this.tpgMFe.Controls.Add(this.txtChaveAcessoValidador);
+            this.tpgMFe.Controls.Add(this.label19);
+            this.tpgMFe.Controls.Add(this.btnRespostaFiscal);
+            this.tpgMFe.Controls.Add(this.btnVerificarStatusValidador);
+            this.tpgMFe.Controls.Add(this.btnEnviarStatusPagamento);
+            this.tpgMFe.Controls.Add(this.btnEnviarPagamento);
+            this.tpgMFe.Controls.Add(this.label18);
+            this.tpgMFe.Controls.Add(this.nunMFeTimeout);
+            this.tpgMFe.Controls.Add(this.txtMFeResposta);
+            this.tpgMFe.Controls.Add(this.label17);
+            this.tpgMFe.Controls.Add(this.txtMFeEnvio);
+            this.tpgMFe.Controls.Add(this.label16);
+            this.tpgMFe.Location = new System.Drawing.Point(4, 22);
+            this.tpgMFe.Name = "tpgMFe";
+            this.tpgMFe.Padding = new System.Windows.Forms.Padding(3);
+            this.tpgMFe.Size = new System.Drawing.Size(588, 159);
+            this.tpgMFe.TabIndex = 5;
+            this.tpgMFe.Text = "MFE";
+            this.tpgMFe.UseVisualStyleBackColor = true;
+            // 
+            // btnRespostaFiscal
+            // 
+            this.btnRespostaFiscal.Location = new System.Drawing.Point(433, 59);
+            this.btnRespostaFiscal.Name = "btnRespostaFiscal";
+            this.btnRespostaFiscal.Size = new System.Drawing.Size(138, 24);
+            this.btnRespostaFiscal.TabIndex = 17;
+            this.btnRespostaFiscal.Text = "Resposta Fiscal";
+            this.btnRespostaFiscal.UseVisualStyleBackColor = true;
+            this.btnRespostaFiscal.Click += new System.EventHandler(this.btnRespostaFiscal_Click);
+            // 
+            // btnVerificarStatusValidador
+            // 
+            this.btnVerificarStatusValidador.Location = new System.Drawing.Point(292, 59);
+            this.btnVerificarStatusValidador.Name = "btnVerificarStatusValidador";
+            this.btnVerificarStatusValidador.Size = new System.Drawing.Size(138, 24);
+            this.btnVerificarStatusValidador.TabIndex = 16;
+            this.btnVerificarStatusValidador.Text = "Verificar Status Validador";
+            this.btnVerificarStatusValidador.UseVisualStyleBackColor = true;
+            this.btnVerificarStatusValidador.Click += new System.EventHandler(this.btnVerificarStatusValidador_Click);
+            // 
+            // btnEnviarStatusPagamento
+            // 
+            this.btnEnviarStatusPagamento.Location = new System.Drawing.Point(433, 24);
+            this.btnEnviarStatusPagamento.Name = "btnEnviarStatusPagamento";
+            this.btnEnviarStatusPagamento.Size = new System.Drawing.Size(138, 24);
+            this.btnEnviarStatusPagamento.TabIndex = 15;
+            this.btnEnviarStatusPagamento.Text = "Enviar Status Pagamento";
+            this.btnEnviarStatusPagamento.UseVisualStyleBackColor = true;
+            this.btnEnviarStatusPagamento.Click += new System.EventHandler(this.btnEnviarStatusPagamento_Click);
+            // 
+            // btnEnviarPagamento
+            // 
+            this.btnEnviarPagamento.Location = new System.Drawing.Point(292, 24);
+            this.btnEnviarPagamento.Name = "btnEnviarPagamento";
+            this.btnEnviarPagamento.Size = new System.Drawing.Size(138, 24);
+            this.btnEnviarPagamento.TabIndex = 14;
+            this.btnEnviarPagamento.Text = "MFE Enviar Pagamento";
+            this.btnEnviarPagamento.UseVisualStyleBackColor = true;
+            this.btnEnviarPagamento.Click += new System.EventHandler(this.btnEnviarPagamento_Click);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(282, 98);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(156, 13);
+            this.label18.TabIndex = 13;
+            this.label18.Text = "Timeout (em milisegundos)";
+            // 
+            // nunMFeTimeout
+            // 
+            this.nunMFeTimeout.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nunMFeTimeout.Location = new System.Drawing.Point(285, 117);
+            this.nunMFeTimeout.Maximum = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            this.nunMFeTimeout.Name = "nunMFeTimeout";
+            this.nunMFeTimeout.Size = new System.Drawing.Size(84, 20);
+            this.nunMFeTimeout.TabIndex = 12;
+            this.nunMFeTimeout.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nunMFeTimeout.Value = new decimal(new int[] {
+            45000,
+            0,
+            0,
+            0});
+            this.nunMFeTimeout.ValueChanged += new System.EventHandler(this.nunMFeTimeout_ValueChanged);
+            // 
+            // txtMFeResposta
+            // 
+            this.txtMFeResposta.Location = new System.Drawing.Point(8, 71);
+            this.txtMFeResposta.Name = "txtMFeResposta";
+            this.txtMFeResposta.Size = new System.Drawing.Size(269, 20);
+            this.txtMFeResposta.TabIndex = 6;
+            this.txtMFeResposta.Text = "C:\\Integrador\\Output";
+            this.txtMFeResposta.TextChanged += new System.EventHandler(this.txtMFeResposta_TextChanged);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(5, 55);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(96, 13);
+            this.label17.TabIndex = 5;
+            this.label17.Text = "Pasta Resposta";
+            // 
+            // txtMFeEnvio
+            // 
+            this.txtMFeEnvio.Location = new System.Drawing.Point(8, 26);
+            this.txtMFeEnvio.Name = "txtMFeEnvio";
+            this.txtMFeEnvio.Size = new System.Drawing.Size(269, 20);
+            this.txtMFeEnvio.TabIndex = 4;
+            this.txtMFeEnvio.Text = "C:\\Integrador\\Input";
+            this.txtMFeEnvio.TextChanged += new System.EventHandler(this.txtMFeEnvio_TextChanged);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(5, 10);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(75, 13);
+            this.label16.TabIndex = 3;
+            this.label16.Text = "Pasta Envio";
+            // 
             // label15
             // 
             this.label15.AutoSize = true;
@@ -1156,133 +1288,23 @@
             this.btnParamLoad.UseVisualStyleBackColor = true;
             this.btnParamLoad.Click += new System.EventHandler(this.btnParamLoad_Click);
             // 
-            // tpgMFe
+            // txtChaveAcessoValidador
             // 
-            this.tpgMFe.Controls.Add(this.btnRespostaFiscal);
-            this.tpgMFe.Controls.Add(this.btnVerificarStatusValidador);
-            this.tpgMFe.Controls.Add(this.btnEnviarStatusPagamento);
-            this.tpgMFe.Controls.Add(this.btnEnviarPagamento);
-            this.tpgMFe.Controls.Add(this.label18);
-            this.tpgMFe.Controls.Add(this.nunMFeTimeout);
-            this.tpgMFe.Controls.Add(this.txtMFeResposta);
-            this.tpgMFe.Controls.Add(this.label17);
-            this.tpgMFe.Controls.Add(this.txtMFeEnvio);
-            this.tpgMFe.Controls.Add(this.label16);
-            this.tpgMFe.Location = new System.Drawing.Point(4, 22);
-            this.tpgMFe.Name = "tpgMFe";
-            this.tpgMFe.Padding = new System.Windows.Forms.Padding(3);
-            this.tpgMFe.Size = new System.Drawing.Size(588, 159);
-            this.tpgMFe.TabIndex = 5;
-            this.tpgMFe.Text = "MFE";
-            this.tpgMFe.UseVisualStyleBackColor = true;
+            this.txtChaveAcessoValidador.Location = new System.Drawing.Point(8, 118);
+            this.txtChaveAcessoValidador.Name = "txtChaveAcessoValidador";
+            this.txtChaveAcessoValidador.Size = new System.Drawing.Size(269, 20);
+            this.txtChaveAcessoValidador.TabIndex = 19;
+            this.txtChaveAcessoValidador.TextChanged += new System.EventHandler(this.txtChaveAcessoValidador_TextChanged);
             // 
-            // txtMFeEnvio
+            // label19
             // 
-            this.txtMFeEnvio.Location = new System.Drawing.Point(8, 26);
-            this.txtMFeEnvio.Name = "txtMFeEnvio";
-            this.txtMFeEnvio.Size = new System.Drawing.Size(269, 20);
-            this.txtMFeEnvio.TabIndex = 4;
-            this.txtMFeEnvio.Text = "C:\\Integrador\\Input";
-            this.txtMFeEnvio.TextChanged += new System.EventHandler(this.txtMFeEnvio_TextChanged);
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(5, 10);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(75, 13);
-            this.label16.TabIndex = 3;
-            this.label16.Text = "Pasta Envio";
-            // 
-            // txtMFeResposta
-            // 
-            this.txtMFeResposta.Location = new System.Drawing.Point(8, 71);
-            this.txtMFeResposta.Name = "txtMFeResposta";
-            this.txtMFeResposta.Size = new System.Drawing.Size(269, 20);
-            this.txtMFeResposta.TabIndex = 6;
-            this.txtMFeResposta.Text = "C:\\Integrador\\Output";
-            this.txtMFeResposta.TextChanged += new System.EventHandler(this.txtMFeResposta_TextChanged);
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(5, 55);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(96, 13);
-            this.label17.TabIndex = 5;
-            this.label17.Text = "Pasta Resposta";
-            // 
-            // nunMFeTimeout
-            // 
-            this.nunMFeTimeout.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nunMFeTimeout.Location = new System.Drawing.Point(8, 118);
-            this.nunMFeTimeout.Maximum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
-            this.nunMFeTimeout.Name = "nunMFeTimeout";
-            this.nunMFeTimeout.Size = new System.Drawing.Size(84, 20);
-            this.nunMFeTimeout.TabIndex = 12;
-            this.nunMFeTimeout.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nunMFeTimeout.Value = new decimal(new int[] {
-            45000,
-            0,
-            0,
-            0});
-            this.nunMFeTimeout.ValueChanged += new System.EventHandler(this.nunMFeTimeout_ValueChanged);
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(5, 99);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(156, 13);
-            this.label18.TabIndex = 13;
-            this.label18.Text = "Timeout (em milisegundos)";
-            // 
-            // btnEnviarPagamento
-            // 
-            this.btnEnviarPagamento.Location = new System.Drawing.Point(292, 24);
-            this.btnEnviarPagamento.Name = "btnEnviarPagamento";
-            this.btnEnviarPagamento.Size = new System.Drawing.Size(138, 24);
-            this.btnEnviarPagamento.TabIndex = 14;
-            this.btnEnviarPagamento.Text = "MFE Enviar Pagamento";
-            this.btnEnviarPagamento.UseVisualStyleBackColor = true;
-            this.btnEnviarPagamento.Click += new System.EventHandler(this.btnEnviarPagamento_Click);
-            // 
-            // btnEnviarStatusPagamento
-            // 
-            this.btnEnviarStatusPagamento.Location = new System.Drawing.Point(433, 24);
-            this.btnEnviarStatusPagamento.Name = "btnEnviarStatusPagamento";
-            this.btnEnviarStatusPagamento.Size = new System.Drawing.Size(138, 24);
-            this.btnEnviarStatusPagamento.TabIndex = 15;
-            this.btnEnviarStatusPagamento.Text = "Enviar Status Pagamento";
-            this.btnEnviarStatusPagamento.UseVisualStyleBackColor = true;
-            this.btnEnviarStatusPagamento.Click += new System.EventHandler(this.btnEnviarStatusPagamento_Click);
-            // 
-            // btnVerificarStatusValidador
-            // 
-            this.btnVerificarStatusValidador.Location = new System.Drawing.Point(292, 59);
-            this.btnVerificarStatusValidador.Name = "btnVerificarStatusValidador";
-            this.btnVerificarStatusValidador.Size = new System.Drawing.Size(138, 24);
-            this.btnVerificarStatusValidador.TabIndex = 16;
-            this.btnVerificarStatusValidador.Text = "Verificar Status Validador";
-            this.btnVerificarStatusValidador.UseVisualStyleBackColor = true;
-            this.btnVerificarStatusValidador.Click += new System.EventHandler(this.btnVerificarStatusValidador_Click);
-            // 
-            // btnRespostaFiscal
-            // 
-            this.btnRespostaFiscal.Location = new System.Drawing.Point(433, 59);
-            this.btnRespostaFiscal.Name = "btnRespostaFiscal";
-            this.btnRespostaFiscal.Size = new System.Drawing.Size(138, 24);
-            this.btnRespostaFiscal.TabIndex = 17;
-            this.btnRespostaFiscal.Text = "Resposta Fiscal";
-            this.btnRespostaFiscal.UseVisualStyleBackColor = true;
-            this.btnRespostaFiscal.Click += new System.EventHandler(this.btnRespostaFiscal_Click);
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(5, 99);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(179, 13);
+            this.label19.TabIndex = 18;
+            this.label19.Text = "Chave de acesso ao validador";
             // 
             // FrmMain
             // 
@@ -1328,10 +1350,10 @@
             this.tpgEmitente.PerformLayout();
             this.tpgSwHouse.ResumeLayout(false);
             this.tpgSwHouse.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
             this.tpgMFe.ResumeLayout(false);
             this.tpgMFe.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nunMFeTimeout)).EndInit();
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1449,6 +1471,8 @@
         private System.Windows.Forms.Button btnVerificarStatusValidador;
         private System.Windows.Forms.Button btnEnviarStatusPagamento;
         private System.Windows.Forms.Button btnEnviarPagamento;
+        private System.Windows.Forms.TextBox txtChaveAcessoValidador;
+        private System.Windows.Forms.Label label19;
     }
 }
 

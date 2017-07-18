@@ -45,6 +45,12 @@ namespace ACBr.Net.Sat
         public SatIntegradorMFe(SatConfig config, string pathDll, Encoding encoding) : base(config, pathDll, encoding)
         {
             ModeloStr = "SatIntegradorMFe";
+
+            if (!Directory.Exists(Path.Combine(Config.MFePathEnvio, "Enviados")))
+                Directory.CreateDirectory(Path.Combine(Config.MFePathEnvio, "Enviados"));
+
+            if (!Directory.Exists(Path.Combine(Config.MFePathResposta, "Processados")))
+                Directory.CreateDirectory(Path.Combine(Config.MFePathResposta, "Processados"));
         }
 
         #endregion Constructors
@@ -395,8 +401,8 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("Estabelecimento", estabelecimento);
                 parametros.AddParametro("SerialPOS", serialPOS);
                 parametros.AddParametro("Cnpj", cnpj);
-                parametros.AddParametro("IcmsBase", icmsBase.ToString());
-                parametros.AddParametro("ValorTotalVenda", valorTotalVenda.ToString());
+                parametros.AddParametro("IcmsBase", string.Format("{0:0.##}", icmsBase).Replace(',','.'));
+                parametros.AddParametro("ValorTotalVenda", string.Format("{0:0.##}", valorTotalVenda).Replace(',', '.'));
                 parametros.AddParametro("HabilitarMultiplosPagamentos", habilitarMultiplosPagamentos ? "true" : "false");
                 parametros.AddParametro("HabilitarControleAntiFraude", habilitarControleAntiFraude ? "true" : "false");
                 parametros.AddParametro("CodigoMoeda", codigoMoeda);
@@ -412,7 +418,7 @@ namespace ACBr.Net.Sat
             }
         }
 
-        public override MFeIntegradorResp VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, string idFila, string cnpj)
+        public override MFeIntegradorResp VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, int idFila, string cnpj)
         {
             try
             {
@@ -423,7 +429,7 @@ namespace ACBr.Net.Sat
                 envio.Componente.Metodo.Construtor.Parametros.AddParametro("chaveAcessoValidador", chaveAcessoValidador);
 
                 var parametros = envio.Componente.Metodo.Parametros;
-                parametros.AddParametro("idFila", idFila);
+                parametros.AddParametro("idFila", idFila.ToString());
                 parametros.AddParametro("cnpj", cnpj);
 
                 EnviarComando(envio);
@@ -436,7 +442,7 @@ namespace ACBr.Net.Sat
         }
 
         public override MFeIntegradorResp EnviarStatusPagamento(int numeroSessao, string chaveAcessoValidador, string codigoAutorizacao, string bin, string donoCartao,
-            string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, string idFila, string tipo, string ultimosQuatroDigitos)
+            string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, int idFila, string tipo, int ultimosQuatroDigitos)
         {
             try
             {
@@ -454,10 +460,10 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("InstituicaoFinanceira", instituicaoFinanceira);
                 parametros.AddParametro("Parcelas", parcelas.ToString());
                 parametros.AddParametro("CodigoPagamento", codigoPagamento);
-                parametros.AddParametro("ValorPagamento", valorPagamento.ToString());
-                parametros.AddParametro("IdFila", idFila);
+                parametros.AddParametro("ValorPagamento", string.Format("{0:0.##}", valorPagamento).Replace(',','.'));
+                parametros.AddParametro("IdFila", idFila.ToString());
                 parametros.AddParametro("Tipo", tipo);
-                parametros.AddParametro("UltimosQuatroDigitos", ultimosQuatroDigitos);
+                parametros.AddParametro("UltimosQuatroDigitos", ultimosQuatroDigitos.ToString());
 
                 EnviarComando(envio);
                 return AguardarResposta(numeroSessao.ToString());
@@ -468,7 +474,7 @@ namespace ACBr.Net.Sat
             }
         }
 
-        public override MFeIntegradorResp RespostaFiscal(int numeroSessao, string chaveAcessoValidador, string idFila, string chaveAcesso, string nsu,
+        public override MFeIntegradorResp RespostaFiscal(int numeroSessao, string chaveAcessoValidador, int idFila, string chaveAcesso, string nsu,
             string numeroAprovacao, string bandeira, string adquirinte, string cnpj, string impressaofiscal, string numeroDocumento)
         {
             try
@@ -480,7 +486,7 @@ namespace ACBr.Net.Sat
                 envio.Componente.Metodo.Construtor.Parametros.AddParametro("chaveAcessoValidador", chaveAcessoValidador);
 
                 var parametros = envio.Componente.Metodo.Parametros;
-                parametros.AddParametro("idFila", idFila);
+                parametros.AddParametro("idFila", idFila.ToString());
                 parametros.AddParametro("ChaveAcesso", chaveAcesso);
                 parametros.AddParametro("Nsu", nsu);
                 parametros.AddParametro("NumerodeAprovacao", numeroAprovacao);
@@ -503,7 +509,7 @@ namespace ACBr.Net.Sat
         {
             var envio = new MFeIntegradorEnvio();
             envio.Identificador.Valor = identificacao;
-            envio.Componente.Nome = "MF-e-Giz";
+            envio.Componente.Nome = "MF-e";
             envio.Componente.Metodo.Nome = metodo;
 
             return envio;
@@ -511,8 +517,11 @@ namespace ACBr.Net.Sat
         
         private void EnviarComando(MFeIntegradorEnvio envio)
         {
+            envio.Save(Path.Combine(Config.MFePathEnvio, "Enviados", $"{envio.Componente.Metodo.Nome}_{envio.Identificador.Valor}.xml"));
+
             string file = Path.Combine(Config.MFePathEnvio, $"{envio.Componente.Metodo.Nome}_{envio.Identificador.Valor}.tmp");
-            envio.Save(file);
+            envio.Save(file);            
+
             File.Move(file, $"{file.Substring(0, file.Length - 4)}.xml");
         }
 
@@ -539,6 +548,7 @@ namespace ACBr.Net.Sat
                         if (resp.Identificador.Valor != identificacao) continue;
 
                         resposta = resp;
+                        File.Move(file, Path.Combine(Config.MFePathResposta, "Processados", $"{new FileInfo(file).Name}.xml"));
                         break;
                     }
                     catch (Exception)
