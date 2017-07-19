@@ -785,12 +785,10 @@ namespace ACBr.Net.Sat
 		/// Envia pagamento ao MFe
 		/// </summary>
 		/// <returns>MFeIntegradorResp.</returns>
-		public MFeIntegradorResp EnviarPagamento(string estabelecimento, string serialPOS, string cnpj, decimal icmsBase, decimal valorTotalVenda, string origemPagamento, 
+		public MFeIntegradorResp EnviarPagamento(string chaveRequisicao, string estabelecimento, string serialPOS, string cnpj, decimal icmsBase, decimal valorTotalVenda, string origemPagamento, 
             bool habilitarMultiplosPagamentos = true,  bool habilitarControleAntiFraude = false, string codigoMoeda = "BRL", bool emitirCupomNFCE = false)
         {
-            Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
-
-            string chaveRequisicao = Guid.NewGuid().ToString();
+            Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");             
 
             IniciaComando($"EnviarPagamento({Sessao}, {sat.Config.ChaveAcessoValidador}, {chaveRequisicao}, {estabelecimento} , {cnpj}, {icmsBase.ToString()}, {valorTotalVenda.ToString()}, {origemPagamento})" +
                           $"{habilitarMultiplosPagamentos}, {habilitarControleAntiFraude}, {codigoMoeda}, {emitirCupomNFCE})");

@@ -714,7 +714,9 @@ namespace ACBr.Net.Sat.Demo
 
         private void btnEnviarPagamento_Click(object sender, EventArgs e)
         {
+            string _chaveRequisicao = Guid.NewGuid().ToString();
             var resposta = acbrSat.EnviarPagamento(
+                chaveRequisicao: _chaveRequisicao,
                 estabelecimento: "10",
                 serialPOS: new Random().Next(10000000, 99999999).ToString(),
                 cnpj: txtEmitCNPJ.Text,
@@ -785,8 +787,6 @@ namespace ACBr.Net.Sat.Demo
 
             wbrXmlRecebido.LoadXml(resposta.GetXml());
         }
-
-
         #endregion Botoes
 
         #endregion EventHandlers               
