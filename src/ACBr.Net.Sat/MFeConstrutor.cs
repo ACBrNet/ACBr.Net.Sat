@@ -1,4 +1,4 @@
-// ***********************************************************************
+﻿// ***********************************************************************
 // Assembly         : ACBr.Net.Sat
 // Author           : marcosgerene
 // Created          : 07-17-2017
@@ -34,30 +34,23 @@ using ACBr.Net.DFe.Core.Serializer;
 
 namespace ACBr.Net.Sat
 {
-	public sealed class MFeMetodo
-	{
-		#region Constructors
+    public sealed class MFeConstrutor
+    {
+        #region Constructors
 
-		public MFeMetodo()
-		{
-            Construtor = new MFeConstrutor();
-			Parametros = new MFeParametroCollection();
-		}
+        public MFeConstrutor()
+        {
+            Parametros = new MFeParametroCollection();
+        }
 
-		#endregion Constructors
+        #endregion Constructors
 
-		#region Properties
-
-		[DFeAttribute(TipoCampo.Str, "Nome", Ocorrencia = Ocorrencia.Obrigatoria)]
-		public string Nome { get; set; }
-
-        [DFeElement("Construtor", Ocorrencia = Ocorrencia.NaoObrigatoria)]
-        public MFeConstrutor Construtor { get; set; }
+        #region Properties
 
         [DFeElement("Parametros")]
-		[DFeItem(typeof(MFeParametro), "Parametro")]
-		public MFeParametroCollection Parametros { get; set; }
+        [DFeItem(typeof(MFeParametro), "Parametro")]
+        public MFeParametroCollection Parametros { get; set; }
 
-		#endregion Properties
-	}
+        #endregion Properties
+    }
 }

@@ -1,12 +1,12 @@
-// ***********************************************************************
+﻿// ***********************************************************************
 // Assembly         : ACBr.Net.Sat
-// Author           : marcosgerene
-// Created          : 07-17-2017
+// Author           : RFTD
+// Created          : 05-30-2017
 //
-// Last Modified By : marcosgerene
-// Last Modified On : 07-17-2017
+// Last Modified By : RFTD
+// Last Modified On : 05-30-2017
 // ***********************************************************************
-// <copyright file="MFeMetodo.cs" company="ACBr.Net">
+// <copyright file="MFeIntegradorEnvio.cs" company="ACBr.Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2016 Grupo ACBr.Net
 //
@@ -30,34 +30,31 @@
 // ***********************************************************************
 
 using ACBr.Net.DFe.Core.Attributes;
-using ACBr.Net.DFe.Core.Serializer;
+using ACBr.Net.DFe.Core.Common;
 
 namespace ACBr.Net.Sat
 {
-	public sealed class MFeMetodo
-	{
-		#region Constructors
+    [DFeRoot("Integrador")]
+    public sealed class MFeIntegradorEnvioPagamento : DFeDocument<MFeIntegradorEnvioPagamento>
+    {
+        #region Constructors
 
-		public MFeMetodo()
-		{
-            Construtor = new MFeConstrutor();
-			Parametros = new MFeParametroCollection();
-		}
+        public MFeIntegradorEnvioPagamento()
+        {
+            Identificador = new MFeIdentificador();
+            Componente = new MFeComponente();
+        }
 
-		#endregion Constructors
+        #endregion Constructors
 
-		#region Properties
+        #region Properties
 
-		[DFeAttribute(TipoCampo.Str, "Nome", Ocorrencia = Ocorrencia.Obrigatoria)]
-		public string Nome { get; set; }
+        [DFeElement("Identificador", Ocorrencia = Ocorrencia.Obrigatoria)]
+        public MFeIdentificador Identificador { get; set; }
 
-        [DFeElement("Construtor", Ocorrencia = Ocorrencia.NaoObrigatoria)]
-        public MFeConstrutor Construtor { get; set; }
+        [DFeElement("Componente", Ocorrencia = Ocorrencia.Obrigatoria)]
+        public MFeComponentePagamento Componente { get; set; }
 
-        [DFeElement("Parametros")]
-		[DFeItem(typeof(MFeParametro), "Parametro")]
-		public MFeParametroCollection Parametros { get; set; }
-
-		#endregion Properties
-	}
+        #endregion Properties
+    }
 }

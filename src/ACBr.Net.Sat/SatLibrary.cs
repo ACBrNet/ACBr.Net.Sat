@@ -111,7 +111,19 @@ namespace ACBr.Net.Sat
 		public abstract string TrocarCodigoDeAtivacao(int numeroSessao, string codigoDeAtivacao, int opcao, string novoCodigo,
 			string confNovoCodigo);
 
-		protected string FromEncoding(string str)
+        public abstract MFeIntegradorResp EnviarPagamento(int numeroSessao, string chaveAcessoValidador, string chaveRequisicao, string estabelecimento, string serialPOS, string cnpj,
+            decimal icmsBase, decimal valorTotalVenda, string origemPagamento, bool habilitarMultiplosPagamentos = true, bool habilitarControleAntiFraude = false,
+            string codigoMoeda = "BRL", bool emitirCupomNFCE = false);
+
+        public abstract MFeIntegradorResp VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, int idFila, string cnpj);
+
+        public abstract MFeIntegradorResp EnviarStatusPagamento(int numeroSessao, string chaveAcessoValidador, string codigoAutorizacao, string bin, string donoCartao,
+            string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, int idFila, string tipo, int ultimosQuatroDigitos);
+
+        public abstract MFeIntegradorResp RespostaFiscal(int numeroSessao, string chaveAcessoValidador, int idFila, string chaveAcesso, string nsu,
+            string numeroAprovacao, string bandeira, string adquirinte, string cnpj, string impressaofiscal, string numeroDocumento);
+
+        protected string FromEncoding(string str)
 		{
 			return Encoding.GetString(Encoding.Default.GetBytes(str));
 		}

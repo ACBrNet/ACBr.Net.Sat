@@ -95,6 +95,8 @@ namespace ACBr.Net.Sat
 		
         public int MFeTimeOut { get; set; }
 
-		#endregion Propriedades
-	}
+        public string ChaveAcessoValidador { get; set; }
+
+        #endregion Propriedades
+    }
 }

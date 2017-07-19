@@ -235,7 +235,8 @@ namespace ACBr.Net.Sat.Demo
             txtMFeEnvio.Text = config.Get("MFePathEnvio", @"C:\Integrador\Input\");
             txtMFeResposta.Text = config.Get("MFePathResposta", @"C:\Integrador\Output\");
             nunMFeTimeout.Value = config.Get("MFeTimeOut", 45000M);
-
+            txtChaveAcessoValidador.Text = config.Get("ChaveAcessoValidador", @"25CFE38D-3B92-46C0-91CA-CFF751A82D3D");
+            
             MessageBox.Show(this, @"Configurações Carregada com sucesso !", @"S@T Demo");
 		}
 
@@ -267,6 +268,7 @@ namespace ACBr.Net.Sat.Demo
             config.Set("MFePathEnvio", txtMFeEnvio.Text);
             config.Set("MFePathResposta", txtMFeResposta.Text);
             config.Set("MFeTimeOut", nunMFeTimeout.Value);
+            config.Set("ChaveAcessoValidador", txtChaveAcessoValidador.Text);
             config.Save();
 
 			if (msg)
@@ -679,6 +681,11 @@ namespace ACBr.Net.Sat.Demo
             acbrSat.Configuracoes.MFeTimeOut = (int)nunMFeTimeout.Value;
         }
 
+        private void txtChaveAcessoValidador_TextChanged(object sender, EventArgs e)
+        {
+            acbrSat.Configuracoes.ChaveAcessoValidador = txtChaveAcessoValidador.Text;
+        }
+
         #endregion ValueChanged
 
         #region Botoes
@@ -707,27 +714,81 @@ namespace ACBr.Net.Sat.Demo
 
         private void btnEnviarPagamento_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            string _chaveRequisicao = Guid.NewGuid().ToString();
+            var resposta = acbrSat.EnviarPagamento(
+                chaveRequisicao: _chaveRequisicao,
+                estabelecimento: "10",
+                serialPOS: new Random().Next(10000000, 99999999).ToString(),
+                cnpj: txtEmitCNPJ.Text,
+                icmsBase: 0.23m,
+                valorTotalVenda: 1530,
+                origemPagamento: "Mesa 1234",
+                habilitarMultiplosPagamentos: true,
+                habilitarControleAntiFraude: false,
+                codigoMoeda: "BRL",
+                emitirCupomNFCE: false
+            );
+
+            wbrXmlRecebido.LoadXml(resposta.GetXml());
         }
 
         private void btnEnviarStatusPagamento_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            string _idfila = "00000000";
+            InputBox.Show("ID da fila", "Informe o if da fila", ref _idfila);
+            var resposta = acbrSat.EnviarStatusPagamento(
+                codigoAutorizacao: "20551",
+                bin: "123456",
+                donoCartao: "Teste",
+                dataExpiracao: "01/18",
+                instituicaoFinanceira: "STONE",
+                parcelas: 1,
+                codigoPagamento: "12846",
+                valorPagamento: 1530,
+                idFila: int.Parse(_idfila),
+                tipo: "1",
+                ultimosQuatroDigitos: 1234
+             );
+
+            wbrXmlRecebido.LoadXml(resposta.GetXml());
         }
 
         private void btnVerificarStatusValidador_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            string _idfila = "00000000";
+            InputBox.Show("ID da fila", "Informe o if da fila", ref _idfila);
+            var resposta = acbrSat.VerificarStatusValidador(
+                idFila: int.Parse(_idfila),
+                cnpj: txtEmitCNPJ.Text
+            );
+
+            wbrXmlRecebido.LoadXml(resposta.GetXml());
         }
 
         private void btnRespostaFiscal_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            string _idfila = "00000000";
+            InputBox.Show("ID da fila", "Id da fila", ref _idfila);
+
+            string _chaveAcesso = "35170408723218000186599000113100000279731880";
+            InputBox.Show("Chave de acesso", "Chave de acesso do CFe", ref _chaveAcesso);
+
+            var resposta = acbrSat.RespostaFiscal(
+                idFila: int.Parse(_idfila),
+                chaveAcesso: _chaveAcesso,
+                nsu: _idfila.ToString(),
+                numeroAprovacao: "1234",
+                bandeira: "VISA",
+                adquirinte: "STONE",
+                impressaofiscal: "",
+                numeroDocumento: _idfila.ToString(),
+                cnpj: txtEmitCNPJ.Text
+            );
+
+            wbrXmlRecebido.LoadXml(resposta.GetXml());
         }
-
-
         #endregion Botoes
 
-        #endregion EventHandlers        
+        #endregion EventHandlers               
     }
 }
