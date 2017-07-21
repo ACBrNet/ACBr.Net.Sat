@@ -36,40 +36,40 @@ using PropertyChanged;
 
 namespace ACBr.Net.Sat
 {
-	/// <summary>
-	/// Class CFePgto. This class cannot be inherited.
-	/// </summary>
-	[ImplementPropertyChanged]
-	public sealed class CFePgto
-	{
-		#region Constructors
+    /// <summary>
+    /// Class CFePgto. This class cannot be inherited.
+    /// </summary>
+    [ImplementPropertyChanged]
+    public sealed class CFePgto
+    {
+        #region Constructors
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CFePgto"/> class.
-		/// </summary>
-		public CFePgto()
-		{
-			Pagamentos = new DFeCollection<CFePgtoMp>();
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CFePgto"/> class.
+        /// </summary>
+        public CFePgto()
+        {
+            Pagamentos = new DFeCollection<CFePgtoMp>();
+        }
 
-		#endregion Constructors
+        #endregion Constructors
 
-		#region Propriedades
+        #region Propriedades
 
-		/// <summary>
-		/// Gets or sets the pagamentos.
-		/// </summary>
-		/// <value>The pagamentos.</value>
-		[DFeElement("MP", Id = "WA02", Min = 1, Max = 50, Ocorrencia = Ocorrencia.Obrigatoria)]
-		public DFeCollection<CFePgtoMp> Pagamentos { get; set; }
+        /// <summary>
+        /// Gets or sets the pagamentos.
+        /// </summary>
+        /// <value>The pagamentos.</value>
+        [DFeCollection("MP", Id = "WA02", MinSize = 1, MaxSize = 50, Ocorrencia = Ocorrencia.Obrigatoria)]
+        public DFeCollection<CFePgtoMp> Pagamentos { get; set; }
 
-		/// <summary>
-		/// Gets or sets the v troco.
-		/// </summary>
-		/// <value>The v troco.</value>
-		[DFeElement(TipoCampo.De2, "vTroco", Id = "WA06", Min = 3, Max = 15, Ocorrencia = Ocorrencia.MaiorQueZero)]
-		public decimal VTroco { get; set; }
+        /// <summary>
+        /// Gets or sets the v troco.
+        /// </summary>
+        /// <value>The v troco.</value>
+        [DFeElement(TipoCampo.De2, "vTroco", Id = "WA06", Min = 3, Max = 15, Ocorrencia = Ocorrencia.MaiorQueZero)]
+        public decimal VTroco { get; set; }
 
-		#endregion Propriedades
-	}
+        #endregion Propriedades
+    }
 }

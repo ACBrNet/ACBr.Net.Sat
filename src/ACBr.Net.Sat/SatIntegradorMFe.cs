@@ -35,6 +35,8 @@ using System.Text;
 using System.Threading;
 using ACBr.Net.Core;
 using System.Diagnostics;
+using ACBr.Net.Core.Exceptions;
+using ACBr.Net.Core.Extensions;
 
 namespace ACBr.Net.Sat
 {
@@ -71,7 +73,7 @@ namespace ACBr.Net.Sat
 
                 EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao.ToString());
+                var resposta = MFeIntegradorResp.Load(AguardarResposta(numeroSessao.ToString()));
 
                 return resposta.Resposta.Retorno;
             }
@@ -95,8 +97,8 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("cUF", cUF.ToString());
 
                 EnviarComando(envio);
-                
-                var resposta = AguardarResposta(numeroSessao.ToString());
+
+                var resposta = MFeIntegradorResp.Load(AguardarResposta(numeroSessao.ToString()));
 
                 return resposta.Resposta.Retorno;
             }
@@ -118,7 +120,7 @@ namespace ACBr.Net.Sat
 
                 EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao.ToString());
+                var resposta = MFeIntegradorResp.Load(AguardarResposta(numeroSessao.ToString()));
 
                 return resposta.Resposta.Retorno;
             }
@@ -140,7 +142,7 @@ namespace ACBr.Net.Sat
 
                 EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao.ToString());
+                var resposta = MFeIntegradorResp.Load(AguardarResposta(numeroSessao.ToString()));
 
                 return resposta.Resposta.Retorno;
             }
@@ -164,7 +166,7 @@ namespace ACBr.Net.Sat
 
                 EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao.ToString());
+                var resposta = MFeIntegradorResp.Load(AguardarResposta(numeroSessao.ToString()));
 
                 return resposta.Resposta.Retorno;
             }
@@ -187,7 +189,7 @@ namespace ACBr.Net.Sat
 
                 EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao.ToString());
+                var resposta = MFeIntegradorResp.Load(AguardarResposta(numeroSessao.ToString()));
 
                 return resposta.Resposta.Retorno;
             }
@@ -215,7 +217,7 @@ namespace ACBr.Net.Sat
 
                 EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao.ToString());
+                var resposta = MFeIntegradorResp.Load(AguardarResposta(numeroSessao.ToString()));
 
                 return resposta.Resposta.Retorno;
             }
@@ -236,7 +238,7 @@ namespace ACBr.Net.Sat
 
                 EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao.ToString());
+                var resposta = MFeIntegradorResp.Load(AguardarResposta(numeroSessao.ToString()));
 
                 return resposta.Resposta.Retorno;
             }
@@ -258,7 +260,7 @@ namespace ACBr.Net.Sat
 
                 EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao.ToString());
+                var resposta = MFeIntegradorResp.Load(AguardarResposta(numeroSessao.ToString()));
 
                 return resposta.Resposta.Retorno;
             }
@@ -280,7 +282,7 @@ namespace ACBr.Net.Sat
 
                 EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao.ToString());
+                var resposta = MFeIntegradorResp.Load(AguardarResposta(numeroSessao.ToString()));
 
                 return resposta.Resposta.Retorno;
             }
@@ -304,7 +306,7 @@ namespace ACBr.Net.Sat
 
                 EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao.ToString());
+                var resposta = MFeIntegradorResp.Load(AguardarResposta(numeroSessao.ToString()));
 
                 return resposta.Resposta.Retorno;
             }
@@ -326,7 +328,7 @@ namespace ACBr.Net.Sat
 
                 EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao.ToString());
+                var resposta = MFeIntegradorResp.Load(AguardarResposta(numeroSessao.ToString()));
 
                 return resposta.Resposta.Retorno;
             }
@@ -349,7 +351,7 @@ namespace ACBr.Net.Sat
 
                 EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao.ToString());
+                var resposta = MFeIntegradorResp.Load(AguardarResposta(numeroSessao.ToString()));
 
                 return resposta.Resposta.Retorno;
             }
@@ -374,7 +376,7 @@ namespace ACBr.Net.Sat
 
                 EnviarComando(envio);
 
-                var resposta = AguardarResposta(numeroSessao.ToString());
+                var resposta = MFeIntegradorResp.Load(AguardarResposta(numeroSessao.ToString()));
 
                 return resposta.Resposta.Retorno;
             }
@@ -384,8 +386,8 @@ namespace ACBr.Net.Sat
             }
         }
 
-        public override MFeIntegradorResp EnviarPagamento(int numeroSessao, string chaveAcessoValidador, string chaveRequisicao, string estabelecimento, string serialPOS, string cnpj,
-            decimal icmsBase, decimal valorTotalVenda, string origemPagamento, bool habilitarMultiplosPagamentos = true, bool habilitarControleAntiFraude = false, 
+        public override string EnviarPagamento(int numeroSessao, string chaveAcessoValidador, string chaveRequisicao, string estabelecimento, string serialPOS, string cnpj,
+            decimal icmsBase, decimal valorTotalVenda, string origemPagamento, bool habilitarMultiplosPagamentos = true, bool habilitarControleAntiFraude = false,
             string codigoMoeda = "BRL", bool emitirCupomNFCE = false)
         {
             try
@@ -401,7 +403,7 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("Estabelecimento", estabelecimento);
                 parametros.AddParametro("SerialPOS", serialPOS);
                 parametros.AddParametro("Cnpj", cnpj);
-                parametros.AddParametro("IcmsBase", string.Format("{0:0.##}", icmsBase).Replace(',','.'));
+                parametros.AddParametro("IcmsBase", string.Format("{0:0.##}", icmsBase).Replace(',', '.'));
                 parametros.AddParametro("ValorTotalVenda", string.Format("{0:0.##}", valorTotalVenda).Replace(',', '.'));
                 parametros.AddParametro("HabilitarMultiplosPagamentos", habilitarMultiplosPagamentos ? "true" : "false");
                 parametros.AddParametro("HabilitarControleAntiFraude", habilitarControleAntiFraude ? "true" : "false");
@@ -418,7 +420,7 @@ namespace ACBr.Net.Sat
             }
         }
 
-        public override MFeIntegradorResp VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, int idFila, string cnpj)
+        public override string VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, int idFila, string cnpj)
         {
             try
             {
@@ -441,7 +443,7 @@ namespace ACBr.Net.Sat
             }
         }
 
-        public override MFeIntegradorResp EnviarStatusPagamento(int numeroSessao, string chaveAcessoValidador, string codigoAutorizacao, string bin, string donoCartao,
+        public override string EnviarStatusPagamento(int numeroSessao, string chaveAcessoValidador, string codigoAutorizacao, string bin, string donoCartao,
             string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, int idFila, string tipo, int ultimosQuatroDigitos)
         {
             try
@@ -460,7 +462,7 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("InstituicaoFinanceira", instituicaoFinanceira);
                 parametros.AddParametro("Parcelas", parcelas.ToString());
                 parametros.AddParametro("CodigoPagamento", codigoPagamento);
-                parametros.AddParametro("ValorPagamento", string.Format("{0:0.##}", valorPagamento).Replace(',','.'));
+                parametros.AddParametro("ValorPagamento", string.Format("{0:0.##}", valorPagamento).Replace(',', '.'));
                 parametros.AddParametro("IdFila", idFila.ToString());
                 parametros.AddParametro("Tipo", tipo);
                 parametros.AddParametro("UltimosQuatroDigitos", ultimosQuatroDigitos.ToString());
@@ -474,7 +476,7 @@ namespace ACBr.Net.Sat
             }
         }
 
-        public override MFeIntegradorResp RespostaFiscal(int numeroSessao, string chaveAcessoValidador, int idFila, string chaveAcesso, string nsu,
+        public override string RespostaFiscal(int numeroSessao, string chaveAcessoValidador, int idFila, string chaveAcesso, string nsu,
             string numeroAprovacao, string bandeira, string adquirinte, string cnpj, string impressaofiscal, string numeroDocumento)
         {
             try
@@ -507,36 +509,40 @@ namespace ACBr.Net.Sat
 
         private MFeIntegradorEnvio NovoEnvio(string metodo, string identificacao)
         {
-            var envio = new MFeIntegradorEnvio();
-            envio.Identificador.Valor = identificacao;
-            envio.Componente.Nome = "MF-e";
-            envio.Componente.Metodo.Nome = metodo;
+            var envio = new MFeIntegradorEnvio
+            {
+                Identificador = { Valor = identificacao },
+                Componente =
+                {
+                    Nome = "MF-e",
+                    Metodo = {Nome = metodo}
+                }
+            };
 
             return envio;
         }
-        
+
         private void EnviarComando(MFeIntegradorEnvio envio)
         {
             envio.Save(Path.Combine(Config.MFePathEnvio, "Enviados", $"{envio.Componente.Metodo.Nome}_{envio.Identificador.Valor}.xml"));
 
             string file = Path.Combine(Config.MFePathEnvio, $"{envio.Componente.Metodo.Nome}_{envio.Identificador.Valor}.tmp");
-            envio.Save(file);            
+            envio.Save(file);
 
             File.Move(file, $"{file.Substring(0, file.Length - 4)}.xml");
         }
 
-        private MFeIntegradorResp AguardarResposta(string identificacao)
+        private string AguardarResposta(string identificacao)
         {
-            MFeIntegradorResp resposta = null;
+            var resposta = string.Empty;
 
-            var sw = new Stopwatch();
-            sw.Start();
+            var timeLimit = DateTime.Now.AddMilliseconds(Config.MFeTimeOut);
+            var identificacaoXML = $"<Valor>{identificacao}</Valor>";
 
             do
             {
-                if ((Config.MFeTimeOut > 0) && (resposta == null) && (sw.ElapsedMilliseconds >= Config.MFeTimeOut))
-                    throw new TimeoutException();
-                
+                Guard.Against<TimeoutException>(Config.MFeTimeOut > 0 && resposta.IsEmpty() && DateTime.Now >= timeLimit);
+
                 var files = Directory.GetFiles(Config.MFePathResposta, "*.xml");
                 if (files.Length < 1) continue;
 
@@ -544,8 +550,8 @@ namespace ACBr.Net.Sat
                 {
                     try
                     {
-                        var resp = MFeIntegradorResp.Load(file);
-                        if (resp.Identificador.Valor != identificacao) continue;
+                        var resp = File.ReadAllText(file);
+                        if (!resp.Contains(identificacaoXML)) continue;
 
                         resposta = resp;
                         File.Move(file, Path.Combine(Config.MFePathResposta, "Processados", $"{new FileInfo(file).Name}.xml"));
@@ -558,7 +564,7 @@ namespace ACBr.Net.Sat
                 }
 
                 Thread.Sleep(500);
-            } while (resposta == null);
+            } while (resposta.IsEmpty());
 
             return resposta;
         }

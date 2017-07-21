@@ -34,30 +34,30 @@ using ACBr.Net.DFe.Core.Serializer;
 
 namespace ACBr.Net.Sat
 {
-	public sealed class MFeMetodo
-	{
-		#region Constructors
+    public sealed class MFeMetodo
+    {
+        #region Constructors
 
-		public MFeMetodo()
-		{
-            Construtor = new MFeConstrutor();
-			Parametros = new MFeParametroCollection();
-		}
+        public MFeMetodo()
+        {
+            Construtor = null;
+            Parametros = new MFeParametroCollection();
+        }
 
-		#endregion Constructors
+        #endregion Constructors
 
-		#region Properties
+        #region Properties
 
-		[DFeAttribute(TipoCampo.Str, "Nome", Ocorrencia = Ocorrencia.Obrigatoria)]
-		public string Nome { get; set; }
+        [DFeAttribute(TipoCampo.Str, "Nome", Ocorrencia = Ocorrencia.Obrigatoria)]
+        public string Nome { get; set; }
 
         [DFeElement("Construtor", Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public MFeConstrutor Construtor { get; set; }
 
-        [DFeElement("Parametros")]
-		[DFeItem(typeof(MFeParametro), "Parametro")]
-		public MFeParametroCollection Parametros { get; set; }
+        [DFeCollection("Parametros")]
+        [DFeItem(typeof(MFeParametro), "Parametro")]
+        public MFeParametroCollection Parametros { get; set; }
 
-		#endregion Properties
-	}
+        #endregion Properties
+    }
 }
