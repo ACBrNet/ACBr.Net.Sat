@@ -37,41 +37,41 @@ using System.ComponentModel;
 
 namespace ACBr.Net.Sat
 {
-	/// <summary>
-	/// Class CFeInfAdic. This class cannot be inherited.
-	/// </summary>
-	[ImplementPropertyChanged]
-	public sealed class CFeInfAdic
-	{
-		#region Constructors
+    /// <summary>
+    /// Class CFeInfAdic. This class cannot be inherited.
+    /// </summary>
+    [ImplementPropertyChanged]
+    public sealed class CFeInfAdic
+    {
+        #region Constructors
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CFeInfAdic"/> class.
-		/// </summary>
-		public CFeInfAdic()
-		{
-			ObsFisco = new DFeCollection<CFeObsFisco>();
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CFeInfAdic"/> class.
+        /// </summary>
+        public CFeInfAdic()
+        {
+            ObsFisco = new DFeCollection<CFeObsFisco>();
+        }
 
-		#endregion Constructors
+        #endregion Constructors
 
-		#region Propriedades
+        #region Propriedades
 
-		/// <summary>
-		/// Gets or sets the inf CPL.
-		/// </summary>
-		/// <value>The inf CPL.</value>
-		[DFeElement(TipoCampo.Str, "infCpl", Id = "Z02", Min = 1, Max = 5000, Ocorrencia = Ocorrencia.NaoObrigatoria)]
-		public string InfCpl { get; set; }
+        /// <summary>
+        /// Gets or sets the inf CPL.
+        /// </summary>
+        /// <value>The inf CPL.</value>
+        [DFeElement(TipoCampo.Str, "infCpl", Id = "Z02", Min = 1, Max = 5000, Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string InfCpl { get; set; }
 
-		/// <summary>
-		/// Gets or sets the obs fisco.
-		/// </summary>
-		/// <value>The obs fisco.</value>
-		[Browsable(true)]
-		[DFeElement("obsFisco", Id = "Z03", Min = 0, Max = 10, Ocorrencia = Ocorrencia.NaoObrigatoria)]
-		public DFeCollection<CFeObsFisco> ObsFisco { get; set; }
+        /// <summary>
+        /// Gets or sets the obs fisco.
+        /// </summary>
+        /// <value>The obs fisco.</value>
+        [Browsable(true)]
+        [DFeCollection("obsFisco", Id = "Z03", MinSize = 0, MaxSize = 10, Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public DFeCollection<CFeObsFisco> ObsFisco { get; set; }
 
-		#endregion Propriedades
-	}
+        #endregion Propriedades
+    }
 }
