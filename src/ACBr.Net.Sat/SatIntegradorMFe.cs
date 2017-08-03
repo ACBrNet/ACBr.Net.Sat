@@ -403,8 +403,8 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("Estabelecimento", estabelecimento);
                 parametros.AddParametro("SerialPOS", serialPOS);
                 parametros.AddParametro("Cnpj", cnpj);
-                parametros.AddParametro("IcmsBase", string.Format("{0:0.##}", icmsBase).Replace(',', '.'));
-                parametros.AddParametro("ValorTotalVenda", string.Format("{0:0.##}", valorTotalVenda).Replace(',', '.'));
+                parametros.AddParametro("IcmsBase", string.Format("{0:0.00}", icmsBase).Replace('.', ','));
+                parametros.AddParametro("ValorTotalVenda", string.Format("{0:0.00}", valorTotalVenda).Replace('.', ','));
                 parametros.AddParametro("HabilitarMultiplosPagamentos", habilitarMultiplosPagamentos ? "true" : "false");
                 parametros.AddParametro("HabilitarControleAntiFraude", habilitarControleAntiFraude ? "true" : "false");
                 parametros.AddParametro("CodigoMoeda", codigoMoeda);
@@ -462,7 +462,7 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("InstituicaoFinanceira", instituicaoFinanceira);
                 parametros.AddParametro("Parcelas", parcelas.ToString());
                 parametros.AddParametro("CodigoPagamento", codigoPagamento);
-                parametros.AddParametro("ValorPagamento", string.Format("{0:0.##}", valorPagamento).Replace(',', '.'));
+                parametros.AddParametro("ValorPagamento", string.Format("{0:0.00}", valorPagamento).Replace('.', ','));
                 parametros.AddParametro("IdFila", idFila.ToString());
                 parametros.AddParametro("Tipo", tipo);
                 parametros.AddParametro("UltimosQuatroDigitos", ultimosQuatroDigitos.ToString());
