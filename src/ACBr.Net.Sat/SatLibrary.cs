@@ -111,16 +111,16 @@ namespace ACBr.Net.Sat
         public abstract string TrocarCodigoDeAtivacao(int numeroSessao, string codigoDeAtivacao, int opcao, string novoCodigo,
             string confNovoCodigo);
 
-        public abstract string EnviarPagamento(int numeroSessao, string chaveAcessoValidador, string chaveRequisicao, string estabelecimento, string serialPOS, string cnpj,
+        public abstract RetSatIntegradorMFe EnviarPagamento(int numeroSessao, string chaveAcessoValidador, string chaveRequisicao, string estabelecimento, string serialPOS, string cnpj,
             decimal icmsBase, decimal valorTotalVenda, string origemPagamento, bool habilitarMultiplosPagamentos = true, bool habilitarControleAntiFraude = false,
             string codigoMoeda = "BRL", bool emitirCupomNFCE = false);
 
-        public abstract string VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, int idFila, string cnpj);
+        public abstract RetSatIntegradorMFe VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, int idFila, string cnpj);
 
-        public abstract string EnviarStatusPagamento(int numeroSessao, string chaveAcessoValidador, string codigoAutorizacao, string bin, string donoCartao,
+        public abstract RetSatIntegradorMFe EnviarStatusPagamento(int numeroSessao, string chaveAcessoValidador, string codigoAutorizacao, string bin, string donoCartao,
             string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, int idFila, string tipo, int ultimosQuatroDigitos);
 
-        public abstract string RespostaFiscal(int numeroSessao, string chaveAcessoValidador, int idFila, string chaveAcesso, string nsu,
+        public abstract RetSatIntegradorMFe RespostaFiscal(int numeroSessao, string chaveAcessoValidador, int idFila, string chaveAcesso, string nsu,
             string numeroAprovacao, string bandeira, string adquirinte, string cnpj, string impressaofiscal, string numeroDocumento);
 
         protected string FromEncoding(string str)

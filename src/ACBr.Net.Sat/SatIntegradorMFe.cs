@@ -386,7 +386,7 @@ namespace ACBr.Net.Sat
             }
         }
 
-        public override string EnviarPagamento(int numeroSessao, string chaveAcessoValidador, string chaveRequisicao, string estabelecimento, string serialPOS, string cnpj,
+        public override RetSatIntegradorMFe EnviarPagamento(int numeroSessao, string chaveAcessoValidador, string chaveRequisicao, string estabelecimento, string serialPOS, string cnpj,
             decimal icmsBase, decimal valorTotalVenda, string origemPagamento, bool habilitarMultiplosPagamentos = true, bool habilitarControleAntiFraude = false,
             string codigoMoeda = "BRL", bool emitirCupomNFCE = false)
         {
@@ -412,7 +412,15 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("EmitirCupomNFCE", emitirCupomNFCE ? "true" : "false");
 
                 EnviarComando(envio);
-                return AguardarResposta(numeroSessao.ToString());
+
+                var xmlEnvio = envio.GetXml();
+                var xmlRetorno = AguardarResposta(numeroSessao.ToString());
+
+                return new RetSatIntegradorMFe
+                {
+                    XmlEnvio = xmlEnvio,
+                    XmlRetorno = xmlRetorno
+                };
             }
             catch (Exception exception)
             {
@@ -420,7 +428,7 @@ namespace ACBr.Net.Sat
             }
         }
 
-        public override string VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, int idFila, string cnpj)
+        public override RetSatIntegradorMFe VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, int idFila, string cnpj)
         {
             try
             {
@@ -435,7 +443,15 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("cnpj", cnpj);
 
                 EnviarComando(envio);
-                return AguardarResposta(numeroSessao.ToString());
+
+                var xmlEnvio = envio.GetXml();
+                var xmlRetorno = AguardarResposta(numeroSessao.ToString());
+
+                return new RetSatIntegradorMFe
+                {
+                    XmlEnvio = xmlEnvio,
+                    XmlRetorno = xmlRetorno
+                };
             }
             catch (Exception exception)
             {
@@ -443,7 +459,7 @@ namespace ACBr.Net.Sat
             }
         }
 
-        public override string EnviarStatusPagamento(int numeroSessao, string chaveAcessoValidador, string codigoAutorizacao, string bin, string donoCartao,
+        public override RetSatIntegradorMFe EnviarStatusPagamento(int numeroSessao, string chaveAcessoValidador, string codigoAutorizacao, string bin, string donoCartao,
             string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, int idFila, string tipo, int ultimosQuatroDigitos)
         {
             try
@@ -468,7 +484,15 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("UltimosQuatroDigitos", ultimosQuatroDigitos.ToString());
 
                 EnviarComando(envio);
-                return AguardarResposta(numeroSessao.ToString());
+
+                var xmlEnvio = envio.GetXml();
+                var xmlRetorno = AguardarResposta(numeroSessao.ToString());
+
+                return new RetSatIntegradorMFe
+                {
+                    XmlEnvio = xmlEnvio,
+                    XmlRetorno = xmlRetorno
+                };
             }
             catch (Exception exception)
             {
@@ -476,7 +500,7 @@ namespace ACBr.Net.Sat
             }
         }
 
-        public override string RespostaFiscal(int numeroSessao, string chaveAcessoValidador, int idFila, string chaveAcesso, string nsu,
+        public override RetSatIntegradorMFe RespostaFiscal(int numeroSessao, string chaveAcessoValidador, int idFila, string chaveAcesso, string nsu,
             string numeroAprovacao, string bandeira, string adquirinte, string cnpj, string impressaofiscal, string numeroDocumento)
         {
             try
@@ -499,7 +523,15 @@ namespace ACBr.Net.Sat
                 parametros.AddParametro("NumeroDocumento", numeroDocumento);
 
                 EnviarComando(envio);
-                return AguardarResposta(numeroSessao.ToString());
+
+                var xmlEnvio = envio.GetXml();
+                var xmlRetorno = AguardarResposta(numeroSessao.ToString());
+
+                return new RetSatIntegradorMFe
+                {
+                    XmlEnvio = xmlEnvio,
+                    XmlRetorno = xmlRetorno
+                };
             }
             catch (Exception exception)
             {
