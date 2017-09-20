@@ -105,6 +105,7 @@
     <Compile Include="MFeParametroCollection.cs" />
     <Compile Include="MFeResposta.cs" />
     <Compile Include="MFeSatResposta.cs" />
+    <Compile Include="RetSatIntegradorMFe.cs" />
     <Compile Include="SatIntegradorMFe.cs" />
     <Compile Include="SatLibrary.cs" />
     <Compile Include="SatManager.cs" />

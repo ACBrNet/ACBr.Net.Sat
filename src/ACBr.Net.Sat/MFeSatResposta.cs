@@ -1,5 +1,6 @@
 using System.IO;
 using System.Text;
+using ACBr.Net.DFe.Core.Attributes;
 
 namespace ACBr.Net.Sat
 {
@@ -17,6 +18,9 @@ namespace ACBr.Net.Sat
         #region Properties
 
         public MFeIntegradorResp RespostaMFe { get; }
+
+        [DFeIgnore]
+        public string XmlEnvio { get; set; }
 
         #endregion Properties
     }

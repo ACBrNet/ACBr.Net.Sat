@@ -818,7 +818,9 @@ namespace ACBr.Net.Sat
             var ret = sat.EnviarPagamento(Sessao, sat.Config.ChaveAcessoValidador, chaveRequisicao, estabelecimento, serialPOS, cnpj,
                 icmsBase, valorTotalVenda, origemPagamento, habilitarMultiplosPagamentos, habilitarControleAntiFraude, codigoMoeda, emitirCupomNFCE);
 
-            return FinalizaComando<MFeSatResposta>(ret);
+            var mfeResposta = FinalizaComando<MFeSatResposta>(ret.XmlRetorno);
+            mfeResposta.XmlEnvio = ret.XmlEnvio;
+            return mfeResposta;
         }
 
         /// <summary>
@@ -833,7 +835,9 @@ namespace ACBr.Net.Sat
 
             var ret = sat.VerificarStatusValidador(Sessao, sat.Config.ChaveAcessoValidador, idFila, cnpj);
 
-            return FinalizaComando<MFeSatResposta>(ret);
+            var mfeResposta = FinalizaComando<MFeSatResposta>(ret.XmlRetorno);
+            mfeResposta.XmlEnvio = ret.XmlEnvio;
+            return mfeResposta;
         }
 
         /// <summary>
@@ -851,7 +855,9 @@ namespace ACBr.Net.Sat
             var ret = sat.EnviarStatusPagamento(Sessao, sat.Config.ChaveAcessoValidador, codigoAutorizacao, bin, donoCartao, dataExpiracao, instituicaoFinanceira, parcelas, codigoPagamento,
                 valorPagamento, idFila, tipo, ultimosQuatroDigitos);
 
-            return FinalizaComando<MFeSatResposta>(ret);
+            var mfeResposta = FinalizaComando<MFeSatResposta>(ret.XmlRetorno);
+            mfeResposta.XmlEnvio = ret.XmlEnvio;
+            return mfeResposta;
         }
 
         /// <summary>
@@ -869,7 +875,9 @@ namespace ACBr.Net.Sat
             var ret = sat.RespostaFiscal(Sessao, sat.Config.ChaveAcessoValidador, idFila, chaveAcesso, nsu, numeroAprovacao, bandeira,
                 adquirinte, cnpj, impressaofiscal, numeroDocumento);
 
-            return FinalizaComando<MFeSatResposta>(ret);
+            var mfeResposta = FinalizaComando<MFeSatResposta>(ret.XmlRetorno);
+            mfeResposta.XmlEnvio = ret.XmlEnvio;
+            return mfeResposta;
         }
 
         /// <summary>
