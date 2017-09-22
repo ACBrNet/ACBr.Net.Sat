@@ -90,7 +90,17 @@ namespace ACBr.Net.Sat
 		/// <value>The chave consulta.</value>
 		public string ChaveConsulta { get; private set; }
 
-		/// <summary>
+        /// <summary>
+        /// Extrai número fiscal da <see cref="ChaveConsulta"/>
+        /// </summary>
+	    public string NumeroCupomFiscal => GetNumeroFiscal();
+
+	    private string GetNumeroFiscal()
+	    {
+	        return ChaveConsulta.Substring(34, 6);
+	    }
+
+	    /// <summary>
 		/// Retorna o QRCode caso tenha sido realizado com sucesso.
 		/// </summary>
 		/// <value>The qr code.</value>
