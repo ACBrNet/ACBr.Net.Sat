@@ -81,8 +81,14 @@ namespace ACBr.Net.Sat
 		/// <summary>
 		/// Retorna o CFe caso tenha sido realizado com sucesso.
 		/// </summary>
-		/// <value>The venda.</value>
+		/// <value>A venda.</value>
 		public CFe Venda { get; private set; }
+
+		/// <summary>
+		/// Retorna o número do cumpo fiscal.
+		/// </summary>
+		/// <value>The venda.</value>
+		public int NumeroCupomFiscal => Venda?.InfCFe?.Ide?.NCFe ?? 0;
 
 		/// <summary>
 		/// Retorna a chave de consulta do CFe caso tenha sido realizado com sucesso.
