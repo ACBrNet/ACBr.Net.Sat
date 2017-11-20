@@ -749,10 +749,20 @@ namespace ACBr.Net.Sat
 		/// <param name="cFeCanc">The c fe canc.</param>
 		public void ImprimirExtratoCancelamento(CFe cfe, CFeCanc cFeCanc)
 		{
+			ImprimirExtratoCancelamento(cFeCanc, cfe.InfCFe.Ide.TpAmb ?? DFeTipoAmbiente.Homologacao);
+		}
+
+		/// <summary>
+		/// Imprimir o extrato de cancelamento do CFe.
+		/// </summary>
+		/// <param name="ambiente">The cfe.</param>
+		/// <param name="cFeCanc">The c fe canc.</param>
+		public void ImprimirExtratoCancelamento(CFeCanc cFeCanc, DFeTipoAmbiente ambiente)
+		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 			Guard.Against<ArgumentNullException>(Extrato == null, "Componente de Impressão não definido !");
 
-			Extrato.ImprimirExtratoCancelamento(cfe, cFeCanc);
+			Extrato.ImprimirExtratoCancelamento(cFeCanc, ambiente);
 		}
 
 		/// <summary>

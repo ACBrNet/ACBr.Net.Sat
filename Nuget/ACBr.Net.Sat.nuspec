@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>ACBr.Net.Sat</id>
-        <version>1.0.1.5</version>
+        <version>1.1.0.0</version>
         <title>ACBr.Net.Sat</title>
         <authors>Grupo ACBr.Net</authors>
         <owners>Grupo ACBr.Net</owners>
@@ -14,8 +14,8 @@
         <language>pt-BR</language>
         <tags>ACBr ACBr.Net Automação Comercial</tags>
         <dependencies>
-            <dependency id="ACBr.Net.Core" version="1.0.1.4" />
-            <dependency id="ACBr.Net.DFe.Core" version="1.0.1.6" />
+            <dependency id="ACBr.Net.Core" version="1.0.1.8" />
+            <dependency id="ACBr.Net.DFe.Core" version="1.0.2.4" />
         </dependencies>
     </metadata>
     <files>
