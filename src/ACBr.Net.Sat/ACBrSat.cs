@@ -751,7 +751,10 @@ namespace ACBr.Net.Sat
 		[ObsoleteEx(TreatAsErrorFromVersion = "1.1.5", RemoveInVersion = "1.2.0")]
 		public void ImprimirExtratoCancelamento(CFe cfe, CFeCanc cFeCanc)
 		{
-			ImprimirExtratoCancelamento(cFeCanc, cfe.InfCFe.Ide.TpAmb ?? DFeTipoAmbiente.Homologacao);
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+			Guard.Against<ArgumentNullException>(Extrato == null, "Componente de Impressão não definido !");
+
+			Extrato.ImprimirExtratoCancelamento(cfe, cFeCanc);
 		}
 
 		/// <summary>
