@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Weavers>
-  <ExtraConstraints />
-  <Obsolete />
-  <PropertyChanged />
+	<ExtraConstraints />
+	<Obsolete ReplacementFormat="Use {0} no lugar. "
+						TreatAsErrorFormat="Será tratada com erro a partir da versão {0}. "
+						RemoveInVersionFormat="Será removida(o) na versão {0}. " />
+	<PropertyChanged />
 </Weavers>

@@ -61,6 +61,7 @@ namespace ACBr.Net.Sat
 
 		public abstract void ImprimirExtratoResumido(CFe cfe);
 
+		[DoNotWarnAboutObsoleteUsage]
 		[ObsoleteEx(TreatAsErrorFromVersion = "1.1.5", RemoveInVersion = "1.2.0")]
 		public abstract void ImprimirExtratoCancelamento(CFe cfe, CFeCanc cFeCanc);
 

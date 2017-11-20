@@ -747,6 +747,8 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		/// <param name="cfe">The cfe.</param>
 		/// <param name="cFeCanc">The c fe canc.</param>
+		[DoNotWarnAboutObsoleteUsage]
+		[ObsoleteEx(TreatAsErrorFromVersion = "1.1.5", RemoveInVersion = "1.2.0")]
 		public void ImprimirExtratoCancelamento(CFe cfe, CFeCanc cFeCanc)
 		{
 			ImprimirExtratoCancelamento(cFeCanc, cfe.InfCFe.Ide.TpAmb ?? DFeTipoAmbiente.Homologacao);
