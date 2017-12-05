@@ -55,7 +55,7 @@ namespace ACBr.Net.Sat
 
 		#endregion Constructors
 
-		#region Propriedades
+		#region Properties
 
 		[DFeElement("infCFe", Ocorrencia = Ocorrencia.Obrigatoria)]
 		public InfCFe InfCFe
@@ -71,9 +71,31 @@ namespace ACBr.Net.Sat
 
 		public DFeSignature Signature { get; set; }
 
-		#endregion Propriedades
+		#endregion Properties
 
 		#region Methods
+
+		/// <summary>
+		/// Retorna o valor do QrCode
+		/// </summary>
+		/// <returns>Código QrCode</returns>
+		public string GetQRCode()
+		{
+			var documento = InfCFe.Dest.CNPJ.IsEmpty() ? InfCFe.Dest.CPF.OnlyNumbers() : InfCFe.Dest.CNPJ.OnlyNumbers();
+			return $"{InfCFe.Id.OnlyNumbers()}|{InfCFe.Ide.DhEmissao:yyyyMMddHHmmss}|{InfCFe.Total.VCFe:0.00}|{documento}|{InfCFe.Ide.AssinaturaQrcode}";
+		}
+
+		/// <summary>
+		/// Função para preencher o número do item da lista de itens da CFe.
+		/// </summary>
+		public void PreencherNItem()
+		{
+			for (var i = 0; i < InfCFe.Det.Count; i++)
+			{
+				var det = InfCFe.Det[i];
+				det.NItem = i++;
+			}
+		}
 
 		private bool ShouldSerializeSignature()
 		{

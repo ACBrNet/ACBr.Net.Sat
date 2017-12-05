@@ -35,97 +35,104 @@ using System.Collections.Generic;
 
 namespace ACBr.Net.Sat
 {
-	/// <summary>
-	/// Class CFeDetCollection. This class cannot be inherited.
-	/// </summary>
-	/// <seealso>
-	///     <cref>ACBr.Net.DFe.Core.Collection.DFeCollection{ACBr.Net.Sat.CFeDet}</cref>
-	/// </seealso>
-	public sealed class CFeDetCollection : DFeCollection<CFeDet>
-	{
-		#region Fields
+    /// <summary>
+    /// Class CFeDetCollection. This class cannot be inherited.
+    /// </summary>
+    /// <seealso>
+    ///     <cref>ACBr.Net.DFe.Core.Collection.DFeCollection{ACBr.Net.Sat.CFeDet}</cref>
+    /// </seealso>
+    public sealed class CFeDetCollection : DFeCollection<CFeDet>
+    {
+        #region Fields
 
-		private CFe parent;
+        private CFe parent;
 
-		#endregion Fields
+        #endregion Fields
 
-		#region Constructors
+        #region Constructors
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CFeDetCollection"/> class.
-		/// </summary>
-		public CFeDetCollection()
-		{
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CFeDetCollection"/> class.
+        /// </summary>
+        public CFeDetCollection()
+        {
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CFeDetCollection"/> class.
-		/// </summary>
-		/// <param name="parent">The parent.</param>
-		public CFeDetCollection(CFe parent)
-		{
-			Parent = parent;
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CFeDetCollection"/> class.
+        /// </summary>
+        /// <param name="parent">The parent.</param>
+        public CFeDetCollection(CFe parent)
+        {
+            Parent = parent;
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CFeDetCollection"/> class.
-		/// </summary>
-		/// <param name="source">The source.</param>
-		public CFeDetCollection(IList<CFeDet> source)
-		{
-			AddRange(source);
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CFeDetCollection"/> class.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        public CFeDetCollection(IList<CFeDet> source)
+        {
+            AddRange(source);
+        }
 
-		#endregion Constructors
+        #endregion Constructors
 
-		#region Propriedades
+        #region Propriedades
 
-		/// <summary>
-		/// Gets the parent.
-		/// </summary>
-		/// <value>The parent.</value>
-		[DFeIgnore]
-		internal CFe Parent
-		{
-			get { return parent; }
-			set
-			{
-				parent = value;
-				foreach (var cFeDet in this)
-					cFeDet.Parent = value;
-			}
-		}
+        /// <summary>
+        /// Gets the parent.
+        /// </summary>
+        /// <value>The parent.</value>
+        [DFeIgnore]
+        internal CFe Parent
+        {
+            get { return parent; }
+            set
+            {
+                parent = value;
+                foreach (var cFeDet in this)
+                    cFeDet.Parent = value;
+            }
+        }
 
-		#endregion Propriedades
+        #endregion Propriedades
 
-		#region Methods
+        #region Methods
 
-		/// <summary>
-		/// Adiciona novo item na coleção e retorna  item criado
-		/// </summary>
-		/// <returns>T.</returns>
-		public override CFeDet AddNew()
-		{
-			var ret = new CFeDet(Parent);
-			base.Add(ret);
-			return ret;
-		}
+        /// <inheritdoc />
+        public override CFeDet AddNew()
+        {
+            var ret = new CFeDet(Parent);
+            base.Add(ret);
+            return ret;
+        }
 
-		public override void Add(CFeDet item)
-		{
-			item.Parent = Parent;
-			base.Add(item);
-		}
+        /// <inheritdoc />
+        public override void Add(CFeDet item)
+        {
+            item.Parent = Parent;
+            base.Add(item);
+        }
 
-		public override void AddRange(IEnumerable<CFeDet> itens)
-		{
-			foreach (var item in itens)
-			{
-				item.Parent = Parent;
-				base.Add(item);
-			}
-		}
+        /// <inheritdoc />
+        public override void Insert(int index, CFeDet item)
+        {
+            item.Parent = Parent;
+            base.Insert(index, item);
+        }
 
-		#endregion Methods
-	}
+        /// <inheritdoc />
+        public override void InsertRange(int index, IEnumerable<CFeDet> collection)
+        {
+            foreach (var item in collection)
+            {
+                item.Parent = Parent;
+            }
+
+            base.InsertRange(index, collection);
+        }
+
+        #endregion Methods
+    }
 }

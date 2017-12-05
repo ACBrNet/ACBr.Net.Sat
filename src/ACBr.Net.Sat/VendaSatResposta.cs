@@ -71,7 +71,7 @@ namespace ACBr.Net.Sat
 
 			#endregion Comments
 
-			QRCode = string.Format("{0}|{1}|{2}|{3}|{4}", RetornoLst[8].OnlyNumbers(), RetornoLst[7], RetornoLst[9], RetornoLst[10], RetornoLst[11]);
+			QRCode = $"{RetornoLst[8].OnlyNumbers()}|{RetornoLst[7]}|{RetornoLst[9]}|{RetornoLst[10]}|{RetornoLst[11]}";
 		}
 
 		#endregion Constructors
@@ -81,8 +81,14 @@ namespace ACBr.Net.Sat
 		/// <summary>
 		/// Retorna o CFe caso tenha sido realizado com sucesso.
 		/// </summary>
-		/// <value>The venda.</value>
+		/// <value>A venda.</value>
 		public CFe Venda { get; private set; }
+
+		/// <summary>
+		/// Retorna o número do cumpo fiscal.
+		/// </summary>
+		/// <value>The venda.</value>
+		public int NumeroCupomFiscal => Venda?.InfCFe?.Ide?.NCFe ?? 0;
 
 		/// <summary>
 		/// Retorna a chave de consulta do CFe caso tenha sido realizado com sucesso.

@@ -1,12 +1,12 @@
 // ***********************************************************************
 // Assembly         : ACBr.Net.Sat
 // Author           : RFTD
-// Created          : 05-11-2016
+// Created          : 05-30-2017
 //
 // Last Modified By : RFTD
-// Last Modified On : 05-11-2016
+// Last Modified On : 05-30-2017
 // ***********************************************************************
-// <copyright file="CFeCancInfAdic.cs" company="ACBr.Net">
+// <copyright file="MFeIntegradorEnvio.cs" company="ACBr.Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2016 Grupo ACBr.Net
 //
@@ -28,39 +28,33 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using ACBr.Net.DFe.Core.Attributes;
-using ACBr.Net.DFe.Core.Collection;
-using PropertyChanged;
+using ACBr.Net.DFe.Core.Common;
 
 namespace ACBr.Net.Sat
 {
-    /// <summary>
-    /// Class CFeCancInfAdic. This class cannot be inherited.
-    /// </summary>
-    [ImplementPropertyChanged]
-    public sealed class CFeCancInfAdic
-    {
-        #region Constructors
+	[DFeRoot("Integrador")]
+	public sealed class MFeIntegradorEnvio : DFeDocument<MFeIntegradorEnvio>
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CFeInfAdic" /> class.
-        /// </summary>
-        public CFeCancInfAdic()
-        {
-            ObsFisco = new DFeCollection<CFeObsFisco>();
-        }
+		public MFeIntegradorEnvio()
+		{
+			Identificador = new MFeIdentificador();
+			Componente = new MFeComponente();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Propriedades
+		#region Properties
 
-        /// <summary>
-        /// Gets or sets the obs fisco.
-        /// </summary>
-        /// <value>The obs fisco.</value>
-        [DFeCollection("obsFisco", Id = "Z03", MinSize = 0, MaxSize = 10, Ocorrencia = Ocorrencia.NaoObrigatoria)]
-        public DFeCollection<CFeObsFisco> ObsFisco { get; set; }
+		[DFeElement("Identificador", Ocorrencia = Ocorrencia.Obrigatoria)]
+		public MFeIdentificador Identificador { get; set; }
 
-        #endregion Propriedades
-    }
+		[DFeElement("Componente", Ocorrencia = Ocorrencia.Obrigatoria)]
+		public MFeComponente Componente { get; set; }
+
+		#endregion Properties
+	}
 }

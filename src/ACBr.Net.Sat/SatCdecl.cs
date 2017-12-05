@@ -38,359 +38,383 @@ using System.Text;
 
 namespace ACBr.Net.Sat
 {
-	internal sealed class SatCdecl : SatLibrary
-	{
-		#region InnerTypes
+    internal sealed class SatCdecl : SatLibrary
+    {
+        #region InnerTypes
 
-		private class Delegates
-		{
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate IntPtr AssociarAssinatura(int numeroSessao,
-				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-				[MarshalAs(UnmanagedType.LPStr)]string cnpjValue,
-				[MarshalAs(UnmanagedType.LPStr)]string assinaturaCnpj);
+        private class Delegates
+        {
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate IntPtr AssociarAssinatura(int numeroSessao,
+                [MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+                [MarshalAs(UnmanagedType.LPStr)]string cnpjValue,
+                [MarshalAs(UnmanagedType.LPStr)]string assinaturaCnpj);
 
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate IntPtr AtivarSAT(int numeroSessao, int subComando,
-				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-				[MarshalAs(UnmanagedType.LPStr)]string cnpj,
-				int cUF);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate IntPtr AtivarSAT(int numeroSessao, int subComando,
+                [MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+                [MarshalAs(UnmanagedType.LPStr)]string cnpj,
+                int cUF);
 
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate IntPtr AtualizarSoftwareSAT(int numeroSessao,
-				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate IntPtr AtualizarSoftwareSAT(int numeroSessao,
+                [MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
 
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate IntPtr BloquearSAT(int numeroSessao,
-				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate IntPtr BloquearSAT(int numeroSessao,
+                [MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
 
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate IntPtr CancelarUltimaVenda(int numeroSessao,
-				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-				[MarshalAs(UnmanagedType.LPStr)]string chave,
-				[MarshalAs(UnmanagedType.LPStr)]string dadosCancelamento);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate IntPtr CancelarUltimaVenda(int numeroSessao,
+                [MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+                [MarshalAs(UnmanagedType.LPStr)]string chave,
+                [MarshalAs(UnmanagedType.LPStr)]string dadosCancelamento);
 
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate IntPtr ComunicarCertificadoICPBRASIL(int numeroSessao,
-				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-				[MarshalAs(UnmanagedType.LPStr)]string certificado);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate IntPtr ComunicarCertificadoICPBRASIL(int numeroSessao,
+                [MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+                [MarshalAs(UnmanagedType.LPStr)]string certificado);
 
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate IntPtr ConfigurarInterfaceDeRede(int numeroSessao,
-				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-				[MarshalAs(UnmanagedType.LPStr)]string dadosConfiguracao);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate IntPtr ConfigurarInterfaceDeRede(int numeroSessao,
+                [MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+                [MarshalAs(UnmanagedType.LPStr)]string dadosConfiguracao);
 
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate IntPtr ConsultarNumeroSessao(int numeroSessao,
-				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-				int cNumeroDeSessao);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate IntPtr ConsultarNumeroSessao(int numeroSessao,
+                [MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+                int cNumeroDeSessao);
 
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate IntPtr ConsultarSAT(int numeroSessao);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate IntPtr ConsultarSAT(int numeroSessao);
 
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate IntPtr ConsultarStatusOperacional(int numeroSessao,
-				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate IntPtr ConsultarStatusOperacional(int numeroSessao,
+                [MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
 
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate IntPtr DesbloquearSAT(int numeroSessao,
-				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate IntPtr DesbloquearSAT(int numeroSessao,
+                [MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
 
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate IntPtr EnviarDadosVenda(int numeroSessao,
-				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-				[MarshalAs(UnmanagedType.LPStr)]string dadosVenda);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate IntPtr EnviarDadosVenda(int numeroSessao,
+                [MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+                [MarshalAs(UnmanagedType.LPStr)]string dadosVenda);
 
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate IntPtr ExtrairLogs(int numeroSessao,
-				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate IntPtr ExtrairLogs(int numeroSessao,
+                [MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
 
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate IntPtr TesteFimAFim(int numeroSessao,
-				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-				[MarshalAs(UnmanagedType.LPStr)]string dadosVenda);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate IntPtr TesteFimAFim(int numeroSessao,
+                [MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+                [MarshalAs(UnmanagedType.LPStr)]string dadosVenda);
 
-			[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-			public delegate IntPtr TrocarCodigoDeAtivacao(int numeroSessao,
-				[MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
-				int opcao,
-				[MarshalAs(UnmanagedType.LPStr)]string novoCodigo,
-				[MarshalAs(UnmanagedType.LPStr)]string confNovoCodigo);
-		}
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            public delegate IntPtr TrocarCodigoDeAtivacao(int numeroSessao,
+                [MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao,
+                int opcao,
+                [MarshalAs(UnmanagedType.LPStr)]string novoCodigo,
+                [MarshalAs(UnmanagedType.LPStr)]string confNovoCodigo);
+        }
 
-		#endregion InnerTypes
+        #endregion InnerTypes
 
-		#region Constructors
+        #region Constructors
 
-		public SatCdecl(string pathDll, Encoding encoding) : base(pathDll, encoding)
-		{
-			ModeloStr = "";
-			handle = NativeMethods.LoadLibrary(pathDll);
-			Guard.Against<ACBrException>(handle == IntPtr.Zero, "Não foi possivel carregar a biblioteca Sat");
-		}
+        public SatCdecl(SatConfig config, string pathDll, Encoding encoding) : base(config, pathDll, encoding)
+        {
+            ModeloStr = "SatCdeclSatLibrary";
+            handle = NativeMethods.LoadLibrary(PathDll);
+            Guard.Against<ACBrException>(handle == IntPtr.Zero, "Não foi possivel carregar a biblioteca Sat");
+        }
 
-		#endregion Constructors
+        #endregion Constructors
 
-		#region Method
+        #region Method
 
-		[HandleProcessCorruptedStateExceptions]
-		public override string AssociarAssinatura(int numeroSessao, string codigoAtivacao, string cnpjValue, string assinaturacnpj)
-		{
-			try
-			{
-				var funcaoSat = handle.GetMethod<Delegates.AssociarAssinatura>("AssociarAssinatura");
+        [HandleProcessCorruptedStateExceptions]
+        public override string AssociarAssinatura(int numeroSessao, string codigoAtivacao, string cnpjValue, string assinaturacnpj)
+        {
+            try
+            {
+                var funcaoSat = handle.GetMethod<Delegates.AssociarAssinatura>("AssociarAssinatura");
 
-				var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoAtivacao), ToEncoding(cnpjValue), ToEncoding(assinaturacnpj));
-				var ret = Marshal.PtrToStringAnsi(retPtr);
+                var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoAtivacao), ToEncoding(cnpjValue), ToEncoding(assinaturacnpj));
+                var ret = Marshal.PtrToStringAnsi(retPtr);
 
-				return FromEncoding(ret);
-			}
-			catch (Exception exception)
-			{
-				throw new ACBrException(exception, exception.Message);
-			}
-		}
+                return FromEncoding(ret);
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
 
-		[HandleProcessCorruptedStateExceptions]
-		public override string AtivarSAT(int numeroSessao, int subComando, string codigoDeAtivacao, string cnpj, int cUF)
-		{
-			try
-			{
-				var funcaoSat = handle.GetMethod<Delegates.AtivarSAT>("AtivarSAT");
+        [HandleProcessCorruptedStateExceptions]
+        public override string AtivarSAT(int numeroSessao, int subComando, string codigoDeAtivacao, string cnpj, int cUF)
+        {
+            try
+            {
+                var funcaoSat = handle.GetMethod<Delegates.AtivarSAT>("AtivarSAT");
 
-				var retPtr = funcaoSat(numeroSessao, subComando, ToEncoding(codigoDeAtivacao), ToEncoding(cnpj), cUF);
-				var ret = Marshal.PtrToStringAnsi(retPtr);
+                var retPtr = funcaoSat(numeroSessao, subComando, ToEncoding(codigoDeAtivacao), ToEncoding(cnpj), cUF);
+                var ret = Marshal.PtrToStringAnsi(retPtr);
 
-				return FromEncoding(ret);
-			}
-			catch (Exception exception)
-			{
-				throw new ACBrException(exception, exception.Message);
-			}
-		}
+                return FromEncoding(ret);
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
 
-		[HandleProcessCorruptedStateExceptions]
-		public override string AtualizarSoftwareSAT(int numeroSessao, string codigoDeAtivacao)
-		{
-			try
-			{
-				var funcaoSat = handle.GetMethod<Delegates.AtualizarSoftwareSAT>("AtualizarSoftwareSAT");
+        [HandleProcessCorruptedStateExceptions]
+        public override string AtualizarSoftwareSAT(int numeroSessao, string codigoDeAtivacao)
+        {
+            try
+            {
+                var funcaoSat = handle.GetMethod<Delegates.AtualizarSoftwareSAT>("AtualizarSoftwareSAT");
 
-				var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao));
-				var ret = Marshal.PtrToStringAnsi(retPtr);
+                var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao));
+                var ret = Marshal.PtrToStringAnsi(retPtr);
 
-				return FromEncoding(ret);
-			}
-			catch (Exception exception)
-			{
-				throw new ACBrException(exception, exception.Message);
-			}
-		}
+                return FromEncoding(ret);
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
 
-		[HandleProcessCorruptedStateExceptions]
-		public override string BloquearSAT(int numeroSessao, string codigoDeAtivacao)
-		{
-			try
-			{
-				var funcaoSat = handle.GetMethod<Delegates.BloquearSAT>("BloquearSAT");
-				var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao));
+        [HandleProcessCorruptedStateExceptions]
+        public override string BloquearSAT(int numeroSessao, string codigoDeAtivacao)
+        {
+            try
+            {
+                var funcaoSat = handle.GetMethod<Delegates.BloquearSAT>("BloquearSAT");
+                var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao));
 
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return FromEncoding(ret);
-			}
-			catch (Exception exception)
-			{
-				throw new ACBrException(exception, exception.Message);
-			}
-		}
+                var ret = Marshal.PtrToStringAnsi(retPtr);
+                return FromEncoding(ret);
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
 
-		[HandleProcessCorruptedStateExceptions]
-		public override string CancelarUltimaVenda(int numeroSessao, string codigoDeAtivacao, string chave, string dadosCancelamento)
-		{
-			try
-			{
-				var funcaoSat = handle.GetMethod<Delegates.CancelarUltimaVenda>("CancelarUltimaVenda");
-				var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), ToEncoding(chave), ToEncoding(dadosCancelamento));
+        [HandleProcessCorruptedStateExceptions]
+        public override string CancelarUltimaVenda(int numeroSessao, string codigoDeAtivacao, string chave, string dadosCancelamento)
+        {
+            try
+            {
+                var funcaoSat = handle.GetMethod<Delegates.CancelarUltimaVenda>("CancelarUltimaVenda");
+                var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), ToEncoding(chave), ToEncoding(dadosCancelamento));
 
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return FromEncoding(ret);
-			}
-			catch (Exception exception)
-			{
-				throw new ACBrException(exception, exception.Message);
-			}
-		}
+                var ret = Marshal.PtrToStringAnsi(retPtr);
+                return FromEncoding(ret);
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
 
-		[HandleProcessCorruptedStateExceptions]
-		public override string ComunicarCertificadoIcpBrasil(int numeroSessao, string codigoDeAtivacao, string certificado)
-		{
-			try
-			{
-				var funcaoSat = handle.GetMethod<Delegates.ComunicarCertificadoICPBRASIL>("ComunicarCertificadoICPBRASIL");
-				var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), ToEncoding(certificado));
+        [HandleProcessCorruptedStateExceptions]
+        public override string ComunicarCertificadoIcpBrasil(int numeroSessao, string codigoDeAtivacao, string certificado)
+        {
+            try
+            {
+                var funcaoSat = handle.GetMethod<Delegates.ComunicarCertificadoICPBRASIL>("ComunicarCertificadoICPBRASIL");
+                var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), ToEncoding(certificado));
 
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return FromEncoding(ret);
-			}
-			catch (Exception exception)
-			{
-				throw new ACBrException(exception, exception.Message);
-			}
-		}
+                var ret = Marshal.PtrToStringAnsi(retPtr);
+                return FromEncoding(ret);
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
 
-		[HandleProcessCorruptedStateExceptions]
-		public override string ConfigurarInterfaceDeRede(int numeroSessao, string codigoDeAtivacao, string dadosConfiguracao)
-		{
-			try
-			{
-				var funcaoSat = handle.GetMethod<Delegates.ConfigurarInterfaceDeRede>("ConfigurarInterfaceDeRede");
-				var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), ToEncoding(dadosConfiguracao));
+        [HandleProcessCorruptedStateExceptions]
+        public override string ConfigurarInterfaceDeRede(int numeroSessao, string codigoDeAtivacao, string dadosConfiguracao)
+        {
+            try
+            {
+                var funcaoSat = handle.GetMethod<Delegates.ConfigurarInterfaceDeRede>("ConfigurarInterfaceDeRede");
+                var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), ToEncoding(dadosConfiguracao));
 
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return FromEncoding(ret);
-			}
-			catch (Exception exception)
-			{
-				throw new ACBrException(exception, exception.Message);
-			}
-		}
+                var ret = Marshal.PtrToStringAnsi(retPtr);
+                return FromEncoding(ret);
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
 
-		[HandleProcessCorruptedStateExceptions]
-		public override string ConsultarNumeroSessao(int numeroSessao, string codigoDeAtivacao, int cNumeroDeSessao)
-		{
-			try
-			{
-				var funcaoSat = handle.GetMethod<Delegates.ConsultarNumeroSessao>("ConsultarNumeroSessao");
-				var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), cNumeroDeSessao);
+        [HandleProcessCorruptedStateExceptions]
+        public override string ConsultarNumeroSessao(int numeroSessao, string codigoDeAtivacao, int cNumeroDeSessao)
+        {
+            try
+            {
+                var funcaoSat = handle.GetMethod<Delegates.ConsultarNumeroSessao>("ConsultarNumeroSessao");
+                var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), cNumeroDeSessao);
 
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return FromEncoding(ret);
-			}
-			catch (Exception exception)
-			{
-				throw new ACBrException(exception, exception.Message);
-			}
-		}
+                var ret = Marshal.PtrToStringAnsi(retPtr);
+                return FromEncoding(ret);
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
 
-		[HandleProcessCorruptedStateExceptions]
-		public override string ConsultarSAT(int numeroSessao)
-		{
-			try
-			{
-				var funcaoSat = handle.GetMethod<Delegates.ConsultarSAT>("ConsultarSAT");
-				var retPtr = funcaoSat(numeroSessao);
+        [HandleProcessCorruptedStateExceptions]
+        public override string ConsultarSAT(int numeroSessao)
+        {
+            try
+            {
+                var funcaoSat = handle.GetMethod<Delegates.ConsultarSAT>("ConsultarSAT");
+                var retPtr = funcaoSat(numeroSessao);
 
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return FromEncoding(ret);
-			}
-			catch (Exception exception)
-			{
-				throw new ACBrException(exception, exception.Message);
-			}
-		}
+                var ret = Marshal.PtrToStringAnsi(retPtr);
+                return FromEncoding(ret);
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
 
-		[HandleProcessCorruptedStateExceptions]
-		public override string ConsultarStatusOperacional(int numeroSessao, string codigoDeAtivacao)
-		{
-			try
-			{
-				var funcaoSat = handle.GetMethod<Delegates.ConsultarStatusOperacional>("ConsultarStatusOperacional");
-				var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao));
+        [HandleProcessCorruptedStateExceptions]
+        public override string ConsultarStatusOperacional(int numeroSessao, string codigoDeAtivacao)
+        {
+            try
+            {
+                var funcaoSat = handle.GetMethod<Delegates.ConsultarStatusOperacional>("ConsultarStatusOperacional");
+                var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao));
 
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return FromEncoding(ret);
-			}
-			catch (Exception exception)
-			{
-				throw new ACBrException(exception, exception.Message);
-			}
-		}
+                var ret = Marshal.PtrToStringAnsi(retPtr);
+                return FromEncoding(ret);
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
 
-		[HandleProcessCorruptedStateExceptions]
-		public override string DesbloquearSAT(int numeroSessao, string codigoDeAtivacao)
-		{
-			try
-			{
-				var funcaoSat = handle.GetMethod<Delegates.DesbloquearSAT>("DesbloquearSAT");
-				var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao));
+        [HandleProcessCorruptedStateExceptions]
+        public override string DesbloquearSAT(int numeroSessao, string codigoDeAtivacao)
+        {
+            try
+            {
+                var funcaoSat = handle.GetMethod<Delegates.DesbloquearSAT>("DesbloquearSAT");
+                var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao));
 
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return FromEncoding(ret);
-			}
-			catch (Exception exception)
-			{
-				throw new ACBrException(exception, exception.Message);
-			}
-		}
+                var ret = Marshal.PtrToStringAnsi(retPtr);
+                return FromEncoding(ret);
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
 
-		[HandleProcessCorruptedStateExceptions]
-		public override string EnviarDadosVenda(int numeroSessao, string codigoDeAtivacao, string dadosVenda)
-		{
-			try
-			{
-				var funcaoSat = handle.GetMethod<Delegates.EnviarDadosVenda>("EnviarDadosVenda");
-				var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), ToEncoding(dadosVenda));
+        [HandleProcessCorruptedStateExceptions]
+        public override string EnviarDadosVenda(int numeroSessao, string codigoDeAtivacao, string dadosVenda)
+        {
+            try
+            {
+                var funcaoSat = handle.GetMethod<Delegates.EnviarDadosVenda>("EnviarDadosVenda");
+                var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), ToEncoding(dadosVenda));
 
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return FromEncoding(ret);
-			}
-			catch (Exception exception)
-			{
-				throw new ACBrException(exception, exception.Message);
-			}
-		}
+                var ret = Marshal.PtrToStringAnsi(retPtr);
+                return FromEncoding(ret);
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
 
-		[HandleProcessCorruptedStateExceptions]
-		public override string ExtrairLogs(int numeroSessao, string codigoDeAtivacao)
-		{
-			try
-			{
-				var funcaoSat = handle.GetMethod<Delegates.ExtrairLogs>("ExtrairLogs");
-				var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao));
+        [HandleProcessCorruptedStateExceptions]
+        public override string ExtrairLogs(int numeroSessao, string codigoDeAtivacao)
+        {
+            try
+            {
+                var funcaoSat = handle.GetMethod<Delegates.ExtrairLogs>("ExtrairLogs");
+                var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao));
 
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return FromEncoding(ret);
-			}
-			catch (Exception exception)
-			{
-				throw new ACBrException(exception, exception.Message);
-			}
-		}
+                var ret = Marshal.PtrToStringAnsi(retPtr);
+                return FromEncoding(ret);
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
 
-		[HandleProcessCorruptedStateExceptions]
-		public override string TesteFimAFim(int numeroSessao, string codigoDeAtivacao, string dadosVenda)
-		{
-			try
-			{
-				var funcaoSat = handle.GetMethod<Delegates.TesteFimAFim>("TesteFimAFim");
-				var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao, ToEncoding(dadosVenda));
+        [HandleProcessCorruptedStateExceptions]
+        public override string TesteFimAFim(int numeroSessao, string codigoDeAtivacao, string dadosVenda)
+        {
+            try
+            {
+                var funcaoSat = handle.GetMethod<Delegates.TesteFimAFim>("TesteFimAFim");
+                var retPtr = funcaoSat(numeroSessao, codigoDeAtivacao, ToEncoding(dadosVenda));
 
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return FromEncoding(ret);
-			}
-			catch (Exception exception)
-			{
-				throw new ACBrException(exception, exception.Message);
-			}
-		}
+                var ret = Marshal.PtrToStringAnsi(retPtr);
+                return FromEncoding(ret);
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
 
-		[HandleProcessCorruptedStateExceptions]
-		public override string TrocarCodigoDeAtivacao(int numeroSessao, string codigoDeAtivacao, int opcao, string novoCodigo, string confNovoCodigo)
-		{
-			try
-			{
-				var funcaoSat = handle.GetMethod<Delegates.TrocarCodigoDeAtivacao>("TrocarCodigoDeAtivacao");
-				var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), opcao, ToEncoding(novoCodigo), ToEncoding(confNovoCodigo));
+        [HandleProcessCorruptedStateExceptions]
+        public override string TrocarCodigoDeAtivacao(int numeroSessao, string codigoDeAtivacao, int opcao, string novoCodigo, string confNovoCodigo)
+        {
+            try
+            {
+                var funcaoSat = handle.GetMethod<Delegates.TrocarCodigoDeAtivacao>("TrocarCodigoDeAtivacao");
+                var retPtr = funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), opcao, ToEncoding(novoCodigo), ToEncoding(confNovoCodigo));
 
-				var ret = Marshal.PtrToStringAnsi(retPtr);
-				return FromEncoding(ret);
-			}
-			catch (Exception exception)
-			{
-				throw new ACBrException(exception, exception.Message);
-			}
-		}
+                var ret = Marshal.PtrToStringAnsi(retPtr);
+                return FromEncoding(ret);
+            }
+            catch (Exception exception)
+            {
+                throw new ACBrException(exception, exception.Message);
+            }
+        }
 
-		#endregion Method
-	}
+        public override RetSatIntegradorMFe EnviarPagamento(int numeroSessao, string chaveAcessoValidador, string chaveRequisicao, string estabelecimento, string serialPOS, string cnpj,
+           decimal icmsBase, decimal valorTotalVenda, string origemPagamento, bool habilitarMultiplosPagamentos = true, bool habilitarControleAntiFraude = false,
+           string codigoMoeda = "BRL", bool emitirCupomNFCE = false)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override RetSatIntegradorMFe VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, int idFila, string cnpj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override RetSatIntegradorMFe EnviarStatusPagamento(int numeroSessao, string chaveAcessoValidador, string codigoAutorizacao, string bin, string donoCartao,
+            string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, int idFila, string tipo, int ultimosQuatroDigitos)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override RetSatIntegradorMFe RespostaFiscal(int numeroSessao, string chaveAcessoValidador, int idFila, string chaveAcesso, string nsu,
+            string numeroAprovacao, string bandeira, string adquirinte, string cnpj, string impressaofiscal, string numeroDocumento)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion Method
+    }
 }

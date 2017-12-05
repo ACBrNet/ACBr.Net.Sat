@@ -14,8 +14,7 @@ namespace ACBr.Net.Sat
 			ConfigRede = new SatRede();
 			Status = new SatStatus();
 
-			if (CodigoDeRetorno != 10000)
-				return;
+			if (CodigoDeRetorno != 10000) return;
 
 			switch (RetornoLst[6])
 			{

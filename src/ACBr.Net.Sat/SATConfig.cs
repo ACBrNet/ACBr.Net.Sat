@@ -33,107 +33,76 @@ using ACBr.Net.DFe.Core.Common;
 
 namespace ACBr.Net.Sat
 {
-	/// <summary>
-	/// Class SATConfig. This class cannot be inherited.
-	/// </summary>
-	public sealed class SatConfig
-	{
-		#region Constructor
+    /// <summary>
+    /// Class SATConfig. This class cannot be inherited.
+    /// </summary>
+    public sealed class SatConfig
+    {
+        #region Constructor
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SatConfig"/> class.
-		/// </summary>
-		internal SatConfig()
-		{
-			InfCFeVersaoDadosEnt = 0.06M;
-			IdeCNPJ = @"11111111111111";
-			IdeNumeroCaixa = 1;
-			IdeTpAmb = DFeTipoAmbiente.Homologacao;
-			EmitCNPJ = @"11111111111111";
-			EmitIE = string.Empty;
-			EmitIM = string.Empty;
-			EmitCRegTrib = RegTrib.Normal;
-			EmitCRegTribISSQN = RegTribIssqn.Nenhum;
-			EmitIndRatISSQN = RatIssqn.Nao;
-			IsUtf8 = false;
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SatConfig"/> class.
+        /// </summary>
+        internal SatConfig()
+        {
+            InfCFeVersaoDadosEnt = 0.06M;
+            IdeCNPJ = @"11111111111111";
+            IdeNumeroCaixa = 1;
+            IdeTpAmb = DFeTipoAmbiente.Homologacao;
+            EmitCNPJ = @"11111111111111";
+            EmitIE = string.Empty;
+            EmitIM = string.Empty;
+            EmitCRegTrib = RegTrib.Normal;
+            EmitCRegTribISSQN = RegTribIssqn.Nenhum;
+            EmitIndRatISSQN = RatIssqn.Nao;
+            IsUtf8 = false;
+            ValidarNumeroSessaoResposta = false;
+            NumeroTentativasValidarSessao = 1;
+            MFePathEnvio = string.Empty;
+            MFePathResposta = string.Empty;
+            MFeTimeOut = 45000;
+        }
 
-		#endregion Constructor
+        #endregion Constructor
 
-		#region Propriedades
+        #region Propriedades
 
-		/// <summary>
-		/// Gets or sets the inf c fe versao dados ent.
-		/// </summary>
-		/// <value>The inf c fe versao dados ent.</value>
-		public decimal InfCFeVersaoDadosEnt { get; set; }
+        public decimal InfCFeVersaoDadosEnt { get; set; }
 
-		/// <summary>
-		/// Gets or sets the IDE CNPJ.
-		/// </summary>
-		/// <value>The IDE CNPJ.</value>
-		public string IdeCNPJ { get; set; }
+        public string IdeCNPJ { get; set; }
 
-		/// <summary>
-		/// Gets or sets the IDE numero caixa.
-		/// </summary>
-		/// <value>The IDE numero caixa.</value>
-		public int IdeNumeroCaixa { get; set; }
+        public int IdeNumeroCaixa { get; set; }
 
-		/// <summary>
-		/// Gets or sets the ide_tp amb.
-		/// </summary>
-		/// <value>The ide_tp amb.</value>
-		public DFeTipoAmbiente IdeTpAmb { get; set; }
+        public DFeTipoAmbiente IdeTpAmb { get; set; }
 
-		/// <summary>
-		/// Gets or sets the emit_ CNPJ.
-		/// </summary>
-		/// <value>The emit_ CNPJ.</value>
-		public string EmitCNPJ { get; set; }
+        public string EmitCNPJ { get; set; }
 
-		/// <summary>
-		/// Gets or sets the emit_ ie.
-		/// </summary>
-		/// <value>The emit_ ie.</value>
-		public string EmitIE { get; set; }
+        public string EmitIE { get; set; }
 
-		/// <summary>
-		/// Gets or sets the emit_ im.
-		/// </summary>
-		/// <value>The emit_ im.</value>
-		public string EmitIM { get; set; }
+        public string EmitIM { get; set; }
 
-		/// <summary>
-		/// Gets or sets the emit_c reg trib.
-		/// </summary>
-		/// <value>The emit_c reg trib.</value>
-		public RegTrib EmitCRegTrib { get; set; }
+        public RegTrib EmitCRegTrib { get; set; }
 
-		/// <summary>
-		/// Gets or sets the emit_c reg trib issqn.
-		/// </summary>
-		/// <value>The emit_c reg trib issqn.</value>
-		public RegTribIssqn EmitCRegTribISSQN { get; set; }
+        public RegTribIssqn EmitCRegTribISSQN { get; set; }
 
-		/// <summary>
-		/// Gets or sets the emit_ind rat issqn.
-		/// </summary>
-		/// <value>The emit_ind rat issqn.</value>
-		public RatIssqn EmitIndRatISSQN { get; set; }
+        public RatIssqn EmitIndRatISSQN { get; set; }
 
-		/// <summary>
-		/// Gets or sets a value indicating whether this instance is ut f8.
-		/// </summary>
-		/// <value><c>true</c> if this instance is ut f8; otherwise, <c>false</c>.</value>
-		public bool IsUtf8 { get; set; }
+        public bool IsUtf8 { get; set; }
 
-		/// <summary>
-		/// Gets or sets the pagina de codigo.
-		/// </summary>
-		/// <value>The pagina de codigo.</value>
-		public bool RemoverAcentos { get; set; }
+        public bool ValidarNumeroSessaoResposta { get; set; }
 
-		#endregion Propriedades
-	}
+        public int NumeroTentativasValidarSessao { get; set; }
+
+        public bool RemoverAcentos { get; set; }
+
+        public string MFePathEnvio { get; set; }
+
+        public string MFePathResposta { get; set; }
+
+        public int MFeTimeOut { get; set; }
+
+        public string ChaveAcessoValidador { get; set; }
+
+        #endregion Propriedades
+    }
 }

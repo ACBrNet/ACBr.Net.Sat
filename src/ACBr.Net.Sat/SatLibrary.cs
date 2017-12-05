@@ -29,117 +29,128 @@
 // <summary></summary>
 // ***********************************************************************
 
-using ACBr.Net.Core;
-using ACBr.Net.Core.Exceptions;
 using ACBr.Net.Sat.Utils;
 using System;
 using System.Text;
 
 namespace ACBr.Net.Sat
 {
-	/// <summary>
-	/// Class SatLibrary.
-	/// </summary>
-	/// <seealso cref="System.IDisposable" />
-	public abstract class SatLibrary : IDisposable
-	{
-		#region Fields
+    /// <summary>
+    /// Class SatLibrary.
+    /// </summary>
+    /// <seealso cref="System.IDisposable" />
+    public abstract class SatLibrary : IDisposable
+    {
+        #region Fields
 
-		protected IntPtr handle;
+        protected IntPtr handle;
 
-		#endregion Fields
+        #endregion Fields
 
-		#region Constructors
+        #region Constructors
 
-		protected SatLibrary(string pathDll, Encoding encoding)
-		{
-			PathDll = pathDll;
-			Encoding = encoding;
+        protected SatLibrary(SatConfig config, string pathDll, Encoding encoding)
+        {
+            PathDll = pathDll;
+            Encoding = encoding;
+            Config = config;
+            handle = IntPtr.Zero;
+        }
 
-			handle = NativeMethods.LoadLibrary(pathDll);
-			Guard.Against<ACBrException>(handle == IntPtr.Zero, "Não foi possivel carregar a biblioteca Sat");
-		}
+        ~SatLibrary()
+        {
+            Dispose(false);
+        }
 
-		~SatLibrary()
-		{
-			Dispose(false);
-		}
+        #endregion Constructors
 
-		#endregion Constructors
+        #region Propriedades
 
-		#region Propriedades
+        public Encoding Encoding { get; protected set; }
 
-		public Encoding Encoding { get; protected set; }
+        public string PathDll { get; protected set; }
 
-		public string PathDll { get; protected set; }
+        public string ModeloStr { get; protected set; }
 
-		public string ModeloStr { get; protected set; }
+        public SatConfig Config { get; protected set; }
 
-		#endregion Propriedades
+        #endregion Propriedades
 
-		#region Method
+        #region Method
 
-		public abstract string AssociarAssinatura(int numeroSessao, string codigoAtivacao, string cnpjValue,
-			string assinaturacnpj);
+        public abstract string AssociarAssinatura(int numeroSessao, string codigoAtivacao, string cnpjValue,
+            string assinaturacnpj);
 
-		public abstract string AtivarSAT(int numeroSessao, int subComando, string codigoDeAtivacao, string cnpj, int cUF);
+        public abstract string AtivarSAT(int numeroSessao, int subComando, string codigoDeAtivacao, string cnpj, int cUF);
 
-		public abstract string AtualizarSoftwareSAT(int numeroSessao, string codigoDeAtivacao);
+        public abstract string AtualizarSoftwareSAT(int numeroSessao, string codigoDeAtivacao);
 
-		public abstract string BloquearSAT(int numeroSessao, string codigoDeAtivacao);
+        public abstract string BloquearSAT(int numeroSessao, string codigoDeAtivacao);
 
-		public abstract string CancelarUltimaVenda(int numeroSessao, string codigoDeAtivacao, string chave,
-			string dadosCancelamento);
+        public abstract string CancelarUltimaVenda(int numeroSessao, string codigoDeAtivacao, string chave,
+            string dadosCancelamento);
 
-		public abstract string ComunicarCertificadoIcpBrasil(int numeroSessao, string codigoDeAtivacao, string certificado);
+        public abstract string ComunicarCertificadoIcpBrasil(int numeroSessao, string codigoDeAtivacao, string certificado);
 
-		public abstract string ConfigurarInterfaceDeRede(int numeroSessao, string codigoDeAtivacao, string dadosConfiguracao);
+        public abstract string ConfigurarInterfaceDeRede(int numeroSessao, string codigoDeAtivacao, string dadosConfiguracao);
 
-		public abstract string ConsultarNumeroSessao(int numeroSessao, string codigoDeAtivacao, int cNumeroDeSessao);
+        public abstract string ConsultarNumeroSessao(int numeroSessao, string codigoDeAtivacao, int cNumeroDeSessao);
 
-		public abstract string ConsultarSAT(int numeroSessao);
+        public abstract string ConsultarSAT(int numeroSessao);
 
-		public abstract string ConsultarStatusOperacional(int numeroSessao, string codigoDeAtivacao);
+        public abstract string ConsultarStatusOperacional(int numeroSessao, string codigoDeAtivacao);
 
-		public abstract string DesbloquearSAT(int numeroSessao, string codigoDeAtivacao);
+        public abstract string DesbloquearSAT(int numeroSessao, string codigoDeAtivacao);
 
-		public abstract string EnviarDadosVenda(int numeroSessao, string codigoDeAtivacao, string dadosVenda);
+        public abstract string EnviarDadosVenda(int numeroSessao, string codigoDeAtivacao, string dadosVenda);
 
-		public abstract string ExtrairLogs(int numeroSessao, string codigoDeAtivacao);
+        public abstract string ExtrairLogs(int numeroSessao, string codigoDeAtivacao);
 
-		public abstract string TesteFimAFim(int numeroSessao, string codigoDeAtivacao, string dadosVenda);
+        public abstract string TesteFimAFim(int numeroSessao, string codigoDeAtivacao, string dadosVenda);
 
-		public abstract string TrocarCodigoDeAtivacao(int numeroSessao, string codigoDeAtivacao, int opcao, string novoCodigo,
-			string confNovoCodigo);
+        public abstract string TrocarCodigoDeAtivacao(int numeroSessao, string codigoDeAtivacao, int opcao, string novoCodigo,
+            string confNovoCodigo);
 
-		protected string FromEncoding(string str)
-		{
-			return Encoding.GetString(Encoding.Default.GetBytes(str));
-		}
+        public abstract RetSatIntegradorMFe EnviarPagamento(int numeroSessao, string chaveAcessoValidador, string chaveRequisicao, string estabelecimento, string serialPOS, string cnpj,
+            decimal icmsBase, decimal valorTotalVenda, string origemPagamento, bool habilitarMultiplosPagamentos = true, bool habilitarControleAntiFraude = false,
+            string codigoMoeda = "BRL", bool emitirCupomNFCE = false);
 
-		protected string ToEncoding(string str)
-		{
-			return Encoding.Default.GetString(Encoding.GetBytes(str));
-		}
+        public abstract RetSatIntegradorMFe VerificarStatusValidador(int numeroSessao, string chaveAcessoValidador, int idFila, string cnpj);
 
-		#endregion Method
+        public abstract RetSatIntegradorMFe EnviarStatusPagamento(int numeroSessao, string chaveAcessoValidador, string codigoAutorizacao, string bin, string donoCartao,
+            string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, int idFila, string tipo, int ultimosQuatroDigitos);
 
-		#region IDisposable
+        public abstract RetSatIntegradorMFe RespostaFiscal(int numeroSessao, string chaveAcessoValidador, int idFila, string chaveAcesso, string nsu,
+            string numeroAprovacao, string bandeira, string adquirinte, string cnpj, string impressaofiscal, string numeroDocumento);
 
-		public void Dispose()
-		{
-			Dispose(true);
-		}
+        protected string FromEncoding(string str)
+        {
+            return Encoding.GetString(Encoding.Default.GetBytes(str));
+        }
 
-		protected void Dispose(bool disposing)
-		{
-			if (disposing) GC.SuppressFinalize(this);
-			if (handle == IntPtr.Zero) return;
+        protected string ToEncoding(string str)
+        {
+            return Encoding.Default.GetString(Encoding.GetBytes(str));
+        }
 
-			handle.FreeLibrary();
-			handle = IntPtr.Zero;
-		}
+        #endregion Method
 
-		#endregion IDisposable
-	}
+        #region IDisposable
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (disposing) GC.SuppressFinalize(this);
+            if (handle == IntPtr.Zero) return;
+
+            handle.FreeLibrary();
+            handle = IntPtr.Zero;
+        }
+
+        #endregion IDisposable
+    }
 }

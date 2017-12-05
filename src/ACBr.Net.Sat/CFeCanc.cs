@@ -88,6 +88,16 @@ namespace ACBr.Net.Sat
 
 		#region Methods
 
+		/// <summary>
+		/// Retorna o valor do QrCode
+		/// </summary>
+		/// <returns>Código QrCode</returns>
+		public string GetQRCode()
+		{
+			var documento = InfCFe.Dest.CNPJ.IsEmpty() ? InfCFe.Dest.CPF.OnlyNumbers() : InfCFe.Dest.CNPJ.OnlyNumbers();
+			return $"{InfCFe.Id.OnlyNumbers()}|{InfCFe.Ide.DhEmissao:yyyyMMddHHmmss}|{InfCFe.Total.VCFe:0.00}|{documento}|{InfCFe.Ide.AssinaturaQrcode}";
+		}
+
 		private bool ShouldSerializeSignature()
 		{
 			return !Signature.SignatureValue.IsEmpty();

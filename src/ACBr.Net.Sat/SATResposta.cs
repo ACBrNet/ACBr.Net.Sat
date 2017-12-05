@@ -30,19 +30,20 @@
 // Classe feita para tratar o retorno do SAT
 // </summary>
 // ***********************************************************************
+
 using ACBr.Net.Core.Extensions;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ACBr.Net.Sat
 {
-	public class SatResposta
-	{
-		#region Constructors
+    public class SatResposta
+    {
+        #region Constructors
 
-		public SatResposta(string resposta, Encoding encoding)
-		{
-			/*
+        public SatResposta(string resposta, Encoding encoding)
+        {
+            /*
 			***** RETORNOS DO SAT POR COMANDO *****
 			AtivarSAT....................: numeroSessao, EEEEE, mensagem, cod, mensagemSEFAZ, CSR
 			ComunicarCertificadoICPBRASIL: numeroSessao, EEEEE, mensagem, cod, mensagemSEFAZ
@@ -61,62 +62,60 @@ namespace ACBr.Net.Sat
 			TrocarCodigoDeAtivacao.......: numeroSessao, EEEEE, mensagem, cod, mensagemSEFAZ
 			*/
 
-			RetornoStr = resposta;
+            RetornoStr = resposta;
 
-			RetornoLst = new List<string>();
-			RetornoLst.AddRange(resposta.Split('|'));
+            RetornoLst = new List<string>();
+            RetornoLst.AddRange(resposta.Split('|'));
 
-			if (RetornoLst.Count > 1)
-			{
-				NumeroSessao = RetornoLst[0].ToInt32();
-				CodigoDeRetorno = RetornoLst[1].ToInt32();
-			}
+            if (RetornoLst.Count > 1)
+            {
+                NumeroSessao = RetornoLst[0].ToInt32();
+                CodigoDeRetorno = RetornoLst[1].ToInt32();
+            }
 
-			var idx = 2;
+            var idx = 2;
+            if (RetornoLst.Count <= idx) return;
 
-			if (RetornoLst.Count > idx)
-			{
-				//Enviar e Cancelar venda tem um campo a mais no inicio da resposta(CCCC)
-				var value = RetornoLst[idx].Trim();
-				if (value.Length == 4 && value.IsNumeric())
-				{
-					CodigoDeErro = RetornoLst[idx].ToInt32();
-					idx++;
-				}
+            //Enviar e Cancelar venda tem um campo a mais no inicio da resposta(CCCC)
+            var value = RetornoLst[idx].Trim();
+            if (value.Length == 4 && value.IsNumeric())
+            {
+                CodigoDeErro = RetornoLst[idx].ToInt32();
+                idx = 3;
+            }
 
-				if (RetornoLst.Count > idx + 2)
-				{
-					MensagemRetorno = RetornoLst[idx];
-					CodigoSEFAZ = RetornoLst[idx + 1].ToInt32();
-					MensagemSEFAZ = RetornoLst[idx + 2];
-				}
-				else
-				{
-					MensagemRetorno = resposta;
-				}
-			}
-		}
+            if (RetornoLst.Count > idx + 2)
+            {
+                MensagemRetorno = RetornoLst[idx];
+                CodigoSEFAZ = RetornoLst[idx + 1].ToInt32();
+                MensagemSEFAZ = RetornoLst[idx + 2];
+            }
+            else
+            {
+                MensagemRetorno = resposta;
+            }
+        }
 
-		#endregion Constructors
+        #endregion Constructors
 
-		#region Propriedades
+        #region Propriedades
 
-		public int NumeroSessao { get; private set; }
+        public int NumeroSessao { get; private set; }
 
-		public int CodigoDeRetorno { get; private set; }
+        public int CodigoDeRetorno { get; private set; }
 
-		public int CodigoDeErro { get; private set; }
+        public int CodigoDeErro { get; private set; }
 
-		public string MensagemRetorno { get; private set; }
+        public string MensagemRetorno { get; private set; }
 
-		public int CodigoSEFAZ { get; private set; }
+        public int CodigoSEFAZ { get; private set; }
 
-		public string MensagemSEFAZ { get; private set; }
+        public string MensagemSEFAZ { get; private set; }
 
-		public List<string> RetornoLst { get; private set; }
+        public List<string> RetornoLst { get; private set; }
 
-		public string RetornoStr { get; private set; }
+        public string RetornoStr { get; private set; }
 
-		#endregion Propriedades
-	}
+        #endregion Propriedades
+    }
 }

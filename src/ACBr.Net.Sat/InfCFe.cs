@@ -37,184 +37,184 @@ using System.Linq;
 
 namespace ACBr.Net.Sat
 {
-	/// <summary>
-	/// Class infCFe.
-	/// </summary>
-	[ImplementPropertyChanged]
-	public sealed class InfCFe
-	{
-		#region Fields
+    /// <summary>
+    /// Class infCFe.
+    /// </summary>
+    [ImplementPropertyChanged]
+    public sealed class InfCFe
+    {
+        #region Fields
 
-		private CFe parent;
-		private CFeDetCollection det;
+        private CFe parent;
+        private CFeDetCollection det;
 
-		#endregion Fields
+        #endregion Fields
 
-		#region Constructor
+        #region Constructor
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="InfCFe"/> class.
-		/// </summary>
-		public InfCFe()
-		{
-			Ide = new CFeIde();
-			Emit = new CFeEmit();
-			Dest = new CFeDest();
-			Entrega = new CFeEntrega();
-			Det = new CFeDetCollection();
-			Total = new CFeTotal();
-			Pagto = new CFePgto();
-			InfAdic = new CFeInfAdic();
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InfCFe"/> class.
+        /// </summary>
+        public InfCFe()
+        {
+            Ide = new CFeIde();
+            Emit = new CFeEmit();
+            Dest = new CFeDest();
+            Entrega = new CFeEntrega();
+            Det = new CFeDetCollection();
+            Total = new CFeTotal();
+            Pagto = new CFePgto();
+            InfAdic = new CFeInfAdic();
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CFe" /> class.
-		/// </summary>
-		/// <returns>CFe.</returns>
-		public InfCFe(CFe parent) : this()
-		{
-			Parent = parent;
-			Det = new CFeDetCollection(Parent);
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CFe" /> class.
+        /// </summary>
+        /// <returns>CFe.</returns>
+        public InfCFe(CFe parent) : this()
+        {
+            Parent = parent;
+            Det = new CFeDetCollection(Parent);
+        }
 
-		#endregion Constructor
+        #endregion Constructor
 
-		#region Propriedades
+        #region Propriedades
 
-		/// <summary>
-		/// Gets the parent.
-		/// </summary>
-		/// <value>The parent.</value>
-		[DFeIgnore]
-		internal CFe Parent
-		{
-			get { return parent; }
-			set
-			{
-				parent = value;
-				Det.Parent = value;
-			}
-		}
+        /// <summary>
+        /// Gets the parent.
+        /// </summary>
+        /// <value>The parent.</value>
+        [DFeIgnore]
+        internal CFe Parent
+        {
+            get { return parent; }
+            set
+            {
+                parent = value;
+                Det.Parent = value;
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the identifier.
-		/// </summary>
-		/// <value>The identifier.</value>
-		[DFeAttribute(TipoCampo.Str, "Id")]
-		public string Id { get; set; }
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
+        [DFeAttribute(TipoCampo.Str, "Id")]
+        public string Id { get; set; }
 
-		/// <summary>
-		/// Gets the versao.
-		/// </summary>
-		/// <value>The versao.</value>
-		[DFeAttribute(TipoCampo.De2, "versao", Min = 4, Max = 9, Ocorrencia = Ocorrencia.MaiorQueZero)]
-		public decimal Versao { get; set; }
+        /// <summary>
+        /// Gets the versao.
+        /// </summary>
+        /// <value>The versao.</value>
+        [DFeAttribute(TipoCampo.De2, "versao", Min = 4, Max = 9, Ocorrencia = Ocorrencia.MaiorQueZero)]
+        public decimal Versao { get; set; }
 
-		/// <summary>
-		/// Gets the versao dados ent.
-		/// </summary>
-		/// <value>The versao dados ent.</value>
-		[DFeAttribute(TipoCampo.De2, "versaoDadosEnt", Min = 4, Max = 9, Ocorrencia = Ocorrencia.MaiorQueZero)]
-		public decimal VersaoDadosEnt { get; set; }
+        /// <summary>
+        /// Gets the versao dados ent.
+        /// </summary>
+        /// <value>The versao dados ent.</value>
+        [DFeAttribute(TipoCampo.De2, "versaoDadosEnt", Min = 4, Max = 9, Ocorrencia = Ocorrencia.MaiorQueZero)]
+        public decimal VersaoDadosEnt { get; set; }
 
-		/// <summary>
-		/// Gets the versao sb.
-		/// </summary>
-		/// <value>The versao sb.</value>
-		[DFeAttribute(TipoCampo.De2, "versaoSB", Ocorrencia = Ocorrencia.MaiorQueZero)]
-		public decimal VersaoSb { get; set; }
+        /// <summary>
+        /// Gets the versao sb.
+        /// </summary>
+        /// <value>The versao sb.</value>
+        [DFeAttribute(TipoCampo.De2, "versaoSB", Ocorrencia = Ocorrencia.MaiorQueZero)]
+        public decimal VersaoSb { get; set; }
 
-		/// <summary>
-		/// Gets the IDE.
-		/// </summary>
-		/// <value>The IDE.</value>
-		[DFeElement("ide", Id = "B01", Ocorrencia = Ocorrencia.Obrigatoria)]
-		public CFeIde Ide { get; set; }
+        /// <summary>
+        /// Gets the IDE.
+        /// </summary>
+        /// <value>The IDE.</value>
+        [DFeElement("ide", Id = "B01", Ocorrencia = Ocorrencia.Obrigatoria)]
+        public CFeIde Ide { get; set; }
 
-		/// <summary>
-		/// Gets the emit.
-		/// </summary>
-		/// <value>The emit.</value>
-		[DFeElement("emit", Id = "C01", Ocorrencia = Ocorrencia.Obrigatoria)]
-		public CFeEmit Emit { get; set; }
+        /// <summary>
+        /// Gets the emit.
+        /// </summary>
+        /// <value>The emit.</value>
+        [DFeElement("emit", Id = "C01", Ocorrencia = Ocorrencia.Obrigatoria)]
+        public CFeEmit Emit { get; set; }
 
-		/// <summary>
-		/// Gets the dest.
-		/// </summary>
-		/// <value>The dest.</value>
-		[DFeElement("dest", Id = "E01", Ocorrencia = Ocorrencia.Obrigatoria)]
-		public CFeDest Dest { get; set; }
+        /// <summary>
+        /// Gets the dest.
+        /// </summary>
+        /// <value>The dest.</value>
+        [DFeElement("dest", Id = "E01", Ocorrencia = Ocorrencia.Obrigatoria)]
+        public CFeDest Dest { get; set; }
 
-		/// <summary>
-		/// Gets the entrega.
-		/// </summary>
-		/// <value>The entrega.</value>
-		[DFeElement("entrega", Id = "G01", Ocorrencia = Ocorrencia.NaoObrigatoria)]
-		public CFeEntrega Entrega { get; set; }
+        /// <summary>
+        /// Gets the entrega.
+        /// </summary>
+        /// <value>The entrega.</value>
+        [DFeElement("entrega", Id = "G01", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public CFeEntrega Entrega { get; set; }
 
-		/// <summary>
-		/// Gets the det.
-		/// </summary>
-		/// <value>The det.</value>
-		[DFeElement("det", Id = "H01", Min = 1, Max = 500)]
-		public CFeDetCollection Det
-		{
-			get { return det; }
-			set
-			{
-				det = value;
-				if (det.Parent != parent)
-				{
-					det.Parent = parent;
-				}
-			}
-		}
+        /// <summary>
+        /// Gets the det.
+        /// </summary>
+        /// <value>The det.</value>
+        [DFeCollection("det", Id = "H01", MinSize = 1, MaxSize = 500)]
+        public CFeDetCollection Det
+        {
+            get { return det; }
+            set
+            {
+                det = value;
+                if (det.Parent != parent)
+                {
+                    det.Parent = parent;
+                }
+            }
+        }
 
-		/// <summary>
-		/// Gets the total.
-		/// </summary>
-		/// <value>The total.</value>
-		[DFeElement("total", Id = "W01", Ocorrencia = Ocorrencia.Obrigatoria)]
-		public CFeTotal Total { get; set; }
+        /// <summary>
+        /// Gets the total.
+        /// </summary>
+        /// <value>The total.</value>
+        [DFeElement("total", Id = "W01", Ocorrencia = Ocorrencia.Obrigatoria)]
+        public CFeTotal Total { get; set; }
 
-		/// <summary>
-		/// Gets the pgto.
-		/// </summary>
-		/// <value>The pgto.</value>
-		[DFeElement("pgto", Id = "WA01", Ocorrencia = Ocorrencia.Obrigatoria)]
-		public CFePgto Pagto { get; set; }
+        /// <summary>
+        /// Gets the pgto.
+        /// </summary>
+        /// <value>The pgto.</value>
+        [DFeElement("pgto", Id = "WA01", Ocorrencia = Ocorrencia.Obrigatoria)]
+        public CFePgto Pagto { get; set; }
 
-		/// <summary>
-		/// Gets the inf adic.
-		/// </summary>
-		/// <value>The inf adic.</value>
-		[DFeElement("infAdic", Id = "Z01", Ocorrencia = Ocorrencia.Obrigatoria)]
-		public CFeInfAdic InfAdic { get; set; }
+        /// <summary>
+        /// Gets the inf adic.
+        /// </summary>
+        /// <value>The inf adic.</value>
+        [DFeElement("infAdic", Id = "Z01", Ocorrencia = Ocorrencia.Obrigatoria)]
+        public CFeInfAdic InfAdic { get; set; }
 
-		#endregion Propriedades
+        #endregion Propriedades
 
-		#region Methods
+        #region Methods
 
-		private bool ShouldSerializeId()
-		{
-			return !Id.IsEmpty();
-		}
+        private bool ShouldSerializeId()
+        {
+            return !Id.IsEmpty();
+        }
 
-		private bool ShouldSerializeEntrega()
-		{
-			return !Entrega.XLgr.IsEmpty() ||
-				   !Entrega.Nro.IsEmpty() ||
-				   !Entrega.XCpl.IsEmpty() ||
-				   !Entrega.XBairro.IsEmpty() ||
-				   !Entrega.XMun.IsEmpty() ||
-				   !Entrega.UF.IsEmpty();
-		}
+        private bool ShouldSerializeEntrega()
+        {
+            return !Entrega.XLgr.IsEmpty() ||
+                   !Entrega.Nro.IsEmpty() ||
+                   !Entrega.XCpl.IsEmpty() ||
+                   !Entrega.XBairro.IsEmpty() ||
+                   !Entrega.XMun.IsEmpty() ||
+                   !Entrega.UF.IsEmpty();
+        }
 
-		private bool ShouldSerializeInfAdic()
-		{
-			return !InfAdic.InfCpl.IsEmpty() || InfAdic.ObsFisco.Any();
-		}
+        private bool ShouldSerializeInfAdic()
+        {
+            return !InfAdic.InfCpl.IsEmpty() || InfAdic.ObsFisco.Any();
+        }
 
-		#endregion Methods
-	}
+        #endregion Methods
+    }
 }

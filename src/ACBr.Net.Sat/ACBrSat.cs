@@ -34,7 +34,6 @@ using ACBr.Net.Core.Exceptions;
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.Core.Logging;
 using ACBr.Net.DFe.Core.Common;
-using ACBr.Net.DFe.Core.Serializer;
 using ACBr.Net.Sat.Events;
 using System;
 using System.Drawing;
@@ -52,7 +51,7 @@ namespace ACBr.Net.Sat
 	/// <seealso cref="ACBr.Net.Core.ACBrComponent" />
 	/// <seealso cref="ACBr.Net.Core.Logging.IACBrLog" />
 	[ToolboxBitmap(typeof(ACBrSat), "ACBrSAT")]
-	public class ACBrSat : ACBrComponent, IACBrLog
+	public sealed class ACBrSat : ACBrComponent, IACBrLog
 	{
 		#region Fields
 
@@ -63,6 +62,7 @@ namespace ACBr.Net.Sat
 		private string signAC;
 		private string codigoAtivacao;
 		private ExtratoSat extrato;
+		private bool aguardandoResposta;
 
 		#endregion Fields
 
@@ -123,6 +123,11 @@ namespace ACBr.Net.Sat
 		/// </summary>
 		public event EventHandler<CalcPathEventEventArgs> OnCalcPath;
 
+		/// <summary>
+		/// Ocorre quando o componente entra ou sai de um processamento.
+		/// </summary>
+		public event EventHandler<EventArgs> AguardandoRespostaChanged;
+
 		#endregion Events
 
 		#region Properties
@@ -158,7 +163,7 @@ namespace ACBr.Net.Sat
 		}
 
 		/// <summary>
-		/// Modelo a ser utilizado pelo ACBrSat.
+		/// Define/retorna o modelo a ser utilizado pelo ACBrSat.
 		/// </summary>
 		/// <value>The modelo.</value>
 		public ModeloSat Modelo
@@ -175,7 +180,7 @@ namespace ACBr.Net.Sat
 		}
 
 		/// <summary>
-		/// Classe responsavel por imprimir o Extrato do Sat.
+		/// Define/retorna a classe responsável por imprimir o Extrato do Sat.
 		/// </summary>
 		/// <value>The extrato.</value>
 		public ExtratoSat Extrato
@@ -190,19 +195,35 @@ namespace ACBr.Net.Sat
 		}
 
 		/// <summary>
-		/// Indica se o componente esta ativo ou não.
+		/// Retorna o indicador se o componente esta ativo ou não.
 		/// </summary>
-		/// <value><c>true</c> if ativo; otherwise, <c>false</c>.</value>
+		/// <value><c>true</c> se está ativo; senão, <c>false</c>.</value>
 		public bool Ativo { get; private set; }
 
 		/// <summary>
-		/// Número da sessão atual.
+		/// Retorna o indicador se o componente esta em aguardando uma resposta ou não.
+		/// </summary>
+		/// <value><c>true</c> se estiver aguardando uma resposta; senão, <c>false</c>.</value>
+		public bool AguardandoResposta
+		{
+			get { return aguardandoResposta; }
+			private set
+			{
+				if (aguardandoResposta == value) return;
+
+				aguardandoResposta = value;
+				AguardandoRespostaChanged.Raise(this, EventArgs.Empty);
+			}
+		}
+
+		/// <summary>
+		/// Retorna o número da sessão atual.
 		/// </summary>
 		/// <value>The sessao.</value>
 		public int Sessao { get; private set; }
 
 		/// <summary>
-		/// Código usado para ativar o Sat
+		/// Define/retorna o código usado para ativar o Sat
 		/// </summary>
 		/// <value>Código ativacao.</value>
 		public string CodigoAtivacao
@@ -222,7 +243,7 @@ namespace ACBr.Net.Sat
 		}
 
 		/// <summary>
-		/// Assinatura de (CNPJ Software House + CNPJ Emitente) que gerou o CF-e </summary>
+		/// Define/retorna a assinatura de (CNPJ Software House + CNPJ Emitente) que gerou o CF-e </summary>
 		/// <value>SignAC.</value>
 		public string SignAC
 		{
@@ -241,7 +262,7 @@ namespace ACBr.Net.Sat
 		}
 
 		/// <summary>
-		/// Caminho onde se encontra a biblioteca do Sat.
+		/// Define/retorna o caminho onde se encontra a biblioteca do Sat.
 		/// </summary>
 		/// <value>O caminho da dll.</value>
 		public string PathDll
@@ -269,7 +290,7 @@ namespace ACBr.Net.Sat
 		/// <exception cref="NotImplementedException"></exception>
 		public void Ativar()
 		{
-			sat = SatManager.GetLibrary(Modelo, PathDll, Encoding);
+			sat = SatManager.GetLibrary(Modelo, Configuracoes, PathDll, Encoding);
 			Ativo = true;
 		}
 
@@ -386,7 +407,7 @@ namespace ACBr.Net.Sat
 		public CancelamentoSatResposta CancelarUltimaVenda(CFe cfe)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
-			Guard.Against<ArgumentNullException>(cfe.IsNull(), nameof(cfe));
+			Guard.Against<ArgumentNullException>(cfe == null, nameof(cfe));
 
 			var cfeCanc = new CFeCanc(cfe);
 			return CancelarUltimaVenda(cfeCanc);
@@ -399,7 +420,7 @@ namespace ACBr.Net.Sat
 		/// <returns>CancelamentoSatResposta.</returns>
 		public CancelamentoSatResposta CancelarUltimaVenda(CFeCanc cfeCanc)
 		{
-			Guard.Against<ArgumentNullException>(cfeCanc.IsNull(), nameof(cfeCanc));
+			Guard.Against<ArgumentNullException>(cfeCanc == null, nameof(cfeCanc));
 
 			var options = DFeSaveOptions.OmitDeclaration | DFeSaveOptions.DisableFormatting;
 			if (Configuracoes.RemoverAcentos)
@@ -486,7 +507,7 @@ namespace ACBr.Net.Sat
 		public SatResposta ConfigurarInterfaceDeRede(SatRede config)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
-			Guard.Against<ArgumentNullException>(config.IsNull(), nameof(config));
+			Guard.Against<ArgumentNullException>(config == null, nameof(config));
 
 			var configuracao = config.GetXml();
 			IniciaComando($"ConfigurarInterfaceDeRede({configuracao})");
@@ -560,7 +581,7 @@ namespace ACBr.Net.Sat
 		public VendaSatResposta EnviarDadosVenda(CFe cfe)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
-			Guard.Against<ArgumentNullException>(cfe.IsNull(), nameof(cfe));
+			Guard.Against<ArgumentNullException>(cfe == null, nameof(cfe));
 
 			var options = DFeSaveOptions.OmitDeclaration | DFeSaveOptions.DisableFormatting;
 			if (Configuracoes.RemoverAcentos)
@@ -704,7 +725,7 @@ namespace ACBr.Net.Sat
 		public void ImprimirExtrato(CFe cfe)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
-			Guard.Against<ArgumentNullException>(Extrato.IsNull(), "Componente de Impressão não definido !");
+			Guard.Against<ArgumentNullException>(Extrato == null, "Componente de Impressão não definido !");
 
 			Extrato.ImprimirExtrato(cfe);
 		}
@@ -716,7 +737,7 @@ namespace ACBr.Net.Sat
 		public void ImprimirExtratoResumido(CFe cfe)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
-			Guard.Against<ArgumentNullException>(Extrato.IsNull(), "Componente de Impressão não definido !");
+			Guard.Against<ArgumentNullException>(Extrato == null, "Componente de Impressão não definido !");
 
 			Extrato.ImprimirExtratoResumido(cfe);
 		}
@@ -729,7 +750,7 @@ namespace ACBr.Net.Sat
 		public void ImprimirExtratoCancelamento(CFe cfe, CFeCanc cFeCanc)
 		{
 			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
-			Guard.Against<ArgumentNullException>(Extrato.IsNull(), "Componente de Impressão não definido !");
+			Guard.Against<ArgumentNullException>(Extrato == null, "Componente de Impressão não definido !");
 
 			Extrato.ImprimirExtratoCancelamento(cfe, cFeCanc);
 		}
@@ -743,7 +764,7 @@ namespace ACBr.Net.Sat
 		/// <returns>System.String.</returns>
 		public string GerarSignAc(X509Certificate2 certificado, string CNPJSoftwareHouse, string CNPJEstbComercial)
 		{
-			Guard.Against<ArgumentNullException>(certificado.IsNull(), nameof(certificado));
+			Guard.Against<ArgumentNullException>(certificado == null, nameof(certificado));
 			Guard.Against<ArgumentException>(CNPJSoftwareHouse.IsEmpty(), nameof(CNPJSoftwareHouse));
 			Guard.Against<ArgumentException>(CNPJEstbComercial.IsEmpty(), nameof(CNPJEstbComercial));
 
@@ -760,14 +781,103 @@ namespace ACBr.Net.Sat
 
 			var rsa = new RSACryptoServiceProvider(cspParameters) { PersistKeyInCsp = false };
 
-			var data = Encoding.UTF8.GetBytes(CNPJSoftwareHouse + CNPJEstbComercial);
-			var signData = rsa.SignData(data, "SHA256");
+			try
+			{
+				var data = Encoding.UTF8.GetBytes(CNPJSoftwareHouse + CNPJEstbComercial);
+				var signData = rsa.SignData(data, "SHA256");
 
-			var sign = signData.ToBase64();
+				var sign = signData.ToBase64();
 
-			this.Log().Info($"GerarSignAc: Sign: {sign}");
+				this.Log().Info($"GerarSignAc: Sign: {sign}");
 
-			return sign;
+				return sign;
+			}
+			catch (Exception exception)
+			{
+				this.Log().Error(exception);
+				throw new ACBrException("Erro ao gerar a assinatura.", exception);
+			}
+			finally
+			{
+				rsa.Dispose();
+			}
+		}
+
+		/// <summary>
+		/// Envia pagamento ao MFe
+		/// </summary>
+		/// <returns>MFeIntegradorResp.</returns>
+		public MFeSatResposta EnviarPagamento(string chaveRequisicao, string estabelecimento, string serialPOS, string cnpj, decimal icmsBase, decimal valorTotalVenda, string origemPagamento,
+			bool habilitarMultiplosPagamentos = true, bool habilitarControleAntiFraude = false, string codigoMoeda = "BRL", bool emitirCupomNFCE = false)
+		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
+			IniciaComando($"EnviarPagamento({Sessao}, {sat.Config.ChaveAcessoValidador}, {chaveRequisicao}, {estabelecimento} , {cnpj}, {icmsBase}, {valorTotalVenda}, {origemPagamento})" +
+						  $"{habilitarMultiplosPagamentos}, {habilitarControleAntiFraude}, {codigoMoeda}, {emitirCupomNFCE})");
+
+			var ret = sat.EnviarPagamento(Sessao, sat.Config.ChaveAcessoValidador, chaveRequisicao, estabelecimento, serialPOS, cnpj,
+				icmsBase, valorTotalVenda, origemPagamento, habilitarMultiplosPagamentos, habilitarControleAntiFraude, codigoMoeda, emitirCupomNFCE);
+
+			var mfeResposta = FinalizaComando<MFeSatResposta>(ret.XmlRetorno);
+			mfeResposta.XmlEnvio = ret.XmlEnvio;
+			return mfeResposta;
+		}
+
+		/// <summary>
+		/// Verificar status do pagamento no Validador
+		/// </summary>
+		/// <returns>MFeIntegradorResp.</returns>
+		public MFeSatResposta VerificarStatusValidador(int idFila, string cnpj)
+		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
+			IniciaComando($"VerificarStatusValidador({Sessao}, {sat.Config.ChaveAcessoValidador}, {idFila}, {cnpj})");
+
+			var ret = sat.VerificarStatusValidador(Sessao, sat.Config.ChaveAcessoValidador, idFila, cnpj);
+
+			var mfeResposta = FinalizaComando<MFeSatResposta>(ret.XmlRetorno);
+			mfeResposta.XmlEnvio = ret.XmlEnvio;
+			return mfeResposta;
+		}
+
+		/// <summary>
+		/// Enviar status do pagamento ao Validador - usado no roteiro TEF
+		/// </summary>
+		/// <returns>MFeIntegradorResp.</returns>
+		public MFeSatResposta EnviarStatusPagamento(string codigoAutorizacao, string bin, string donoCartao,
+			string dataExpiracao, string instituicaoFinanceira, int parcelas, string codigoPagamento, decimal valorPagamento, int idFila, string tipo, int ultimosQuatroDigitos)
+		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
+			IniciaComando($"EnviarStatusPagamento({Sessao}, {sat.Config.ChaveAcessoValidador}, {codigoAutorizacao}, {bin}, {donoCartao}, {dataExpiracao}, {instituicaoFinanceira}," +
+				$"{parcelas}, {codigoPagamento}, {valorPagamento}, {idFila}, {tipo}, {ultimosQuatroDigitos})");
+
+			var ret = sat.EnviarStatusPagamento(Sessao, sat.Config.ChaveAcessoValidador, codigoAutorizacao, bin, donoCartao, dataExpiracao, instituicaoFinanceira, parcelas, codigoPagamento,
+				valorPagamento, idFila, tipo, ultimosQuatroDigitos);
+
+			var mfeResposta = FinalizaComando<MFeSatResposta>(ret.XmlRetorno);
+			mfeResposta.XmlEnvio = ret.XmlEnvio;
+			return mfeResposta;
+		}
+
+		/// <summary>
+		/// Fecha a operação com cartão ligando a chave do CFe à transação em cartão
+		/// </summary>
+		/// <returns>MFeIntegradorResp.</returns>
+		public MFeSatResposta RespostaFiscal(int idFila, string chaveAcesso, string nsu,
+			string numeroAprovacao, string bandeira, string adquirinte, string cnpj, string impressaofiscal, string numeroDocumento)
+		{
+			Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
+			IniciaComando($"RespostaFiscal({Sessao}, {sat.Config.ChaveAcessoValidador}, {idFila}, {chaveAcesso}, {nsu}, {numeroAprovacao}, {bandeira}," +
+				$"{adquirinte}, {cnpj}, {impressaofiscal}, {numeroDocumento})");
+
+			var ret = sat.RespostaFiscal(Sessao, sat.Config.ChaveAcessoValidador, idFila, chaveAcesso, nsu, numeroAprovacao, bandeira,
+				adquirinte, cnpj, impressaofiscal, numeroDocumento);
+
+			var mfeResposta = FinalizaComando<MFeSatResposta>(ret.XmlRetorno);
+			mfeResposta.XmlEnvio = ret.XmlEnvio;
+			return mfeResposta;
 		}
 
 		/// <summary>
@@ -780,7 +890,7 @@ namespace ACBr.Net.Sat
 					ReplacementTypeOrMember = "GetXml da classe")]
 		public string GetXml(CFe cfe)
 		{
-			return GetXml<CFe>(cfe);
+			throw new NotImplementedException();
 		}
 
 		/// <summary>
@@ -793,7 +903,7 @@ namespace ACBr.Net.Sat
 					ReplacementTypeOrMember = "GetXml da classe")]
 		public string GetXml(CFeCanc cfeCanc)
 		{
-			return GetXml<CFeCanc>(cfeCanc);
+			throw new NotImplementedException();
 		}
 
 		/// <summary>
@@ -806,7 +916,7 @@ namespace ACBr.Net.Sat
 					ReplacementTypeOrMember = "GetXml da classe")]
 		public string GetXml(SatRede rede)
 		{
-			return GetXml<SatRede>(rede);
+			throw new NotImplementedException();
 		}
 
 		#endregion Public
@@ -815,6 +925,7 @@ namespace ACBr.Net.Sat
 
 		private void IniciaComando(string comandoLog)
 		{
+			AguardandoResposta = true;
 			GerarNumeroSessao();
 			this.Log().Info($"NumeroSessao: {Sessao} - Comando: {comandoLog}");
 		}
@@ -824,18 +935,36 @@ namespace ACBr.Net.Sat
 			this.Log().Info($"NumeroSessao: {Sessao} - Resposta: {resposta}");
 			var resp = (T)Activator.CreateInstance(typeof(T), resposta, Encoding);
 
+			if (!(resp is MFeSatResposta))
+			{
+				if (resp.NumeroSessao != Sessao)
+				{
+					this.Log().Error($"Sessao retornada pelo SAT [{resp.NumeroSessao}], diferente da enviada [{Sessao}].");
+					if (Configuracoes.ValidarNumeroSessaoResposta)
+					{
+						var fsSessaoAVerificar = Sessao;
+						var consultaCount = 0;
+
+						do
+						{
+							consultaCount++;
+							Guard.Against<ACBrException>(consultaCount > Configuracoes.NumeroTentativasValidarSessao, $"Sessao retornada pelo SAT [{resp.NumeroSessao}], diferente da enviada [{fsSessaoAVerificar}].");
+
+							IniciaComando($"ConsultarNumeroSessao({fsSessaoAVerificar})");
+							var ret = sat.ConsultarNumeroSessao(Sessao, CodigoAtivacao, fsSessaoAVerificar);
+							this.Log().Info($"NumeroSessao: {Sessao} - Resposta: {ret}");
+							resp = (T)Activator.CreateInstance(typeof(T), ret, Encoding);
+						} while (resp.NumeroSessao != fsSessaoAVerificar);
+					}
+				}
+			}
+
 			if (resp.CodigoSEFAZ <= 0 || resp.MensagemSEFAZ.IsEmpty()) return resp;
 
 			var e = new SatMensagemEventArgs(resp.CodigoSEFAZ, resp.MensagemSEFAZ);
 			OnMensagemSefaz.Raise(this, e);
+			AguardandoResposta = false;
 			return resp;
-		}
-
-		private DFeSerializer<T> GetSerializer<T>() where T : class
-		{
-			var serializer = DFeSerializer.CreateSerializer<T>();
-			serializer.Options.RemoverAcentos = Configuracoes.RemoverAcentos;
-			return serializer;
 		}
 
 		private void GerarNumeroSessao()
@@ -845,27 +974,6 @@ namespace ACBr.Net.Sat
 			var e = new NumeroSessaoEventArgs(Sessao);
 			OnGetNumeroSessao.Raise(this, e);
 			Sessao = e.Sessao;
-		}
-
-		private string GetXml<T>(T cfe, bool identado = true, bool showDeclaration = true) where T : class
-		{
-			using (var stream = new MemoryStream())
-			{
-				Salvar(cfe, stream, identado, showDeclaration);
-
-				using (var reader = new StreamReader(stream))
-				{
-					return reader.ReadToEnd();
-				}
-			}
-		}
-
-		private void Salvar<T>(T item, Stream stream, bool identado = true, bool showDeclaration = true) where T : class
-		{
-			var serializer = GetSerializer<T>();
-			serializer.Options.FormatarXml = identado;
-			serializer.Options.OmitirDeclaracao = !showDeclaration;
-			serializer.Serialize(item, stream);
 		}
 
 		#endregion Private
