@@ -85,6 +85,18 @@ namespace ACBr.Net.Sat
 			return $"{InfCFe.Id.OnlyNumbers()}|{InfCFe.Ide.DhEmissao:yyyyMMddHHmmss}|{InfCFe.Total.VCFe:0.00}|{documento}|{InfCFe.Ide.AssinaturaQrcode}";
 		}
 
+		/// <summary>
+		/// Função para preencher o número do item da lista de itens da CFe.
+		/// </summary>
+		public void PreencherNItem()
+		{
+			for (var i = 0; i < InfCFe.Det.Count; i++)
+			{
+				var det = InfCFe.Det[i];
+				det.NItem = i++;
+			}
+		}
+
 		private bool ShouldSerializeSignature()
 		{
 			return !Signature.SignatureValue.IsEmpty() &&
