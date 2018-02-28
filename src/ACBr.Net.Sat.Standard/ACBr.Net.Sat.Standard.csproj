@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<AssemblyName>ACBr.Net.Sat</AssemblyName>
+	<RootNamespace>ACBr.Net.Sat</RootNamespace>
+    <SignAssembly>true</SignAssembly>
+	<AssemblyOriginatorKeyFile>acbr.net.snk</AssemblyOriginatorKeyFile>
+	<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DocumentationFile>..\..\bin\Debug\netstandard2.0\ACBr.Net.Sat.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DocumentationFile>..\..\bin\Release\netstandard2.0\ACBr.Net.Sat.xml</DocumentationFile>
+  </PropertyGroup>
+  
+  <Import Project="..\ACBr.Net.Sat.Shared\ACBr.Net.Sat.Shared.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <Compile Include="..\Shared\ACBr.Net.Sat.AssemblyInfo.cs" Link="ACBr.Net.Sat.AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ACBr.Net.Core" Version="1.2.1-beta3" />
+    <PackageReference Include="ACBr.Net.DFe.Core" Version="1.2.1-beta3" />
+    <PackageReference Include="ACBr.Net.Integrador" Version="1.0.0-beta2" />
+    <PackageReference Include="ExtraConstraints.Fody" Version="1.12.2" />
+    <PackageReference Include="Obsolete.Fody" Version="4.3.7" />
+    <PackageReference Include="PropertyChanged.Fody" Version="2.2.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ExtratoSat.cs">
+      <SubType>ACBr.Net</SubType>
+    </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Update="NETStandard.Library" Version="2.0.1" />
+  </ItemGroup>
+
+</Project>
