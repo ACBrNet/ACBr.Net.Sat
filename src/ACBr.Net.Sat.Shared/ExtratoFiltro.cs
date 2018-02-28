@@ -4,6 +4,7 @@ namespace ACBr.Net.Sat
 	{
 		Nenhum,
 		PDF,
-		HTML
+		HTML,
+        Design
 	}
 }
