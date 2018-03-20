@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>ACBr.Net.Sat</id>
-        <version>1.0.1.5</version>
+        <version>1.2.0.0-beta1</version>
         <title>ACBr.Net.Sat</title>
         <authors>Grupo ACBr.Net</authors>
         <owners>Grupo ACBr.Net</owners>
@@ -10,16 +10,28 @@
         <iconUrl>https://avatars2.githubusercontent.com/u/7342977?v=3&amp;s=200</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Biblioteca para utilização do Sat</description>
-        <copyright>Copyright © Grupo ACBr.Net 2014 - 2016</copyright>
+        <copyright>Copyright © Grupo ACBr.Net 2014 - 2018</copyright>
         <language>pt-BR</language>
         <tags>ACBr ACBr.Net Automação Comercial</tags>
         <dependencies>
-            <dependency id="ACBr.Net.Core" version="1.0.1.4" />
-            <dependency id="ACBr.Net.DFe.Core" version="1.0.1.6" />
+            <group targetFramework="net452">
+				<dependency id="ACBr.Net.Core" version="1.2.1-beta3" />
+				<dependency id="ACBr.Net.DFe.Core" version="1.2.1-beta3" />
+				<dependency id="ACBr.Net.Integrador" version="1.0.0-beta2" />
+			</group>
+			<group targetFramework=".NETStandard2.0">
+                <dependency id="NETStandard.Library" version="2.0.1" exclude="Build,Analyzers" />
+                <dependency id="ACBr.Net.Core" version="1.2.1-beta3" exclude="Build,Analyzers" />
+                <dependency id="ACBr.Net.DFe.Core" version="1.2.1-beta3" exclude="Build,Analyzers" />
+                <dependency id="ACBr.Net.Integrador" version="1.0.0-beta2" exclude="Build,Analyzers" />
+            </group>
         </dependencies>
     </metadata>
     <files>
-        <file src="..\bin\Release\ACBr.Net.Sat.dll" target="lib\net40\ACBr.Net.Sat.dll" />
-        <file src="..\bin\Release\ACBr.Net.Sat.XML" target="lib\net40\ACBr.Net.Sat.XML" />
+        <file src="..\bin\Release\Net452\ACBr.Net.Sat.dll" target="lib\net452\ACBr.Net.Sat.dll" />
+        <file src="..\bin\Release\Net452\ACBr.Net.Sat.XML" target="lib\net452\ACBr.Net.Sat.XML" />
+		<file src="..\bin\Release\netstandard2.0\ACBr.Net.Sat.dll" target="lib\netstandard2.0\ACBr.Net.Sat.dll" />
+        <file src="..\bin\Release\netstandard2.0\ACBr.Net.Sat.xml" target="lib\netstandard2.0\ACBr.Net.Sat.xml" />
+		<file src="..\bin\Release\netstandard2.0\ACBr.Net.Sat.deps.json" target="lib\netstandard2.0\ACBr.Net.Sat.deps.json" />	
     </files>
 </package>

@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>8a190d44-2df7-455e-8cf1-bdd61401ae83</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>ACBr.Net.Sat.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ACBrSat.cs">
+      <SubType>ACBr.Net</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)CancelamentoSatResposta.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CancInfCFe.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFe.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeCanc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeCancDest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeCancEmit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeCancIde.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeCancInfAdic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeCancTotal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeDest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeDet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeDetCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeDetImposto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeDetProd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeEmit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeEnderEmit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeEntrega.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeIde.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeInfAdic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeObsFisco.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFePgto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFePgtoMP.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeTotal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeTotalDescAcr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeTotalIcms.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CFeTotalIssqn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CfgArquivos.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CodigoMP.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CodigosSat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConsultaSessaoResposta.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EstadoOperacao.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\CalcPathEventEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\ChaveEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EventoDadosEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EventoEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\NumeroSessaoEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\SatMensagemEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtratoFiltro.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtratoLayOut.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtratoSat.cs">
+      <SubType>ACBr.Net</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoCofins.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoCofinsAliq.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoCofinsNt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoCofinsOutr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoCofinsQtde.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoCofinsSn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoCofinsSt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoIcms.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoIcms00.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoIcms40.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoIcmsSn102.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoIcmsSn900.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoIssqn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoPis.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoPisAliq.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoPisNt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoPisOutr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoPisQtde.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoPisSn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImpostoPisSt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IndRegra.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfCFe.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICFeCofins.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICFeIcms.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICFeImposto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICFePis.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ISatLibrary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LogResposta.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModeloSat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NivelBateria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OrigemMercadoria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProdObsFisco.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RatIssqn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegTrib.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegTribIssqn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RetSatIntegradorMFe.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SatCdecl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SatConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SatIntegradorMFe.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SatLibrary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SatManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SatRede.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SatResposta.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SatStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SatStdCall.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SegSemFio.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StatusLan.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StatusOperacionalResposta.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TesteResposta.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TipoInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TipoLan.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TipoProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VendaSatResposta.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)ACBrSat.bmp" />
+  </ItemGroup>
+</Project>

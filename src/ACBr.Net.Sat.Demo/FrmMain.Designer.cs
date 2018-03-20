@@ -123,6 +123,8 @@
             this.tpgRede = new System.Windows.Forms.TabPage();
             this.tpgImpressao = new System.Windows.Forms.TabPage();
             this.tpgMFe = new System.Windows.Forms.TabPage();
+            this.txtChaveAcessoValidador = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
             this.btnRespostaFiscal = new System.Windows.Forms.Button();
             this.btnVerificarStatusValidador = new System.Windows.Forms.Button();
             this.btnEnviarStatusPagamento = new System.Windows.Forms.Button();
@@ -139,8 +141,8 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnParamSave = new System.Windows.Forms.Button();
             this.btnParamLoad = new System.Windows.Forms.Button();
-            this.txtChaveAcessoValidador = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
+            this.acbrIntegrador = new ACBr.Net.Integrador.ACBrIntegrador();
+            this.acbrSat = new ACBr.Net.Sat.ACBrSat();
             this.tpgLog.SuspendLayout();
             this.tbcXml.SuspendLayout();
             this.tpgXmlGerado.SuspendLayout();
@@ -1117,6 +1119,24 @@
             this.tpgMFe.Text = "MFE";
             this.tpgMFe.UseVisualStyleBackColor = true;
             // 
+            // txtChaveAcessoValidador
+            // 
+            this.txtChaveAcessoValidador.Location = new System.Drawing.Point(8, 118);
+            this.txtChaveAcessoValidador.Name = "txtChaveAcessoValidador";
+            this.txtChaveAcessoValidador.Size = new System.Drawing.Size(269, 20);
+            this.txtChaveAcessoValidador.TabIndex = 19;
+            this.txtChaveAcessoValidador.TextChanged += new System.EventHandler(this.txtChaveAcessoValidador_TextChanged);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(5, 99);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(179, 13);
+            this.label19.TabIndex = 18;
+            this.label19.Text = "Chave de acesso ao validador";
+            // 
             // btnRespostaFiscal
             // 
             this.btnRespostaFiscal.Location = new System.Drawing.Point(433, 59);
@@ -1288,23 +1308,54 @@
             this.btnParamLoad.UseVisualStyleBackColor = true;
             this.btnParamLoad.Click += new System.EventHandler(this.btnParamLoad_Click);
             // 
-            // txtChaveAcessoValidador
+            // acbrIntegrador
             // 
-            this.txtChaveAcessoValidador.Location = new System.Drawing.Point(8, 118);
-            this.txtChaveAcessoValidador.Name = "txtChaveAcessoValidador";
-            this.txtChaveAcessoValidador.Size = new System.Drawing.Size(269, 20);
-            this.txtChaveAcessoValidador.TabIndex = 19;
-            this.txtChaveAcessoValidador.TextChanged += new System.EventHandler(this.txtChaveAcessoValidador_TextChanged);
+            this.acbrIntegrador.Configuracoes.ChaveAcessoValidador = "";
+            this.acbrIntegrador.Configuracoes.PastaInput = "C:\\Integrador\\Input\\";
+            this.acbrIntegrador.Configuracoes.PastaOutput = "C:\\Integrador\\Output\\";
+            this.acbrIntegrador.Configuracoes.TimeOut = 45000;
+            this.acbrIntegrador.NomeComponente = "";
+            this.acbrIntegrador.NomeMetodo = "";
             // 
-            // label19
+            // acbrSat
             // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(5, 99);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(179, 13);
-            this.label19.TabIndex = 18;
-            this.label19.Text = "Chave de acesso ao validador";
+            this.acbrSat.Arquivos.PastaCFeCancelamento = "C:\\Users\\rften\\AppData\\Local\\Microsoft\\VisualStudio\\15.0_ba1d4182\\ProjectAssembli" +
+    "es\\itw3chll01\\Cancelamentos";
+            this.acbrSat.Arquivos.PastaCFeVenda = "C:\\Users\\rften\\AppData\\Local\\Microsoft\\VisualStudio\\15.0_ba1d4182\\ProjectAssembli" +
+    "es\\itw3chll01\\Vendas";
+            this.acbrSat.Arquivos.PastaEnvio = "C:\\Users\\rften\\AppData\\Local\\Microsoft\\VisualStudio\\15.0_ba1d4182\\ProjectAssembli" +
+    "es\\itw3chll01\\Enviado";
+            this.acbrSat.Arquivos.PrefixoArqCFe = "AD";
+            this.acbrSat.Arquivos.PrefixoArqCFeCanc = "ADC";
+            this.acbrSat.Arquivos.SalvarCFe = false;
+            this.acbrSat.Arquivos.SalvarCFeCanc = false;
+            this.acbrSat.Arquivos.SalvarEnvio = false;
+            this.acbrSat.Arquivos.SepararPorCNPJ = false;
+            this.acbrSat.Arquivos.SepararPorMes = false;
+            this.acbrSat.CodigoAtivacao = "123456";
+            this.acbrSat.Configuracoes.EmitCNPJ = "11111111111111";
+            this.acbrSat.Configuracoes.EmitCRegTrib = ACBr.Net.Sat.RegTrib.Normal;
+            this.acbrSat.Configuracoes.EmitCRegTribISSQN = ACBr.Net.Sat.RegTribIssqn.Nenhum;
+            this.acbrSat.Configuracoes.EmitIE = "";
+            this.acbrSat.Configuracoes.EmitIM = "";
+            this.acbrSat.Configuracoes.EmitIndRatISSQN = ACBr.Net.Sat.RatIssqn.Nao;
+            this.acbrSat.Configuracoes.IdeCNPJ = "11111111111111";
+            this.acbrSat.Configuracoes.IdeNumeroCaixa = 1;
+            this.acbrSat.Configuracoes.IdeTpAmb = ACBr.Net.DFe.Core.Common.DFeTipoAmbiente.Homologacao;
+            this.acbrSat.Configuracoes.InfCFeVersaoDadosEnt = new decimal(new int[] {
+            6,
+            0,
+            0,
+            131072});
+            this.acbrSat.Configuracoes.IsUtf8 = true;
+            this.acbrSat.Configuracoes.NumeroTentativasValidarSessao = 1;
+            this.acbrSat.Configuracoes.RemoverAcentos = false;
+            this.acbrSat.Configuracoes.ValidarNumeroSessaoResposta = false;
+            this.acbrSat.Encoding = ((System.Text.Encoding)(resources.GetObject("acbrSat.Encoding")));
+            this.acbrSat.IntegradorFiscal = this.acbrIntegrador;
+            this.acbrSat.Modelo = ACBr.Net.Sat.ModeloSat.Cdecl;
+            this.acbrSat.PathDll = "C:\\SAT\\SAT.dll";
+            this.acbrSat.SignAC = "";
             // 
             // FrmMain
             // 
@@ -1473,6 +1524,8 @@
         private System.Windows.Forms.Button btnEnviarPagamento;
         private System.Windows.Forms.TextBox txtChaveAcessoValidador;
         private System.Windows.Forms.Label label19;
+        private Integrador.ACBrIntegrador acbrIntegrador;
+        private ACBrSat acbrSat;
     }
 }
 
