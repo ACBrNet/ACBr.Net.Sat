@@ -15,15 +15,15 @@
         <tags>ACBr ACBr.Net Automação Comercial</tags>
         <dependencies>
             <group targetFramework="net452">
-				<dependency id="ACBr.Net.Core" version="1.2.1-beta3" />
-				<dependency id="ACBr.Net.DFe.Core" version="1.2.1-beta3" />
-				<dependency id="ACBr.Net.Integrador" version="1.0.0-beta2" />
+				<dependency id="ACBr.Net.Core" version="1.2.1-beta4" />
+				<dependency id="ACBr.Net.DFe.Core" version="1.2.1-beta6" />
+				<dependency id="ACBr.Net.Integrador" version="1.0.0-beta3" />
 			</group>
 			<group targetFramework=".NETStandard2.0">
                 <dependency id="NETStandard.Library" version="2.0.1" exclude="Build,Analyzers" />
-                <dependency id="ACBr.Net.Core" version="1.2.1-beta3" exclude="Build,Analyzers" />
-                <dependency id="ACBr.Net.DFe.Core" version="1.2.1-beta3" exclude="Build,Analyzers" />
-                <dependency id="ACBr.Net.Integrador" version="1.0.0-beta2" exclude="Build,Analyzers" />
+                <dependency id="ACBr.Net.Core" version="1.2.1-beta4" exclude="Build,Analyzers" />
+                <dependency id="ACBr.Net.DFe.Core" version="1.2.1-beta6" exclude="Build,Analyzers" />
+                <dependency id="ACBr.Net.Integrador" version="1.0.0-beta3" exclude="Build,Analyzers" />
             </group>
         </dependencies>
     </metadata>
