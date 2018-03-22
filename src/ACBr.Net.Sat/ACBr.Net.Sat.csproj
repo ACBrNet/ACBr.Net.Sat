@@ -9,47 +9,32 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ACBr.Net.Sat</RootNamespace>
     <AssemblyName>ACBr.Net.Sat</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <UpdateAssemblyVersion>True</UpdateAssemblyVersion>
-    <UpdateAssemblyFileVersion>True</UpdateAssemblyFileVersion>
-    <UpdateAssemblyInfoVersion>True</UpdateAssemblyInfoVersion>
-    <AssemblyVersionSettings>IncrementOnDemand.None.DateStamp.TimeStamp</AssemblyVersionSettings>
-    <AssemblyFileVersionSettings>IncrementOnDemand.None.DateStamp.TimeStamp</AssemblyFileVersionSettings>
-    <ShouldCreateLogs>True</ShouldCreateLogs>
-    <AdvancedSettingsExpanded>True</AdvancedSettingsExpanded>
-    <AssemblyInfoVersionSettings>IncrementOnDemand.None.DateStamp.TimeStamp</AssemblyInfoVersionSettings>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Debug\Net452\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\bin\Debug\ACBr.Net.Sat.xml</DocumentationFile>
+    <DocumentationFile>..\..\bin\Debug\Net452\ACBr.Net.Sat.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\bin\Release\</OutputPath>
+    <OutputPath>..\..\bin\Release\Net452\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\bin\Release\ACBr.Net.Sat.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'COM Interop|AnyCPU'">
-    <OutputPath>..\..\bin\COM Interop\</OutputPath>
-    <DefineConstants>TRACE;COM_INTEROP</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>..\..\bin\COM Interop\ACBr.Net.Sat.xml</DocumentationFile>
+    <DocumentationFile>..\..\bin\Release\Net452\ACBr.Net.Sat.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -58,23 +43,23 @@
     <AssemblyOriginatorKeyFile>acbr.net.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ACBr.Net.Core, Version=1.0.1.8, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
-      <HintPath>..\packages\ACBr.Net.Core.1.0.1.8\lib\net40\ACBr.Net.Core.dll</HintPath>
+    <Reference Include="ACBr.Net.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\ACBr.Net.Core.1.2.1-beta4\lib\net452\ACBr.Net.Core.dll</HintPath>
     </Reference>
-    <Reference Include="ACBr.Net.DFe.Core, Version=1.0.2.4, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
-      <HintPath>..\packages\ACBr.Net.DFe.Core.1.0.2.4\lib\net40\ACBr.Net.DFe.Core.dll</HintPath>
+    <Reference Include="ACBr.Net.DFe.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\ACBr.Net.DFe.Core.1.2.1-beta6\lib\net452\ACBr.Net.DFe.Core.dll</HintPath>
     </Reference>
-    <Reference Include="ExtraConstraints, Version=1.11.0.0, Culture=neutral, PublicKeyToken=8b9afd7f380a7d64, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExtraConstraints.Fody.1.11.0\lib\portable-net4+sl5+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\ExtraConstraints.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="ACBr.Net.Integrador, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\ACBr.Net.Integrador.1.0.0-beta3\lib\net452\ACBr.Net.Integrador.dll</HintPath>
     </Reference>
-    <Reference Include="Obsolete, Version=4.3.2.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
-      <HintPath>..\packages\Obsolete.Fody.4.3.2\lib\portable-net4+sl5+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\Obsolete.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="ExtraConstraints, Version=0.0.0.0, Culture=neutral, PublicKeyToken=8b9afd7f380a7d64, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExtraConstraints.Fody.1.12.2\lib\net452\ExtraConstraints.dll</HintPath>
     </Reference>
-    <Reference Include="PropertyChanged, Version=1.53.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
-      <HintPath>..\packages\PropertyChanged.Fody.1.53.0\Lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Obsolete, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
+      <HintPath>..\packages\Obsolete.Fody.4.3.7\lib\net452\Obsolete.dll</HintPath>
+    </Reference>
+    <Reference Include="PropertyChanged, Version=2.2.9.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.2.2.9\lib\net452\PropertyChanged.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -86,135 +71,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ACBrSat.cs">
-      <SubType>ACBr.Net</SubType>
-    </Compile>
-    <Compile Include="CodigosSat.cs" />
-    <Compile Include="MFeComponente.cs" />
-    <Compile Include="ConsultaSessaoResposta.cs" />
-    <Compile Include="ExtratoFiltro.cs" />
-    <Compile Include="ExtratoLayOut.cs" />
-    <Compile Include="ExtratoSat.cs" />
-    <Compile Include="MFeConstrutor.cs" />
-    <Compile Include="MFeIdentificador.cs" />
-    <Compile Include="MFeIntegradorEnvio.cs" />
-    <Compile Include="MFeIntegradorResp.cs" />
-    <Compile Include="MFeIntegradorResposta.cs" />
-    <Compile Include="MFeMetodo.cs" />
-    <Compile Include="MFeParametro.cs" />
-    <Compile Include="MFeParametroCollection.cs" />
-    <Compile Include="MFeResposta.cs" />
-    <Compile Include="MFeSatResposta.cs" />
-    <Compile Include="RetSatIntegradorMFe.cs" />
-    <Compile Include="SatIntegradorMFe.cs" />
-    <Compile Include="SatLibrary.cs" />
-    <Compile Include="SatManager.cs" />
-    <Compile Include="SatRede.cs" />
-    <Compile Include="StatusOperacionalResposta.cs" />
-    <Compile Include="LogResposta.cs" />
-    <Compile Include="CancelamentoSatResposta.cs" />
-    <Compile Include="CancInfCFe.cs" />
-    <Compile Include="CFeCancDest.cs" />
-    <Compile Include="CFeCancEmit.cs" />
-    <Compile Include="CFeCancIde.cs" />
-    <Compile Include="CFeCancInfAdic.cs" />
-    <Compile Include="CFeCancTotal.cs" />
-    <Compile Include="CodigoMP.cs" />
-    <Compile Include="Events\CalcPathEventEventArgs.cs" />
-    <Compile Include="CFeCanc.cs" />
-    <Compile Include="CFeDet.cs" />
-    <Compile Include="CFeDetCollection.cs" />
-    <Compile Include="CFeDetImposto.cs" />
-    <Compile Include="CFeEmit.cs" />
-    <Compile Include="CFeEnderEmit.cs" />
-    <Compile Include="Events\ChaveEventArgs.cs" />
-    <Compile Include="CFeIde.cs" />
-    <Compile Include="CFeDest.cs" />
-    <Compile Include="CFeEntrega.cs" />
-    <Compile Include="Interfaces\ICFeCofins.cs" />
-    <Compile Include="Interfaces\ICFeIcms.cs" />
-    <Compile Include="ImpostoCofins.cs" />
-    <Compile Include="ImpostoCofinsAliq.cs" />
-    <Compile Include="ImpostoCofinsNt.cs" />
-    <Compile Include="ImpostoCofinsOutr.cs" />
-    <Compile Include="ImpostoCofinsQtde.cs" />
-    <Compile Include="ImpostoCofinsSn.cs" />
-    <Compile Include="ImpostoCofinsSt.cs" />
-    <Compile Include="Interfaces\ICFeImposto.cs" />
-    <Compile Include="ImpostoIcms.cs" />
-    <Compile Include="ImpostoIcms00.cs" />
-    <Compile Include="ImpostoIcms40.cs" />
-    <Compile Include="ImpostoIcmsSn102.cs" />
-    <Compile Include="ImpostoIcmsSn900.cs" />
-    <Compile Include="ImpostoIssqn.cs" />
-    <Compile Include="ImpostoPis.cs" />
-    <Compile Include="ImpostoPisAliq.cs" />
-    <Compile Include="ImpostoPisNt.cs" />
-    <Compile Include="ImpostoPisOutr.cs" />
-    <Compile Include="ImpostoPisQtde.cs" />
-    <Compile Include="ImpostoPisSn.cs" />
-    <Compile Include="ImpostoPisSt.cs" />
-    <Compile Include="Interfaces\ICFePis.cs" />
-    <Compile Include="OrigemMercadoria.cs" />
-    <Compile Include="ProdObsFisco.cs" />
-    <Compile Include="CFeInfAdic.cs" />
-    <Compile Include="CFeObsFisco.cs" />
-    <Compile Include="CFePgto.cs" />
-    <Compile Include="CFePgtoMP.cs" />
-    <Compile Include="CFeTotal.cs" />
-    <Compile Include="CFeTotalDescAcr.cs" />
-    <Compile Include="CFeTotalIcms.cs" />
-    <Compile Include="CFeTotalIssqn.cs" />
-    <Compile Include="EstadoOperacao.cs" />
-    <Compile Include="Events\EventoDadosEventArgs.cs" />
-    <Compile Include="Events\EventoEventArgs.cs" />
-    <Compile Include="CfgArquivos.cs" />
-    <Compile Include="IndRegra.cs" />
-    <Compile Include="InfCFe.cs" />
-    <Compile Include="ModeloSat.cs" />
-    <Compile Include="SegSemFio.cs" />
-    <Compile Include="TesteResposta.cs" />
-    <Compile Include="TipoInterface.cs" />
-    <Compile Include="TipoLan.cs" />
-    <Compile Include="TipoProxy.cs" />
-    <Compile Include="Utils\NativeMethods.cs" />
-    <Compile Include="NivelBateria.cs" />
-    <Compile Include="Events\NumeroSessaoEventArgs.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RatIssqn.cs" />
-    <Compile Include="RegTrib.cs" />
-    <Compile Include="RegTribIssqn.cs" />
-    <Compile Include="SatCdecl.cs" />
-    <Compile Include="SatConfig.cs" />
-    <Compile Include="Events\SatMensagemEventArgs.cs" />
-    <Compile Include="SatResposta.cs" />
-    <Compile Include="SatStatus.cs" />
-    <Compile Include="SatStdCall.cs" />
-    <Compile Include="CFeDetProd.cs" />
-    <Compile Include="CFe.cs" />
-    <Compile Include="StatusLan.cs" />
-    <Compile Include="VendaSatResposta.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="acbr.net.snk" />
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ACBrSAT.bmp" />
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Shared\ACBr.Net.Sat.AssemblyInfo.cs">
+      <Link>Properties\ACBr.Net.Sat.AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="ExtratoSat.cs">
+      <SubType>ACBr.Net</SubType>
+    </Compile>
+  </ItemGroup>
+  <Import Project="..\ACBr.Net.Sat.Shared\ACBr.Net.Sat.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if "COM Interop" == "$(ConfigurationName)" (
 $(SolutionDir)..\Tools\TlbExp.exe "$(TargetPath)" /out:"$(TargetDir)$(TargetName).tlb"
 )</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\Fody.2.2.0\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody.2.2.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
+  <Import Project="..\packages\Fody.2.4.6\build\Fody.targets" Condition="Exists('..\packages\Fody.2.4.6\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Este projeto faz referência a pacotes do NuGet que não estão presentes neste computador. Use a Restauração de Pacotes do NuGet para baixá-los.  Para obter mais informações, consulte http://go.microsoft.com/fwlink/?LinkID=322105. O arquivo ausente é {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fody.2.2.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.2.0\build\portable-net+sl+win+wpa+wp\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.2.4.6\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.4.6\build\Fody.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

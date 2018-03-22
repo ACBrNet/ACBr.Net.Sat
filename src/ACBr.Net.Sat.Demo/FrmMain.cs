@@ -17,11 +17,10 @@ namespace ACBr.Net.Sat.Demo
         #region Fields
 
         private ILogger logger;
-        private ACBrSat acbrSat;
         private CFe cfeAtual;
         private CFeCanc cfeCancAtual;
         private SatRede redeAtual;
-        private ACBrConfig config;
+        private readonly ACBrConfig config;
 
         #endregion Fields
 
@@ -45,18 +44,6 @@ namespace ACBr.Net.Sat.Demo
 
         private void Initialize()
         {
-            acbrSat = new ACBrSat
-            {
-                Arquivos =
-                {
-                    SalvarEnvio = true,
-                    SalvarCFe = true,
-                    SalvarCFeCanc = true,
-                    SepararPorMes = true,
-                    SepararPorCNPJ = true
-                }
-            };
-
             cmbAmbiente.EnumDataSource<DFeTipoAmbiente>(DFeTipoAmbiente.Homologacao);
             cmbModeloSat.EnumDataSource<ModeloSat>(ModeloSat.StdCall);
             cmbEmiRegTrib.EnumDataSource<RegTrib>(RegTrib.Normal);
@@ -177,7 +164,7 @@ namespace ACBr.Net.Sat.Demo
             pgto2.CMp = CodigoMP.Dinheiro;
             pgto2.VMp = totalGeral / 2 + 10;
 
-            cfeAtual.InfCFe.InfAdic.InfCpl = "Acesse www.projetoacbr.com.br para obter mais;informações sobre o componente ACBrSAT;" +
+            cfeAtual.InfCFe.InfAdic.InfCpl = "Acesse https://acbrnet.github.io/ para obter mais;informações sobre o componente ACBrSAT;" +
                                              "Precisa de um PAF-ECF homologado?;Conheça o DJPDV - www.djpdv.com.br";
 
             wbrXmlGerado.LoadXml(cfeAtual.GetXml());
@@ -446,7 +433,7 @@ namespace ACBr.Net.Sat.Demo
         private void imprimirExtratoCancelamentoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (cfeAtual.IsNull() || cfeCancAtual.IsNull()) return;
-            acbrSat.ImprimirExtratoCancelamento(cfeAtual, cfeCancAtual);
+            acbrSat.ImprimirExtratoCancelamento(cfeCancAtual, cfeAtual.InfCFe.Ide.TpAmb ?? DFeTipoAmbiente.Homologacao);
         }
 
         private void consultarStatusOperacionalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -668,22 +655,22 @@ namespace ACBr.Net.Sat.Demo
 
         private void txtMFeEnvio_TextChanged(object sender, EventArgs e)
         {
-            acbrSat.Configuracoes.MFePathEnvio = txtMFeEnvio.Text;
+            acbrIntegrador.Configuracoes.PastaInput = txtMFeEnvio.Text;
         }
 
         private void txtMFeResposta_TextChanged(object sender, EventArgs e)
         {
-            acbrSat.Configuracoes.MFePathResposta = txtMFeResposta.Text;
+            acbrIntegrador.Configuracoes.PastaOutput = txtMFeResposta.Text;
         }
 
         private void nunMFeTimeout_ValueChanged(object sender, EventArgs e)
         {
-            acbrSat.Configuracoes.MFeTimeOut = (int)nunMFeTimeout.Value;
+            acbrIntegrador.Configuracoes.TimeOut = (int)nunMFeTimeout.Value;
         }
 
         private void txtChaveAcessoValidador_TextChanged(object sender, EventArgs e)
         {
-            acbrSat.Configuracoes.ChaveAcessoValidador = txtChaveAcessoValidador.Text;
+            acbrIntegrador.Configuracoes.ChaveAcessoValidador = txtChaveAcessoValidador.Text;
         }
 
         #endregion ValueChanged
@@ -714,8 +701,8 @@ namespace ACBr.Net.Sat.Demo
 
         private void btnEnviarPagamento_Click(object sender, EventArgs e)
         {
-            string _chaveRequisicao = Guid.NewGuid().ToString();
-            var resposta = acbrSat.EnviarPagamento(
+            var _chaveRequisicao = Guid.NewGuid().ToString();
+            var resposta = acbrIntegrador.EnviarPagamento(
                 chaveRequisicao: _chaveRequisicao,
                 estabelecimento: "10",
                 serialPOS: new Random().Next(10000000, 99999999).ToString(),
@@ -729,14 +716,14 @@ namespace ACBr.Net.Sat.Demo
                 emitirCupomNFCE: false
             );
 
-            wbrXmlRecebido.LoadXml(resposta.RetornoStr);
+            wbrXmlRecebido.LoadXml(resposta.GetXml());
         }
 
         private void btnEnviarStatusPagamento_Click(object sender, EventArgs e)
         {
-            string _idfila = "00000000";
+            var _idfila = "00000000";
             InputBox.Show("ID da fila", "Informe o if da fila", ref _idfila);
-            var resposta = acbrSat.EnviarStatusPagamento(
+            var resposta = acbrIntegrador.EnviarStatusPagamento(
                 codigoAutorizacao: "20551",
                 bin: "123456",
                 donoCartao: "Teste",
@@ -750,30 +737,30 @@ namespace ACBr.Net.Sat.Demo
                 ultimosQuatroDigitos: 1234
              );
 
-            wbrXmlRecebido.LoadXml(resposta.RetornoStr);
+            wbrXmlRecebido.LoadXml(resposta.GetXml());
         }
 
         private void btnVerificarStatusValidador_Click(object sender, EventArgs e)
         {
-            string _idfila = "00000000";
+            var _idfila = "00000000";
             InputBox.Show("ID da fila", "Informe o if da fila", ref _idfila);
-            var resposta = acbrSat.VerificarStatusValidador(
+            var resposta = acbrIntegrador.VerificarStatusValidador(
                 idFila: int.Parse(_idfila),
                 cnpj: txtEmitCNPJ.Text
             );
 
-            wbrXmlRecebido.LoadXml(resposta.RetornoStr);
+            wbrXmlRecebido.LoadXml(resposta.GetXml());
         }
 
         private void btnRespostaFiscal_Click(object sender, EventArgs e)
         {
-            string _idfila = "00000000";
+            var _idfila = "00000000";
             InputBox.Show("ID da fila", "Id da fila", ref _idfila);
 
-            string _chaveAcesso = "35170408723218000186599000113100000279731880";
+            var _chaveAcesso = "35170408723218000186599000113100000279731880";
             InputBox.Show("Chave de acesso", "Chave de acesso do CFe", ref _chaveAcesso);
 
-            var resposta = acbrSat.RespostaFiscal(
+            var resposta = acbrIntegrador.RespostaFiscal(
                 idFila: int.Parse(_idfila),
                 chaveAcesso: _chaveAcesso,
                 nsu: _idfila.ToString(),
@@ -785,12 +772,11 @@ namespace ACBr.Net.Sat.Demo
                 cnpj: txtEmitCNPJ.Text
             );
 
-            wbrXmlRecebido.LoadXml(resposta.RetornoStr);
+            wbrXmlRecebido.LoadXml(resposta.GetXml());
         }
 
         #endregion Botoes
 
         #endregion EventHandlers
-
     }
 }
