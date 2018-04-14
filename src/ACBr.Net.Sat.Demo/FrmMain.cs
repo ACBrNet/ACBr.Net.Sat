@@ -164,8 +164,7 @@ namespace ACBr.Net.Sat.Demo
             pgto2.CMp = CodigoMP.Dinheiro;
             pgto2.VMp = totalGeral / 2 + 10;
 
-            cfeAtual.InfCFe.InfAdic.InfCpl = "Acesse https://acbrnet.github.io/ para obter mais;informações sobre o componente ACBrSAT;" +
-                                             "Precisa de um PAF-ECF homologado?;Conheça o DJPDV - www.djpdv.com.br";
+            cfeAtual.InfCFe.InfAdic.InfCpl = "Acesse https://acbrnet.github.io/ para obter mais;informações sobre o componente ACBrSAT;";
 
             wbrXmlGerado.LoadXml(cfeAtual.GetXml());
             tbcXml.SelectedTab = tpgXmlGerado;

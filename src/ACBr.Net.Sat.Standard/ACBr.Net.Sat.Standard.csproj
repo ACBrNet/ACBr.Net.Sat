@@ -27,12 +27,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ACBr.Net.Core" Version="1.2.1-beta4" />
-    <PackageReference Include="ACBr.Net.DFe.Core" Version="1.2.1-beta6" />
-    <PackageReference Include="ACBr.Net.Integrador" Version="1.0.0-beta3" />
-    <PackageReference Include="ExtraConstraints.Fody" Version="1.12.2" />
-    <PackageReference Include="Obsolete.Fody" Version="4.3.7" />
-    <PackageReference Include="PropertyChanged.Fody" Version="2.2.9" />
+    <PackageReference Include="ACBr.Net.Core" Version="1.2.1-rc1" />
+    <PackageReference Include="ACBr.Net.DFe.Core" Version="1.2.1-rc1" />
+    <PackageReference Include="ACBr.Net.Integrador" Version="1.0.0-rc1" />
+    <PackageReference Include="ExtraConstraints.Fody" Version="1.13.0" />
+    <PackageReference Include="Obsolete.Fody" Version="4.4.0" />
+    <PackageReference Include="PropertyChanged.Fody" Version="2.5.3" />
   </ItemGroup>
 
   <ItemGroup>
