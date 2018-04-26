@@ -37,7 +37,7 @@ using System.Text;
 
 namespace ACBr.Net.Sat
 {
-    public abstract class SatResposta
+    public class SatResposta
     {
         #region Constructors
 
