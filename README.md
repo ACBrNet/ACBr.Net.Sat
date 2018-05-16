@@ -1,4 +1,5 @@
 [![Nuget count](http://img.shields.io/nuget/v/ACBr.Net.Sat.svg)](https://www.nuget.org/packages/ACBr.Net.Sat/)
+[![Join the chat at https://gitter.im/ACBrNet/ACBr.Net.Sat](https://badges.gitter.im/ACBrNet/ACBr.Net.Sat.svg)](https://gitter.im/ACBrNet/ACBr.Net.Sat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### Apoie-nos !
 Se *ACbrSat* for um componente vital em sua aplicação comercial ou de código aberto e / ou você quiser contribuir para seu sucesso contínuo, por favor considere fazer uma pequena contribuição monetária.

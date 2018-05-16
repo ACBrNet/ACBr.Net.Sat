@@ -33,7 +33,7 @@ using System.Text;
 
 namespace ACBr.Net.Sat
 {
-    public class LogResposta : SatResposta
+    public sealed class LogResposta : SatResposta
     {
         #region Constructors
 
