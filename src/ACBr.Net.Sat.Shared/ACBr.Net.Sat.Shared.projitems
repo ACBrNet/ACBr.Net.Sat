@@ -89,7 +89,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)RatIssqn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegTrib.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegTribIssqn.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RetSatIntegradorMFe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SatCdecl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SatConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SatIntegradorMFe.cs" />

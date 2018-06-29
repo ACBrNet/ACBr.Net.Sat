@@ -53,6 +53,7 @@ namespace ACBr.Net.Sat
     /// <seealso cref="ACBrComponent" />
     /// <seealso cref="IACBrLog" />
 #if !NETSTANDARD2_0
+
     [ToolboxBitmap(typeof(ACBrSat), "ACBr.Net.Sat.ACBrSat")]
 #endif
 
@@ -411,7 +412,7 @@ namespace ACBr.Net.Sat
         {
             Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
-            IniciaComando($"DesbloquearSAT()");
+            IniciaComando("DesbloquearSAT()");
             var ret = satLibrary.DesbloquearSAT(Sessao, CodigoAtivacao);
             return FinalizaComando<SatResposta>(ret);
         }
@@ -879,6 +880,7 @@ namespace ACBr.Net.Sat
 
         #region Override
 
+        /// <inheritdoc />
         protected override void OnInitialize()
         {
             Configuracoes = new SatConfig(this);
@@ -890,6 +892,7 @@ namespace ACBr.Net.Sat
             signAC = string.Empty;
         }
 
+        /// <inheritdoc />
         protected override void OnDisposing()
         {
             if (Ativo)
