@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\PropertyChanged.Fody.2.5.13\build\PropertyChanged.Fody.props" Condition="Exists('..\packages\PropertyChanged.Fody.2.5.13\build\PropertyChanged.Fody.props')" />
+  <Import Project="..\packages\Obsolete.Fody.4.4.3\build\Obsolete.Fody.props" Condition="Exists('..\packages\Obsolete.Fody.4.4.3\build\Obsolete.Fody.props')" />
+  <Import Project="..\packages\ExtraConstraints.Fody.1.13.3\build\ExtraConstraints.Fody.props" Condition="Exists('..\packages\ExtraConstraints.Fody.1.13.3\build\ExtraConstraints.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -43,23 +46,23 @@
     <AssemblyOriginatorKeyFile>acbr.net.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ACBr.Net.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
-      <HintPath>..\packages\ACBr.Net.Core.1.2.1\lib\net452\ACBr.Net.Core.dll</HintPath>
+    <Reference Include="ACBr.Net.Core, Version=1.2.2.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\ACBr.Net.Core.1.2.2\lib\net452\ACBr.Net.Core.dll</HintPath>
     </Reference>
-    <Reference Include="ACBr.Net.DFe.Core, Version=1.2.2.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
-      <HintPath>..\packages\ACBr.Net.DFe.Core.1.2.2\lib\net452\ACBr.Net.DFe.Core.dll</HintPath>
+    <Reference Include="ACBr.Net.DFe.Core, Version=1.2.3.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\ACBr.Net.DFe.Core.1.2.3\lib\net452\ACBr.Net.DFe.Core.dll</HintPath>
     </Reference>
-    <Reference Include="ACBr.Net.Integrador, Version=1.0.1.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
-      <HintPath>..\packages\ACBr.Net.Integrador.1.0.1\lib\net452\ACBr.Net.Integrador.dll</HintPath>
+    <Reference Include="ACBr.Net.Integrador, Version=1.0.2.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\ACBr.Net.Integrador.1.0.2\lib\net452\ACBr.Net.Integrador.dll</HintPath>
     </Reference>
-    <Reference Include="ExtraConstraints, Version=1.13.1.0, Culture=neutral, PublicKeyToken=8b9afd7f380a7d64, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExtraConstraints.Fody.1.13.1\lib\net452\ExtraConstraints.dll</HintPath>
+    <Reference Include="ExtraConstraints, Version=1.13.3.0, Culture=neutral, PublicKeyToken=8b9afd7f380a7d64, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExtraConstraints.Fody.1.13.3\lib\net452\ExtraConstraints.dll</HintPath>
     </Reference>
-    <Reference Include="Obsolete, Version=4.4.1.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
-      <HintPath>..\packages\Obsolete.Fody.4.4.1\lib\net452\Obsolete.dll</HintPath>
+    <Reference Include="Obsolete, Version=4.4.3.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
+      <HintPath>..\packages\Obsolete.Fody.4.4.3\lib\net452\Obsolete.dll</HintPath>
     </Reference>
-    <Reference Include="PropertyChanged, Version=2.5.9.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
-      <HintPath>..\packages\PropertyChanged.Fody.2.5.9\lib\net452\PropertyChanged.dll</HintPath>
+    <Reference Include="PropertyChanged, Version=2.5.13.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.2.5.13\lib\net452\PropertyChanged.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -72,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="acbr.net.snk" />
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -92,12 +96,15 @@
 $(SolutionDir)..\Tools\TlbExp.exe "$(TargetPath)" /out:"$(TargetDir)$(TargetName).tlb"
 )</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\Fody.3.2.0\build\Fody.targets" Condition="Exists('..\packages\Fody.3.2.0\build\Fody.targets')" />
+  <Import Project="..\packages\Fody.3.2.9\build\Fody.targets" Condition="Exists('..\packages\Fody.3.2.9\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Este projeto faz referência a pacotes do NuGet que não estão presentes neste computador. Use a Restauração de Pacotes do NuGet para baixá-los.  Para obter mais informações, consulte http://go.microsoft.com/fwlink/?LinkID=322105. O arquivo ausente é {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fody.3.2.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.3.2.0\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.3.2.9\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.3.2.9\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\ExtraConstraints.Fody.1.13.3\build\ExtraConstraints.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ExtraConstraints.Fody.1.13.3\build\ExtraConstraints.Fody.props'))" />
+    <Error Condition="!Exists('..\packages\Obsolete.Fody.4.4.3\build\Obsolete.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Obsolete.Fody.4.4.3\build\Obsolete.Fody.props'))" />
+    <Error Condition="!Exists('..\packages\PropertyChanged.Fody.2.5.13\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PropertyChanged.Fody.2.5.13\build\PropertyChanged.Fody.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

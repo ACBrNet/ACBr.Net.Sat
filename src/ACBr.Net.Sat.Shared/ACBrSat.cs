@@ -192,7 +192,7 @@ namespace ACBr.Net.Sat
             set
             {
                 extrato = value;
-                if (extrato.Parent != this)
+                if (extrato != null && extrato.Parent != this)
                     extrato.Parent = this;
             }
         }

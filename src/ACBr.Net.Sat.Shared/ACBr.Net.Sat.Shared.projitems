@@ -49,7 +49,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\EventoEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\NumeroSessaoEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\SatMensagemEventArgs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ExtratoFiltro.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExtratoLayOut.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExtratoSat.cs">
       <SubType>ACBr.Net</SubType>

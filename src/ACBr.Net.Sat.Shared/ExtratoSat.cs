@@ -32,12 +32,11 @@
 using ACBr.Net.Core.Extensions;
 using System;
 using System.Globalization;
-using ACBr.Net.Core;
 using ACBr.Net.DFe.Core.Common;
 
 namespace ACBr.Net.Sat
 {
-    public abstract partial class ExtratoSat : ACBrComponent
+    public abstract partial class ExtratoSat : DFeReportClass<ACBrSat>
     {
         #region Fields
 
@@ -47,34 +46,17 @@ namespace ACBr.Net.Sat
 
         #region Propriedades
 
-        public ACBrSat Parent
-        {
-            get => parent;
-            set
-            {
-                parent = value;
-                if (parent.Extrato != this)
-                    parent.Extrato = this;
-            }
-        }
-
         public ExtratoLayOut LayOut { get; set; }
 
-        public ExtratoFiltro Filtro { get; set; }
-
-        public bool MostrarPreview { get; set; }
-
-        public bool MostrarSetup { get; set; }
-
-        public string PrinterName { get; set; }
-
-        public int NumeroCopias { get; set; }
-
-        public string NomeArquivo { get; set; }
-
-        public string SoftwareHouse { get; set; }
-
-        public string Site { get; set; }
+        [ObsoleteEx(Message = "Alterado para ficar compatível com a nova classe base DFeReportClass.",
+            RemoveInVersion = "1.2.5",
+            ReplacementTypeOrMember = "Impressora",
+            TreatAsErrorFromVersion = "1.2.4")]
+        public string PrinterName
+        {
+            get => Impressora;
+            set => Impressora = value;
+        }
 
         #endregion Propriedades
 
@@ -91,6 +73,13 @@ namespace ACBr.Net.Sat
         public abstract void ImprimirExtratoResumido(CFe cfe);
 
         public abstract void ImprimirExtratoCancelamento(CFeCanc cFeCanc, DFeTipoAmbiente ambiente);
+
+        /// <inheritdoc />
+        protected override void ParentChanged(ACBrSat oldParent, ACBrSat newParent)
+        {
+            if (oldParent != null && oldParent.Extrato == this) oldParent.Extrato = null;
+            if (newParent != null && newParent.Extrato != this) newParent.Extrato = this;
+        }
 
         #endregion Methods
     }
