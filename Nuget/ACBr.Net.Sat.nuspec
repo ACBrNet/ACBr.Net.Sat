@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>ACBr.Net.Sat</id>
-        <version>1.2.0.0-rc1</version>
+        <version>1.2.1.1</version>
         <title>ACBr.Net.Sat</title>
         <authors>Grupo ACBr.Net</authors>
         <owners>Grupo ACBr.Net</owners>
@@ -15,15 +15,15 @@
         <tags>ACBr ACBr.Net Automação Comercial</tags>
         <dependencies>
             <group targetFramework="net452">
-				<dependency id="ACBr.Net.Core" version="1.2.1-rc1"/>
-				<dependency id="ACBr.Net.DFe.Core" version="1.2.1-rc1"/>
-				<dependency id="ACBr.Net.Integrador" version="1.0.0-rc1"/>
+				<dependency id="ACBr.Net.Core" version="1.2.3"/>
+				<dependency id="ACBr.Net.DFe.Core" version="1.2.3.1"/>
+				<dependency id="ACBr.Net.Integrador" version="1.0.2.1"/>
 			</group>
 			<group targetFramework=".NETStandard2.0">
                 <dependency id="NETStandard.Library" version="2.0.1" exclude="Build,Analyzers"/>
-                <dependency id="ACBr.Net.Core" version="1.2.1-rc1" exclude="Build,Analyzers"/>
-                <dependency id="ACBr.Net.DFe.Core" version="1.2.1-rc1" exclude="Build,Analyzers"/>
-                <dependency id="ACBr.Net.Integrador" version="1.0.0-rc1" exclude="Build,Analyzers"/>
+                <dependency id="ACBr.Net.Core" version="1.2.3" exclude="Build,Analyzers"/>
+                <dependency id="ACBr.Net.DFe.Core" version="1.2.3.1" exclude="Build,Analyzers"/>
+                <dependency id="ACBr.Net.Integrador" version="1.0.2.1" exclude="Build,Analyzers"/>
             </group>
         </dependencies>
     </metadata>

@@ -9,9 +9,9 @@ Se *ACbrSat* for um componente vital em sua aplicação comercial ou de código 
 # ACBr.Net.Sat
 =================
 
-Biblioteca gratuita para Geração de SAT-CF-e 0.06 e 0.07
+Biblioteca gratuita para Geração de SAT-CF-e 0.07
 
-A biblioteca foi desenvolvida com o Visual Studio Community 2015 e 2015 Update 1.
+A biblioteca foi desenvolvida com o Visual Studio Community 2017.
 Está licenciada sobre a MIT.
 
 **Instruções para compilar a solução**

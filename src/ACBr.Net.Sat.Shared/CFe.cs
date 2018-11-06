@@ -30,9 +30,9 @@
 // ***********************************************************************
 
 using System.ComponentModel;
+using System.Globalization;
 using ACBr.Net.Core.Extensions;
 using ACBr.Net.DFe.Core.Attributes;
-using ACBr.Net.DFe.Core.Common;
 using ACBr.Net.DFe.Core.Document;
 
 namespace ACBr.Net.Sat
@@ -94,7 +94,7 @@ namespace ACBr.Net.Sat
         public string GetQRCode()
         {
             var documento = InfCFe.Dest.CNPJ.IsEmpty() ? InfCFe.Dest.CPF.OnlyNumbers() : InfCFe.Dest.CNPJ.OnlyNumbers();
-            return $"{InfCFe.Id.OnlyNumbers()}|{InfCFe.Ide.DhEmissao:yyyyMMddHHmmss}|{InfCFe.Total.VCFe:0.00}|{documento}|{InfCFe.Ide.AssinaturaQrcode}";
+            return $"{InfCFe.Id.OnlyNumbers()}|{InfCFe.Ide.DhEmissao:yyyyMMddHHmmss}|{InfCFe.Total.VCFe.ToString("0.00", CultureInfo.InvariantCulture)}|{documento}|{InfCFe.Ide.AssinaturaQrcode}";
         }
 
         /// <summary>
