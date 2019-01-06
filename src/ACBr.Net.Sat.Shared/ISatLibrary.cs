@@ -66,6 +66,8 @@ namespace ACBr.Net.Sat
 
         string ConsultarNumeroSessao(int numeroSessao, string codigoDeAtivacao, int cNumeroDeSessao);
 
+        string ConsultarUltimaSessaoFiscal(int numeroSessao, string codigoDeAtivacao);
+
         string ConsultarSAT(int numeroSessao);
 
         string ConsultarStatusOperacional(int numeroSessao, string codigoDeAtivacao);

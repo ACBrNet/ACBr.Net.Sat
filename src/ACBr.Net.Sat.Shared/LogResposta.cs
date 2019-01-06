@@ -37,7 +37,7 @@ namespace ACBr.Net.Sat
     {
         #region Constructors
 
-        public LogResposta(string retorno, Encoding encoding) : base(retorno, encoding)
+        public LogResposta(string retorno, Encoding encoding) : base(retorno)
         {
             if (CodigoDeRetorno != 15000) return;
 

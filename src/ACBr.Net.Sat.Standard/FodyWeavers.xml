@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Weavers>
+<Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
   <ExtraConstraints />
   <PropertyChanged />
-  <Obsolete
-		TreatAsErrorFormat="Será tratado como erro a partir da versão {0}. "
-		ThrowsNotImplementedText="O membro atual lança a execeção NotImplementedException. "
-		RemoveInVersionFormat="Será removido na versão {0}. "
-		ReplacementFormat="Use {0} no lugar. " />
+  <Obsolete TreatAsErrorFormat="Será tratado como erro a partir da versão {0}. " ThrowsNotImplementedText="O membro atual lança a execeção NotImplementedException. " RemoveInVersionFormat="Será removido na versão {0}. " ReplacementFormat="Use {0} no lugar. " />
 </Weavers>

@@ -33,7 +33,6 @@
 
 using ACBr.Net.Core.Extensions;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ACBr.Net.Sat
 {
@@ -41,7 +40,7 @@ namespace ACBr.Net.Sat
     {
         #region Constructors
 
-        public SatResposta(string resposta, Encoding encoding)
+        public SatResposta(string resposta)
         {
             /*
 			***** RETORNOS DO SAT POR COMANDO *****
@@ -53,6 +52,7 @@ namespace ACBr.Net.Sat
 			TesteFimAFim.................: numeroSessao, EEEEE, mensagem, cod, mensagemSEFAZ, base64, timeStamp, numDocFiscal, chaveConsulta
 			ConsultarStatusOperacional...: numeroSessao, EEEEE, mensagem, cod, mensagemSEFAZ, ConteudoRetorno
 			ConsultarNumeroSessao........: numeroSessao, EEEEE, mensagem, cod, mensagemSEFAZ   (ou retorno da Sessão consultada)
+            ConsultarUltimaSessaoFiscal..: numeroSessao, EEEEE, mensagem, cod, mensagemSEFAZ   (ou retorno da ultima Sessão fiscal)
 			ConfigurarInterfaceDeRede....: numeroSessao, EEEEE, mensagem, cod, mensagemSEFAZ
 			AssociarAssinatura...........: numeroSessao, EEEEE, mensagem, cod, mensagemSEFAZ
 			AtualizarSoftwareSAT.........: numeroSessao, EEEEE, mensagem, cod, mensagemSEFAZ
@@ -63,7 +63,6 @@ namespace ACBr.Net.Sat
 			*/
 
             RetornoStr = resposta;
-
             RetornoLst = new List<string>();
             RetornoLst.AddRange(resposta.Split('|'));
 
@@ -100,21 +99,21 @@ namespace ACBr.Net.Sat
 
         #region Propriedades
 
-        public int NumeroSessao { get; private set; }
+        public int NumeroSessao { get; }
 
-        public int CodigoDeRetorno { get; private set; }
+        public int CodigoDeRetorno { get; }
 
-        public int CodigoDeErro { get; private set; }
+        public int CodigoDeErro { get; }
 
-        public string MensagemRetorno { get; private set; }
+        public string MensagemRetorno { get; }
 
-        public int CodigoSEFAZ { get; private set; }
+        public int CodigoSEFAZ { get; }
 
-        public string MensagemSEFAZ { get; private set; }
+        public string MensagemSEFAZ { get; }
 
-        public List<string> RetornoLst { get; private set; }
+        public List<string> RetornoLst { get; }
 
-        public string RetornoStr { get; private set; }
+        public string RetornoStr { get; }
 
         #endregion Propriedades
     }

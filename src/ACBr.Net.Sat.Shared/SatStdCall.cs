@@ -128,6 +128,11 @@ namespace ACBr.Net.Sat
                 int opcao,
                 [MarshalAs(UnmanagedType.LPStr)]string novoCodigo,
                 [MarshalAs(UnmanagedType.LPStr)]string confNovoCodigo);
+
+            [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+            [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(ACBrLPStr))]
+            public delegate string ConsultarUltimaSessaoFiscal(int numeroSessao,
+                [MarshalAs(UnmanagedType.LPStr)]string codigoDeAtivacao);
         }
 
         #endregion InnerTypes
@@ -136,7 +141,7 @@ namespace ACBr.Net.Sat
 
         public SatStdCall(SatConfig config, string pathDll, Encoding encoding) : base(config, pathDll, encoding)
         {
-            ModeloStr = "StdCallSatLibrary";
+            ModeloStr = "StdCall";
 
             AddMethod<Delegates.AssociarAssinatura>("AssociarAssinatura");
             AddMethod<Delegates.AtivarSAT>("AtivarSAT");
@@ -153,6 +158,7 @@ namespace ACBr.Net.Sat
             AddMethod<Delegates.ExtrairLogs>("ExtrairLogs");
             AddMethod<Delegates.TesteFimAFim>("TesteFimAFim");
             AddMethod<Delegates.TrocarCodigoDeAtivacao>("TrocarCodigoDeAtivacao");
+            AddMethod<Delegates.ConsultarUltimaSessaoFiscal>("ConsultarUltimaSessaoFiscal");
         }
 
         #endregion Constructors
@@ -209,6 +215,12 @@ namespace ACBr.Net.Sat
         {
             var funcaoSat = GetMethod<Delegates.ConsultarNumeroSessao>();
             return ExecuteMethod(() => funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao), cNumeroDeSessao));
+        }
+
+        public override string ConsultarUltimaSessaoFiscal(int numeroSessao, string codigoDeAtivacao)
+        {
+            var funcaoSat = GetMethod<Delegates.ConsultarUltimaSessaoFiscal>();
+            return ExecuteMethod(() => funcaoSat(numeroSessao, ToEncoding(codigoDeAtivacao)));
         }
 
         public override string ConsultarSAT(int numeroSessao)

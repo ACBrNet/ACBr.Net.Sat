@@ -219,7 +219,7 @@ namespace ACBr.Net.Sat
 
         private bool ShouldSerializeCEST()
         {
-            return Parent != null && Parent.InfCFe.Ide.DEmi.Year > 2016;
+            return Parent != null && Parent.InfCFe.Versao > 0.08M;
         }
 
         private string SerializeVUnCom()

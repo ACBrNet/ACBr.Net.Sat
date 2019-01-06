@@ -48,7 +48,7 @@ namespace ACBr.Net.Sat
         /// </summary>
         /// <param name="retorno">O retorno.</param>
         /// <param name="encoding">O encoding.</param>
-        public VendaSatResposta(string retorno, Encoding encoding) : base(retorno, encoding)
+        public VendaSatResposta(string retorno, Encoding encoding) : base(retorno)
         {
             if (CodigoDeRetorno != 6000 || RetornoLst.Count < 6) return;
 

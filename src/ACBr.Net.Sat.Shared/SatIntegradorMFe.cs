@@ -189,6 +189,11 @@ namespace ACBr.Net.Sat
             return resposta.Resposta.Retorno;
         }
 
+        public string ConsultarUltimaSessaoFiscal(int numeroSessao, string codigoDeAtivacao)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string ConsultarSAT(int numeroSessao)
         {
             var integrador = Config.Parent.IntegradorFiscal;

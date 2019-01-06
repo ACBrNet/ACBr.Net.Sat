@@ -557,6 +557,21 @@ namespace ACBr.Net.Sat
         }
 
         /// <summary>
+        /// Consulta os dados da sessão informada.
+        /// </summary>
+        /// <param name="numeroSessao">The numero sessao.</param>
+        /// <returns>SatResposta.</returns>
+        public ConsultaSessaoResposta ConsultarUltimaSessaoFiscal()
+        {
+            Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
+
+            IniciaComando($"ConsultarUltimaSessaoFiscal()");
+            var ret = satLibrary.ConsultarUltimaSessaoFiscal(Sessao, CodigoAtivacao);
+
+            return FinalizaComando<ConsultaSessaoResposta>(ret);
+        }
+
+        /// <summary>
         /// Consulta a situação do Sat.
         /// </summary>
         /// <returns>SatResposta.</returns>
@@ -888,7 +903,7 @@ namespace ACBr.Net.Sat
             Encoding = Encoding.UTF8;
 
             PathDll = @"C:\SAT\SAT.dll";
-            CodigoAtivacao = "123456";
+            CodigoAtivacao = "sefaz1234";
             signAC = string.Empty;
         }
 

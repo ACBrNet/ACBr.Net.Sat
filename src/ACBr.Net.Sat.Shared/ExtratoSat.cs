@@ -38,12 +38,6 @@ namespace ACBr.Net.Sat
 {
     public abstract partial class ExtratoSat : DFeReportClass<ACBrSat>
     {
-        #region Fields
-
-        private ACBrSat parent;
-
-        #endregion Fields
-
         #region Propriedades
 
         public ExtratoLayOut LayOut { get; set; }
@@ -57,6 +51,10 @@ namespace ACBr.Net.Sat
             get => Impressora;
             set => Impressora = value;
         }
+
+        public bool LogoLateral { get; set; }
+
+        public bool QrCodeLateral { get; set; }
 
         #endregion Propriedades
 
