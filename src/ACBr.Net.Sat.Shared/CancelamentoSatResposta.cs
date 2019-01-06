@@ -56,7 +56,7 @@ namespace ACBr.Net.Sat
         /// </summary>
         /// <param name="retorno">O retorno.</param>
         /// <param name="encoding">O encoding.</param>
-        public CancelamentoSatResposta(string retorno, Encoding encoding) : base(retorno, encoding)
+        public CancelamentoSatResposta(string retorno, Encoding encoding) : base(retorno)
         {
             if (CodigoDeRetorno != 7000 || RetornoLst.Count < 6) return;
 

@@ -9,7 +9,7 @@ namespace ACBr.Net.Sat
     {
         #region Constructors
 
-        public ConsultaSessaoResposta(string retorno, Encoding encoding) : base(retorno, encoding)
+        public ConsultaSessaoResposta(string retorno, Encoding encoding) : base(retorno)
         {
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (CodigoDeRetorno)

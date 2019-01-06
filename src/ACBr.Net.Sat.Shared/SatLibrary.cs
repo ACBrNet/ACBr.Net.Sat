@@ -80,6 +80,8 @@ namespace ACBr.Net.Sat
 
         public abstract string ConsultarNumeroSessao(int numeroSessao, string codigoDeAtivacao, int cNumeroDeSessao);
 
+        public abstract string ConsultarUltimaSessaoFiscal(int numeroSessao, string codigoDeAtivacao);
+
         public abstract string ConsultarSAT(int numeroSessao);
 
         public abstract string ConsultarStatusOperacional(int numeroSessao, string codigoDeAtivacao);
