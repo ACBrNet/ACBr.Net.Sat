@@ -40,7 +40,7 @@ namespace ACBr.Net.Sat
     {
         #region Constructors
 
-        public SatResposta(string resposta)
+        public SatResposta(string resposta, System.Text.Encoding encoding = null)
         {
             /*
 			***** RETORNOS DO SAT POR COMANDO *****
