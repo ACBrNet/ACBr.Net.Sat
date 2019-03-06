@@ -52,6 +52,7 @@ namespace ACBr.Net.Sat
         #region Fields
 
         private CFeDetCollection det;
+        private CFeInfAdic infAdic;
 
         #endregion Fields
 
@@ -70,6 +71,7 @@ namespace ACBr.Net.Sat
             Total = new CFeTotal();
             Pagto = new CFePgto();
             InfAdic = new CFeInfAdic();
+            ObsFisco = new DFeCollection<CFeObsFisco>();
         }
 
         /// <summary>
@@ -80,6 +82,7 @@ namespace ACBr.Net.Sat
         {
             Parent = parent;
             Det = new CFeDetCollection(Parent);
+            InfAdic = new CFeInfAdic(Parent);
         }
 
         #endregion Constructor
@@ -153,8 +156,8 @@ namespace ACBr.Net.Sat
             set
             {
                 det = value;
-                if (det != null && det.Parent != parent)
-                    det.Parent = parent;
+                if (det != null && det.Parent != Parent)
+                    det.Parent = Parent;
             }
         }
 
@@ -177,7 +180,25 @@ namespace ACBr.Net.Sat
         /// </summary>
         /// <value>The inf adic.</value>
         [DFeElement("infAdic", Id = "Z01", Ocorrencia = Ocorrencia.Obrigatoria)]
-        public CFeInfAdic InfAdic { get; set; }
+        public CFeInfAdic InfAdic
+        {
+            get => infAdic;
+            set
+            {
+                if (infAdic == value) return;
+
+                infAdic = value;
+                if (value != null && value.Parent != Parent)
+                    value.Parent = Parent;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the obs fisco.
+        /// </summary>
+        /// <value>The obs fisco.</value>
+        [DFeCollection("obsFisco", Id = "Z03", MinSize = 0, MaxSize = 10, Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public DFeCollection<CFeObsFisco> ObsFisco { get; set; }
 
         #endregion Propriedades
 
@@ -200,13 +221,19 @@ namespace ACBr.Net.Sat
 
         private bool ShouldSerializeInfAdic()
         {
-            return !InfAdic.InfCpl.IsEmpty() || InfAdic.ObsFisco.Any();
+            return !InfAdic.InfCpl.IsEmpty() || InfAdic.ObsFisco.Any() && Versao < 0.08M;
+        }
+
+        private bool ShouldSerializeObsFisco()
+        {
+            return Versao > 0.07M && ObsFisco.Any();
         }
 
         /// <inheritdoc />
         protected override void OnParentChanged()
         {
             Det.Parent = Parent;
+            InfAdic.Parent = Parent;
         }
 
         #endregion Methods

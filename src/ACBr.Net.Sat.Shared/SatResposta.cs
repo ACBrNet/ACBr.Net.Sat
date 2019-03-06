@@ -33,6 +33,7 @@
 
 using ACBr.Net.Core.Extensions;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ACBr.Net.Sat
 {
@@ -40,7 +41,7 @@ namespace ACBr.Net.Sat
     {
         #region Constructors
 
-        public SatResposta(string resposta, System.Text.Encoding encoding = null)
+        public SatResposta(string resposta, Encoding encoding)
         {
             /*
 			***** RETORNOS DO SAT POR COMANDO *****

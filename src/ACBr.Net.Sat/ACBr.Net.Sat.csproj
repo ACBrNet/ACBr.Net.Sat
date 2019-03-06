@@ -101,10 +101,10 @@ $(SolutionDir)..\Tools\TlbExp.exe "$(TargetPath)" /out:"$(TargetDir)$(TargetName
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\ExtraConstraints.Fody.1.13.3\build\ExtraConstraints.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ExtraConstraints.Fody.1.13.3\build\ExtraConstraints.Fody.props'))" />
     <Error Condition="!Exists('..\packages\Obsolete.Fody.4.4.3\build\Obsolete.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Obsolete.Fody.4.4.3\build\Obsolete.Fody.props'))" />
-    <Error Condition="!Exists('..\packages\Fody.3.3.5\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.3.3.5\build\Fody.targets'))" />
     <Error Condition="!Exists('..\packages\PropertyChanged.Fody.2.6.0\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PropertyChanged.Fody.2.6.0\build\PropertyChanged.Fody.props'))" />
+    <Error Condition="!Exists('..\packages\Fody.4.0.2\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.4.0.2\build\Fody.targets'))" />
   </Target>
-  <Import Project="..\packages\Fody.3.3.5\build\Fody.targets" Condition="Exists('..\packages\Fody.3.3.5\build\Fody.targets')" />
+  <Import Project="..\packages\Fody.4.0.2\build\Fody.targets" Condition="Exists('..\packages\Fody.4.0.2\build\Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

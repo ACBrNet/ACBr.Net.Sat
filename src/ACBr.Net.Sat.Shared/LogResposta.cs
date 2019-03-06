@@ -28,6 +28,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Text;
 
@@ -37,7 +38,7 @@ namespace ACBr.Net.Sat
     {
         #region Constructors
 
-        public LogResposta(string retorno, Encoding encoding) : base(retorno)
+        public LogResposta(string retorno, Encoding encoding) : base(retorno, encoding)
         {
             if (CodigoDeRetorno != 15000) return;
 
