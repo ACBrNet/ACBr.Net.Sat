@@ -86,7 +86,7 @@ namespace ACBr.Net.Sat
 
             if (RetornoLst.Count > idx + 2)
             {
-                MensagemRetorno = RetornoLst[idx];
+                MensagemRetorno = RetornoLst[idx].ToUtf8();
                 CodigoSEFAZ = RetornoLst[idx + 1].ToInt32();
                 MensagemSEFAZ = RetornoLst[idx + 2];
             }
