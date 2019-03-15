@@ -63,9 +63,9 @@ namespace ACBr.Net.Sat
 			TrocarCodigoDeAtivacao.......: numeroSessao, EEEEE, mensagem, cod, mensagemSEFAZ
 			*/
 
-            RetornoStr = resposta;
+            RetornoStr = encoding.GetString(Encoding.Default.GetBytes(resposta));
             RetornoLst = new List<string>();
-            RetornoLst.AddRange(resposta.Split('|'));
+            RetornoLst.AddRange(RetornoStr.Split('|'));
 
             if (RetornoLst.Count > 1)
             {
