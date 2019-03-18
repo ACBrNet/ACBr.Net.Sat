@@ -39,7 +39,7 @@ namespace ACBr.Net.Sat
     {
         #region Constructors
 
-        public TesteResposta(string retorno, Encoding encoding) : base(retorno)
+        public TesteResposta(string retorno, Encoding encoding) : base(retorno, encoding)
         {
             VendaTeste = new CFe();
             if (CodigoDeRetorno != 9000)

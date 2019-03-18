@@ -46,7 +46,6 @@ using ACBr.Net.Integrador;
 
 namespace ACBr.Net.Sat
 {
-    // ReSharper disable once InconsistentNaming
     /// <summary>
     /// Classe ACBrSat, responsavel por comunicar com o CF-e-SAT.
     /// </summary>
@@ -559,7 +558,6 @@ namespace ACBr.Net.Sat
         /// <summary>
         /// Consulta os dados da sessão informada.
         /// </summary>
-        /// <param name="numeroSessao">The numero sessao.</param>
         /// <returns>SatResposta.</returns>
         public ConsultaSessaoResposta ConsultarUltimaSessaoFiscal()
         {
@@ -803,8 +801,7 @@ namespace ACBr.Net.Sat
 
             this.Log().Info($"GerarSignAc: Certificado: {certificado.SerialNumber} - CNPJSoftwareHouse: {CNPJSoftwareHouse} - CNPJEstbComercial: {CNPJEstbComercial}");
 
-            var privateProvider = certificado.PrivateKey as RSACryptoServiceProvider;
-            if (privateProvider == null) return null;
+            if (!(certificado.PrivateKey is RSACryptoServiceProvider privateProvider)) throw new ArgumentNullException(nameof(certificado.PrivateKey));
 
             var cspParameters = new CspParameters
             {
@@ -818,7 +815,6 @@ namespace ACBr.Net.Sat
             {
                 var data = Encoding.UTF8.GetBytes(CNPJSoftwareHouse + CNPJEstbComercial);
                 var signData = rsa.SignData(data, "SHA256");
-
                 var sign = signData.ToBase64();
 
                 this.Log().Info($"GerarSignAc: Sign: {sign}");

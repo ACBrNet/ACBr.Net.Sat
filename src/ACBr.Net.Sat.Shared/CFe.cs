@@ -105,7 +105,7 @@ namespace ACBr.Net.Sat
             for (var i = 0; i < InfCFe.Det.Count; i++)
             {
                 var det = InfCFe.Det[i];
-                det.NItem = i++;
+                det.NItem = i + 1;
             }
         }
 

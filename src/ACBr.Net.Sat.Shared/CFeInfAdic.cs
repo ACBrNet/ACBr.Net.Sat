@@ -33,6 +33,7 @@ using ACBr.Net.DFe.Core.Attributes;
 using ACBr.Net.DFe.Core.Collection;
 using ACBr.Net.DFe.Core.Serializer;
 using System.ComponentModel;
+using System.Linq;
 using ACBr.Net.Core.Generics;
 
 namespace ACBr.Net.Sat
@@ -40,7 +41,7 @@ namespace ACBr.Net.Sat
     /// <summary>
     /// Class CFeInfAdic. This class cannot be inherited.
     /// </summary>
-    public sealed class CFeInfAdic : GenericClone<CFeInfAdic>, INotifyPropertyChanged
+    public sealed class CFeInfAdic : DFeParentItem<CFeInfAdic, CFe>, INotifyPropertyChanged
     {
         #region Events
 
@@ -58,6 +59,14 @@ namespace ACBr.Net.Sat
             ObsFisco = new DFeCollection<CFeObsFisco>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CFeInfAdic"/> class.
+        /// </summary>
+        public CFeInfAdic(CFe parent) : this()
+        {
+            Parent = parent;
+        }
+
         #endregion Constructors
 
         #region Propriedades
@@ -73,10 +82,18 @@ namespace ACBr.Net.Sat
         /// Gets or sets the obs fisco.
         /// </summary>
         /// <value>The obs fisco.</value>
-        [Browsable(true)]
         [DFeCollection("obsFisco", Id = "Z03", MinSize = 0, MaxSize = 10, Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public DFeCollection<CFeObsFisco> ObsFisco { get; set; }
 
         #endregion Propriedades
+
+        #region Methods
+
+        private bool ShouldSerializeObsFisco()
+        {
+            return Parent.InfCFe.Versao < 0.08M && ObsFisco.Any();
+        }
+
+        #endregion Methods
     }
 }
