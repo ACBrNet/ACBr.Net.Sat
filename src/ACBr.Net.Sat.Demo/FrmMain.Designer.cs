@@ -729,7 +729,7 @@
             this.nunVersaoCFe.TabIndex = 13;
             this.nunVersaoCFe.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nunVersaoCFe.Value = new decimal(new int[] {
-            7,
+            8,
             0,
             0,
             131072});

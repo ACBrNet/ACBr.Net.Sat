@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>ACBr.Net.Sat</id>
-        <version>1.2.4.0</version>
+        <version>1.2.5.0</version>
         <title>ACBr.Net.Sat</title>
         <authors>Grupo ACBr.Net</authors>
         <owners>Grupo ACBr.Net</owners>

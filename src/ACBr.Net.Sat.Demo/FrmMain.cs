@@ -116,9 +116,11 @@ namespace ACBr.Net.Sat.Demo
                 det.Prod.IndRegra = IndRegra.Truncamento;
                 det.Prod.VDesc = i != 1 ? 1 : 0;
 
-                var obs = new ProdObsFisco();
-                obs.XCampoDet = "campo";
-                obs.XTextoDet = "texto";
+                var obs = new ProdObsFisco
+                {
+                    XCampoDet = "campo",
+                    XTextoDet = "texto"
+                };
                 det.Prod.ObsFiscoDet.Add(obs);
 
                 var totalItem = det.Prod.QCom * det.Prod.VUnCom;
@@ -196,7 +198,8 @@ namespace ACBr.Net.Sat.Demo
             txtCodUF.Text = config.Get("CodUF", "35");
             nunPaginaCodigo.Value = config.Get("PaginaCodigo", 1252M);
             nunCaixa.Value = config.Get("Caixa", 1M);
-            nunVersaoCFe.Value = config.Get("VersaoCFe", 0.06M);
+
+            nunVersaoCFe.Value = config.Get("VersaoCFe", 0.08M);
             chkUTF8_CheckedChanged(nunVersaoCFe, EventArgs.Empty);
 
             chkUTF8.Checked = config.Get("UTF8", false);
@@ -214,9 +217,9 @@ namespace ACBr.Net.Sat.Demo
             cmbEmiRegTrib.SelectedItem = config.Get("EmiRatIISQN", RatIssqn.Sim);
             txtIdeCNPJ.Text = config.Get("IdeCNPJ", "22222222222222");
             txtSignAC.Text = config.Get("SignAC", "1111111111111222222222222221111111111111122222222222222111111111111112222222222222211111" +
-                                                            "111111111222222222222221111111111111122222222222222111111111111112222222222222211111111" +
-                                                            "111111222222222222221111111111111122222222222222111111111111112222222222222211111111111" +
-                                                            "1112222222222222211111111111111222222222222221111111111111122222222222222111111111");
+                                                  "111111111222222222222221111111111111122222222222222111111111111112222222222222211111111" +
+                                                  "111111222222222222221111111111111122222222222222111111111111112222222222222211111111111" +
+                                                  "1112222222222222211111111111111222222222222221111111111111122222222222222111111111");
 
             txtMFeEnvio.Text = config.Get("MFePathEnvio", @"C:\Integrador\Input\");
             txtMFeResposta.Text = config.Get("MFePathResposta", @"C:\Integrador\Output\");
@@ -568,7 +571,12 @@ namespace ACBr.Net.Sat.Demo
             catch (Exception ex)
             {
                 logger.Error(ex);
+                nunPaginaCodigo.ValueChanged -= nunPaginaCodigo_ValueChanged;
+
+                nunPaginaCodigo.Value = 65001M;
                 acbrSat.Encoding = Encoding.UTF8;
+
+                nunPaginaCodigo.ValueChanged += nunPaginaCodigo_ValueChanged;
             }
         }
 

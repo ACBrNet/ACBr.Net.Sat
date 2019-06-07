@@ -42,20 +42,6 @@ namespace ACBr.Net.Sat
 
         public ExtratoLayOut LayOut { get; set; }
 
-        [ObsoleteEx(Message = "Alterado para ficar compatível com a nova classe base DFeReportClass.",
-            RemoveInVersion = "1.2.5",
-            ReplacementTypeOrMember = "Impressora",
-            TreatAsErrorFromVersion = "1.2.4")]
-        public string PrinterName
-        {
-            get => Impressora;
-            set => Impressora = value;
-        }
-
-        public bool LogoLateral { get; set; }
-
-        public bool QrCodeLateral { get; set; }
-
         #endregion Propriedades
 
         #region Methods

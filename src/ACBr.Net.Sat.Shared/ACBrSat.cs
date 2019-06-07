@@ -176,6 +176,7 @@ namespace ACBr.Net.Sat
         [DefaultValue(null)]
         [Category("Componentes ACBr.Net")]
         [TypeConverter(typeof(ReferenceConverter))]
+        [Obsolete("Será removida pois agora é possivel se comunicar com o MFe usando a dll apenas")]
         public ACBrIntegrador IntegradorFiscal { get; set; }
 
         /// <summary>
