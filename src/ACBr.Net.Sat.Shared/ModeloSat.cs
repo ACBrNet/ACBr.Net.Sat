@@ -28,17 +28,21 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
+using System;
+
 namespace ACBr.Net.Sat
 {
-	/// <summary>
-	/// Enum ModeloSat
-	/// </summary>
-	public enum ModeloSat
-	{
-		Cdecl,
+    /// <summary>
+    /// Enum ModeloSat
+    /// </summary>
+    public enum ModeloSat
+    {
+        Cdecl,
 
-		StdCall,
+        StdCall,
 
-		MFeIntegrador
-	}
+        [Obsolete("Será removido pois agora é possivel se comunicar com o MFe usando a dll apenas")]
+        MFeIntegrador
+    }
 }
