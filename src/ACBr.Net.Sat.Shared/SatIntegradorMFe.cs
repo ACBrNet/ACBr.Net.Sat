@@ -74,12 +74,12 @@ namespace ACBr.Net.Sat
             integrador.NomeMetodo = "AssociarAssinatura";
 
             var parametros = integrador.Parametros;
-            parametros.AddParametro("numeroSessao", numeroSessao.ToString());
+            parametros.Clear();
             parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
             parametros.AddParametro("cnpjValue", cnpjValue);
             parametros.AddParametro("assinaturaCNPJs", assinaturacnpj);
 
-            var resposta = integrador.Enviar(false);
+            var resposta = integrador.Enviar();
             return resposta.Resposta.Retorno;
         }
 
@@ -90,13 +90,13 @@ namespace ACBr.Net.Sat
             integrador.NomeMetodo = "AtivarMFe";
 
             var parametros = integrador.Parametros;
-            parametros.AddParametro("numeroSessao", numeroSessao.ToString());
+            parametros.Clear();
             parametros.AddParametro("subComando", subComando.ToString());
             parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
             parametros.AddParametro("CNPJ", cnpj);
             parametros.AddParametro("cUF", cUF.ToString());
 
-            var resposta = integrador.Enviar(false);
+            var resposta = integrador.Enviar();
             return resposta.Resposta.Retorno;
         }
 
@@ -107,10 +107,10 @@ namespace ACBr.Net.Sat
             integrador.NomeMetodo = "AtualizarSoftwareMFe";
 
             var parametros = integrador.Parametros;
-            parametros.AddParametro("numeroSessao", numeroSessao.ToString());
+            parametros.Clear();
             parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
 
-            var resposta = integrador.Enviar(false);
+            var resposta = integrador.Enviar();
             return resposta.Resposta.Retorno;
         }
 
@@ -121,10 +121,10 @@ namespace ACBr.Net.Sat
             integrador.NomeMetodo = "BloquearMFe";
 
             var parametros = integrador.Parametros;
-            parametros.AddParametro("numeroSessao", numeroSessao.ToString());
+            parametros.Clear();
             parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
 
-            var resposta = integrador.Enviar(false);
+            var resposta = integrador.Enviar();
             return resposta.Resposta.Retorno;
         }
 
@@ -135,12 +135,12 @@ namespace ACBr.Net.Sat
             integrador.NomeMetodo = "CancelarUltimaVenda";
 
             var parametros = integrador.Parametros;
-            parametros.AddParametro("numeroSessao", numeroSessao.ToString());
+            parametros.Clear();
             parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
             parametros.AddParametro("chave", chave);
             parametros.AddParametro("dadosCancelamento", $"<![CDATA[{dadosCancelamento}]]>");
 
-            var resposta = integrador.Enviar(false);
+            var resposta = integrador.Enviar();
             return resposta.Resposta.Retorno;
         }
 
@@ -151,11 +151,11 @@ namespace ACBr.Net.Sat
             integrador.NomeMetodo = "ComunicarCertificadoICPBRASIL";
 
             var parametros = integrador.Parametros;
-            parametros.AddParametro("numeroSessao", numeroSessao.ToString());
+            parametros.Clear();
             parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
             parametros.AddParametro("certificado", certificado);
 
-            var resposta = integrador.Enviar(false);
+            var resposta = integrador.Enviar();
             return resposta.Resposta.Retorno;
         }
 
@@ -166,11 +166,11 @@ namespace ACBr.Net.Sat
             integrador.NomeMetodo = "ConfigurarInterfaceDeRede";
 
             var parametros = integrador.Parametros;
-            parametros.AddParametro("numeroSessao", numeroSessao.ToString());
+            parametros.Clear();
             parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
             parametros.AddParametro("dadosConfiguracao", dadosConfiguracao);
 
-            var resposta = integrador.Enviar(false);
+            var resposta = integrador.Enviar();
             return resposta.Resposta.Retorno;
         }
 
@@ -181,11 +181,11 @@ namespace ACBr.Net.Sat
             integrador.NomeMetodo = "ConsultarNumeroSessao";
 
             var parametros = integrador.Parametros;
-            parametros.AddParametro("numeroSessao", numeroSessao.ToString());
+            parametros.Clear();
             parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
             parametros.AddParametro("cNumeroDeSessao", cNumeroDeSessao.ToString());
 
-            var resposta = integrador.Enviar(false);
+            var resposta = integrador.Enviar();
             return resposta.Resposta.Retorno;
         }
 
@@ -201,9 +201,9 @@ namespace ACBr.Net.Sat
             integrador.NomeMetodo = "ConsultarMFe";
 
             var parametros = integrador.Parametros;
-            parametros.AddParametro("numeroSessao", numeroSessao.ToString());
+            parametros.Clear();
 
-            var resposta = integrador.Enviar(false);
+            var resposta = integrador.Enviar();
             return resposta.Resposta.Retorno;
         }
 
@@ -214,10 +214,10 @@ namespace ACBr.Net.Sat
             integrador.NomeMetodo = "ConsultarStatusOperacional";
 
             var parametros = integrador.Parametros;
-            parametros.AddParametro("numeroSessao", numeroSessao.ToString());
+            parametros.Clear();
             parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
 
-            var resposta = integrador.Enviar(false);
+            var resposta = integrador.Enviar();
             return resposta.Resposta.Retorno;
         }
 
@@ -228,10 +228,10 @@ namespace ACBr.Net.Sat
             integrador.NomeMetodo = "DesbloquearMFe";
 
             var parametros = integrador.Parametros;
-            parametros.AddParametro("numeroSessao", numeroSessao.ToString());
+            parametros.Clear();
             parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
 
-            var resposta = integrador.Enviar(false);
+            var resposta = integrador.Enviar();
             return resposta.Resposta.Retorno;
         }
 
@@ -242,12 +242,12 @@ namespace ACBr.Net.Sat
             integrador.NomeMetodo = "EnviarDadosVenda";
 
             var parametros = integrador.Parametros;
-            parametros.AddParametro("numeroSessao", numeroSessao.ToString());
+            parametros.Clear();
             parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
             parametros.AddParametro("dadosVenda", $"<![CDATA[{dadosVenda}]]>");
             parametros.AddParametro("nrDocumento", numeroSessao.ToString());
 
-            var resposta = integrador.Enviar(false);
+            var resposta = integrador.Enviar();
             return resposta.Resposta.Retorno;
         }
 
@@ -258,10 +258,10 @@ namespace ACBr.Net.Sat
             integrador.NomeMetodo = "ExtrairLogs";
 
             var parametros = integrador.Parametros;
-            parametros.AddParametro("numeroSessao", numeroSessao.ToString());
+            parametros.Clear();
             parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
 
-            var resposta = integrador.Enviar(false);
+            var resposta = integrador.Enviar();
             return resposta.Resposta.Retorno;
         }
 
@@ -272,11 +272,11 @@ namespace ACBr.Net.Sat
             integrador.NomeMetodo = "TesteFimAFim";
 
             var parametros = integrador.Parametros;
-            parametros.AddParametro("numeroSessao", numeroSessao.ToString());
+            parametros.Clear();
             parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
             parametros.AddParametro("dadosVenda", $"<![CDATA[{dadosVenda}]]>");
 
-            var resposta = integrador.Enviar(false);
+            var resposta = integrador.Enviar();
             return resposta.Resposta.Retorno;
         }
 
@@ -287,13 +287,13 @@ namespace ACBr.Net.Sat
             integrador.NomeMetodo = "TrocarCodigoDeAtivacao";
 
             var parametros = integrador.Parametros;
-            parametros.AddParametro("numeroSessao", numeroSessao.ToString());
+            parametros.Clear();
             parametros.AddParametro("codigoDeAtivacao", codigoDeAtivacao);
             parametros.AddParametro("opcao", opcao.ToString());
             parametros.AddParametro("novoCodigo", novoCodigo);
             parametros.AddParametro("confNovoCodigo", confNovoCodigo);
 
-            var resposta = integrador.Enviar(false);
+            var resposta = integrador.Enviar();
             return resposta.Resposta.Retorno;
         }
 
