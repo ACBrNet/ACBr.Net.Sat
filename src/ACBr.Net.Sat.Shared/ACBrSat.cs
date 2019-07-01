@@ -68,6 +68,7 @@ namespace ACBr.Net.Sat
         private string codigoAtivacao;
         private ExtratoSat extrato;
         private bool aguardandoResposta;
+        private ACBrIntegrador integradorFiscal;
 
         #endregion Fields
 
@@ -176,8 +177,20 @@ namespace ACBr.Net.Sat
         [DefaultValue(null)]
         [Category("Componentes ACBr.Net")]
         [TypeConverter(typeof(ReferenceConverter))]
-        [Obsolete("Será removida pois agora é possivel se comunicar com o MFe usando a dll apenas")]
-        public ACBrIntegrador IntegradorFiscal { get; set; }
+        public ACBrIntegrador IntegradorFiscal
+        {
+            get => integradorFiscal;
+            set
+            {
+                if (integradorFiscal != null)
+                    integradorFiscal.OnGetNumeroSessao -= IntegradorFiscalOnOnGetNumeroSessao;
+
+                integradorFiscal = value;
+
+                if (integradorFiscal != null)
+                    integradorFiscal.OnGetNumeroSessao += IntegradorFiscalOnOnGetNumeroSessao;
+            }
+        }
 
         /// <summary>
         /// Define/retorna a classe responsável por imprimir o Extrato do Sat.
@@ -886,6 +899,11 @@ namespace ACBr.Net.Sat
             var e = new NumeroSessaoEventArgs(Sessao);
             OnGetNumeroSessao.Raise(this, e);
             Sessao = e.Sessao;
+        }
+
+        private void IntegradorFiscalOnOnGetNumeroSessao(object sender, Integrador.Events.NumeroSessaoEventArgs e)
+        {
+            e.Sessao = Sessao;
         }
 
         #endregion Private
