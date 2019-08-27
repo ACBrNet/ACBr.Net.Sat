@@ -51,8 +51,8 @@
     <Reference Include="ACBr.Net.DFe.Core, Version=1.2.4.1, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
       <HintPath>..\packages\ACBr.Net.DFe.Core.1.2.4.1\lib\net452\ACBr.Net.DFe.Core.dll</HintPath>
     </Reference>
-    <Reference Include="ACBr.Net.Integrador, Version=1.1.0.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
-      <HintPath>..\packages\ACBr.Net.Integrador.1.1.0\lib\net452\ACBr.Net.Integrador.dll</HintPath>
+    <Reference Include="ACBr.Net.Integrador, Version=1.2.0.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\ACBr.Net.Integrador.1.2.0\lib\net452\ACBr.Net.Integrador.dll</HintPath>
     </Reference>
     <Reference Include="ExtraConstraints, Version=1.13.3.0, Culture=neutral, PublicKeyToken=8b9afd7f380a7d64, processorArchitecture=MSIL">
       <HintPath>..\packages\ExtraConstraints.Fody.1.13.3\lib\net452\ExtraConstraints.dll</HintPath>
@@ -97,9 +97,9 @@ $(SolutionDir)..\Tools\TlbExp.exe "$(TargetPath)" /out:"$(TargetDir)$(TargetName
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\ExtraConstraints.Fody.1.13.3\build\ExtraConstraints.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ExtraConstraints.Fody.1.13.3\build\ExtraConstraints.Fody.props'))" />
     <Error Condition="!Exists('..\packages\PropertyChanged.Fody.3.0.1\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PropertyChanged.Fody.3.0.1\build\PropertyChanged.Fody.props'))" />
-    <Error Condition="!Exists('..\packages\Fody.5.1.1\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.5.1.1\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.5.2.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.5.2.0\build\Fody.targets'))" />
   </Target>
-  <Import Project="..\packages\Fody.5.1.1\build\Fody.targets" Condition="Exists('..\packages\Fody.5.1.1\build\Fody.targets')" />
+  <Import Project="..\packages\Fody.5.2.0\build\Fody.targets" Condition="Exists('..\packages\Fody.5.2.0\build\Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
