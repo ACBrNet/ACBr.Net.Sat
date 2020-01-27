@@ -29,13 +29,15 @@
 // <summary></summary>
 // ***********************************************************************
 
+using System.Drawing;
+
 namespace ACBr.Net.Sat
 {
     public abstract partial class ExtratoSat
     {
         #region Propriedades
 
-        public byte[] Logo { get; set; }
+        public Image Logo { get; set; }
 
         #endregion Propriedades
     }
