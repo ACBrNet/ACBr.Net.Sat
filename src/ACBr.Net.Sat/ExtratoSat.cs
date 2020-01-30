@@ -29,16 +29,55 @@
 // <summary></summary>
 // ***********************************************************************
 
+using ACBr.Net.Core.Extensions;
+using System;
+using System.Globalization;
+using ACBr.Net.DFe.Core.Common;
+
+#if NETFULL
+
 using System.Drawing;
+
+#endif
 
 namespace ACBr.Net.Sat
 {
-    public abstract partial class ExtratoSat
+    public abstract class ExtratoSat : DFeReportClass<ACBrSat>
     {
         #region Propriedades
 
+        public ExtratoLayOut LayOut { get; set; }
+
+#if NETFULL
         public Image Logo { get; set; }
 
+#else
+        public byte[] Logo { get; set; }
+#endif
+
         #endregion Propriedades
+
+        #region Methods
+
+        public string CalcularConteudoQRCode(string id, DateTime dhEmissao, decimal valor, string cpfcnpj, string assinaturaQrcode)
+        {
+            return $"{id}|{dhEmissao:yyyyMMddHHmmss}|{valor.ToString(CultureInfo.InvariantCulture)}" +
+                   $"|{cpfcnpj.OnlyNumbers()}|{assinaturaQrcode}";
+        }
+
+        public abstract void ImprimirExtrato(CFe cfe);
+
+        public abstract void ImprimirExtratoResumido(CFe cfe);
+
+        public abstract void ImprimirExtratoCancelamento(CFeCanc cFeCanc, DFeTipoAmbiente ambiente);
+
+        /// <inheritdoc />
+        protected override void ParentChanged(ACBrSat oldParent, ACBrSat newParent)
+        {
+            if (oldParent != null && oldParent.Extrato == this) oldParent.Extrato = null;
+            if (newParent != null && newParent.Extrato != this) newParent.Extrato = this;
+        }
+
+        #endregion Methods
     }
 }
