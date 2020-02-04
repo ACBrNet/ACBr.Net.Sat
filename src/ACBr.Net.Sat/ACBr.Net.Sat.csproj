@@ -18,9 +18,9 @@
     <Description>Biblioteca para utilização do SAT/MFe</Description>
     <NeutralLanguage>pt-BR</NeutralLanguage>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <AssemblyVersion>1.2.6.5</AssemblyVersion>
-    <FileVersion>1.2.6.5</FileVersion>
-    <Version>1.2.6.5</Version>
+    <AssemblyVersion>1.2.6.6</AssemblyVersion>
+    <FileVersion>1.2.6.6</FileVersion>
+    <Version>1.2.6.6</Version>
     <DelaySign>false</DelaySign>
   </PropertyGroup>
 
@@ -54,12 +54,12 @@
 
   <ItemGroup>
     <PackageReference Include="ACBr.Net.Core" Version="1.2.4" />
-    <PackageReference Include="ACBr.Net.DFe.Core" Version="1.2.6" />
-    <PackageReference Include="ACBr.Net.Integrador" Version="1.2.0.3" />
+    <PackageReference Include="ACBr.Net.DFe.Core" Version="1.2.6.1" />
+    <PackageReference Include="ACBr.Net.Integrador" Version="1.2.0.4" />
     <PackageReference Include="ExtraConstraints.Fody" Version="1.14.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Fody" Version="6.0.8">
+    <PackageReference Include="Fody" Version="6.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
