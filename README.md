@@ -4,8 +4,8 @@
 ### Apoie-nos !
 Se *ACbrSat* for um componente vital em sua aplicação comercial ou de código aberto e / ou você quiser contribuir para seu sucesso contínuo, por favor considere fazer uma pequena contribuição monetária.
 
-<a href="https://www.padrim.com.br/acbrnet" target="_blank"><img src="https://static-cdn.jtvnw.net/jtv_user_pictures/panel-148507617-image-b57c679ef728c74b-320-320.png"></a>
-
+[![Ajude-nos pelo Padrim https://www.padrim.com.br/acbrnet](https://img.shields.io/badge/Donate-Padrim-red)](https://www.padrim.com.br/acbrnet)
+[![Ajude-nos pelo Apoia-se https://apoia.se/acbrnet](https://img.shields.io/badge/Donate-Apoia--se-red)](https://apoia.se/acbrnet)
 # ACBr.Net.Sat
 =================
 
