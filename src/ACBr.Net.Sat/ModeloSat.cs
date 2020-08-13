@@ -29,8 +29,6 @@
 // <summary></summary>
 // ***********************************************************************
 
-using System;
-
 namespace ACBr.Net.Sat
 {
     /// <summary>
@@ -40,9 +38,6 @@ namespace ACBr.Net.Sat
     {
         Cdecl,
 
-        StdCall,
-
-        [Obsolete("Será removido pois agora é possivel se comunicar com o MFe usando a dll apenas")]
-        MFeIntegrador
+        StdCall
     }
 }
