@@ -41,7 +41,6 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using ACBr.Net.Integrador;
 
 namespace ACBr.Net.Sat
 {
@@ -67,7 +66,6 @@ namespace ACBr.Net.Sat
         private string codigoAtivacao;
         private ExtratoSat extrato;
         private bool aguardandoResposta;
-        private ACBrIntegrador integradorFiscal;
 
         #endregion Fields
 
@@ -166,28 +164,6 @@ namespace ACBr.Net.Sat
             {
                 Guard.Against<ACBrException>(Ativo, "Não é possível definir a propriedade com o componente ativo");
                 encoding = value;
-            }
-        }
-
-        /// <summary>
-        /// Componente para comunicação com o Integrador Fiscal do Ceará.
-        /// </summary>
-        /// <value>O Integrador.</value>
-        [DefaultValue(null)]
-        [Category("Componentes ACBr.Net")]
-        [TypeConverter(typeof(ReferenceConverter))]
-        public ACBrIntegrador IntegradorFiscal
-        {
-            get => integradorFiscal;
-            set
-            {
-                if (integradorFiscal != null)
-                    integradorFiscal.OnGetNumeroSessao -= IntegradorFiscalOnOnGetNumeroSessao;
-
-                integradorFiscal = value;
-
-                if (integradorFiscal != null)
-                    integradorFiscal.OnGetNumeroSessao += IntegradorFiscalOnOnGetNumeroSessao;
             }
         }
 
@@ -318,8 +294,6 @@ namespace ACBr.Net.Sat
         /// <exception cref="NotImplementedException"></exception>
         public void Ativar()
         {
-            Guard.Against<ArgumentNullException>(Modelo == ModeloSat.MFeIntegrador && IntegradorFiscal == null, "Integrador fiscal não disponivel.");
-
             satLibrary = SatManager.GetLibrary(Modelo, Configuracoes, PathDll, Encoding);
             Ativo = true;
         }
@@ -898,11 +872,6 @@ namespace ACBr.Net.Sat
             var e = new NumeroSessaoEventArgs(Sessao);
             OnGetNumeroSessao.Raise(this, e);
             Sessao = e.Sessao;
-        }
-
-        private void IntegradorFiscalOnOnGetNumeroSessao(object sender, Integrador.Events.NumeroSessaoEventArgs e)
-        {
-            e.Sessao = Sessao;
         }
 
         #endregion Private
