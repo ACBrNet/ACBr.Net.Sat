@@ -1352,7 +1352,7 @@
             this.acbrSat.Configuracoes.RemoverAcentos = false;
             this.acbrSat.Configuracoes.ValidarNumeroSessaoResposta = false;
             this.acbrSat.Encoding = ((System.Text.Encoding)(resources.GetObject("acbrSat.Encoding")));
-            this.acbrSat.IntegradorFiscal = this.acbrIntegrador;
+            //this.acbrSat.IntegradorFiscal = this.acbrIntegrador;
             this.acbrSat.Modelo = ACBr.Net.Sat.ModeloSat.Cdecl;
             this.acbrSat.PathDll = "C:\\SAT\\SAT.dll";
             this.acbrSat.SignAC = "";
