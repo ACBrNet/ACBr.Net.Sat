@@ -550,7 +550,7 @@ namespace ACBr.Net.Sat
         {
             Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
 
-            IniciaComando($"ConsultarUltimaSessaoFiscal()");
+            IniciaComando("ConsultarUltimaSessaoFiscal()");
             var ret = satLibrary.ConsultarUltimaSessaoFiscal(Sessao, CodigoAtivacao);
 
             return FinalizaComando<ConsultaSessaoResposta>(ret);
@@ -742,7 +742,6 @@ namespace ACBr.Net.Sat
         /// <param name="cfe">The cfe.</param>
         public void ImprimirExtrato(CFe cfe)
         {
-            Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
             Guard.Against<ArgumentNullException>(Extrato == null, "Componente de Impressão não definido !");
 
             Extrato.ImprimirExtrato(cfe);
@@ -754,7 +753,6 @@ namespace ACBr.Net.Sat
         /// <param name="cfe">The cfe.</param>
         public void ImprimirExtratoResumido(CFe cfe)
         {
-            Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
             Guard.Against<ArgumentNullException>(Extrato == null, "Componente de Impressão não definido !");
 
             Extrato.ImprimirExtratoResumido(cfe);
@@ -767,7 +765,6 @@ namespace ACBr.Net.Sat
         /// <param name="cFeCanc">The c fe canc.</param>
         public void ImprimirExtratoCancelamento(CFeCanc cFeCanc, DFeTipoAmbiente ambiente)
         {
-            Guard.Against<ACBrException>(!Ativo, "Componente não está ativo.");
             Guard.Against<ArgumentNullException>(Extrato == null, "Componente de Impressão não definido !");
 
             Extrato.ImprimirExtratoCancelamento(cFeCanc, ambiente);

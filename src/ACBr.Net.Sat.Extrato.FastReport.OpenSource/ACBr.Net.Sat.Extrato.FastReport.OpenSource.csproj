@@ -1,9 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard2.0</TargetFrameworks>
-    <AssemblyName>ACBr.Net.Sat</AssemblyName>
-    <RootNamespace>ACBr.Net.Sat</RootNamespace>
+    <AssemblyName>ACBr.Net.Sat.Extrato.FastReport.OpenSource</AssemblyName>
+    <RootNamespace>ACBr.Net.Sat.Extrato.FastReport.OpenSource</RootNamespace>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>acbr.net.snk</AssemblyOriginatorKeyFile>
     <Copyright>Copyright © Grupo ACBr.Net 2014 - 2021</Copyright>
@@ -14,16 +14,18 @@
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/7342977?v=3&amp;amp;s=200</PackageIconUrl>
     <RepositoryUrl>https://github.com/ACBrNet/ACBr.Net.Sat</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>ACBr ACBr.Net SAT CF-e-SAT Automação Comercial</PackageTags>
+    <PackageTags>ACBr ACBr.Net SAT CF-e-SAT Extrato Automação Comercial</PackageTags>
     <Description>Biblioteca para utilização do SAT/MFe</Description>
     <NeutralLanguage>pt-BR</NeutralLanguage>
-    <AssemblyVersion>1.2.8.0</AssemblyVersion>
-    <FileVersion>1.2.8.0</FileVersion>
-    <Version>1.2.8.1</Version>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.0.0</Version>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageId>ACBr.Net.Sat.Extrato.FastReport.OpenSource</PackageId>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
@@ -36,47 +38,41 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net452|AnyCPU'">
     <OutputPath>..\..\bin\Debug\</OutputPath>
-    <DocumentationFile>..\..\bin\Debug\net452\ACBr.Net.Sat.xml</DocumentationFile>
+    <DocumentationFile>..\..\bin\Debug\net452\ACBr.Net.Sat.Extrato.FastReport.OpenSource.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net452|AnyCPU'">
     <OutputPath>..\..\bin\Release\</OutputPath>
-    <DocumentationFile>..\..\bin\Release\net452\ACBr.Net.Sat.xml</DocumentationFile>
+    <DocumentationFile>..\..\bin\Release\net452\ACBr.Net.Sat.Extrato.FastReport.OpenSource.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
     <OutputPath>..\..\bin\Debug\</OutputPath>
-    <DocumentationFile>..\..\bin\Debug\netstandard2.0\ACBr.Net.Sat.xml</DocumentationFile>
+    <DocumentationFile>..\..\bin\Debug\netstandard2.0\ACBr.Net.Sat.Extrato.FastReport.OpenSource.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
     <OutputPath>..\..\bin\Release\</OutputPath>
-    <DocumentationFile>..\..\bin\Release\netstandard2.0\ACBr.Net.Sat.xml</DocumentationFile>
+    <DocumentationFile>..\..\bin\Release\netstandard2.0\ACBr.Net.Sat.Extrato.FastReport.OpenSource.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Properties\**" />
-    <EmbeddedResource Remove="Properties\**" />
-    <None Remove="Properties\**" />
+    <None Remove="Extrato\ExtratoSat.frx" />
+    <None Remove="Extrato\ExtratoSatCancelamento.frx" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ACBr.Net.Core" Version="1.2.5" />
-    <PackageReference Include="ACBr.Net.DFe.Core" Version="1.2.8.3" />
-    <PackageReference Include="ExtraConstraints.Fody" Version="1.14.0">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Fody" Version="6.5.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="PropertyChanged.Fody" Version="3.3.3">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <EmbeddedResource Include="Extrato\ExtratoSat.frx" />
+    <EmbeddedResource Include="Extrato\ExtratoSatCancelamento.frx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FastReport.OpenSource" Version="2021.2.14" />
+    <PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2021.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ACBr.Net.Sat\ACBr.Net.Sat.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">

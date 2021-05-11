@@ -83,6 +83,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -97,6 +98,10 @@
     <Content Include="sat.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ACBr.Net.Sat.Extrato.FastReport.OpenSource\ACBr.Net.Sat.Extrato.FastReport.OpenSource.csproj">
+      <Project>{7e78f7eb-71c8-4ba6-ad2a-80ee10ee2d99}</Project>
+      <Name>ACBr.Net.Sat.Extrato.FastReport.OpenSource</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ACBr.Net.Sat\ACBr.Net.Sat.csproj">
       <Project>{ee443d74-27e7-4236-851e-5e31a8ab8e63}</Project>
       <Name>ACBr.Net.Sat</Name>
@@ -104,19 +109,19 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ACBr.Net.Core">
-      <Version>1.2.4.1</Version>
+      <Version>1.2.5</Version>
     </PackageReference>
     <PackageReference Include="ACBr.Net.DFe.Core">
-      <Version>1.2.8</Version>
+      <Version>1.2.8.3</Version>
     </PackageReference>
     <PackageReference Include="ACBr.Net.Integrador">
-      <Version>1.2.0.6</Version>
+      <Version>1.2.0.9</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.3</Version>
+      <Version>4.7.9</Version>
     </PackageReference>
     <PackageReference Include="NLog.Windows.Forms">
-      <Version>4.3.0</Version>
+      <Version>4.4.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

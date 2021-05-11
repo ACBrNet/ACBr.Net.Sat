@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACBr.Net.Sat", "ACBr.Net.Sa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACBr.Net.Sat.Demo", "ACBr.Net.Sat.Demo\ACBr.Net.Sat.Demo.csproj", "{D0D31D3B-C7D4-45F3-B09F-618FF56A48B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACBr.Net.Sat.Extrato.FastReport.OpenSource", "ACBr.Net.Sat.Extrato.FastReport.OpenSource\ACBr.Net.Sat.Extrato.FastReport.OpenSource.csproj", "{7E78F7EB-71C8-4BA6-AD2A-80EE10EE2D99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D0D31D3B-C7D4-45F3-B09F-618FF56A48B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0D31D3B-C7D4-45F3-B09F-618FF56A48B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0D31D3B-C7D4-45F3-B09F-618FF56A48B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E78F7EB-71C8-4BA6-AD2A-80EE10EE2D99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E78F7EB-71C8-4BA6-AD2A-80EE10EE2D99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E78F7EB-71C8-4BA6-AD2A-80EE10EE2D99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E78F7EB-71C8-4BA6-AD2A-80EE10EE2D99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
