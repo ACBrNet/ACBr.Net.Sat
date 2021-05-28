@@ -19,7 +19,7 @@
     <NeutralLanguage>pt-BR</NeutralLanguage>
     <AssemblyVersion>1.2.8.0</AssemblyVersion>
     <FileVersion>1.2.8.0</FileVersion>
-    <Version>1.2.8.1</Version>
+    <Version>1.2.8.0</Version>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
@@ -62,7 +62,7 @@
 
   <ItemGroup>
     <PackageReference Include="ACBr.Net.Core" Version="1.2.5" />
-    <PackageReference Include="ACBr.Net.DFe.Core" Version="1.2.8.3" />
+    <PackageReference Include="ACBr.Net.DFe.Core" Version="1.2.8.4" />
     <PackageReference Include="ExtraConstraints.Fody" Version="1.14.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
