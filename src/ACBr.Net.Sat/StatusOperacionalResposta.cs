@@ -109,13 +109,15 @@ namespace ACBr.Net.Sat
                 Status.ListaFinal = RetornoLst[i];
                 i++;
             }
-            Status.DhCFe = DateTime.ParseExact(RetornoLst[i], "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+
+            Status.DhCFe = DateTime.TryParseExact(RetornoLst[i], "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var data) ? data : DateTime.MinValue;
+
             i++;
-            Status.DhUltima = DateTime.ParseExact(RetornoLst[i], "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+            Status.DhUltima = DateTime.TryParseExact(RetornoLst[i], "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out data) ? data : DateTime.MinValue;
             i++;
-            Status.CertEmissao = DateTime.ParseExact(RetornoLst[i], "yyyyMMdd", CultureInfo.InvariantCulture);
+            Status.CertEmissao = DateTime.TryParseExact(RetornoLst[i], "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out data) ? data : DateTime.MinValue;
             i++;
-            Status.CertVencimento = DateTime.ParseExact(RetornoLst[i], "yyyyMMdd", CultureInfo.InvariantCulture);
+            Status.CertVencimento = DateTime.TryParseExact(RetornoLst[i], "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out data) ? data : DateTime.MinValue;
             i++;
             var retStr = RetornoLst[i];
             if (retStr.IsNumeric())
