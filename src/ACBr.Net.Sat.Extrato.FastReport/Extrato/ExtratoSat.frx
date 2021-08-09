@@ -1,0 +1,542 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReferencedAssemblies="System.dll&#13;&#10;System.Drawing.dll&#13;&#10;System.Windows.Forms.dll&#13;&#10;System.Data.dll&#13;&#10;System.Xml.dll&#13;&#10;ACBr.Net.Core.dll&#13;&#10;ACBr.Net.DFe.Core.dll&#13;&#10;ACBr.Net.Sat.dll&#13;&#10;ACBr.Net.Sat.Extrato.FastReport.dll" StartReportEvent="_StartReport" ReportInfo.Name="Extrato Sat" ReportInfo.Author="Rafael Teno Dias" ReportInfo.Version="1.0.0.0" ReportInfo.Description="Extrato Sat completo" ReportInfo.Created="09/01/2015 11:27:10" ReportInfo.Modified="05/11/2021 15:14:27" ReportInfo.CreatorVersion="2021.2.8.0" PrintSettings.Copies="0" PrintSettings.CopyNames="Via Consumidor&#13;&#10;Via Consumidor&#13;&#10;Via do Estabelecimento" PrintSettings.ShowDialog="false">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using System.Text.RegularExpressions;
+
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+using ACBr.Net.Core.Extensions;
+using ACBr.Net.DFe.Core.Common;
+using ACBr.Net.Sat;
+using ACBr.Net.Sat.Extrato.FastReport;
+
+namespace FastReport
+{
+  public class ReportScript
+  {   
+    private void rtbTitulo_BeforePrint(object sender, EventArgs e)
+    {
+      var imagem = (byte[])(Report.GetParameterValue(&quot;Logo&quot;) ?? new byte[0]); 
+      if(imagem.Length &lt; 1)
+      {
+        rtbTitulo.Height = 10f;
+        poEmitLogo.Visible = false;
+        return;
+      }
+                                
+      poEmitLogo.SetImageData(imagem);
+    }
+    
+    private void TextNumeroExtrato_BeforePrint(object sender, EventArgs e)
+    {   
+      var ambiente = (DFeTipoAmbiente)Report.GetParameterValue(&quot;Ambiente&quot;);
+      var numeroCFe = (int)Report.GetColumnValue(&quot;CFe.InfCFe.Ide.NCFe&quot;);
+      TextNumeroExtrato.Text = &quot;Extrato Nº &quot; + (ambiente == DFeTipoAmbiente.Homologacao ? &quot;000000&quot; : numeroCFe.ToString());
+    }
+
+    private void TextClienteCPFCNPJ_BeforePrint(object sender, EventArgs e)
+    {                     
+      var documentoDest = &quot;CPF/CNPJ do Consumidor : &quot;;
+      var cnpj = (string)Report.GetColumnValue(&quot;CFe.InfCFe.Dest.CNPJ&quot;);
+      var cpf = (string)Report.GetColumnValue(&quot;CFe.InfCFe.Dest.CPF&quot;);
+      
+      TextClienteCPFCNPJ.Text = &quot;&quot;;
+      
+      if (!string.IsNullOrEmpty(cnpj))
+      {
+        if(cnpj.OnlyNumbers() == &quot;00000000000000&quot;) return;
+        
+        TextClienteCPFCNPJ.Text = documentoDest + cnpj.FormataCNPJ();
+      }
+      else
+      {
+        if(cpf.OnlyNumbers() == &quot;00000000000&quot;) return;
+        
+        TextClienteCPFCNPJ.Text = documentoDest + cpf.FormataCPF();
+      }
+    }     
+
+    private void phbEmitenteTeste_BeforePrint(object sender, EventArgs e)
+    {
+      var ambiente = (DFeTipoAmbiente)Report.GetParameterValue(&quot;Ambiente&quot;);
+      phbEmitenteTeste.Visible = ambiente == DFeTipoAmbiente.Homologacao;
+      if(phbEmitenteTeste.Visible)
+      {
+        phbEmitenteExtrato.Border.Lines = BorderLines.Top;
+      }
+    }
+    
+    private void ghbProdutosUmaLinha_BeforePrint(object sender, EventArgs e)
+    { 
+      var oneLine = (bool)Report.GetParameterValue(&quot;IsOneLine&quot;);             
+      var resumido = (bool)Report.GetParameterValue(&quot;IsResumido&quot;);
+      ghbProdutosUmaLinha.Visible = oneLine &amp;&amp; !resumido;
+      dbProdutosUmaLinha.Visible = oneLine &amp;&amp; !resumido;
+    }
+    
+    private void dbProdutosUmaLinha_BeforePrint(object sender, EventArgs e)
+    {           
+      var imprimeDesconto = dbProdutosUmaLinha.Visible &amp;&amp; (Decimal)Report.GetColumnValue(&quot;CFe.InfCFe.Det.Prod.VDesc&quot;) &gt; 0;    
+      var imprimeAcrescimo = dbProdutosUmaLinha.Visible &amp;&amp; (Decimal)Report.GetColumnValue(&quot;CFe.InfCFe.Det.Prod.VOutro&quot;) &gt; 0;
+      
+      cbDescontoItemUmaLinha.Visible = imprimeDesconto;
+      cbAcrescimoItemUmaLinha.Visible = imprimeAcrescimo;
+      
+      if(imprimeDesconto &amp;&amp; imprimeAcrescimo)
+      {
+        cbAcrescimoItemUmaLinha.Border.Lines = BorderLines.None;
+      }
+      
+      if(imprimeDesconto || imprimeAcrescimo)
+      {
+        dbProdutosUmaLinha.Border.Lines = BorderLines.None;
+      }
+      else
+      {
+        dbProdutosUmaLinha.Border.Lines = BorderLines.Bottom;
+      }
+    }
+
+    private void ghbProdutosDuasLinhas_BeforePrint(object sender, EventArgs e)
+    {                                                      
+      var oneLine = (bool)Report.GetParameterValue(&quot;IsOneLine&quot;);    
+      var resumido = (bool)Report.GetParameterValue(&quot;IsResumido&quot;);
+      
+      ghbProdutosDuasLinhas.Visible = !oneLine &amp;&amp; !resumido;
+      dbProdutosDuasLinhas.Visible = !oneLine &amp;&amp; !resumido;
+    }
+    
+    private void dbProdutosDuasLinhas_BeforePrint(object sender, EventArgs e)
+    {
+      var imprimeDesconto = dbProdutosDuasLinhas.Visible &amp;&amp; (Decimal)Report.GetColumnValue(&quot;CFe.InfCFe.Det.Prod.VDesc&quot;) &gt; 0;      
+      var imprimeAcrescimo = dbProdutosDuasLinhas.Visible &amp;&amp; (Decimal)Report.GetColumnValue(&quot;CFe.InfCFe.Det.Prod.VOutro&quot;) &gt; 0;
+      
+      cbDescontoItemDuasLinhas.Visible = imprimeDesconto; 
+      cbAcrescimoItemDuasLinhas.Visible = imprimeAcrescimo; 
+      
+      if(imprimeDesconto &amp;&amp; imprimeAcrescimo)
+      {
+        cbAcrescimoItemDuasLinhas.Border.Lines = BorderLines.None;
+      }           
+      
+      if(imprimeDesconto || imprimeAcrescimo)
+      {
+        dbProdutosDuasLinhas.Border.Lines = BorderLines.None;
+      }
+      else
+      {
+        dbProdutosDuasLinhas.Border.Lines = BorderLines.Bottom;
+      }
+    }
+    
+    private void gfbProdutos_BeforePrint(object sender, EventArgs e)
+    {
+      var acrescimo = (Decimal)Report.GetColumnValue(&quot;CFe.InfCFe.Total.ICMSTot.VOutro&quot;);
+      var acrSubtotal = (Decimal)Report.GetColumnValue(&quot;CFe.InfCFe.Total.DescAcrEntr.VAcresSubtot&quot;);
+                                                      
+      var desconto = (Decimal)Report.GetColumnValue(&quot;CFe.InfCFe.Total.ICMSTot.VDesc&quot;);
+      var descSubtotal = (Decimal)Report.GetColumnValue(&quot;CFe.InfCFe.Total.DescAcrEntr.VDescSubtot&quot;);
+      
+      gfbProdutosAcrescimos.Visible = (acrescimo + acrSubtotal) &gt; 0;
+      gfbProdutosDescontos.Visible = (desconto + descSubtotal) &gt; 0;
+    }
+    
+    private void dbPagamento_BeforePrint(object sender, EventArgs e)
+    {  
+      var troco = (Decimal)Report.GetColumnValue(&quot;CFe.InfCFe.Pagto.VTroco&quot;);
+      dbPagamentoTroco.Visible = troco &gt; 0;
+    }
+    
+    private void txtDescPagto_BeforePrint(object sender, EventArgs e)
+    {  
+      var codigo = (CodigoMP)Report.GetColumnValue(&quot;CFe.InfCFe.Pagto.Pagamentos.CMp&quot;);
+      txtDescPagto.Text = codigo.Descricao();
+    }
+    
+    private void dbEntregaHeader_BeforePrint(object sender, EventArgs e)
+    {  
+      var logradouro = (string)Report.GetColumnValue(&quot;CFe.InfCFe.Entrega.XLgr&quot;); 
+      dbEntregaHeader.Visible = !string.IsNullOrEmpty(logradouro);
+    }
+
+    private void dbEntrega_BeforePrint(object sender, EventArgs e)
+    {
+      var logradouro = (string)Report.GetColumnValue(&quot;CFe.InfCFe.Entrega.XLgr&quot;); 
+      dbEntrega.Visible = !string.IsNullOrEmpty(logradouro);      
+    }
+    
+    private void dbObsContribuenteHeader_BeforePrint(object sender, EventArgs e)
+    {
+      var infCpl = (string)Report.GetColumnValue(&quot;CFe.InfCFe.InfAdic.InfCpl&quot;);       
+      var lei12741 = (Decimal)Report.GetColumnValue(&quot;CFe.InfCFe.Total.VCFeLei12741&quot;);
+      
+      dbObsContribuenteHeader.Visible = !string.IsNullOrEmpty(infCpl) || lei12741 &gt; 0;
+    }
+    
+    private void dbObsContribuente_BeforePrint(object sender, EventArgs e)
+    {
+      var infCpl = (string)Report.GetColumnValue(&quot;CFe.InfCFe.InfAdic.InfCpl&quot;); 
+      dbObsContribuente.Visible = !string.IsNullOrEmpty(infCpl);   
+      
+      var lei12741 = (Decimal)Report.GetColumnValue(&quot;CFe.InfCFe.Total.VCFeLei12741&quot;);
+      dbObsContribuenteFooter.Visible = lei12741 &gt; 0;
+      
+      dbObsContribuenteHeader.Visible = dbObsContribuente.Visible || dbObsContribuenteFooter.Visible;
+    } 
+    
+    private void dbQrCode_BeforePrint(object sender, EventArgs e)
+    { 
+      var documentoDest = &quot;&quot;;
+      var id = (string)Report.GetColumnValue(&quot;CFe.InfCFe.Id&quot;);      
+      var cnpj = (string)Report.GetColumnValue(&quot;CFe.InfCFe.Dest.CNPJ&quot;);
+      var cpf = (string)Report.GetColumnValue(&quot;CFe.InfCFe.Dest.CPF&quot;); 
+      var dtEmissao = (DateTime)Report.GetColumnValue(&quot;CFe.InfCFe.Ide.DhEmissao&quot;);
+      var valor = (Decimal)Report.GetColumnValue(&quot;CFe.InfCFe.Total.VCFe&quot;);
+      var qrCode = (string)Report.GetColumnValue(&quot;CFe.InfCFe.Ide.AssinaturaQrcode&quot;);
+      var espacoFinal = (float)Report.GetParameterValue(&quot;EspacoFinal&quot;);
+      var chave = id.OnlyNumbers();
+      
+      TextChaveAcesso.Text = Regex.Replace(chave, &quot;.{4}&quot;, &quot;$0 &quot;);  
+      BarcodeChaveAcesso1.Text = chave.Substring(0, 22);
+      BarcodeChaveAcesso2.Text = chave.Substring(22, 22);
+      
+      if (!string.IsNullOrEmpty(cnpj))
+      {
+        documentoDest = cnpj.OnlyNumbers();
+      }
+      else
+      {
+        documentoDest = cpf.OnlyNumbers();
+      }
+      
+      bcoQrCode.Text = String.Format(&quot;{0}|{1:yyyyMMddHHmmss}|{2:0.00}|{3}|{4}&quot;, chave, dtEmissao, valor, documentoDest, qrCode);
+      
+      if(espacoFinal &gt; 0)
+      {
+         dbQrCode.Height += espacoFinal;
+      }
+    }
+  }
+}</ScriptText>
+  <Dictionary>
+    <BusinessObjectDataSource Name="CFe" ReferenceName="CFe" DataType="null" Enabled="true">
+      <Column Name="InfCFe" DataType="null">
+        <Column Name="Id" DataType="System.String"/>
+        <Column Name="Versao" DataType="System.Decimal"/>
+        <Column Name="VersaoDadosEnt" DataType="System.Decimal"/>
+        <Column Name="VersaoSb" DataType="System.Decimal"/>
+        <Column Name="Ide" DataType="null">
+          <Column Name="UF" DataType="null"/>
+          <Column Name="CNf" DataType="System.Int32"/>
+          <Column Name="Modelo" DataType="System.Int32"/>
+          <Column Name="NSerieSAT" DataType="System.Int32"/>
+          <Column Name="NCFe" DataType="System.Int32"/>
+          <Column Name="DhEmissao" DataType="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"/>
+          <Column Name="DEmi" DataType="System.DateTime"/>
+          <Column Name="HEmi" DataType="System.DateTime"/>
+          <Column Name="CDv" DataType="System.Int32"/>
+          <Column Name="TpAmb" DataType="null"/>
+          <Column Name="CNPJ" DataType="System.String"/>
+          <Column Name="SignAC" DataType="System.String"/>
+          <Column Name="AssinaturaQrcode" DataType="System.String"/>
+          <Column Name="NumeroCaixa" DataType="System.Int32"/>
+        </Column>
+        <Column Name="Emit" DataType="null">
+          <Column Name="CNPJ" DataType="System.String"/>
+          <Column Name="XNome" DataType="System.String"/>
+          <Column Name="XFant" DataType="System.String"/>
+          <Column Name="EnderEmit" DataType="null">
+            <Column Name="XLgr" DataType="System.String"/>
+            <Column Name="Nro" DataType="System.String"/>
+            <Column Name="XCpl" DataType="System.String"/>
+            <Column Name="XBairro" DataType="System.String"/>
+            <Column Name="XMun" DataType="System.String"/>
+            <Column Name="CEP" DataType="System.String"/>
+          </Column>
+          <Column Name="IE" DataType="System.String"/>
+          <Column Name="IM" DataType="System.String"/>
+          <Column Name="CRegTrib" DataType="null"/>
+          <Column Name="CRegTribISSQN" DataType="null"/>
+          <Column Name="IndRatISSQN" DataType="null"/>
+        </Column>
+        <Column Name="Dest" DataType="null">
+          <Column Name="CPF" DataType="System.String"/>
+          <Column Name="CNPJ" DataType="System.String"/>
+          <Column Name="Nome" DataType="System.String"/>
+        </Column>
+        <Column Name="Entrega" DataType="null">
+          <Column Name="XLgr" DataType="System.String"/>
+          <Column Name="Nro" DataType="System.String"/>
+          <Column Name="XCpl" DataType="System.String"/>
+          <Column Name="XBairro" DataType="System.String"/>
+          <Column Name="XMun" DataType="System.String"/>
+          <Column Name="UF" DataType="System.String"/>
+        </Column>
+        <BusinessObjectDataSource Name="BusinessObjectDataSource2" Alias="Det" DataType="null" PropName="Det" Enabled="true">
+          <Column Name="NItem" DataType="System.Int32"/>
+          <Column Name="Prod" DataType="null">
+            <Column Name="EhCombustivel" DataType="System.Boolean" BindableControl="CheckBox"/>
+            <Column Name="CProd" DataType="System.String"/>
+            <Column Name="CEAN" DataType="System.String"/>
+            <Column Name="XProd" DataType="System.String"/>
+            <Column Name="NCM" DataType="System.String"/>
+            <Column Name="CEST" DataType="System.String"/>
+            <Column Name="CFOP" DataType="System.String"/>
+            <Column Name="UCom" DataType="System.String"/>
+            <Column Name="QCom" DataType="System.Decimal"/>
+            <Column Name="VUnCom" DataType="System.Decimal"/>
+            <Column Name="VProd" DataType="System.Decimal"/>
+            <Column Name="IndRegra" DataType="null"/>
+            <Column Name="VDesc" DataType="System.Decimal"/>
+            <Column Name="VOutro" DataType="System.Decimal"/>
+            <Column Name="VItem" DataType="System.Decimal"/>
+            <Column Name="VRatDesc" DataType="System.Decimal"/>
+            <Column Name="VRatAcr" DataType="System.Decimal"/>
+            <BusinessObjectDataSource Name="BusinessObjectDataSource4" Alias="ObsFiscoDet" DataType="null" PropName="ObsFiscoDet" Enabled="true">
+              <Column Name="XCampoDet" DataType="System.String"/>
+              <Column Name="XTextoDet" DataType="System.String"/>
+            </BusinessObjectDataSource>
+            <Column Name="Parent" Enabled="false" DataType="null"/>
+          </Column>
+          <Column Name="Imposto" DataType="null">
+            <Column Name="VItem12741" DataType="System.Decimal"/>
+            <Column Name="Imposto" DataType="null">
+              <Column Name="Icms" DataType="null">
+                <Column Name="Orig" DataType="null"/>
+                <Column Name="Csosn" DataType="System.String"/>
+              </Column>
+            </Column>
+            <Column Name="Pis" DataType="null">
+              <Column Name="Pis" DataType="null">
+                <Column Name="Cst" DataType="System.String"/>
+              </Column>
+            </Column>
+            <Column Name="PisSt" DataType="null">
+              <Column Name="VBc" DataType="System.Decimal"/>
+              <Column Name="PPis" DataType="System.Decimal"/>
+              <Column Name="QBcProd" DataType="System.Decimal"/>
+              <Column Name="VAliqProd" DataType="System.Decimal"/>
+              <Column Name="VPis" DataType="System.Decimal"/>
+            </Column>
+            <Column Name="Cofins" DataType="null">
+              <Column Name="Cofins" DataType="null">
+                <Column Name="Cst" DataType="System.String"/>
+              </Column>
+            </Column>
+            <Column Name="CofinsSt" DataType="null">
+              <Column Name="VBc" DataType="System.Decimal"/>
+              <Column Name="PCofins" DataType="System.Decimal"/>
+              <Column Name="QBcProd" DataType="System.Decimal"/>
+              <Column Name="VAliqProd" DataType="System.Decimal"/>
+              <Column Name="VCofins" DataType="System.Decimal"/>
+            </Column>
+          </Column>
+          <Column Name="InfAdProd" DataType="System.String"/>
+          <Column Name="Parent" Enabled="false" DataType="null"/>
+        </BusinessObjectDataSource>
+        <Column Name="Total" DataType="null">
+          <Column Name="ICMSTot" DataType="null">
+            <Column Name="VICMS" DataType="System.Decimal"/>
+            <Column Name="VProd" DataType="System.Decimal"/>
+            <Column Name="VDesc" DataType="System.Decimal"/>
+            <Column Name="VPIS" DataType="System.Decimal"/>
+            <Column Name="VCOFINS" DataType="System.Decimal"/>
+            <Column Name="VPISST" DataType="System.Decimal"/>
+            <Column Name="VCOFINSST" DataType="System.Decimal"/>
+            <Column Name="VOutro" DataType="System.Decimal"/>
+          </Column>
+          <Column Name="VCFe" DataType="System.Decimal"/>
+          <Column Name="ISSQNTot" DataType="null">
+            <Column Name="VBC" DataType="System.Decimal"/>
+            <Column Name="VISS" DataType="System.Decimal"/>
+            <Column Name="VPIS" DataType="System.Decimal"/>
+            <Column Name="VCOFINS" DataType="System.Decimal"/>
+            <Column Name="VPISST" DataType="System.Decimal"/>
+            <Column Name="VCOFINSST" DataType="System.Decimal"/>
+          </Column>
+          <Column Name="DescAcrEntr" DataType="null">
+            <Column Name="VDescSubtot" DataType="System.Decimal"/>
+            <Column Name="VAcresSubtot" DataType="System.Decimal"/>
+          </Column>
+          <Column Name="VCFeLei12741" DataType="System.Decimal"/>
+        </Column>
+        <Column Name="Pagto" DataType="null">
+          <BusinessObjectDataSource Name="Pagamentos1" Alias="Pagamentos" DataType="null" PropName="Pagamentos" Enabled="true">
+            <Column Name="CMp" DataType="null"/>
+            <Column Name="VMp" DataType="System.Decimal"/>
+            <Column Name="CAdmC" DataType="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"/>
+          </BusinessObjectDataSource>
+          <Column Name="VTroco" DataType="System.Decimal"/>
+        </Column>
+        <Column Name="InfAdic" DataType="null">
+          <Column Name="InfCpl" DataType="System.String"/>
+          <BusinessObjectDataSource Name="BusinessObjectDataSource5" Alias="ObsFisco" DataType="null" PropName="ObsFisco" Enabled="true">
+            <Column Name="XCampo" DataType="System.String"/>
+            <Column Name="XTexto" DataType="System.String"/>
+          </BusinessObjectDataSource>
+        </Column>
+        <Column Name="Parent" Enabled="false" DataType="null"/>
+      </Column>
+      <Column Name="Signature" Enabled="false" DataType="null"/>
+    </BusinessObjectDataSource>
+    <Parameter Name="IsOneLine" DataType="System.Boolean"/>
+    <Parameter Name="Logo" DataType="System.Byte[]"/>
+    <Parameter Name="IsResumido" DataType="System.Boolean"/>
+    <Parameter Name="EspacoFinal" DataType="System.Single"/>
+    <Parameter Name="Ambiente" DataType="null"/>
+  </Dictionary>
+  <ReportPage Name="Page1" PaperWidth="79" LeftMargin="4.5" TopMargin="0" RightMargin="4.5" BottomMargin="1" FirstPageSource="15" OtherPagesSource="15" Watermark.Font="Arial, 60pt" UnlimitedHeight="true">
+    <ReportTitleBand Name="rtbTitulo" Width="264.6" Height="85.8" BeforePrintEvent="rtbTitulo_BeforePrint">
+      <PictureObject Name="poEmitLogo" Top="3.78" Width="264.6" Height="79.38" ImageFormat="Png" Image="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"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="phbEmitente" Top="89" Width="264.6" Height="94.5" PrintOn="FirstPage">
+      <TextObject Name="textDadosEmit" Top="67.63" Width="264.6" Height="24.57" CanShrink="true" ShiftMode="WhenOverlapped" Text="CNPJ [CFe.InfCFe.Emit.CNPJ] IE [CFe.InfCFe.Emit.IE] [IIf(Length([CFe.InfCFe.Emit.IM]) &gt; 0, &quot;IM &quot; + [CFe.InfCFe.Emit.IM], &quot;&quot;)]" Padding="2, 1, 2, 1" AutoShrink="FontWidth" HorzAlign="Center" VertAlign="Center" Font="Ubuntu Condensed, 8pt"/>
+      <TextObject Name="Text12" Top="2.26" Width="264.6" Height="22.68" ShiftMode="WhenOverlapped" Text="[CFe.InfCFe.Emit.XFant]" Padding="2, 1, 2, 1" HorzAlign="Center" VertAlign="Center" Font="Ubuntu Condensed, 12pt, style=Bold"/>
+      <TextObject Name="Text43" Top="26.9" Width="264.6" Height="13.23" ShiftMode="WhenOverlapped" Text="[CFe.InfCFe.Emit.XNome]" Padding="2, 1, 2, 1" HorzAlign="Center" VertAlign="Center" Font="Ubuntu Condensed, 8pt, style=Bold"/>
+      <TextObject Name="Text44" Top="38.8" Width="264.6" Height="27.68" ShiftMode="WhenOverlapped" Text="[CFe.InfCFe.Emit.EnderEmit.XLgr], [CFe.InfCFe.Emit.EnderEmit.Nro][IIf(Length([CFe.InfCFe.Emit.EnderEmit.XCpl]) &lt; 1, &quot; &quot; + [CFe.InfCFe.Emit.EnderEmit.XCpl], &quot;&quot;)] [CFe.InfCFe.Emit.EnderEmit.XBairro] [CFe.InfCFe.Emit.EnderEmit.XMun]" Padding="2, 1, 2, 1" HorzAlign="Center" VertAlign="Center" Font="Ubuntu Condensed, 8pt, style=Bold"/>
+      <ChildBand Name="phbEmitenteExtrato" Top="186.7" Width="264.6" Height="34.14" Border.Lines="Top, Bottom" Border.Style="Dash" Border.Width="0.5">
+        <TextObject Name="Memo9" Top="15.24" Width="264.6" Height="18.9" ShiftMode="WhenOverlapped" Text="CUPOM FISCAL ELETRÔNICO - SAT" Padding="2, 1, 2, 1" HorzAlign="Center" VertAlign="Center" Font="Ubuntu Condensed, 9pt, style=Bold"/>
+        <TextObject Name="TextNumeroExtrato" Top="2.45" Width="264.6" Height="13.23" ShiftMode="WhenOverlapped" BeforePrintEvent="TextNumeroExtrato_BeforePrint" Text="Extrato Nº" Padding="2, 1, 2, 1" HorzAlign="Center" VertAlign="Center" Font="Ubuntu Condensed, 8pt, style=Bold"/>
+        <ChildBand Name="phbEmitenteTeste" Top="224.04" Width="264.6" Height="41.58" BeforePrintEvent="phbEmitenteTeste_BeforePrint">
+          <TextObject Name="Text48" Width="264.6" Height="15.12" CanShrink="true" ShiftMode="WhenOverlapped" Text="=   T E S T E   =" Padding="2, 1, 2, 1" AutoShrink="FontWidth" HorzAlign="Center" VertAlign="Center" Font="Ubuntu Condensed, 8pt"/>
+          <TextObject Name="Text49" Top="15.9" Width="264.6" Height="7.56" CanShrink="true" ShiftMode="WhenOverlapped" Text="&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;" Padding="2, 1, 2, 1" AutoShrink="FontWidth" VertAlign="Center" Font="Ubuntu Condensed, 8pt, style=Bold"/>
+          <TextObject Name="Text50" Top="23.35" Width="264.6" Height="7.56" CanShrink="true" ShiftMode="WhenOverlapped" Text="&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;" Padding="2, 1, 2, 1" AutoShrink="FontWidth" VertAlign="Center" Font="Ubuntu Condensed, 8pt, style=Bold"/>
+          <TextObject Name="Text51" Top="30.73" Width="264.6" Height="7.56" CanShrink="true" ShiftMode="WhenOverlapped" Text="&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;" Padding="2, 1, 2, 1" AutoShrink="FontWidth" VertAlign="Center" Font="Ubuntu Condensed, 8pt, style=Bold"/>
+          <ChildBand Name="phbEmitenteCliente" Top="268.82" Width="264.6" Height="37.8" Border.Lines="Top, Bottom" Border.Style="Dash" Border.Width="0.5">
+            <TextObject Name="TextClienteCPFCNPJ" Top="3" Width="264.6" Height="15.12" CanShrink="true" ShiftMode="WhenOverlapped" BeforePrintEvent="TextClienteCPFCNPJ_BeforePrint" Text="CPF/CNPJ do Consumidor : " Padding="2, 1, 2, 1" AutoShrink="FontWidth" VertAlign="Center" Font="Ubuntu Condensed, 8pt"/>
+            <TextObject Name="Text47" Top="18.9" Width="264.6" Height="15.12" CanShrink="true" ShiftMode="WhenOverlapped" Text="Razão Social/Nome : [CFe.InfCFe.Dest.Nome]" Padding="2, 1, 2, 1" AutoShrink="FontWidth" VertAlign="Center" Font="Ubuntu Condensed, 8pt"/>
+          </ChildBand>
+        </ChildBand>
+      </ChildBand>
+    </PageHeaderBand>
+    <GroupHeaderBand Name="ghbProdutosUmaLinha" Top="309.82" Width="264.6" Height="15.12" Border.Lines="Top, Bottom" Border.Style="Dash" Border.Width="0.5" BeforePrintEvent="ghbProdutosUmaLinha_BeforePrint" Condition="[CFe.InfCFe.Id]">
+      <TextObject Name="Text31" Top="2" Width="264.6" Height="11.34" Text="#|COD|DESC|QTD|UN| VL UN R$|(VLTR R$)*| VL ITEM R$" HorzAlign="Center" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 8pt"/>
+      <DataBand Name="dbProdutosUmaLinha" Top="328.14" Width="264.6" Height="12.47" Border.Lines="Bottom" Border.Width="0.25" BeforePrintEvent="dbProdutosUmaLinha_BeforePrint" DataSource="BusinessObjectDataSource2">
+        <TextObject Name="Text26" Left="17.12" Top="1.13" Width="37.8" Height="11.34" Text="[CFe.InfCFe.Det.Prod.CProd]" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+        <TextObject Name="Text27" Left="56.57" Top="1.13" Width="60.48" Height="11.34" Text="[Substring(PadRight([CFe.InfCFe.Det.Prod.XProd], 13), 0, 12)]" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+        <TextObject Name="Text28" Left="118.18" Top="1.13" Width="37.8" Height="11.34" Text="[CFe.InfCFe.Det.Prod.QCom] [CFe.InfCFe.Det.Prod.UCom]" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold">
+          <Formats>
+            <NumberFormat UseLocale="false" DecimalDigits="3" DecimalSeparator="," GroupSeparator="." NegativePattern="1"/>
+            <GeneralFormat/>
+          </Formats>
+        </TextObject>
+        <TextObject Name="txtProdutoUmaLinhaValorUnit" Left="163.54" Top="1.13" Width="28.35" Height="11.34" Text="[CFe.InfCFe.Det.Prod.VUnCom]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+        <TextObject Name="txtProdutoUmaLinhaValorTotal" Left="220.24" Top="1.13" Width="43.85" Height="11.34" Text="[CFe.InfCFe.Det.Prod.VProd]" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+        <TextObject Name="Text52" Top="1.13" Width="18.9" Height="11.34" Text="[Format(&quot;{0:000}&quot;, [CFe.InfCFe.Det.NItem])]" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+        <TextObject Name="Text53" Left="155.98" Top="1.13" Width="7.56" Height="11.34" Text="x" HorzAlign="Center" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+        <TextObject Name="Text54" Left="191.89" Top="1.13" Width="28.35" Height="11.34" Text="[IIf([CFe.InfCFe.Det.Imposto.VItem12741] &gt; 0, &quot;(&quot; + [CFe.InfCFe.Det.Imposto.VItem12741] + &quot;)&quot;, &quot;&quot;)]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+        <ChildBand Name="cbAcrescimoItemUmaLinha" Printable="false" Top="343.81" Width="264.6" Height="11.34" Border.Lines="Bottom" Border.Width="0.25" CanShrink="true">
+          <TextObject Name="Text66" Left="200.07" Width="62.36" Height="11.34" Text="[CFe.InfCFe.Det.Prod.VOutro]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+          <TextObject Name="Text67" Width="57.76" Height="11.34" Text="Acréscimo:" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+          <ChildBand Name="cbDescontoItemUmaLinha" Top="358.35" Width="264.6" Height="11.34" Border.Lines="Bottom" Border.Width="0.25">
+            <TextObject Name="Text68" Width="57.76" Height="11.34" Text="Desconto:" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+            <TextObject Name="Text69" Left="200.07" Width="62.36" Height="11.34" Text="-[CFe.InfCFe.Det.Prod.VDesc]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+          </ChildBand>
+        </ChildBand>
+        <Sort>
+          <Sort Expression="[CFe.InfCFe.Det.NItem]"/>
+        </Sort>
+      </DataBand>
+    </GroupHeaderBand>
+    <GroupHeaderBand Name="ghbProdutosDuasLinhas" Top="372.89" Width="264.6" Height="15.12" Border.Lines="Top, Bottom" Border.Style="Dash" Border.Width="0.5" BeforePrintEvent="ghbProdutosDuasLinhas_BeforePrint" Condition="[CFe.InfCFe.Id]">
+      <TextObject Name="Text85" Top="1.89" Width="264.6" Height="11.34" Text="#|COD|DESC|QTD|UN| VL UN R$|(VLTR R$)*| VL ITEM R$" HorzAlign="Center" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 8pt"/>
+      <DataBand Name="dbProdutosDuasLinhas" Top="391.21" Width="264.6" Height="26.08" Border.Lines="Bottom" Border.Width="0.25" BeforePrintEvent="dbProdutosDuasLinhas_BeforePrint" DataSource="BusinessObjectDataSource2">
+        <TextObject Name="Text2" Top="12.85" Width="189" Height="13.23" Text="[Substring(PadRight([CFe.InfCFe.Det.Prod.XProd], 49), 0, 48)]" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 8pt, style=Bold"/>
+        <TextObject Name="txtProdutoDuasLinhasValorTotal" Left="190.89" Top="12.74" Width="71.82" Height="11.34" Text="[CFe.InfCFe.Det.Prod.VProd]" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+        <TextObject Name="Text56" Top="1.13" Width="24.57" Height="11.34" Text="[Format(&quot;{0:000}&quot;, [CFe.InfCFe.Det.NItem])]" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+        <TextObject Name="Text57" Left="28.35" Top="1.13" Width="66.15" Height="11.34" Text="[CFe.InfCFe.Det.Prod.CProd]" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+        <TextObject Name="Text58" Left="103.95" Top="1.13" Width="47.25" Height="11.34" Text="[CFe.InfCFe.Det.Prod.QCom] [CFe.InfCFe.Det.Prod.UCom]" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold">
+          <Formats>
+            <NumberFormat UseLocale="false" DecimalDigits="3" DecimalSeparator="," GroupSeparator="." NegativePattern="1"/>
+            <GeneralFormat/>
+          </Formats>
+        </TextObject>
+        <TextObject Name="Text59" Left="158.76" Top="1.13" Width="37.8" Height="11.34" Text="[CFe.InfCFe.Det.Prod.VUnCom]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+        <TextObject Name="Text60" Left="151.2" Top="1.13" Width="7.56" Height="11.34" Text="x" HorzAlign="Center" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+        <TextObject Name="Text61" Left="196.56" Top="1.13" Width="47.25" Height="11.34" Text="[IIf([CFe.InfCFe.Det.Imposto.VItem12741] &gt; 0, &quot;(&quot; + [CFe.InfCFe.Det.Imposto.VItem12741] + &quot;)&quot;, &quot;&quot;)]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+        <ChildBand Name="cbAcrescimoItemDuasLinhas" Top="420.49" Width="264.6" Height="11.34" Border.Lines="Bottom" Border.Width="0.25">
+          <TextObject Name="Text64" Left="200.07" Width="62.36" Height="11.34" Text="+[CFe.InfCFe.Det.Prod.VOutro]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+          <TextObject Name="Text65" Width="57.76" Height="11.34" Text="Acréscimo:" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+          <ChildBand Name="cbDescontoItemDuasLinhas" Top="435.03" Width="264.6" Height="11.34" Border.Lines="Bottom" Border.Width="0.25">
+            <TextObject Name="Text62" Width="57.76" Height="11.34" Text="Desconto:" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+            <TextObject Name="Text63" Left="200.07" Width="62.36" Height="11.34" Text="-[CFe.InfCFe.Det.Prod.VDesc]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Open Sans Condensed, 7pt, style=Bold"/>
+          </ChildBand>
+        </ChildBand>
+        <Sort>
+          <Sort Expression="[CFe.InfCFe.Det.NItem]"/>
+        </Sort>
+      </DataBand>
+      <GroupFooterBand Name="gfbProdutos" Top="449.57" Width="264.6" Height="18.23" Border.Lines="Top" Border.Width="0.5" BeforePrintEvent="gfbProdutos_BeforePrint">
+        <TextObject Name="Text16" Top="6.89" Width="96.39" Height="11.34" Text="Subtotal:" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 8pt"/>
+        <TextObject Name="Text4" Left="143.26" Top="6.89" Width="120.96" Height="11.34" Text="[CFe.InfCFe.Total.ICMSTot.VProd]" HorzAlign="Right" VertAlign="Center" Font="Ubuntu Condensed, 8pt"/>
+        <ChildBand Name="gfbProdutosAcrescimos" Top="471" Width="264.6" Height="14.23">
+          <TextObject Name="Text72" Left="143.26" Top="1" Width="120.96" Height="13.23" Text="+[[CFe.InfCFe.Total.ICMSTot.VOutro]+[CFe.InfCFe.Total.DescAcrEntr.VAcresSubtot]]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 8pt"/>
+          <TextObject Name="Text73" Width="96.39" Height="13.23" Text="Acréscimos:" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 8pt"/>
+          <ChildBand Name="gfbProdutosDescontos" Top="488.43" Width="264.6" Height="14.23">
+            <TextObject Name="Text74" Width="96.39" Height="13.23" Text="Descontos:" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 8pt"/>
+            <TextObject Name="Text75" Left="143.26" Top="1" Width="120.96" Height="13.23" Text="-[[CFe.InfCFe.Total.ICMSTot.VDesc]+[CFe.InfCFe.Total.DescAcrEntr.VDescSubtot]]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 8pt"/>
+            <ChildBand Name="gfbProdutosTotal" Top="505.86" Width="264.6" Height="20.79">
+              <TextObject Name="Text19" Left="143.42" Top="1.67" Width="120.96" Height="11.33" Text="[CFe.InfCFe.Total.VCFe]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 8pt, style=Bold"/>
+              <TextObject Name="Text17" Width="96.39" Height="11.34" Text="VALOR TOTAL R$:" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 8pt, style=Bold"/>
+            </ChildBand>
+          </ChildBand>
+        </ChildBand>
+      </GroupFooterBand>
+    </GroupHeaderBand>
+    <DataBand Name="dbPagamento" Top="529.85" Width="264.6" Height="13.23" BeforePrintEvent="dbPagamento_BeforePrint" Guides="0" DataSource="Pagamentos1">
+      <TextObject Name="txtDescPagto" Width="139.86" Height="13.23" BeforePrintEvent="txtDescPagto_BeforePrint" Text="[CFe.InfCFe.Pagto.Pagamentos.CMp]" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 8pt"/>
+      <TextObject Name="Text22" Left="143.26" Width="120.96" Height="13.23" Text="[CFe.InfCFe.Pagto.Pagamentos.VMp]" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 8pt"/>
+      <DataFooterBand Name="dbPagamentoTroco" Top="546.28" Width="264.6" Height="15.12">
+        <TextObject Name="Text77" Left="143.26" Top="1" Width="120.96" Height="13.23" Text="[CFe.InfCFe.Pagto.VTroco]" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 8pt"/>
+        <TextObject Name="Text76" Top="1" Width="96.39" Height="13.23" BeforePrintEvent="txtDescPagto_BeforePrint" Text="Troco  R$:" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 8pt"/>
+      </DataFooterBand>
+    </DataBand>
+    <DataBand Name="dbInfoFisco" Top="582.63" Width="264.6" Height="9.83" DataSource="BusinessObjectDataSource5">
+      <TextObject Name="Text84" Width="264.6" Height="9.83" BeforePrintEvent="txtDescPagto_BeforePrint" Text="[CFe.InfCFe.InfAdic.ObsFisco.XCampo] - [CFe.InfCFe.InfAdic.ObsFisco.XTexto]" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 6pt"/>
+      <DataHeaderBand Name="dbInfoFiscoHeader" Top="564.6" Width="264.6" Height="14.83">
+        <TextObject Name="Text83" Top="5" Width="113.4" Height="9.83" BeforePrintEvent="txtDescPagto_BeforePrint" Text="Observações do Fisco" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 7pt"/>
+      </DataHeaderBand>
+    </DataBand>
+    <DataBand Name="dbEntrega" Top="614.09" Width="264.6" Height="32.13" BeforePrintEvent="dbEntrega_BeforePrint">
+      <TextObject Name="Text80" Top="3.45" Width="264.6" Height="13.23" BeforePrintEvent="txtDescPagto_BeforePrint" Text="Endereço: [CFe.InfCFe.Entrega.XLgr], [CFe.InfCFe.Entrega.Nro] - [IIf(Length([CFe.InfCFe.Entrega.XCpl]) &gt; 0, [CFe.InfCFe.Entrega.XCpl] + &quot; - &quot;, &quot;&quot;)][CFe.InfCFe.Entrega.XBairro] - [CFe.InfCFe.Entrega.XMun] - [CFe.InfCFe.Entrega.UF]" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 8pt"/>
+      <TextObject Name="Text81" Top="17.9" Width="264.6" Height="13.23" BeforePrintEvent="txtDescPagto_BeforePrint" Text="Destinatário: [CFe.InfCFe.Dest.Nome]" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 8pt"/>
+      <DataHeaderBand Name="dbEntregaHeader" Top="595.66" Width="264.6" Height="15.23" BeforePrintEvent="dbEntregaHeader_BeforePrint">
+        <TextObject Name="Text82" Top="2" Width="153.09" Height="13.23" BeforePrintEvent="txtDescPagto_BeforePrint" Text="DADOS PARA ENTREGA" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 9pt"/>
+      </DataHeaderBand>
+    </DataBand>
+    <DataBand Name="dbObsContribuente" Top="668.85" Width="264.6" Height="17.23" CanGrow="true" BeforePrintEvent="dbObsContribuente_BeforePrint" PrintIfDetailEmpty="true">
+      <TextObject Name="Text79" Top="4" Width="264.6" Height="13.23" CanGrow="true" BeforePrintEvent="txtDescPagto_BeforePrint" Text="[Replace([CFe.InfCFe.InfAdic.InfCpl], &quot;;&quot;, &quot;\r\n&quot;)]" VertAlign="Center" Font="Ubuntu Condensed, 8pt"/>
+      <DataHeaderBand Name="dbObsContribuenteHeader" Top="649.42" Width="264.6" Height="16.23" BeforePrintEvent="dbObsContribuenteHeader_BeforePrint">
+        <TextObject Name="Text78" Top="3" Width="162.54" Height="13.23" BeforePrintEvent="txtDescPagto_BeforePrint" Text="OBSERVAÇÕES DO CONTRIBUINTE" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 9pt"/>
+      </DataHeaderBand>
+      <DataFooterBand Name="dbObsContribuenteFooter" Top="689.28" Width="264.6" Height="36.35">
+        <TextObject Name="Memo23" Left="192.87" Top="8" Width="71.81" Height="28.35" Text="[CFe.InfCFe.Total.VCFeLei12741]" Padding="2, 2, 2, 2" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Ubuntu Condensed, 8pt"/>
+        <TextObject Name="Memo17" Top="8" Width="190.87" Height="28.35" Text="Valor aproximado dos Tributos deste Cupom&#13;&#10;(Conforme Lei Fed. 12.741/2012)" Padding="2, 2, 2, 2" Font="Ubuntu Condensed, 8pt"/>
+        <ChildBand Name="Child2" Top="728.83" Width="264.6" Height="13.23">
+          <TextObject Name="Text86" Top="1" Width="264.6" Height="11.34" CanShrink="true" ShiftMode="WhenOverlapped" Text="* Valor Aproximado dos Tributos dos Itens" Padding="2, 1, 2, 1" AutoShrink="FontWidth" VertAlign="Center" Font="Ubuntu Condensed, 7pt"/>
+        </ChildBand>
+      </DataFooterBand>
+    </DataBand>
+    <DataBand Name="dbQrCode" Top="745.26" Width="264.6" Height="293.03" BeforePrintEvent="dbQrCode_BeforePrint">
+      <TextObject Name="Memo4" Top="268.46" Width="264.6" Height="24.57" Text="Consulte o QR Code pelo aplicativo  &quot;De olho na nota&quot;,&#13;&#10;disponível na AppStore (Apple) e PlayStore (Android)&#13;&#10;" Padding="2, 1, 2, 1" HorzAlign="Center" VertAlign="Center" Font="Ubuntu Condensed, 8pt"/>
+      <BarcodeObject Name="bcoQrCode" Left="56.8" Top="114.2" Width="151.2" Height="151.2" AutoSize="false" Text="[CFe.InfCFe.Id]|[CFe.InfCFe.Ide.DhEmissao]|[CFe.InfCFe.Total.VCFe]|[CFe.InfCFe.Dest.CPF][CFe.InfCFe.Dest.CNPJ]|[CFe.InfCFe.Ide.AssinaturaQrcode]" ShowText="false" AllowExpressions="true" Barcode="QR Code" Barcode.ErrorCorrection="L" Barcode.Encoding="UTF8" Barcode.QuietZone="true"/>
+      <BarcodeObject Name="BarcodeChaveAcesso1" Left="34.8" Top="57.5" Width="195" Height="26.46" Text="3514031111111111111159" ShowText="false" AllowExpressions="true" Barcode="Code128" Barcode.AutoEncode="true"/>
+      <BarcodeObject Name="BarcodeChaveAcesso2" Left="34.8" Top="83.85" Width="195" Height="26.46" Text="9000001020002235664805" ShowText="false" AllowExpressions="true" Barcode="Code128" Barcode.AutoEncode="true"/>
+      <TextObject Name="TextSatNumero" Top="3" Width="264.6" Height="15.12" CanShrink="true" ShiftMode="WhenOverlapped" Text="SAT N°:  [CFe.InfCFe.Ide.NSerieSAT]" Padding="2, 1, 2, 1" AutoShrink="FontWidth" HorzAlign="Center" VertAlign="Center" Font="Ubuntu Condensed, 8pt"/>
+      <TextObject Name="TextChaveAcesso" Top="34.8" Width="264.6" Height="15.12" CanShrink="true" ShiftMode="WhenOverlapped" BeforePrintEvent="TextChaveAcesso_BeforePrint" Text="[CFe.InfCFe.Id]" Padding="2, 1, 2, 1" AutoShrink="FontWidth" HorzAlign="Center" VertAlign="Center" Font="Ubuntu Condensed, 8pt"/>
+      <TextObject Name="TextDataSat" Top="18.9" Width="264.6" Height="15.12" CanShrink="true" ShiftMode="WhenOverlapped" Text="[FormatDateTime([CFe.InfCFe.Ide.DEmi], &quot;dd/MM/yyyy&quot;)] - [FormatDateTime([CFe.InfCFe.Ide.HEmi], &quot;HH:mm:ss&quot;)]" Padding="2, 1, 2, 1" AutoShrink="FontWidth" HorzAlign="Center" VertAlign="Center" Font="Ubuntu Condensed, 8pt"/>
+    </DataBand>
+  </ReportPage>
+</Report>
