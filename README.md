@@ -1,5 +1,5 @@
 [![Nuget count](http://img.shields.io/nuget/v/ACBr.Net.Sat.svg)](https://www.nuget.org/packages/ACBr.Net.Sat/)
-[![Junte-se ao chat https://gitter.im/ACBrNet/ACBr.Net.Sat](https://badges.gitter.im/ACBrNet/ACBr.Net.Sat.svg)](https://gitter.im/ACBrNet/ACBr.Net.Sat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Junte-se ao chat](https://img.shields.io/badge/Chat%20on-Discord-purple.svg)](https://discord.com/invite/brdmJ7Yv6w)
 [![Ajude-nos pelo Padrim https://www.padrim.com.br/acbrnet](https://img.shields.io/badge/Donate-Padrim-red)](https://www.padrim.com.br/acbrnet)
 [![Ajude-nos pelo Apoia-se https://apoia.se/acbrnet](https://img.shields.io/badge/Donate-Apoia--se-red)](https://apoia.se/acbrnet)
 
